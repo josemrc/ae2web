@@ -6,75 +6,9 @@
  */
 
 /**
- * Private implementation of hook_webform_select_options_info().
- *
- * @see webform_webform_select_options_info()
- */
-function _webform_options_info() {
-  $items = array();
-
-  $items['days'] = array(
-    'title' => t('Days of the week'),
-    'options callback' => 'webform_options_days',
-    'file' => 'includes/webform.options.inc',
-  );
-
-  $items['countries'] = array(
-    'title' => t('Countries'),
-    'options callback' => 'webform_options_countries',
-    'file' => 'includes/webform.options.inc',
-  );
-
-  $items['united_states'] = array(
-    'title' => t('US states'),
-    'options callback' => 'webform_options_united_states',
-    'file' => 'includes/webform.options.inc',
-  );
-
-  $items['categorias'] = array(
-    'title' => t('Categorias'),
-    'options callback' => 'webform_options_despierta_categorias',
-    'file' => 'includes/webform.despierta_options.inc',
-  );
-
-  return $items;
-}
-
-/**
- * Option list containing the days of the week.
- */
-function webform_options_days($component, $flat, $arguments) {
-  $days = array(
-    'sunday' => t('Sunday'),
-    'monday' => t('Monday'),
-    'tuesday' => t('Tuesday'),
-    'wednesday' => t('Wednesday'),
-    'thursday' => t('Thursday'),
-    'friday' => t('Friday'),
-    'saturday' => t('Saturday'),
-  );
-
-  // Order according to site settings for first day.
-  if ($first_day = variable_get('date_first_day', 0)) {
-    $week = array_splice($days, $first_day);
-    $days = array_merge($week, $days);
-  }
-
-  return $days;
-}
-
-/**
- * Options list containing country names.
- */
-function webform_options_countries($component, $flat, $arguments) {
-  include_once DRUPAL_ROOT . '/includes/locale.inc';
-  return country_get_list();
-}
-
-/**
  * Options list containing United States states and territories.
  */
-function webform_options_united_states($component, $flat, $arguments) {
+function webform_options_despierta_categorias($component, $flat, $arguments) {
   return array(
     'AL' => t('Alabama'),
     'AK' => t('Alaska'),
