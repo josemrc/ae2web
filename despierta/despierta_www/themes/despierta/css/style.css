@@ -3,7 +3,7 @@
 
 body {
   line-height: 1.5;
-  font-size: 87.5%;
+  font-size: 1.000em;
   word-wrap: break-word;
   margin: 0;
   padding: 0;
@@ -30,10 +30,11 @@ h6 {
 }
 h1 {
   font-size: 1.357em;
-  color: #000;
+  color: #92b737;
 }
 h2 {
   font-size: 1.143em;
+  color: #92b737;
 }
 p {
   margin: 0 0 1.2em;
@@ -101,12 +102,15 @@ pre {
 
 
 /* ------------------ Fonts ------------------ */
-
+@font-face {
+  font-family: "NeverSayNever";
+  src: url(../ttf/never_say_never/NeverSayNever.ttf);
+}
 body,
 #site-slogan,
 .ui-widget,
 .comment-form label {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
 }
 #header,
 #footer-wrapper,
@@ -121,13 +125,13 @@ div.meta,
 p.comment-time,
 table,
 .breadcrumb {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
 }
 input,
 textarea,
 select,
 a.button {
-  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
 }
 
 /* ------------------ Reset Styles ------------------ */
@@ -460,7 +464,7 @@ h1#site-name {
   clear: both;
 }
 #main-menu-links {
-  font-size: 0.929em;
+  font-size: 1.000em;
   margin: 0;
   padding: 0 15px;
 }
@@ -471,6 +475,13 @@ h1#site-name {
   margin: 0 1px;
 }
 #main-menu-links a {
+  background-color: #adbd7e;
+  background: none repeat scroll 0 0 #96c147;
+  padding:5px 30px 5px 15px;
+  color:#ffffff;
+  border-radius: 5px;
+}
+/*#main-menu-links a {
   color: #333;
   background: #ccc;
   background: rgba(255, 255, 255, 0.7);
@@ -488,8 +499,8 @@ h1#site-name {
   -webkit-border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-}
-#main-menu-links a:hover,
+}*/
+/*#main-menu-links a:hover,
 #main-menu-links a:focus {
   background: #f6f6f2;
   background: rgba(255, 255, 255, 0.95);
@@ -506,7 +517,7 @@ h1#site-name {
   background: #f0f0f0;
   background: rgba(240, 240, 240, 1.0);
 }
-
+*/
 /* --------------- Secondary Menu ------------ */
 
 #secondary-menu-links {
@@ -570,8 +581,9 @@ h1#site-name {
   margin-top: 10px;
 }
 h1#page-title {
-  font-size: 2em;
-  line-height: 1;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.1;
 }
 #content h2 {
   margin-bottom: 2px;
@@ -579,7 +591,7 @@ h1#page-title {
   line-height: 1.4;
 }
 .node .content {
-  font-size: 1.071em;
+  font-size: 1.000em;
 }
 .node-teaser .content {
   font-size: 1em;

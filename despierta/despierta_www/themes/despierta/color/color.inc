@@ -1,7 +1,7 @@
 <?php
 
 // Put the logo path into JavaScript for the live preview.
-drupal_add_js(array('color' => array('logo' => theme_get_setting('logo', 'bartik'))), 'setting');
+drupal_add_js(array('color' => array('logo' => theme_get_setting('logo', 'despierta'))), 'setting');
 
 $info = array(
   // Available colors and color labels used in theme.
@@ -19,17 +19,17 @@ $info = array(
   // Pre-defined color schemes.
   'schemes' => array(
     'default' => array(
-      'title' => t('Blue Lagoon (default)'),
+      'title' => t('Despierta (default)'),
       'colors' => array(
-        'top' => '#0779bf',
-        'bottom' => '#48a9e4',
+        'top' => '#ffffff',
+        'bottom' => '#ffffff',
         'bg' => '#ffffff',
         'sidebar' => '#f6f6f2',
         'sidebarborders' => '#f9f9f9',
-        'footer' => '#292929',
-        'titleslogan' => '#fffeff',
-        'text' => '#3b3b3b',
-        'link' => '#0071B3',
+        'footer' => '#ffffff',
+        'titleslogan' => '#92b737',
+        'text' => '#707173',
+        'link' => '#92B737',
       ),
     ),
     'firehouse' => array(
