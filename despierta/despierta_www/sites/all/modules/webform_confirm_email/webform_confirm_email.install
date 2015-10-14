@@ -1,0 +1,203 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function webform_confirm_email_schema() {
+  $schema = array();
+
+  $schema['webform_confirm_email_code'] = array(
+    'description' => 'Table for storing email confirmation codes.',
+    'fields'      => array(
+      'nid' => array(
+        'description' => 'The node ID of a webform submission to be confirmed.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'sid' => array(
+        'description' => 'Submission ID of a webform submission to be confirmed.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'eid' => array(
+        'description' => 'The e-mail ID of a webform submission to be confirmed.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'code' => array(
+        'description' => 'The hash code used for the confirmation link of a webform submission to be confirmed.',
+        'type'        => 'char',
+        'length'      => 32,
+        'not null'    => TRUE,
+      ),
+      'datetime' => array(
+        'description' => 'Creation timestamp used for cron job cleanup of confirmation mails that exceeded their storage lifetime set by the admin',
+        'type'        => 'int',
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('nid', 'sid', 'eid'),
+  );
+
+  $schema['webform_confirm_email_confirmation_emails'] = array(
+    'description' => 'Confirmation emails are stored here to be send once the user used the confirmation URL',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The node ID of a webform submission to be confirmed.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'sid' => array(
+        'description' => 'Submission ID of a webform submission to be confirmed.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'email_message' => array(
+        'description' => 'The confirmation email that will be send once th confirmation URL is used',
+        'type'        => 'text',
+        'size'        => 'medium',
+        'serialize'   => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'webform_confirm_email_confirmation_emails_nidsid_index'   => array('nid', 'sid'),
+   ),
+  );
+
+  $schema['webform_confirm_email'] = array(
+    'description' => 'Table for storing email types.',
+    'fields'      => array(
+      'nid' => array(
+        'description' => 'The node identifier of a webform.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'eid' => array(
+        'description' => 'The e-mail identifier for this row\'s settings.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'size'        => 'small',
+        'not null'    => TRUE,
+        'default'     => 0,
+      ),
+      'email_type' => array(
+        'description' => 'Email type: 0) standard; 1) confirmation request; 2) confirmation.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'not null'    => TRUE,
+        'default'     => 0,
+      ),
+      'redirect_url' => array(
+        'description' => 'The page that is called after the submitee confirmed his/her submission.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => FALSE,
+      ),
+      'request_lifetime' => array(
+        'description' => 'Time in seconds after which an unconfirmed confirmation request may be deleted for this webform. NULL means don\'t delete requests',
+        'type'        => 'int',
+        'not null'    => FALSE,
+      ),
+      'delete_submissions' => array(
+        'description' => 'If set to TRUE also webform submissions with unconfirmed confirmation requests will be deleted by chron for this webform. NULL means don\'t delete any submissions',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'not null'    => FALSE,
+        'default'     => 0,
+      ),
+    ),
+    'primary key' => array('nid', 'eid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_schema_alter().
+ *
+ */
+function webform_confirm_email_schema_alter(&$schema) {
+  if (isset($schema['webform_submissions']) == TRUE) {
+    $schema['webform_submissions']['confirmed'] = array(
+      'description' => 'True if the email address for this submission was already confirmed.',
+      'type'        => 'int',
+      'size'        => 'tiny',
+      'not null'    => TRUE,
+      'default'     => 0,
+    );
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function webform_confirm_email_install() {
+  _webform_confirm_email_add_column_to_webform_submissions();
+}
+
+/**
+ * helper function to add column to webform_submissions table
+ */
+function _webform_confirm_email_add_column_to_webform_submissions() {
+  if (db_table_exists('webform_submissions') && !db_field_exists('webform_submissions', 'confirmed')) {
+    db_add_field(
+      'webform_submissions',
+      'confirmed',
+      array(
+        'description' => 'True if the email address for this submission was already confirmed.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'not null'    => TRUE,
+        'default'     => 0,
+      )
+    );
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function webform_confirm_email_uninstall() {
+  if (db_table_exists('webform_submissions') && db_field_exists('webform_submissions', 'confirmed')) {
+    db_drop_field('webform_submissions', 'confirmed');
+  }
+}
+
+// *****************************************
+// **************** UPDATES ****************
+// *****************************************
+
+/**
+ * Add database field confirmed to webform_submissions table.
+ */
+function webform_confirm_email_update_7203() {
+  _webform_confirm_email_add_column_to_webform_submissions();
+}
+
+/**
+ * Add database field delete_submissions to webform_confirm_email table
+ */
+function webform_confirm_email_update_7202() {
+  if (!db_field_exists('webform_confirm_email', 'delete_submissions')) {
+    db_add_field(
+      'webform_confirm_email',
+      'delete_submissions',
+      array(
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'description' => 'If set to TRUE submissions with unconfirmed confirmation requests will be deleted by chron for this webform. NULL means don\'t delete any submissions',
+        'not null'    => FALSE,
+        'default'     => 0,
+      )
+    );
+  }
+}
