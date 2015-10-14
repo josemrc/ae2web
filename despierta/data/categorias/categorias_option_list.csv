@@ -1,0 +1,467 @@
+ali_tie|Aceites, salsas y condimentos
+ali_tie|Algas
+ali_tie|Alimentación infantil
+ali_tie|Aperitivos, encurtidos y snacks
+ali_tie|Arroz, legumbres secas y pastas
+ali_tie|Bebicas alcohólicas
+ali_tie|Bebidas, zumos y refrescos.
+ali_tie|Café, té e infusiones
+ali_tie|Carne, huevos y embutidos
+ali_tie|Chocolates y dulces
+ali_tie|Complementos nutricionales
+ali_tie|Conservas y preparados
+ali_tie|Frutas, verduras y hortalizas
+ali_tie|Frutos secos
+ali_tie|Lácteos
+ali_tie|Mantequillas y mermeladas
+ali_tie|Pan, harinas, cereales y semillas
+ali_tie|Pastelería - Bollería
+ali_tie|Pescados y mariscos
+ali_tie|Soja y derivados
+ali_tie|Vending
+ali_tie|Otros
+
+ali_res|Africano
+ali_res|Alemán
+ali_res|Americano
+ali_res|Andorrano
+ali_res|Árabe
+ali_res|Argentino
+ali_res|Asiática
+ali_res|Autor
+ali_res|Belga
+ali_res|Bodas y comuniones
+ali_res|Boliviano
+ali_res|Brasileño
+ali_res|Cafetería - Tetería
+ali_res|Cantonés
+ali_res|Catalán
+ali_res|Celiacos
+ali_res|Chileno
+ali_res|Chino
+ali_res|Colombiano
+ali_res|Comida rápida
+ali_res|Coreano
+ali_res|Costarricense
+ali_res|Creativa / Fusión
+ali_res|Cubano
+ali_res|Dominicano
+ali_res|Ecuatoriano
+ali_res|Español
+ali_res|Etíope
+ali_res|Fiestas y eventos
+ali_res|Filipino
+ali_res|Francés
+ali_res|Gallego
+ali_res|Griego
+ali_res|Guatemalteco
+ali_res|Hindú
+ali_res|Hondureño
+ali_res|Inglés
+ali_res|Italiano
+ali_res|Japonés
+ali_res|Kilómetro cero
+ali_res|Mediterránea
+ali_res|Mexicano
+ali_res|Nicaraguense
+ali_res|Pakistaní
+ali_res|Panameño
+ali_res|Paraguayo
+ali_res|Peruano
+ali_res|Portugués
+ali_res|Puertorricense
+ali_res|Ruso
+ali_res|Salvadoreño
+ali_res|Servicios de catering
+ali_res|Tradicional
+ali_res|Uruguayo
+ali_res|Vasco
+ali_res|Vegetaríano
+ali_res|Venezolano
+ali_res|Otros
+
+ali_pro|Aceites, salsas y condimentos
+ali_pro|Algas
+ali_pro|Alimentación infantil
+ali_pro|Aperitivos, encurtidos y snacks
+ali_pro|Arroz, legumbres secas y pastas
+ali_pro|Bebicas alcohólicas
+ali_pro|Bebidas, zumos y refrescos.
+ali_pro|Café, té e infusiones
+ali_pro|Carne, huevos y embutidos
+ali_pro|Chocolates y dulces
+ali_pro|Complementos nutricionales
+ali_pro|Conservas y preparados
+ali_pro|Frutas, verduras y hortalizas
+ali_pro|Frutos secos
+ali_pro|Lácteos
+ali_pro|Mantequillas y mermeladas
+ali_pro|Pan, harinas, cereales y semillas
+ali_pro|Pastelería - Bollería
+ali_pro|Pescado y marisco
+ali_pro|Soja y derivados
+ali_pro|Vending
+ali_pro|Otros
+
+ali_fer|Feria de alimentación
+ali_fer|Mercados periódicos
+ali_fer|Mercados permanentes
+
+ali_gru|Buscadores y comunidades
+ali_gru|Centros de acopio
+ali_gru|Grupos de consumo
+
+hog_arq|Ahorro y captación de agua
+hog_arq|Aislamiento y climatización
+hog_arq|Arquitectos e ingenieros
+hog_arq|Bricolaje y albañilería
+hog_arq|Casas de madera
+hog_arq|Casas ecológicas
+hog_arq|Casas prefabricadas
+hog_arq|Marcos y ventanas
+hog_arq|Pinturas y barnices
+hog_arq|Rehabilitación de edificios
+hog_arq|Saneamiento
+hog_arq|Otros
+
+hog_ene|Biocarburantes
+hog_ene|Biomasa
+hog_ene|Calderas - Calefacción
+hog_ene|Climatización - A/C
+hog_ene|Eficiencia y ahorro energético
+hog_ene|Energía eólica
+hog_ene|Energía geotérmica
+hog_ene|Energía solar - fotovoltaica
+hog_ene|Energía termosolar
+hog_ene|Iluminación
+hog_ene|Hidroelectricidad
+hog_ene|Productores y distribuidores de energía verde
+hog_ene|Otros
+
+hog_hog|Arte y decoración
+hog_hog|Baños
+hog_hog|Cocina
+hog_hog|Dormitorio
+hog_hog|Limpieza y saneamiento
+hog_hog|Menaje
+hog_hog|Mobiliario
+hog_hog|Salón
+hog_hog|Telas y cortinas
+hog_hog|Toldos y persianas
+hog_hog|Otros
+
+
+hue_acc|Accesorios jardinería
+hue_acc|Compostadores
+hue_acc|Herramientas jardinería
+hue_acc|Limpieza
+hue_acc|Maquinaria agrícola
+hue_acc|Maquinaria jardinería
+hue_acc|Otros
+
+hue_alq|Huertos colectivos
+hue_alq|Huertos rurales
+hue_alq|Huertos urbanos
+hue_alq|Otros
+
+hue_bul|Bulbos comestibles
+hue_bul|Bulbos de flores
+hue_bul|Bulbos de otoño
+hue_bul|Bulbos de primavera
+hue_bul|Bulbos todo el año
+hue_bul|Semillas aromáticas
+hue_bul|Semillas brotes y germinados
+hue_bul|Semillas de césped - hierbas
+hue_bul|Semillas de flores
+hue_bul|Semillas hortícolas
+hue_bul|Semillas de plantas y árboles
+hue_bul|Semilleros
+hue_bul|Otros
+
+hue_cre|Abonos
+hue_cre|Fertilizantes
+hue_cre|Saneamiento
+hue_cre|Sustratos
+hue_cre|Trampas
+hue_cre|Tratamientos
+hue_cre|Otros
+
+hue_est|Apicultura
+hue_est|Casetas, armarios y arcones
+hue_est|Invernaderos
+hue_est|Macetas y jardineras
+hue_est|Mesas de cultivo
+hue_est|Sistemas de filtración de agua
+hue_est|Sistemas de iluminación
+hue_est|Sistemas de riego
+hue_est|Viveros
+hue_est|Otros
+
+hue_flo|Árboles y plantas
+hue_flo|Bodas y comuniones
+hue_flo|Flores de temporada
+hue_flo|Floristería
+hue_flo|Frutales
+hue_flo|Plantas de temporada
+hue_flo|Otros
+
+hue_mob|Arte y decoración
+hue_mob|Iluminación jardín
+hue_mob|Mallas y telas
+hue_mob|Mobiliario jardín
+hue_mob|Piscinas
+hue_mob|Toldos y pérgolas
+hue_mob|Otros
+
+tra_acc|Aceites y lubricantes
+tra_acc|Autos y camiones
+tra_acc|Baterías
+tra_acc|Electrónica
+tra_acc|Limpieza de vehículos
+tra_acc|Piezas y repuestos
+tra_acc|Taller y reparación
+tra_acc|Otros
+
+tra_alq|Autos - coches
+tra_alq|Bicicletas
+tra_alq|Motocicletas
+tra_alq|Parkings
+tra_alq|Vehículos acuáticos
+tra_alq|Vehículos industriales
+tra_alq|Otros
+
+tra_com|Auto - coche
+tra_com|Bicicleta
+tra_com|Parking
+tra_com|Taxi
+tra_com|Tren
+tra_com|Otros
+
+tra_rep|Biocarburantes
+tra_rep|Biodiésel
+tra_rep|Bioetanol
+tra_rep|Biomasa
+tra_rep|Puntos de carga eléctrica
+tra_rep|Otros
+
+tra_tra|Mensajería
+tra_tra|Mudanzas
+tra_tra|Transporte de mercancías
+tra_tra|Otros
+
+tra_ven|Autos - coches
+tra_ven|Bicicletas
+tra_ven|Motocicletas
+tra_ven|Vehículos acuáticos
+tra_ven|Vehículos industriales
+tra_ven|Otros
+
+
+tur_ave|Ala delta
+tur_ave|Alpinismo y escalada
+tur_ave|Buceo deportivo
+tur_ave|Ciclismo de montaña
+tur_ave|Descenso de cañones
+tur_ave|Espeleología
+tur_ave|Esquí & Snowboard
+tur_ave|Esquí de fondo
+tur_ave|Hidrospeed
+tur_ave|Hípica
+tur_ave|Kitesurf
+tur_ave|Multiaventura
+tur_ave|Paddle Surf
+tur_ave|Paracaidismo
+tur_ave|Parapente
+tur_ave|Piragüismo y Kayak
+tur_ave|Puenting
+tur_ave|Rafting
+tur_ave|Rapel
+tur_ave|Surf / Windsurf
+tur_ave|Vela
+tur_ave|Vuelo sin motor
+tur_ave|Otros
+
+tur_hos|Agroturismo
+tur_hos|Albergues
+tur_hos|Apartamentos
+tur_hos|Cabañas
+tur_hos|Campamentos
+tur_hos|Camping & Bungalows
+tur_hos|Casas rurales
+tur_hos|Hostales
+tur_hos|Hoteles
+tur_hos|Intercambio de amarres
+tur_hos|Intercambio de casas
+tur_hos|Moteles
+tur_hos|Pensiones
+tur_hos|Otros
+
+tur_par|Áreas de protección de flora y fauna
+tur_par|Áreas de protección de recursos naturales
+tur_par|Áreas marinas protegidas
+tur_par|Áreas naturales
+tur_par|Áreas protegidas nacionales
+tur_par|Monumentos naturales
+tur_par|Paisajes protegidos
+tur_par|Parques nacionales
+tur_par|Parques nacionales naturales
+tur_par|Parques naturales
+tur_par|Parques naturales marinos
+tur_par|Parques regionales
+tur_par|Parques y reservas estatales
+tur_par|Patrimonio de la humanidad
+tur_par|Reservas de la biosfera
+tur_par|Reservas nacionales naturales
+tur_par|Reservas naturales
+tur_par|Santuarios
+tur_par|Sitios ramsar
+tur_par|Zonas de preservación ecológica
+tur_par|Otros
+
+tur_rut|Agroturismo
+tur_rut|Ecoturismo científico
+tur_rut|Enoturismo
+tur_rut|Excursiones culturales
+tur_rut|Excursiones en globo
+tur_rut|Excursiones en barco
+tur_rut|Experiencias
+tur_rut|Micología
+tur_rut|Naturaleza
+tur_rut|Observación de animales y plantas
+tur_rut|Rutas a caballo
+tur_rut|Rutas a camello
+tur_rut|Rutas en burro
+tur_rut|Rutas en dromedario
+tur_rut|Rutas en trineo
+tur_rut|Rutas gastronómicas
+tur_rut|Senderismo
+tur_rut|Trekking
+tur_rut|Otros
+
+tur_map|Mapas interactivos
+tur_map|Guías turísticas
+tur_map|SmartCities
+tur_map|Redes Sociales
+tur_map|Otros
+
+
+rec_ges|Aceites
+rec_ges|Automóviles, camiones y motocicletas.
+rec_ges|Aviones, barcos y trenes
+rec_ges|Chatarra y metal
+rec_ges|Depuración de aguas
+rec_ges|Electrodomésticos
+rec_ges|Electrónica
+rec_ges|Madera
+rec_ges|Papel y cartón
+rec_ges|Pilas y baterías
+rec_ges|Plásticos
+rec_ges|Puntos limpios
+rec_ges|Residuos industriales
+rec_ges|Residuos peligrosos
+rec_ges|Restos orgánicos
+rec_ges|Ropa y tejidos
+rec_ges|Tetrabrik
+rec_ges|Textiles
+rec_ges|Vidrio
+rec_ges|Otros
+
+rec_rec|Compostaje
+rec_rec|Depuración de aguas
+rec_rec|Ideas y manualidades
+rec_rec|Separación de residuos
+rec_rec|Transformación de residuos
+rec_rec|Otros
+
+rec_pro|Accesorios y utensilios
+rec_pro|Agua para el riego
+rec_pro|Arte y decoración
+rec_pro|Bisuteria
+rec_pro|Bolsas y embalaje
+rec_pro|Juguetes
+rec_pro|Libros
+rec_pro|Madera y mobiliario
+rec_pro|Metales
+rec_pro|Papel y cartón
+rec_pro|Plásticos
+rec_pro|Ropa y Complementos
+rec_pro|Vidrio
+rec_pro|Viviendas
+rec_pro|Otros
+
+
+sal_cen|Belleza y estética
+sal_cen|Peluquería
+sal_cen|Balneario
+sal_cen|Centro wellness
+sal_cen|Fisioterapia
+sal_cen|Spa
+sal_cen|Otros
+
+sal_cos|Aceites y esencias
+sal_cos|Anticonceptivos
+sal_cos|Baño
+sal_cos|Cabello
+sal_cos|Cosmética masculina
+sal_cos|Cuidado corporal
+sal_cos|Cuidado facial
+sal_cos|Higiene bucal
+sal_cos|Higiene íntima
+sal_cos|Maquillaje
+sal_cos|Perfumes y aguas de colonia
+sal_cos|Protección solar
+sal_cos|Otros
+
+sal_ter|Acuarioterapia
+sal_ter|Acupuntura
+sal_ter|Aromaterapia
+sal_ter|Arteterapia
+sal_ter|Aura Soma
+sal_ter|Ayurveda
+sal_ter|Chi Kung / Qi Gong
+sal_ter|Cromoterapia
+sal_ter|Dejar de fumar
+sal_ter|Gemoterapia
+sal_ter|Hidroterapia
+sal_ter|Homeopatía
+sal_ter|Musicoterapia
+sal_ter|Pilates
+sal_ter|Quiroterapia
+sal_ter|Reflexología
+sal_ter|Reiki
+sal_ter|Risoterapia
+sal_ter|Shiatsu
+sal_ter|Terapia para animales
+sal_ter|Yoga y meditación
+sal_ter|Otros
+
+sal_med|Fitoterapia
+sal_med|Herbolarios
+sal_med|Plantas medicinales
+sal_med|Remedios naturales
+sal_med|Otros
+
+rop_com|Bisutería
+rop_com|Bolsos, carteras y mochilas
+rop_com|Bufandas y pañuelos
+rop_com|Calzado
+rop_com|Cinturones
+rop_com|Deportivos
+rop_com|Guantes y calcetines
+rop_com|Joyería
+rop_com|Monederos y billeteras
+rop_com|Relojes
+rop_com|Otros
+
+rop_rop|Deportiva
+rop_rop|Especial bodas
+rop_rop|Infantil
+rop_rop|Para él
+rop_rop|Para ella
+rop_rop|Pre-mamá
+rop_rop|Ropa interior
+rop_rop|Segunda mano
+rop_rop|Vestidos de fiesta
+rop_rop|Otros
+
+
