@@ -13,29 +13,29 @@
 function _webform_options_info() {
   $items = array();
 
-  $items['days'] = array(
-    'title' => t('Days of the week'),
-    'options callback' => 'webform_options_days',
-    'file' => 'includes/webform.options.inc',
-  );
+  // $items['days'] = array(
+  //   'title' => t('Days of the week'),
+  //   'options callback' => 'webform_options_days',
+  //   'file' => 'includes/webform.options.inc',
+  // );
 
-  $items['countries'] = array(
-    'title' => t('Countries'),
-    'options callback' => 'webform_options_countries',
-    'file' => 'includes/webform.options.inc',
-  );
+  // $items['countries'] = array(
+  //   'title' => t('Countries'),
+  //   'options callback' => 'webform_options_countries',
+  //   'file' => 'includes/webform.options.inc',
+  // );
 
-  $items['united_states'] = array(
-    'title' => t('US states'),
-    'options callback' => 'webform_options_united_states',
-    'file' => 'includes/webform.options.inc',
-  );
+  // $items['united_states'] = array(
+  //   'title' => t('US states'),
+  //   'options callback' => 'webform_options_united_states',
+  //   'file' => 'includes/webform.options.inc',
+  // );
 
-  $items['categorias'] = array(
-    'title' => t('Categorias'),
-    'options callback' => 'webform_options_despierta_categorias',
-    'file' => 'includes/webform.despierta_options.inc',
-  );
+  // $items['categorias'] = array(
+  //   'title' => t('Categorias'),
+  //   'options callback' => 'webform_options_despierta_categorias',
+  //   'file' => 'includes/webform.despierta_options.inc',
+  // );
 
   return $items;
 }
