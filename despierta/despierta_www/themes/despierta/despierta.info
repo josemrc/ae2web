@@ -1,16 +1,32 @@
-
-name = Despierta_bak
+name = Despierta
 description = A flexible, recolorable theme with many regions.
 package = Core
 version = VERSION
 core = 7.x
+screenshot = screenshot.png
 
+; Information added by Drupal.org packaging script on 2015-08-19
+version = "7.39"
+project = "drupal"
+datestamp = "1440020197"
+
+; ========================================
+; Stylesheets
+; ========================================
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/colors.css
 stylesheets[all][] = css/despierta.css
 stylesheets[print][] = css/print.css
 
+; ========================================
+; Scripts
+; ========================================
+scripts[] = js/despierta.behaviors.js
+
+; ========================================
+; Regions
+; ========================================
 regions[header] = Header
 regions[help] = Help
 regions[page_top] = Page top
@@ -32,11 +48,7 @@ regions[footer_thirdcolumn] = Footer third column
 regions[footer_fourthcolumn] = Footer fourth column
 regions[footer] = Footer
 
+; ========================================
+; Settings
+; ========================================
 settings[shortcut_module_link] = 0
-
-
-; Information added by Drupal.org packaging script on 2015-08-19
-version = "7.39"
-project = "drupal"
-datestamp = "1440020197"
-
