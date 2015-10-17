@@ -22,6 +22,7 @@ stylesheets[print][] = css/print.css
 ; ========================================
 ; Scripts
 ; ========================================
+; scripts[] = js/jquery-1.11.3.min.js
 scripts[] = js/despierta.behaviors.js
 
 ; ========================================

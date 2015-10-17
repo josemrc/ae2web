@@ -6,3 +6,11 @@
   background-color: #f5f5f5;
   color: #418389	
 }
+
+
+#sel-pais > select {
+	width: 153px;
+}
+#sel-regions > select {
+	width: 153px;
+}
