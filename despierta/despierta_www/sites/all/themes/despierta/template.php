@@ -154,3 +154,37 @@ function despierta_field__taxonomy_term_reference($variables) {
 
   return $output;
 }
+
+/**
+ * Implements hook_page_alter().
+ */
+function despierta_page_alter($page) {
+  // Add meta tag for viewport, for easier responsive theme design.
+  $viewport = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'name' => 'viewport',
+      'content' => 'width=device-width, initial-scale=1',
+    )
+  );
+  $HandheldFriendly = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'name' => 'HandheldFriendly',
+      'content' => 'true',
+    )
+  );
+   $MobileOptimized = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'name' => 'MobileOptimized',
+      'content' => 'width',
+    )
+  ); 
+  drupal_add_html_head($viewport, 'viewport');
+  drupal_add_html_head($HandheldFriendly, 'HandheldFriendly');
+  drupal_add_html_head($MobileOptimized, 'MobileOptimized');
+}

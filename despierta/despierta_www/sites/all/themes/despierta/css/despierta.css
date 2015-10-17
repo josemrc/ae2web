@@ -14,3 +14,28 @@
 #sel-regions > select {
 	width: 153px;
 }
+
+@media screen and (max-width: 680px) {
+  #page-wrapper {
+    width: 100%;
+  }
+
+  #content,
+  .sidebar-first #content,
+  .sidebar-second #content {
+    float: none;
+    width: 100%;
+  }
+
+  #sidebar-first,
+  #sidebar-second {
+    float: none;
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  img {
+    max-width: 300px; /* Make sure all images fit within viewport */
+    height: auto; /* Correct width from max-width rule above. */
+  }
+}

@@ -1,4 +1,8 @@
 (function ($) {
+  /**
+   * Global vars
+   */
+  var paisRegionsObj = {};
 
   /**
    * The recommended way for producing HTML markup through JavaScript is to write
@@ -10,10 +14,48 @@
    * In most cases, there is no good reason to NOT wrap your markup producing
    * JavaScript in a theme function.
    */
-  Drupal.theme.prototype.despiertaExampleButton = function (path, title) {
-    // Create an anchor element with jQuery.
-    return $('<a href="' + path + '" title="' + title + '">' + title + '</a>');
-  };
+	// Create Object: Pais - Regions
+	Drupal.theme.prototype.paisRegionesObj = function (elem) {
+		var regions = {};
+		$('.region', elem).map( function () {
+			var region = $(this).text();
+			var pais = $(this).attr('dp-pais');
+		if ( regions[pais] === undefined ) {
+			regions[pais] = [];
+		}
+		regions[pais].push(region)
+		});
+		return regions;
+	};
+	// Create HTML select option
+	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
+		var selHTML = '<select>';
+		$.each( paisRegions, function(pais,regions) {
+		selHTML += '<option value="'+pais+'">'+pais+'</option>';  		
+		})
+		selHTML += '</select>';
+		return $('<div id="sel-pais">' + selHTML + '</div>');
+	};
+	// Create HTML select option
+	Drupal.theme.prototype.regionesSelectList = function (paisRegions, pais) {
+		var selHTML = '<select>';
+		$.each( paisRegions[pais], function(idx,region) {
+		selHTML += '<option value="'+region+'">'+region+'</option>';
+		})
+		selHTML += '</select>';
+		return $('<div id="sel-regions">' + selHTML + '</div>');
+	};
+	// Select: Specific Pais - Region (for Geolocation)
+	// Eg, Drupal.theme.prototype.selectPaisRegion("Honduras", "Napo");
+	Drupal.theme.prototype.selectPaisRegion = function (pais, region) {
+		if (typeof pais !== 'undefined' || pais !== null) {
+			$('#sel-pais > select option[value="'+pais+'"]').prop('selected', true);
+		}
+		if (typeof region !== 'undefined' || region !== null) {
+			$('#sel-regions > select option[value="'+region+'"]').prop('selected', true);
+		}
+	}; 
+
 
   /**
    * Behaviors are Drupal's way of applying JavaScript to a page. In short, the
@@ -38,23 +80,38 @@
    *   Drupal.settings directly you should use this because of potential
    *   modifications made by the Ajax callback that also produced 'context'.
    */
-  Drupal.behaviors.despiertaExampleBehavior = {
-    attach: function (context, settings) {
-      // By using the 'context' variable we make sure that our code only runs on
-      // the relevant HTML. Furthermore, by using jQuery.once() we make sure that
-      // we don't run the same piece of code for an HTML snippet that we already
-      // processed previously. By using .once('foo') all processed elements will
-      // get tagged with a 'foo-processed' class, causing all future invocations
-      // of this behavior to ignore them.
-      $('.some-selector', context).once('foo', function () {
-        // Now, we are invoking the previously declared theme function using two
-        // settings as arguments.
-        var $anchor = Drupal.theme('despiertaExampleButton', settings.myExampleLinkPath, settings.myExampleLinkTitle);
+	Drupal.behaviors.despiertaBehaviors = {
+		attach: function (context, settings) {
+			// By using the 'context' variable we make sure that our code only runs on
+			// the relevant HTML. Furthermore, by using jQuery.once() we make sure that
+			// we don't run the same piece of code for an HTML snippet that we already
+			// processed previously. By using .once('foo') all processed elements will
+			// get tagged with a 'foo-processed' class, causing all future invocations
+			// of this behavior to ignore them.
 
-        // The anchor is then appended to the current element.
-        $anchor.appendTo(this);
-      });
-    }
-  };
+			$('.view-regiones', context).once('despierta', function () {
+				// Create Object: Pais - Regions
+				paisRegionsObj = Drupal.theme.prototype.paisRegionesObj(this);
+				
+				// Create HTML for 'Paises'
+				var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
+				$(this).html($paisHTML);
+
+				// WARNING: HARD-CORE!!
+				// Create HTML for 'Regions'
+				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
+				$(this).append($regHTML);
+				Drupal.theme.prototype.selectPaisRegion("España", "Madrid");				
+			});
+
+			// Event: Create regions when pais changes
+			$( "#sel-pais" ).change( function() {
+				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, $( "#sel-pais option:selected" ).text());
+				$('#sel-regions').replaceWith($regHTML);
+			});
+
+
+		}
+	};
 
 })(jQuery);
