@@ -20,7 +20,7 @@ stylesheets[all][] = css/colors.css
 stylesheets[all][] = css/despierta.css
 stylesheets[print][] = css/print.css
 
-;stylesheets[all][] = css/bootstrap/bootstrap.min.css
+stylesheets[all][] = css/bootstrap/bootstrap.min.css
 ;stylesheets[all][] = css/normalize.css
 ;stylesheets[all][] = css/bootstrap/bootstrap-responsive.min.css
 
@@ -31,7 +31,7 @@ stylesheets[print][] = css/print.css
 ; scripts[] = js/jquery-1.11.3.min.js
 scripts[] = js/despierta.behaviors.js
 
-;scripts[] = js/bootstrap/bootstrap.min.js
+scripts[] = js/bootstrap/bootstrap.min.js
 
 ; ========================================
 ; Regions

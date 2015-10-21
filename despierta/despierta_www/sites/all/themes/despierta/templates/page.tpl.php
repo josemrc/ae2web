@@ -137,7 +137,6 @@
             'class' => array('element-invisible'),
           ),
         )); 
-        print '<img class="hoja" src="http://www.despierta.org/images/hoja.png">'
         ?>
       </div> <!-- /#main-menu -->
     <?php endif; ?>
