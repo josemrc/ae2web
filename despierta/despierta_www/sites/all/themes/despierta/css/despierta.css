@@ -31,6 +31,41 @@ a.button {
   font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
 }
 
+/* ---------- Color Module Styles ----------- */
+h1 {
+  color: #92b737;
+}
+
+.region-header a {
+  color: #92B737
+}
+/* --------------- Main Menu ------------ */
+
+#main-menu {
+  clear: both;
+  float: right !important;
+  margin-bottom: 20px;  
+}
+#main-menu-links {
+  margin: 0;
+  padding: 0 15px;
+}
+#main-menu-links li {
+  float: left; /* LTR */
+  list-style: none;
+  padding: 0 1px;
+  margin: 0 1px;
+}
+#main-menu-links a {
+  background-color: #adbd7e;
+  background: none repeat scroll 0 0 #96c147;
+  padding:5px 30px 5px 15px;
+  color:#ffffff;
+  border-radius: 5px;
+}
+
+/* --------------- Pais / Regions View ------------ */
+
 .sede-fieldset > .fieldset-wrapper {
 	display: flex;
 }
@@ -41,34 +76,11 @@ a.button {
 }
 
 
+/* --------------- Pais / Regions View ------------ */
+
 #sel-pais > select {
 	width: 153px;
 }
 #sel-regions > select {
 	width: 153px;
-}
-
-@media screen and (max-width: 680px) {
-  #page-wrapper {
-    width: 100%;
-  }
-
-  #content,
-  .sidebar-first #content,
-  .sidebar-second #content {
-    float: none;
-    width: 100%;
-  }
-
-  #sidebar-first,
-  #sidebar-second {
-    float: none;
-    width: 100%;
-    margin: 1em 0;
-  }
-
-  img {
-    max-width: 300px; /* Make sure all images fit within viewport */
-    height: auto; /* Correct width from max-width rule above. */
-  }
 }

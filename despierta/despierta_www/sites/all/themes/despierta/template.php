@@ -188,3 +188,15 @@ function despierta_page_alter($page) {
   drupal_add_html_head($HandheldFriendly, 'HandheldFriendly');
   drupal_add_html_head($MobileOptimized, 'MobileOptimized');
 }
+
+/**
+ * Preprocces Images
+ */
+
+function despierta_preprocess_image(&$variables) {
+  $variables['attributes']['class'][] = 'img-responsive'; // can be 'img-rounded', 'img-circle', or 'img-thumbnail'
+  // Remove Height and Width Inline Styles from Drupal Images
+  foreach (array('width', 'height') as $key) {
+    unset($variables[$key]);
+  }
+}
