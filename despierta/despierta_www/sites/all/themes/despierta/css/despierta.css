@@ -1,3 +1,36 @@
+/* ------------------ Fonts ------------------ */
+@font-face {
+  font-family: "NeverSayNever";
+  src: url(../ttf/never_say_never/NeverSayNever.ttf);
+}
+body,
+#site-slogan,
+.ui-widget,
+.comment-form label {
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
+}
+#header,
+#footer-wrapper,
+#skip-link,
+ul.contextual-links,
+ul.links,
+ul.primary,
+.item-list .pager,
+div.field-type-taxonomy-term-reference,
+div.messages,
+div.meta,
+p.comment-time,
+table,
+.breadcrumb {
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
+}
+input,
+textarea,
+select,
+a.button {
+  font-family: 'NeverSayNever','helvetica_reg',Arial,sans-serif;
+}
+
 .sede-fieldset > .fieldset-wrapper {
 	display: flex;
 }

@@ -48,9 +48,9 @@ base theme  = zen
 ; CSS3 media queries: http://www.w3.org/TR/css3-mediaqueries/
 
 ; First we remove the system's menu and message styling since Zen has its own.
-stylesheets[all][] = system.menus.css
-stylesheets[all][] = system.messages.css
-stylesheets[all][] = system.theme.css
+;stylesheets[all][] = system.menus.css
+;stylesheets[all][] = system.messages.css
+;stylesheets[all][] = system.theme.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/styles.css
