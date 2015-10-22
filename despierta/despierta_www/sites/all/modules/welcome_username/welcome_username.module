@@ -45,7 +45,7 @@ function welcome_username_block_view($delta = "") {
             $init_session_string = variable_get('init_session_string', 'Iniciar sesión');
             $register_session_string = variable_get('register_session_string', 'Registrarse');
 
-            $user_link = l(t($init_session_string) . " ", 'user/');
+            $user_link = l(t($init_session_string) . " ", 'user/login');
             $register_link = l(t($register_session_string) . " ", 'user/register');
 
             $logged_in_message = "";
@@ -72,17 +72,17 @@ function welcome_username_block_view($delta = "") {
 
         // Load string from variable table if set.
         $welcome_string = variable_get('welcome_username_welcome_string', 'Bienvenido');
-        $logout_string = variable_get('welcome_username_logout_string', 'salir');
+        $logout_string = variable_get('welcome_username_logout_string', 'Salir');
 
         // Create a link to the user profile page.
-        $user_profile_link = l(t($welcome_string) . " " . $name, 'user/' . $user->uid);
+        $user_profile_link = t($welcome_string) . " " . l($name, 'user/' . $user->uid);
         // Create a logout link.
         $user_logout_link = l(t($logout_string), "user/logout");
 
         // Create the message shown on the frontend.
         $logged_in_user_message = "";
         $logged_in_user_message .= $user_profile_link;
-        $logged_in_user_message .= " | ";
+        $logged_in_user_message .= "<br>";
         $logged_in_user_message .= $user_logout_link;
 
         $block['content'] = $logged_in_user_message;

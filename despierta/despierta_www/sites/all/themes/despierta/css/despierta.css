@@ -64,7 +64,7 @@ h1 {
   border-radius: 5px;
 }
 
-/* --------------- Pais / Regions View ------------ */
+/* --------------- Overall wrappers ------------ */
 
 .sede-fieldset > .fieldset-wrapper {
 	display: flex;
@@ -83,4 +83,65 @@ h1 {
 }
 #sel-regions > select {
 	width: 153px;
+}
+
+/* --------------- Redes View ------------ */
+
+.redes{
+  background-image: url('../images/redes.jpg');
+  display:inline-block;
+  *display:inline;
+}
+#facebook{
+  background-position: 0 30px;
+  height: 30px;
+  width: 29px;
+  margin-right: 10px;
+}
+#facebook:hover{
+  background-position: 0 0;
+}
+#twitter{
+  background-position: -33px 30px;
+  height: 30px;
+  width: 29px;
+  margin-right: 10px;
+}
+#twitter:hover{
+  background-position: -33px 0px;
+}
+#youtube{
+  background-position: -64px 30px;
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+#youtube:hover{
+  background-position: -64px 0px;
+}
+#linkedin{
+  background-position: -95px 30px;
+  height: 30px;
+  width: 31px;
+  margin-right: 10px;  
+}
+#rsi{
+  background-position: -128px 30px;
+  height: 30px;
+  width: 29px;
+}
+#rsi:hover{
+  background-position: -128px 0px;
+}
+#linkedin:hover{
+  background-position: -95px 0px;
+}
+
+/* --------------- Copyright View ------------ */
+.derechos, .aviso, .aviso a {
+  color: #8fa49d;
+  font-size: 12px;
+}
+.derechos{
+  margin-bottom: 10px;
 }
