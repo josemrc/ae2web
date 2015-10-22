@@ -23,9 +23,15 @@ stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/despierta.css
 stylesheets[print][] = css/print.css
 
+;stylesheets[all][] = css/demo.css
+;stylesheets[all][] = css/menu_sideslide.css
+
 ; ========================================
 ; Scripts
 ; ========================================
+;scripts[] = js/classie.js
+;scripts[] = js/main.js
+
 scripts[] = js/despierta.behaviors.js
 
 ; ========================================

@@ -14,9 +14,7 @@ body,
 #featured div.section,
 #messages div.section,
 #main,
-#triptych,
-#footer-columns,
-#footer {
+#triptych {
   width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -99,5 +97,5 @@ body,
 }
 #footer {
   width: 940px;
-  min-width: 920px;
+  /*min-width: 920px;*/
 }
