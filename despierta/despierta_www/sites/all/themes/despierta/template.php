@@ -156,7 +156,7 @@ function despierta_field__taxonomy_term_reference($variables) {
 }
 
 /**
- * Implements hook_page_alter().
+ * Implements hook_page_alter() for Reponsive theme
  */
 function despierta_page_alter($page) {
   // Add meta tag for viewport, for easier responsive theme design.
@@ -200,3 +200,52 @@ function despierta_preprocess_image(&$variables) {
     unset($variables[$key]);
   }
 }
+
+/**
+ * Registers overrides for various functions.
+ *
+ * In this case, overrides three user functions
+ */
+function despierta_theme() {
+  $items = array();
+    
+  $items['user_login'] = array(
+    'render element' => 'form',
+    'path' => drupal_get_path('theme', 'despierta') . '/templates',
+    'template' => 'user-login',
+    'preprocess functions' => array(
+       'despierta_preprocess_user_login'
+    ),
+  );
+  $items['user_register_form'] = array(
+    'render element' => 'form',
+    'path' => drupal_get_path('theme', 'despierta') . '/templates',
+    'template' => 'user-register-form',
+    'preprocess functions' => array(
+      'despierta_preprocess_user_register_form'
+    ),
+  );
+  $items['user_pass'] = array(
+    'render element' => 'form',
+    'path' => drupal_get_path('theme', 'despierta') . '/templates',
+    'template' => 'user-pass',
+    'preprocess functions' => array(
+      'despierta_preprocess_user_pass'
+    ),
+  );
+  return $items;
+}
+
+function despierta_preprocess_user_login(&$vars) {
+  $vars['intro_text'] = t('This is my awesome login form');
+}
+
+function despierta_preprocess_user_register_form(&$vars) {
+  $vars['intro_text'] = t('This is my super awesome reg form');
+}
+
+function despierta_preprocess_user_pass(&$vars) {
+  $vars['intro_text'] = t('This is my super awesome request new password form');
+}
+
+?>
