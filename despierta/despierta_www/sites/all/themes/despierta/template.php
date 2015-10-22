@@ -236,7 +236,7 @@ function despierta_page_alter($page) {
  */
 
 function despierta_preprocess_image(&$variables) {
-  $variables['attributes']['class'][] = 'img-responsive'; // can be 'img-rounded', 'img-circle', or 'img-thumbnail'
+  // $variables['attributes']['class'][] = 'img-responsive'; // can be 'img-rounded', 'img-circle', or 'img-thumbnail'
   // Remove Height and Width Inline Styles from Drupal Images
   foreach (array('width', 'height') as $key) {
     unset($variables[$key]);

@@ -145,3 +145,38 @@ h1 {
 .derechos{
   margin-bottom: 10px;
 }
+
+/* --------------- Copyright View ------------ */
+.co2-neutral img {
+  width: 45px;
+  float: right;
+  margin-right: 30px;
+}
+
+/* --------------- Responsive ------------ */
+
+@media screen and (max-width: 680px) {
+  #page-wrapper {
+    width: 100%;
+  }
+
+  #content,
+  #header,
+  .sidebar-first #content,
+  .sidebar-second #content {
+    float: none;
+    width: 100%;
+  }
+
+  #sidebar-first,
+  #sidebar-second {
+    float: none;
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  img {
+    max-width: 300px; /* Make sure all images fit within viewport */
+    height: auto; /* Correct width from max-width rule above. */
+  }
+}
