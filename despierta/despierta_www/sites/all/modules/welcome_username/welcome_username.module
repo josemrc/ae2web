@@ -45,8 +45,8 @@ function welcome_username_block_view($delta = "") {
             $init_session_string = variable_get('init_session_string', 'Iniciar sesión');
             $register_session_string = variable_get('register_session_string', 'Registrarse');
 
-            $user_link = l(t($init_session_string) . " ", 'user/login');
-            $register_link = l(t($register_session_string) . " ", 'user/register');
+            $user_link = l(t($init_session_string), 'user/login');
+            $register_link = l(t($register_session_string), 'user/register');
 
             $logged_in_message = "";
             $logged_in_message .= $user_link;

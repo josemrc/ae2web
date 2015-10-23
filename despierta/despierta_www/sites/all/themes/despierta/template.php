@@ -232,11 +232,27 @@ function despierta_page_alter($page) {
 }
 
 /**
+ * Preprocces Pages
+ */
+
+function despierta_preprocess_page(&$vars) {
+  // Remove 'No front page content has been created yet.'
+  if($vars['is_front']){
+    $vars['title'] = ''; // removes the default Welcome to @site-name
+    $vars['page']['content']['system_main']['default_message'] = array();
+  }
+  // There is currently no content classified with this term."
+  if(isset($vars['page']['content']['system_main']['no_content'])) {
+    unset($vars['page']['content']['system_main']['no_content']);
+  }
+}
+
+/**
  * Preprocces Images
  */
 
 function despierta_preprocess_image(&$variables) {
-  // $variables['attributes']['class'][] = 'img-responsive'; // can be 'img-rounded', 'img-circle', or 'img-thumbnail'
+  $variables['attributes']['class'][] = 'img-responsive'; // can be 'img-rounded', 'img-circle', or 'img-thumbnail'
   // Remove Height and Width Inline Styles from Drupal Images
   foreach (array('width', 'height') as $key) {
     unset($variables[$key]);

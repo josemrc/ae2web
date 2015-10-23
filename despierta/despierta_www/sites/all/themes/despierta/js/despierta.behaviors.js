@@ -110,6 +110,22 @@
 				$('#sel-regions').replaceWith($regHTML);
 			});
 
+			// Add new class for regions
+			$('.view-despierta-directorio-verde', context).once('despierta', function () {
+				$('img', this).each( function() {
+					$(this).addClass('imgcateg');
+				})
+			});
+			$('.view-despierta-pie', context).once('despierta', function () {
+				$('img', this).each( function() {
+					$(this).addClass('imgfooter');
+				})
+			});
+			$('.view-frontpage-desc', context).once('despierta', function () {
+				$('img', this).each( function() {
+					$(this).addClass('imgeco');
+				})
+			});			
 
 		}
 	};

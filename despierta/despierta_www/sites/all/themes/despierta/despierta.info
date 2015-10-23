@@ -17,7 +17,7 @@ datestamp = "1440020197"
 stylesheets[all][] = css/bootstrap/bootstrap.min.css
 ;stylesheets[all][] = css/normalize.css
 
-stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/responsive.css
 ;stylesheets[all][] = css/style.css
 ;stylesheets[all][] = css/colors.css
 stylesheets[all][] = css/despierta.css

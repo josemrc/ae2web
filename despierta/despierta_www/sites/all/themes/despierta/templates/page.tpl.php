@@ -91,7 +91,7 @@
 
     <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
-        <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+        <img class="img-responsive" src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
       </a>
     <?php endif; ?>
 
@@ -185,7 +185,6 @@
     <?php endif; ?>
 
     <div id="content" class="column"><div class="section">
-      <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
@@ -205,6 +204,10 @@
           <?php print render($action_links); ?>
         </ul>
       <?php endif; ?>
+      <?php if ($page['highlighted']): ?>
+        <hr>
+        <div id="highlighted"><?php print render($page['highlighted']); ?></div>
+      <?php endif; ?>      
       <?php print render($page['content']); ?>
       <?php print $feed_icons; ?>
 
