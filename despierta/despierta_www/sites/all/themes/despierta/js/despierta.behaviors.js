@@ -20,10 +20,10 @@
 		$('.region', elem).map( function () {
 			var region = $(this).text();
 			var pais = $(this).attr('dp-pais');
-		if ( regions[pais] === undefined ) {
-			regions[pais] = [];
-		}
-		regions[pais].push(region)
+			if ( regions[pais] === undefined ) {
+				regions[pais] = [];
+			}
+			regions[pais].push(region)
 		});
 		return regions;
 	};
@@ -55,7 +55,89 @@
 			$('#sel-regions > select option[value="'+region+'"]').prop('selected', true);
 		}
 	}; 
-
+	// Create Object: Sedes
+	// Sedes has to be group by Nid
+	Drupal.theme.prototype.sedesObj = function (elem) {
+		var sedes = {};
+		$('table', elem).each( function (i, table) {
+			var nid = $('caption:first', table).text().replace(/ /g,'');
+			if ( sedes[nid] === undefined ) {
+				var sede = {
+					title: "",
+					logo: "",
+					descb: "",
+					descc: "",
+					email: "",
+					web: "",
+					t_act: "",
+					t_mov: "",
+					t_vent: "",
+					cat: {},
+				};
+				$('tbody > tr', table).map( function (j, tr) {
+					$('td', tr).map( function (k, td) {
+						if ( k == 1 ) { // title
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.title = val.replace(/\n*\s*/g,'');
+						}
+						else if ( k == 2 ) { // logo
+							sede.logo = $('img', td).attr('src').replace(/\n*\s*/g,'');
+						}
+						else if ( k == 3 ) { // desc. breve
+							sede.descb = $(td).text();
+						}
+						else if ( k == 4 ) { // desc. completa
+							sede.descc = $(td).text();
+						}
+						else if ( k == 5 ) { // email							
+							sede.email = $('a', td).text().replace(/\n*\s*/g,'');
+						}
+						else if ( k == 6 ) { // web
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.web = val.replace(/\n*\s*/g,'');
+						}
+						else if ( k == 9 ) { // tipo actividad
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.t_act = val;
+						}
+						else if ( k == 10 ) { // tipo movimiento
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.t_mov = val;
+						}
+						else if ( k == 11 ) { // tipo venta
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.t_vent = val;
+						}
+						else if ( k == 12 ) { // Categoria
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							if ( sede.cat[val] === undefined ) { sede.cat[val] = {} }
+						}
+						else if ( k == 13 ) { // Sub-Categoria
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							if ( sede.cat[val] === undefined ) { sede.cat[val] = {} }
+							// sede['t_vent'] = val;
+						}
+					});
+				});
+				sedes[nid] = sede;				
+			}
+		});
+		return sedes;
+	};
 
   /**
    * Behaviors are Drupal's way of applying JavaScript to a page. In short, the
@@ -104,7 +186,7 @@
 				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
 				$(this).append($regHTML);
 				Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
-				
+
 				$(this).show();
 			});
 
@@ -130,6 +212,29 @@
 					$(this).addClass('imgeco');
 				})
 			});			
+
+
+// view-ver-tax
+			$('.view-id-sedes', context).once('despierta', function () {
+				// $(this).hide();
+
+				// Create Object: Sedes
+				sedesObj = Drupal.theme.prototype.sedesObj(this);
+console.log(sedesObj);
+				
+				// // Create HTML for 'Paises'
+				// var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
+				// $(this).html($paisHTML);
+
+				// // WARNING: HARD-CORE!!
+				// // Create HTML for 'Regions'
+				// var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
+				// $(this).append($regHTML);
+				// Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
+
+				// $(this).show();
+			});
+			
 
 		}
 	};
