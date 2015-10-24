@@ -90,6 +90,8 @@
 			// of this behavior to ignore them.
 
 			$('.view-regiones', context).once('despierta', function () {
+				$(this).hide();
+
 				// Create Object: Pais - Regions
 				paisRegionsObj = Drupal.theme.prototype.paisRegionesObj(this);
 				
@@ -101,7 +103,9 @@
 				// Create HTML for 'Regions'
 				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
 				$(this).append($regHTML);
-				Drupal.theme.prototype.selectPaisRegion("España", "Madrid");				
+				Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
+				
+				$(this).show();
 			});
 
 			// Event: Create regions when pais changes

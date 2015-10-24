@@ -1,0 +1,17 @@
+name = View Alias
+description = Extend pathauto to create path aliases based on views with term arguments.
+core = 7.x
+package = Views
+
+dependencies[] = pathauto
+dependencies[] = views
+
+; Handlers
+files[] = view_alias.module
+
+; Information added by Drupal.org packaging script on 2015-10-09
+version = "7.x-1.0-alpha2"
+core = "7.x"
+project = "view_alias"
+datestamp = "1444403050"
+
