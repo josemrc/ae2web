@@ -14,6 +14,13 @@
    * In most cases, there is no good reason to NOT wrap your markup producing
    * JavaScript in a theme function.
    */
+
+  /**
+   *
+   * Pais / Regions functions.
+   * 
+   */
+
 	// Create Object: Pais - Regions
 	Drupal.theme.prototype.paisRegionesObj = function (elem) {
 		var regions = {};
@@ -30,18 +37,19 @@
 	// Create HTML select option
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
 		var selHTML = '<select>';
-		$.each( paisRegions, function(pais,regions) {
-		selHTML += '<option value="'+pais+'">'+pais+'</option>';  		
-		})
+		for (var pais in paisRegions)  {
+			selHTML += '<option value="'+pais+'">'+pais+'</option>';
+		}
 		selHTML += '</select>';
 		return $('<div id="sel-pais">' + selHTML + '</div>');
 	};
 	// Create HTML select option
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, pais) {
 		var selHTML = '<select>';
-		$.each( paisRegions[pais], function(idx,region) {
-		selHTML += '<option value="'+region+'">'+region+'</option>';
-		})
+		for (var idx in paisRegions[pais])  {
+			var region = paisRegions[pais][idx];
+			selHTML += '<option value="'+region+'">'+region+'</option>';
+		}
 		selHTML += '</select>';
 		return $('<div id="sel-regions">' + selHTML + '</div>');
 	};
@@ -55,6 +63,13 @@
 			$('#sel-regions > select option[value="'+region+'"]').prop('selected', true);
 		}
 	}; 
+
+  /**
+   *
+   * Sedes / Subcategories.
+   * 
+   */
+
 	// Create Object: Sedes
 	// Sedes has to be group by Nid
 	Drupal.theme.prototype.sedesObj = function (elem) {
@@ -75,6 +90,8 @@
 					cat: {},
 				};
 				$('tbody > tr', table).map( function (j, tr) {
+					var cat = "";
+					var subcat = "";
 					$('td', tr).map( function (k, td) {
 						if ( k == 1 ) { // title
 							var val;
@@ -122,14 +139,30 @@
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
+							val = val.replace(/\n*/g,'');
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
 							if ( sede.cat[val] === undefined ) { sede.cat[val] = {} }
+							cat = val;
 						}
 						else if ( k == 13 ) { // Sub-Categoria
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
-							if ( sede.cat[val] === undefined ) { sede.cat[val] = {} }
-							// sede['t_vent'] = val;
+							val = val.replace(/\n*/g,'');
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							if ( sede.cat[cat][val] === undefined ) { sede.cat[cat][val] = [] }
+							subcat = val;
+						}
+						else if ( k == 14 ) { // Etiquetas
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							val = val.replace(/\n*/g,'');
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							sede.cat[cat][subcat].push( val );
 						}
 					});
 				});
@@ -138,6 +171,31 @@
 		});
 		return sedes;
 	};
+
+	// Extract the number of subcategories
+	Drupal.theme.prototype.getNumSubCategories = function(sedesObj, inCat) {
+		var subcats = {};
+		for ( var nid in sedesObj ) {
+			var sede = sedesObj[nid];
+			if ( inCat !== undefined ) {
+				for ( var sname in sede.cat[inCat] ) {
+						if ( subcats[sname] === undefined ) { subcats[sname] = 1 }
+						else { subcats[sname] += 1 }
+				}
+			}
+			else {
+				for ( var cname in sede.cat ) {
+					for ( var sname in sede.cat[cname] ) {
+						if ( subcats[sname] === undefined ) { subcats[sname] = 1 }
+						else { subcats[sname] += 1 }
+					}
+				}
+			}
+		}
+		return subcats;
+	};
+
+
 
   /**
    * Behaviors are Drupal's way of applying JavaScript to a page. In short, the
@@ -211,29 +269,62 @@
 				$('img', this).each( function() {
 					$(this).addClass('imgeco');
 				})
-			});			
-
-
-// view-ver-tax
-			$('.view-id-sedes', context).once('despierta', function () {
-				// $(this).hide();
-
-				// Create Object: Sedes
-				sedesObj = Drupal.theme.prototype.sedesObj(this);
-console.log(sedesObj);
-				
-				// // Create HTML for 'Paises'
-				// var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
-				// $(this).html($paisHTML);
-
-				// // WARNING: HARD-CORE!!
-				// // Create HTML for 'Regions'
-				// var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
-				// $(this).append($regHTML);
-				// Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
-
-				// $(this).show();
 			});
+
+			// Add num. sedes within sub-categories
+			$('.view-ver-tax', context).once('despierta', function () {
+				// Print new sedes view
+				var sedesObj = {};
+				$('.view-id-sedes', context).once('despierta', function () {
+					// $(this).hide();
+
+					// Create Object: Sedes
+					sedesObj = Drupal.theme.prototype.sedesObj(this);
+
+					// $(this).show();
+				});
+
+				// Change css category
+				var cat = $( 'h3', this ).text();
+				$( 'h3', this ).replaceWith('<p><span>' + cat + '</span></p>');
+
+				// Extract num. sub-categories
+				var subcats = Drupal.theme.prototype.getNumSubCategories(sedesObj, cat);
+
+				// Add num sedes for each subcategory
+				$('a', this).map( function () {
+					var val = $(this).text();
+					val = val.replace(/^\s*/g,'');
+					val = val.replace(/\s*$/g,'');
+					var num = 0;
+					if ( subcats[val] !== undefined ) { num = subcats[val] }
+					$ ( this ).append( " ("+num+")" );
+				});
+			});
+
+
+// 			$('.view-id-sedes', context).once('despierta', function () {
+// 				// $(this).hide();
+
+// 				// Create Object: Sedes
+// 				var sedesObj = Drupal.theme.prototype.sedesObj(this);
+// console.log(sedesObj);
+				
+// 				// Create Object: Sedes
+// 				sedesObj = Drupal.theme.prototype.sedesObj(this);
+
+// 				// // Create HTML for 'Paises'
+// 				// var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
+// 				// $(this).html($paisHTML);
+
+// 				// // WARNING: HARD-CORE!!
+// 				// // Create HTML for 'Regions'
+// 				// var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
+// 				// $(this).append($regHTML);
+// 				// Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
+
+// 				// $(this).show();
+// 			});
 			
 
 		}
