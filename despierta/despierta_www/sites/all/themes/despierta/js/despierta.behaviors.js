@@ -393,21 +393,7 @@
 			$('.view-ver-tax', context).once('despierta', function () {
 				
 				// Print new sedes view
-				var sedesObj = {};
-				$('.view-id-sedes', context).once('despierta', function () {
-					// $(this).hide();
-
-					// Create Object: Sedes
-					sedesObj = Drupal.theme.prototype.sedesObj(this);
-
-console.log(sedesObj);
-
-					// Create HTML
-					var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
-					$(this).html($sedeHTML);
-
-					// $(this).show();
-				});
+				var sedesObj = Drupal.theme.prototype.sedesObj($('.view-id-sedes', context));
 
 				// Change css category
 				var cat = $( 'h3', this ).text();
@@ -427,8 +413,23 @@ console.log(sedesObj);
 				});
 			});
 
-			// Event Click: sedes more info
-			$( '.resultados .info.url' ).click(function() { 
+			// Print new sedes view
+			$('.view-id-sedes', context).once('despierta', function () {
+				$(this).hide();
+
+				// Create Object: Sedes
+				var sedesObj = Drupal.theme.prototype.sedesObj(this);
+
+				// Create HTML
+				var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
+				$(this).html($sedeHTML);
+
+				$(this).show();
+			});
+
+ 			// Event Click: sedes more info
+ 			// Delegate event because jQuery loses all bindings on elements that are added after loading. 
+			$( '.view-id-sedes' ).delegate( '.resultados .info.url', 'click', function(){			
 				if ( $('img',this).hasClass('more_info') ) { // change to down (-> hide)
 					$('img',this).removeClass('more_info');
 					$('img', this).rotate({ animateTo:0});
@@ -444,9 +445,6 @@ console.log(sedesObj);
 					$(this).parents('article').animate({height:'100%'}, 500);
 				}		
 			});
-
-
- 
 		}
 	};
 
