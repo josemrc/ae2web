@@ -84,10 +84,14 @@
 					descc: "",
 					email: "",
 					web: "",
+					tlf: "",
+					region: "",
 					t_act: "",
 					t_mov: "",
 					t_vent: "",
 					cat: {},
+					subcats: {},
+					etiqs: {},
 				};
 				$('tbody > tr', table).map( function (j, tr) {
 					var cat = "";
@@ -116,6 +120,18 @@
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.web = val.replace(/\n*\s*/g,'');
+						}
+						else if ( k == 7 ) { // tlf
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.tlf = val.replace(/\n*\s*/g,'');
+						}
+						else if ( k == 8 ) { // pais/region
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							sede.region = val.replace(/\n*\s*/g,'');
 						}
 						else if ( k == 9 ) { // tipo actividad
 							var val;
@@ -163,6 +179,7 @@
 							val = val.replace(/^\s*/g,'');
 							val = val.replace(/\s*$/g,'');
 							sede.cat[cat][subcat].push( val );
+							if ( sede.etiqs[val] === undefined ) { sede.etiqs[val] = 1 }
 						}
 					});
 				});
@@ -194,8 +211,109 @@
 		}
 		return subcats;
 	};
+	
+	// Create HTML article
+	Drupal.theme.prototype.sedeArticle = function (sedesObj) {
+		var sedHTML = '<section class="resultados col-lg-9 col-md-12 col-xs-12">';
+		for ( var nid in sedesObj ) {
+			var sedeObj = sedesObj[nid];
+			sedHTML += '<article class="media ">';
+
+			sedHTML += '<div class="logoempresa col-lg-2 col-md-3 col-sm-3 col-xs-4">';
+			sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
+			sedHTML += '</div>';
+
+			sedHTML += '<div class="media-bod col-lg-10 col-md-9 col-sm-9 col-xs-12 prici">';
+				sedHTML += '<div class="col-md-6 col-sm-6 col-xs-12">';
+					sedHTML += '<h2>' + sedeObj.title + '<div class="info url"><span>+ info</span>';
+						sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
+					sedHTML += '</div></h2>';
+					sedHTML += '<div class="inform  text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
+				sedHTML += '</div>';
+				sedHTML += '<div class="col-md-6 col-sm-6 col-xs-12 text-right">';
+					sedHTML += '<p class="direccion"></p>';
+					sedHTML += '<p><img class="ico" src="sites/default/files/ico_tlfno.png"><a class="url" href="tel:">' + sedeObj.tlf + '</a></p>';
+					sedHTML += '<p><img class="ico" src="sites/default/files/ico_email.png"><a class="url" href="mailto:">' + sedeObj.email + '</a></p>';
+					sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
+				sedHTML += '</div>';
+				sedHTML += '<div class="clean subrayado col-md-12"></div>';
+				sedHTML += '<div class="clean masinfo col-md-12">';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de venta:</p><p class="col-xs-8">' + sedeObj.t_vent + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de actividad:</p><p class="col-xs-8">' + sedeObj.t_act + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de movimiento:</p><p class="col-xs-8">' + sedeObj.t_mov + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Descripción:</p><p class="col-xs-8">' + sedeObj.descc + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Etiquetas:</p><p class="col-xs-8">' + Object.keys(sedeObj.etiqs).join(',') + '</p></div>';
+
+				sedHTML += '</div>';
+			sedHTML += '</div> <!-- media-bod -->';
+
+			sedHTML += '</article>';
+		}
+		sedHTML += '</section>';
 
 
+// <article class="media ">
+// 	
+		
+
+
+// 		<div class="col-md-6 col-sm-6 col-xs-12 text-right">
+// 			<p class="direccion"></p>
+			
+			
+// 			<!-- <p class="enlacemapa"><a href="" target="_blank"><img class="ico mapa" src="http://www.despierta.org/images/ico_mapa.png">Ver mapa</a></p>-->
+// 			<p class="imgmapa enlacemapa">
+// 				<!-- <img class="mapa" src="http://www.despierta.org/images/mapa.jpg">-->
+// 				<!--  -->
+// 			</p>
+// 			<!-- <p><img class="ico" src="http://www.despierta.org/images/ico_tlfno.png"><a class="url" href="tel:"></a></p> -->
+			
+// 			<!-- <p><img class="ico" src="http://www.despierta.org/images/ico_email.png"><a class="url" href="mailto:"></a></p> -->
+			
+// 			<!-- <p class="ult"><img class="ico" src="http://www.despierta.org/images/ico_url.png"><a class="url" href="<p class="ult"><img class="ico" src="http://www.despierta.org/images/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">www.despierta.org</a></p>"><p class="ult"><img class="ico" src="http://www.despierta.org/images/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">www.despierta.org</a></p></a></p> -->
+// 			<p class="ult"><img class="ico" src="http://www.despierta.org/images/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">www.despierta.org</a></p>
+// 		</div>
+
+
+// 		<!--
+// 		<div class="resumen"></div>
+// 		<div class="location_info">
+// 			<ul>
+// 				<li>Direcci&oacute;n: </li>
+// 				<li>Provincia: </li>
+// 				<li>&iquest;Sucursal principal?: </li>
+// 			</ul>
+// 		</div>
+// 		<div class="expandido">
+// 			<p></p>
+// 			<h4>Tipo de venta</h4>
+// 			<ul>
+// 				<li>Venta online.</li>
+// 				<li>Establecimiento físico</li>
+// 				<li>Servicio a domicilio</li>
+// 				<li>Venta mayorista.</li>
+// 				<li>Servicio online</li>
+// 				<li>Alquiler online.</li>
+// 				<li>Venta telefónica.</li>
+// 				<li>Reserva online.</li>
+// 				<li>Reserva telefónica.</li>
+// 				<li>Otros</li>
+// 			</ul>
+// 			<div class="datossede">
+// 				<p>web de la empresa</p>
+// 				<p>email de esta sede</p>
+// 				<p>tel&eacute;fono de la sede</p>
+// 			</div>
+// 			<div class="sellos">
+// 				<img width="100" src="http://www.despierta.org/images/stamps/sello1.jpg"/>
+// 				<img width="100" src="http://www.despierta.org/images/stamps/sello1.jpg"/>
+// 				<img width="100" src="http://www.despierta.org/images/stamps/sello1.jpg"/>
+// 			</div>
+// 		</div>-->
+
+
+		return $( sedHTML );
+	};	
 
   /**
    * Behaviors are Drupal's way of applying JavaScript to a page. In short, the
@@ -273,6 +391,7 @@
 
 			// Add num. sedes within sub-categories
 			$('.view-ver-tax', context).once('despierta', function () {
+				
 				// Print new sedes view
 				var sedesObj = {};
 				$('.view-id-sedes', context).once('despierta', function () {
@@ -280,6 +399,12 @@
 
 					// Create Object: Sedes
 					sedesObj = Drupal.theme.prototype.sedesObj(this);
+
+console.log(sedesObj);
+
+					// Create HTML
+					var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
+					$(this).html($sedeHTML);
 
 					// $(this).show();
 				});
@@ -302,31 +427,26 @@
 				});
 			});
 
+			// Event Click: sedes more info
+			$( '.resultados .info.url' ).click(function() { 
+				if ( $('img',this).hasClass('more_info') ) { // change to down (-> hide)
+					$('img',this).removeClass('more_info');
+					$('img', this).rotate({ animateTo:0});
+					$('span',this).html('+ info');
+					$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
+					$(this).parents('article').animate({height: '120px'}, 500);
+				}
+				else { // change to up (-> show)
+					$('img',this).addClass('more_info');
+					$('img', this).rotate({ animateTo:180});
+					$('span',this).html('- info');
+					$(this).closest('.media-bod').children('.masinfo').fadeIn(500);
+					$(this).parents('article').animate({height:'100%'}, 500);
+				}		
+			});
 
-// 			$('.view-id-sedes', context).once('despierta', function () {
-// 				// $(this).hide();
 
-// 				// Create Object: Sedes
-// 				var sedesObj = Drupal.theme.prototype.sedesObj(this);
-// console.log(sedesObj);
-				
-// 				// Create Object: Sedes
-// 				sedesObj = Drupal.theme.prototype.sedesObj(this);
-
-// 				// // Create HTML for 'Paises'
-// 				// var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
-// 				// $(this).html($paisHTML);
-
-// 				// // WARNING: HARD-CORE!!
-// 				// // Create HTML for 'Regions'
-// 				// var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
-// 				// $(this).append($regHTML);
-// 				// Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
-
-// 				// $(this).show();
-// 			});
-			
-
+ 
 		}
 	};
 

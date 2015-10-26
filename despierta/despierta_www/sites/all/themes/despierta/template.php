@@ -45,7 +45,7 @@ function despierta_theme() {
 /**
  * Add body classes if certain regions have content.
  */
-function despierta_preprocess_html(&$variables) {
+function despierta_preprocess_html(&$variables) {  
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
   }

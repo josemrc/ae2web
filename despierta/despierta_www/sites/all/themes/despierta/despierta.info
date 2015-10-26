@@ -14,6 +14,8 @@ datestamp = "1440020197"
 ; Stylesheets
 ; ========================================
 
+stylesheets[all][] = css/loading.css
+
 stylesheets[all][] = css/bootstrap/bootstrap.min.css
 ;stylesheets[all][] = css/normalize.css
 
@@ -31,6 +33,7 @@ stylesheets[print][] = css/print.css
 ; ========================================
 ;scripts[] = js/classie.js
 ;scripts[] = js/main.js
+scripts[] = js/jQueryRotate.js
 
 scripts[] = js/despierta.behaviors.js
 
