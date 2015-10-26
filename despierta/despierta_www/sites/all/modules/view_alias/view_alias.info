@@ -6,12 +6,9 @@ package = Views
 dependencies[] = pathauto
 dependencies[] = views
 
-; Handlers
-files[] = view_alias.module
-
-; Information added by Drupal.org packaging script on 2015-10-09
-version = "7.x-1.0-alpha2"
+; Information added by Drupal.org packaging script on 2015-10-26
+version = "7.x-1.0"
 core = "7.x"
 project = "view_alias"
-datestamp = "1444403050"
+datestamp = "1445836141"
 

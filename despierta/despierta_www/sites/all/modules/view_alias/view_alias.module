@@ -265,6 +265,14 @@ function view_alias_form_alter(&$form, &$form_state, $form_id) {
         '#type' => 'markup',
         '#markup' => t('Valid tokens are any taxonomy term token prefixed with <strong>view_alias:<em>argument_name</em></strong>.  E.g., <code>[view_alias:tid:term:name]</code> or <code>[view_alias:term_node_tid_depth:term:parents:join:?]</code>'),
       );
+      $form['view_alias']['token_tree'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Replacement patterns'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#description' => theme('token_tree', array('token_types' => array('term'))),
+        '#weight' => 10,
+      );
     }
   }
 }
