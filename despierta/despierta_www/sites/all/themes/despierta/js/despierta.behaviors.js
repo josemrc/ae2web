@@ -242,7 +242,7 @@
 					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de actividad:</p><p class="col-xs-8">' + sedeObj.t_act + '</p></div>';
 					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de movimiento:</p><p class="col-xs-8">' + sedeObj.t_mov + '</p></div>';
 					sedHTML += '<div class="row"><p class="text-right col-xs-4">Descripción:</p><p class="col-xs-8">' + sedeObj.descc + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Etiquetas:</p><p class="col-xs-8">' + Object.keys(sedeObj.etiqs).join(',') + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-right col-xs-4">Etiquetas:</p><p class="col-xs-8">' + Object.keys(sedeObj.etiqs).join(', ') + '</p></div>';
 
 				sedHTML += '</div>';
 			sedHTML += '</div> <!-- media-bod -->';
@@ -413,60 +413,38 @@
 				});
 			});
 
-				$(document).undelegate('.resultados .info.url', 'click', function(){
- alert("undelegate");
-});
 			// Print new sedes view (Once)			
 			$('.view-id-sedes .view-content').once("DOMSubtreeModified",function(){
 				$(this).hide();
 
-				// $('.resultados .info.url', this).off('click', function() { alert("KK") });
-
 				// Create Object: Sedes
 				var sedesObj = Drupal.theme.prototype.sedesObj(this);
-
 
 				// Create HTML
 				var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
 				$(this).html($sedeHTML);
 
+	 			// Event Click: sedes more info
+				$( this ).on( 'click', '.resultados .info.url', function() {
+					if ( $('img',this).hasClass('more_info') ) { // change to down (-> hide)
+						$('img',this).removeClass('more_info');
+						$('img', this).rotate({ animateTo:0});
+						$('span',this).html('+ info');
+						$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
+						$(this).parents('article').animate({height: '120px'}, 500);
+					}
+					else { // change to up (-> show)
+						$('img',this).addClass('more_info');
+						$('img', this).rotate({ animateTo:180});
+						$('span',this).html('- info');
+						$(this).closest('.media-bod').children('.masinfo').fadeIn(500);
+						$(this).parents('article').animate({height:'100%'}, 500);
+					}
+				});
+
 				$(this).show();
 			});
 
-			// $('.view-id-sede', context).once('despierta', function () {
-			// 	//$(this).hide();
-
-			// 	// Create Object: Sedes
-			// 	var sedesObj = Drupal.theme.prototype.sedesObj(this);
-
-			// 	// Create HTML
-			// 	var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
-			// 	$(this).html($sedeHTML);
-
-			// 	//
-			// });
-
- 			// Event Click: sedes more info
- 			// Delegate event because jQuery loses all bindings on elements that are added after loading. 
-			$( document ).delegate( '.resultados .info.url', 'click', function(){
-			// $( '.view-id-sedes .view-content' ).delegate( '.resultados .info.url', 'click', function(){
-			// $( document ).on( 'click', '.view-id-sedes .view-content .resultados .info.url', function(e) {
-			// $( '.view-id-sedes .view-content .resultados .info.url' ).live('click', function(){
-				if ( $('img',this).hasClass('more_info') ) { // change to down (-> hide)
-					$('img',this).removeClass('more_info');
-					$('img', this).rotate({ animateTo:0});
-					$('span',this).html('+ info');
-					$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
-					$(this).parents('article').animate({height: '120px'}, 500);
-				}
-				else { // change to up (-> show)
-					$('img',this).addClass('more_info');
-					$('img', this).rotate({ animateTo:180});
-					$('span',this).html('- info');
-					$(this).closest('.media-bod').children('.masinfo').fadeIn(500);
-					$(this).parents('article').animate({height:'100%'}, 500);
-				}		
-			});
 		}
 	};
 
