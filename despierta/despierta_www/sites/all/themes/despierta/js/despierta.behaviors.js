@@ -315,6 +315,28 @@
 		return $( sedHTML );
 	};	
 
+
+  /**
+   *
+   * Busqueda Panel (Frontpage).
+   * 
+   */
+	// Create HTML tab (jQuery)
+	Drupal.theme.prototype.busquedaTabPanel = function (simHTML, avaHTML) {
+		var tabHTML = '<ul class="nav nav-tabs" role="tablist">';
+		tabHTML += '<li role="presentation" class="active"><a href="#tabBusqSimple" aria-controls="tabBusqSimple" role="tab" data-toggle="tab">Búsqueda Simple</a></li>';
+		tabHTML += '<li role="presentation"><a href="#tabBusqAzanz" aria-controls="tabBusqAzanz" role="tab" data-toggle="tab">Búsqueda Avanzada</a></li>';
+		tabHTML += '</ul>';
+		tabHTML += '<div class="tab-content">';
+  		tabHTML += '<div role="tabpanel" class="tab-pane active" id="tabBusqSimple">' + simHTML + '</div>';
+  		tabHTML += '<div role="tabpanel" class="tab-pane" id="tabBusqAzanz">' + avaHTML +'</div>';
+  		tabHTML += '</div>';
+		return $('<div id="tabBusq" class="col-lg-8 col-md-8 col-sm-7 col-xs-12">' + tabHTML + '</div>');
+	};
+
+
+
+
   /**
    * Behaviors are Drupal's way of applying JavaScript to a page. In short, the
    * advantage of Behaviors over a simple 'document.ready()' lies in how it
@@ -445,7 +467,109 @@
 				$(this).show();
 			});
 
+
+			// Create Busqueda Panel
+			$('.view-id-frontpage_busqueda', context).once('despierta', function () {
+
+				// Extract simple search
+				var simHTML = $( '#block-custom-search-blocks-1' ).html();
+				$( '#block-custom-search-blocks-1' ).remove();
+
+				// Extract advanced search
+				// var avaHTML = $( '.view-id-sedes2 .view-filters' ).html();
+				var avaHTML = $( '#block-views-exp-sedes2-page-1' ).html();				
+				$( '#block-views-exp-sedes2-page-1' ).remove();
+
+				// Create HTML for 'Regions'
+				var $tabHTML = Drupal.theme('busquedaTabPanel', simHTML, avaHTML);
+				$( '.view-content', this).append($tabHTML);
+
+			});
+			
+			// Active Busqueda tabs
+			$('#tabBusq').delegate('ul a', 'click', function(e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+
 		}
 	};
 
 })(jQuery);
+
+
+
+// <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+// 		<h1>Tu buscador verde</h1>
+// 		<p><span id="simple" class="seleccionada">Búsqueda simple</span><span id="avanzada" class="noseleccionada">Búsqueda avanzada</span></p>
+// 		<form id="simplesearch" action="/busqueda" method="get" class="form-inline" role="form" style="display: block;">
+// 			<div class="form-group">
+// 				<input type="text" name="qs" placeholder="¿Qué buscas?" class="form-control" autofocus="autofocus" size="25">
+// 			</div>
+// 			<div class="form-group">
+// 				<select id="provinceBasic" class="form-control" name="province"><option value="">Todas las regiones</option><option value="2593109">Andalucía</option><option value="3336899">Aragón</option><option value="3114710">Asturias</option><option value="2593110">Canarias</option><option value="3336898">Cantabria</option><option value="3336900">Castilla y León</option><option value="2593111">Castilla-La Mancha</option><option value="3336901">Cataluña</option><option value="2519582">Ceuta</option><option value="2593112">Extremadura</option><option value="3336902">Galicia</option><option value="2521383">Islas Baleares</option><option value="3336897">La Rioja</option><option value="3117732" selected="">Madrid</option><option value="6362988">Melilla</option><option value="2513413">Murcia</option><option value="3115609">Navarra</option><option value="3336903">País Vasco</option><option value="2593113">Valencia</option></select>
+// 			</div>
+// 			<div class="form-group">
+// 				<input id="cityBasic" data-provide="typeahead" type="text" name="city" placeholder="Localidad (Opcional)" class="form-control typeahead" autocomplete="off">
+// 			</div>
+// 			<input id="cityBasic_id" type="hidden" name="city_id" value="">
+// 			<input type="hidden" name="country_code" id="country_code" value="ES">
+// 			<div id="padrebuscar" class="col-xs-12">
+// 				<div id="buscar" class="col-xs-2 row">
+// 					<button class="btn btn-success" type="submit">Buscar</button>
+// 				</div>
+// 				<div id="avisobuscar" class="miancho">
+// 					Estamos realizando los últimos ajustes de nuestro localizador. Pronto encontrarás todas las alternativas de consumo a un sólo clic. ¡Arrancamos en septiembre!
+// 				</div>
+// 			</div>
+// 		</form>
+// 		<div class="iconos limpia" style="display: block;">
+// 			<a href="directorio-de-empresas/alimentacion" title="Alimentación"><img src="http://www.despierta.org/images/icoalimentacion.png" alt="Alimentación"></a>
+// 			<a class="interior" href="directorio-de-empresas/hogar-energia" title="Hogar y energía"><img src="http://www.despierta.org/images/icohogar.png" alt="Hogar"></a>
+// 			<a class="interior" href="directorio-de-empresas/huerto-jardin" title="Huerto y jardín"><img src="http://www.despierta.org/images/icohuerto.png" alt="Huerto y jardín"></a>
+// 			<a class="interior" href="directorio-de-empresas/salud-bienestar" title="Salud y bienestar"><img src="http://www.despierta.org/images/icosalud.png" alt="Salud"></a>
+// 			<a class="interior" href="directorio-de-empresas/transporte" title="Transporte"><img src="http://www.despierta.org/images/icotransporte.png" alt="Transporte"></a>
+// 			<a class="interior" href="directorio-de-empresas/ecoturismo" title="Ecoturismo"><img src="http://www.despierta.org/images/icoecoturismo.png" alt="Ecoturismo"></a>
+// 			<a class="interior" href="directorio-de-empresas/reciclaje" title="Reciclaje"><img src="http://www.despierta.org/images/icoreciclaje.png" alt="Reciclaje"></a>
+// 			<a class="interior" href="directorio-de-empresas/ropa-complementos" title="Moda"><img src="http://www.despierta.org/images/icomoda.png" alt="Moda"></a>
+// 			<a href="/directorio-de-empresas/otras" title=""><img class="Otras categorí,as" src="http://www.despierta.org/images/icootras.png" alt="Otras"></a>
+// 		</div>
+// 		<form id="completesearch" action="/busqueda-avanzada" method="get" class="form-horizontal col-lg-12" style="display: none;">
+// 			<div class="pull-left col-xs-12 col-md-4">
+// 				<label>¿Qué buscas?</label>
+// 				<select id="category" name="category" class="form-control">
+// 					<option value="">Elige una categoría</option><option value="1">Alimentación</option><option value="2">Hogar y energía</option><option value="3">Huerto y jardín</option><option value="7">Reciclaje</option><option value="8">Ropa y complementos</option><option value="4">Salud y bienestar</option><option value="5">Transporte</option><option value="6">Turismo y aventura</option><option value="9">Otras categorías</option>
+// 				</select>
+// 				<select id="subcategory" name="subcategory" class="form-control" disabled="">
+// 					<option value="">Elige una categoría</option>
+// 				</select>
+// 				<input id="enterprise_name" type="text" class="form-control" value="" name="enterprise_name" placeholder="Nombre del anunciante">
+// 			</div>
+// 			<div class="pull-left col-xs-12 col-md-4">
+// 				<label>¿Dónde?</label>
+// 				<select id="pais" name="pais" class="form-control">
+// 					<option value="">Elige el país</option>
+// 				</select>
+// 				<select id="province" name="province" class="form-control">
+// 					<option value="">Todas las regiones</option><option value="2593109">Andalucía</option><option value="3336899">Aragón</option><option value="3114710">Asturias</option><option value="2593110">Canarias</option><option value="3336898">Cantabria</option><option value="3336900">Castilla y León</option><option value="2593111">Castilla-La Mancha</option><option value="3336901">Cataluña</option><option value="2519582">Ceuta</option><option value="2593112">Extremadura</option><option value="3336902">Galicia</option><option value="2521383">Islas Baleares</option><option value="3336897">La Rioja</option><option value="3117732" selected="">Madrid</option><option value="6362988">Melilla</option><option value="2513413">Murcia</option><option value="3115609">Navarra</option><option value="3336903">País Vasco</option><option value="2593113">Valencia</option>
+// 				</select>
+// 				<input id="city" data-provide="typeahead" type="text" name="city" placeholder="Localidad" class="form-control typeahead" readonly="readonly" autocomplete="off">
+// 				<input id="city_id" type="hidden" name="city_id" value="">
+// 			</div>
+// 			<div class="pull-left col-xs-12 col-md-4">
+// 				<label>¿Características?</label>
+// 				<select id="tipo" name="tipo" class="form-control">
+// 					<option value="">Elige el tipo de entidad</option><option value="6">Agrupación comercial</option><option value="2">Asociación</option><option value="4">Autónomo</option><option value="1">Empresa</option><option value="3">Organización</option><option value="5">Tienda o comercio</option>
+// 				</select>
+// 				<select id="actividad" name="actividad" class="form-control">
+// 					<option value="">Elige una actividad</option><option value="4">Agencia o tour-operador turístico</option><option value="3">Alquiler o venta al cliente final (minorista)</option><option value="2">Distribuidor mayorista</option><option value="1">Fabricante/Productor</option><option value="6">Otros</option>
+// 				</select>
+// 				<select id="tipoventa" name="tipoventa" class="form-control">
+// 					<option value="">Elige un tipo de venta</option><option value="1">Establecimiento físico</option><option value="2">Venta online</option><option value="6">Alquiler online</option><option value="8">Reserva online</option><option value="5">Servicio online</option><option value="3">Servicio a domicilio</option><option value="7">Venta telefónica</option><option value="9">Reserva telefónica</option><option value="10">Otros</option>
+// 				</select>
+// 			</div>
+// 			<div class="pull-left col-xs-12">
+// 				<button class="btn btn-success" type="submit">Buscar</button>
+// 			</div>
+// 		</form>
+// 	</div>
