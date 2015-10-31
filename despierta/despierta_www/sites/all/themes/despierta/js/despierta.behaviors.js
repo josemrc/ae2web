@@ -324,8 +324,8 @@
 	// Create HTML tab (jQuery)
 	Drupal.theme.prototype.busquedaTabPanel = function (simHTML, avaHTML) {
 		var tabHTML = '<ul class="nav nav-tabs" role="tablist">';
-		tabHTML += '<li role="presentation" class="active"><a href="#tabBusqSimple" aria-controls="tabBusqSimple" role="tab" data-toggle="tab">Búsqueda Simple</a></li>';
-		tabHTML += '<li role="presentation"><a href="#tabBusqAzanz" aria-controls="tabBusqAzanz" role="tab" data-toggle="tab">Búsqueda Avanzada</a></li>';
+		tabHTML += '<li role="presentation" class="active"><a id="simple" href="#tabBusqSimple" aria-controls="tabBusqSimple" role="tab" data-toggle="tab">Búsqueda Simple</a></li>';
+		tabHTML += '<li role="presentation"><a id="avanzada" href="#tabBusqAzanz" aria-controls="tabBusqAzanz" role="tab" data-toggle="tab">Búsqueda Avanzada</a></li>';
 		tabHTML += '</ul>';
 		tabHTML += '<div class="tab-content">';
   		tabHTML += '<div role="tabpanel" class="tab-pane active" id="tabBusqSimple">' + simHTML + '</div>';
@@ -472,25 +472,37 @@
 			$('.view-id-frontpage_busqueda', context).once('despierta', function () {
 
 				// Extract simple search
-				var simHTML = $( '#block-custom-search-blocks-1' ).html();
-				$( '#block-custom-search-blocks-1' ).remove();
+				var simHTML = $( '#block-views-exp-sedes2-busq-simple' ).html();
+				$( '#block-views-exp-sedes2-busq-simple' ).remove();
 
 				// Extract advanced search
-				// var avaHTML = $( '.view-id-sedes2 .view-filters' ).html();
-				var avaHTML = $( '#block-views-exp-sedes2-page-1' ).html();				
-				$( '#block-views-exp-sedes2-page-1' ).remove();
+				var avaHTML = $( '#block-views-exp-sedes2-busq-avan' ).html();
+				$( '#block-views-exp-sedes2-busq-avan' ).remove();
 
 				// Create HTML for 'Regions'
 				var $tabHTML = Drupal.theme('busquedaTabPanel', simHTML, avaHTML);
 				$( '.view-content', this).append($tabHTML);
 
+			});			
+			// Modify fields of Busqueda Panel
+			$('form[id^="views-exposed-form-sedes2"] input#edit-query').each( function() {
+				$(this).addClass('form-control');
+				$(this).attr('placeholder', '¿Qué buscas?');
 			});
-			
+			$('form[id^="views-exposed-form-sedes2"] select#edit-regiones').each( function() {
+				$(this).addClass('form-control');
+			});
+			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regiones"]' ).remove();
+			$('form[id^="views-exposed-form-sedes2"] input#edit-submit-sedes2').each( function() {
+				$(this).addClass('btn btn-success');
+			});
+
 			// Active Busqueda tabs
 			$('#tabBusq').delegate('ul a', 'click', function(e) {
 				e.preventDefault();
 				$(this).tab('show');
 			});
+
 
 		}
 	};
