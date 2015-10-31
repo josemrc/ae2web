@@ -468,8 +468,24 @@
 			});
 
 
+			// // Create Busqueda Panel
+			// $('.view-id-frontpage_busqueda', context).once('despierta', function () {
+
+			// 	// Extract simple search
+			// 	var simHTML = $( '#block-views-exp-sedes2-busq-simple' ).html();
+			// 	$( '#block-views-exp-sedes2-busq-simple' ).remove();
+
+			// 	// Extract advanced search
+			// 	var avaHTML = $( '#block-views-exp-sedes2-busq-avan' ).html();
+			// 	$( '#block-views-exp-sedes2-busq-avan' ).remove();
+
+			// 	// Create HTML for 'Regions'
+			// 	var $tabHTML = Drupal.theme('busquedaTabPanel', simHTML, avaHTML);
+			// 	$( '.view-content', this).append($tabHTML);
+
+			// });
 			// Create Busqueda Panel
-			$('.view-id-frontpage_busqueda', context).once('despierta', function () {
+			$('#block-views-frontpage-desc-busq-block', context).once('despierta', function () {
 
 				// Extract simple search
 				var simHTML = $( '#block-views-exp-sedes2-busq-simple' ).html();
@@ -483,7 +499,7 @@
 				var $tabHTML = Drupal.theme('busquedaTabPanel', simHTML, avaHTML);
 				$( '.view-content', this).append($tabHTML);
 
-			});			
+			});	
 			// Modify fields of Busqueda Panel
 			$('form[id^="views-exposed-form-sedes2"] input#edit-query').each( function() {
 				$(this).addClass('form-control');

@@ -86,10 +86,12 @@ a {
 }
 
 /* --------------- Frontpage: Busqueda View ------------ */
-.view-id-frontpage_busqueda {
+.view-id-frontpage_busqueda,
+.view-display-id-busq_block {
   display: inline-block;
 }
-.view-id-frontpage_busqueda h1 {
+.view-id-frontpage_busqueda h1,
+.view-display-id-busq_block h1 {
   color: #78A02C;
   font-size: 45px;
   line-height: 50px;
