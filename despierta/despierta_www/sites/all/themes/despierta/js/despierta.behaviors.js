@@ -3,6 +3,10 @@
    * Global vars
    */
   var paisRegionsObj = {};
+  var currentPais = "España";
+  var currentRegion = "Madrid";
+  localStorage['pais'] = currentPais;
+  localStorage['region'] = currentRegion;
 
   /**
    * The recommended way for producing HTML markup through JavaScript is to write
@@ -34,9 +38,21 @@
 		});
 		return regions;
 	};
+	// Read a page's GET URL variables and return them as an associative array.
+	Drupal.theme.prototype.getUrlVars = function () {
+		var vars = [], hash;
+		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+		for(var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split('=');
+			vars[hash[0]] = decodeURIComponent( hash[1] );
+		}
+		return vars;
+	}
 	// Create HTML select option
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
-		var selHTML = '<select>';
+		// var selHTML = '<select>';
+		var selHTML = '<select id="edit-pais" name="pais" class="form-select">';
 		for (var pais in paisRegions)  {
 			selHTML += '<option value="'+pais+'">'+pais+'</option>';
 		}
@@ -45,7 +61,8 @@
 	};
 	// Create HTML select option
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, pais) {
-		var selHTML = '<select>';
+		// var selHTML = '<select>';
+		var selHTML = '<select id="edit-region" name="reg" class="form-select">';		
 		for (var idx in paisRegions[pais])  {
 			var region = paisRegions[pais][idx];
 			selHTML += '<option value="'+region+'">'+region+'</option>';
@@ -57,10 +74,12 @@
 	// Eg, Drupal.theme.prototype.selectPaisRegion("Honduras", "Napo");
 	Drupal.theme.prototype.selectPaisRegion = function (pais, region) {
 		if (typeof pais !== 'undefined' || pais !== null) {
-			$('#sel-pais > select option[value="'+pais+'"]').prop('selected', true);
+			//$('#sel-pais > select option[value="'+pais+'"]').prop('selected', true);
+			$('select[id="edit-pais"] > option[value="'+pais+'"]').prop('selected', true);
 		}
 		if (typeof region !== 'undefined' || region !== null) {
-			$('#sel-regions > select option[value="'+region+'"]').prop('selected', true);
+			//$('#sel-regions > select option[value="'+region+'"]').prop('selected', true);
+			$('select[id="edit-region"] > option[value="'+region+'"]').prop('selected', true);
 		}
 	}; 
 
@@ -369,32 +388,82 @@
 			// get tagged with a 'foo-processed' class, causing all future invocations
 			// of this behavior to ignore them.
 
-			$('.view-regiones', context).once('despierta', function () {
-				$(this).hide();
+			/* Pais/Regiones View */
 
-				// Create Object: Pais - Regions
-				paisRegionsObj = Drupal.theme.prototype.paisRegionesObj(this);
+			// $('.view-regiones', context).once('despierta', function () {
+			// 	$(this).hide();
+
+			// 	// Create Object: Pais - Regions
+			// 	paisRegionsObj = Drupal.theme.prototype.paisRegionesObj(this);
 				
+			// 	// Create HTML for 'Paises'
+			// 	var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
+			// 	$(this).html($paisHTML);
+
+			// 	// WARNING: HARD-CORE!!
+			// 	// Create HTML for 'Regions'
+			// 	var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
+			// 	$(this).append($regHTML);
+			// 	Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
+
+			// 	$(this).show();
+			// });
+			// // Event: Create regions when pais changes
+			// $( "#sel-pais" ).change( function() {
+			// 	var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, $( "#sel-pais option:selected" ).text());
+			// 	$('#sel-regions').replaceWith($regHTML);
+			// });
+			//$('#block-views-exp-sedes-block-regiones').once("DOMSubtreeModified",function(){
+			$('#block-views-exp-sedes-block-regiones', context).once('despierta', function () {				
+				// Create Object: Pais - Regions
+				paisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('.view-regiones') );
+console.log(paisRegionsObj);
+				// Extract enable list of 'paises'
+				// $( 'select[id="edit-pais"]', this )
+				
+				// Extract enable list of 'regiones'
+				// $( 'select[id="edit-region"]', this )
+
+				// Extract selected 'pais'
+				var urlQueries = Drupal.theme.prototype.getUrlVars();
+				if ( (urlQueries['pais'] !== undefined) && (urlQueries['pais'] !== "All") ) {
+					currentPais = urlQueries['pais'];
+				}
+				if ( (urlQueries['region'] !== undefined) && (urlQueries['region'] !== "All") ) {
+					currentRegion = urlQueries['region'];
+				}
+				// var yetVisited = localStorage['visited'];
+    // if (!yetVisited) {
+    //     // open popup
+    //     localStorage['visited'] = "yes";
+    // }				
+console.log(currentPais);
+console.log(currentRegion);
+
+
 				// Create HTML for 'Paises'
 				var $paisHTML = Drupal.theme('paisSelectList', paisRegionsObj);
-				$(this).html($paisHTML);
+				$( 'select[id="edit-pais"]', this ).replaceWith($paisHTML);
 
-				// WARNING: HARD-CORE!!
 				// Create HTML for 'Regions'
-				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, "España");
-				$(this).append($regHTML);
-				Drupal.theme.prototype.selectPaisRegion("España", "Madrid");
+				// var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, currentPais);
+				// $( 'select[id="edit-region"]', this ).replaceWith($regHTML);
 
-				$(this).show();
+				Drupal.theme.prototype.selectPaisRegion(currentPais, currentRegion);
+				
 			});
-
 			// Event: Create regions when pais changes
-			$( "#sel-pais" ).change( function() {
-				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, $( "#sel-pais option:selected" ).text());
-				$('#sel-regions').replaceWith($regHTML);
-			});
+			$( '#block-views-exp-sedes-block-regiones select[id="edit-pais"]' ).change( function() {
+				var $regHTML = Drupal.theme('regionesSelectList', paisRegionsObj, $( "#edit-pais option:selected" ).text());
+				$('#edit-region').replaceWith($regHTML);
+			});			
+// $( '#block-views-exp-sedes-block-regiones form' ).submit(function( event ) {
+//   alert( "Handler for .submit() called." );
+// console.log(event);
+//   event.preventDefault();
+// });
 
-			// Add new class for regions
+			/* Add clasess in multiple elements */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
 				$('img', this).each( function() {
 					$(this).addClass('imgcateg');
@@ -410,6 +479,8 @@
 					$(this).addClass('imgeco');
 				})
 			});
+
+			/* Printing 'sedes' within 'Directorio Verde' */
 
 			// Add num. sedes within sub-categories
 			$('.view-ver-tax', context).once('despierta', function () {
@@ -468,22 +539,8 @@
 			});
 
 
-			// // Create Busqueda Panel
-			// $('.view-id-frontpage_busqueda', context).once('despierta', function () {
+			/* Search panel / Sedes in the frontpage */
 
-			// 	// Extract simple search
-			// 	var simHTML = $( '#block-views-exp-sedes2-busq-simple' ).html();
-			// 	$( '#block-views-exp-sedes2-busq-simple' ).remove();
-
-			// 	// Extract advanced search
-			// 	var avaHTML = $( '#block-views-exp-sedes2-busq-avan' ).html();
-			// 	$( '#block-views-exp-sedes2-busq-avan' ).remove();
-
-			// 	// Create HTML for 'Regions'
-			// 	var $tabHTML = Drupal.theme('busquedaTabPanel', simHTML, avaHTML);
-			// 	$( '.view-content', this).append($tabHTML);
-
-			// });
 			// Create Busqueda Panel
 			$('#block-views-frontpage-desc-busq-block', context).once('despierta', function () {
 
@@ -491,7 +548,7 @@
 				var simHTML = $( '#block-views-exp-sedes2-busq-simple' ).html();
 				$( '#block-views-exp-sedes2-busq-simple' ).remove();
 
-				// Extract advanced search
+				// Create Advanced search from Tax View
 				var avaHTML = $( '#block-views-exp-sedes2-busq-avan' ).html();
 				$( '#block-views-exp-sedes2-busq-avan' ).remove();
 
@@ -505,19 +562,20 @@
 				$(this).addClass('form-control');
 				$(this).attr('placeholder', '¿Qué buscas?');
 			});
-			$('form[id^="views-exposed-form-sedes2"] select#edit-regiones').each( function() {
+			$('form[id^="views-exposed-form-sedes2"] select#edit-regioniones').each( function() {
 				$(this).addClass('form-control');
 			});
-			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regiones"]' ).remove();
+			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regioniones"]' ).remove();
 			$('form[id^="views-exposed-form-sedes2"] input#edit-submit-sedes2').each( function() {
 				$(this).addClass('btn btn-success');
 			});
-
 			// Active Busqueda tabs
 			$('#tabBusq').delegate('ul a', 'click', function(e) {
 				e.preventDefault();
 				$(this).tab('show');
 			});
+
+
 
 
 		}
