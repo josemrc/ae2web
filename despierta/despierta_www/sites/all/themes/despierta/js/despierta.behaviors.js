@@ -3,10 +3,11 @@
    * Global vars
    */
   var allPaisRegionsObj = {};
-  if (localStorage['pais'] == "Todos los paises") { localStorage['pais'] = "" }
   if (localStorage['region'] == "Todas las regiones") { localStorage['region'] = "" }
-  if (localStorage['pais'] === undefined || localStorage['pais'] == "") { localStorage['pais'] = "España" }
-  if (localStorage['region'] === undefined || localStorage['region'] == "") { localStorage['region'] = "Madrid" }
+  // if (localStorage['pais'] === undefined || localStorage['pais'] == "") { localStorage['pais'] = "España" }
+  // if (localStorage['region'] === undefined || localStorage['region'] == "") { localStorage['region'] = "Madrid" }
+
+  var htmlNoResults = '<section class="resultados col-lg-9 col-md-12 col-xs-12"><div class="alert alert-info" role="alert">No hay resultados para ésta búsqueda</div><nav><ul class="pagination"></ul></nav></section>';
 
   /**
    * The recommended way for producing HTML markup through JavaScript is to write
@@ -73,7 +74,6 @@
 	// Create HTML select option
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
 		var selHTML = '<select id="sel-pais">';
-		selHTML += '<option value="">Todos los paises</option>';
 		for (var pname in paisRegions) {
 			var pais = paisRegions[pname];
 			var disabled = ( pais.enable === "false" ) ? "disabled" : "";
@@ -86,7 +86,7 @@
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, pais) {
 		var selHTML = '<select id="sel-regions">';		
 		selHTML += '<option value="">Todas las regiones</option>';
-		if ( pais !== "Todos los paises" ) {
+		if ( pais !== "" ) {
 			for (var idx in paisRegions[pais].regions)  {
 				var region = paisRegions[pais].regions[idx];
 				var disabled = ( region.enable === "false" ) ? "disabled" : "";
@@ -99,10 +99,10 @@
 	// Select: Specific Pais - Region (for Geolocation)
 	// Eg, Drupal.theme.prototype.selectPaisRegion("Honduras", "Napo");
 	Drupal.theme.prototype.selectPaisRegion = function (pais, region) {
-		if (typeof pais !== 'undefined' || pais !== null) {
+		if ( pais !== undefined || pais !== null || pais !== "" ) {
 			$('select[id="sel-pais"] > option[value="'+pais+'"]').prop('selected', true);
 		}
-		if (typeof region !== 'undefined' || region !== null) {
+		if ( region !== undefined || region !== null || region !== "" ) {
 			$('select[id="sel-regions"] > option[value="'+region+'"]').prop('selected', true);
 		}
 	}; 
@@ -354,8 +354,8 @@
 // 			</div>
 // 		</div>-->
 
-
-		return $( sedHTML );
+		sedHTML = '<div class="view-content">'+sedHTML+'</div>';
+		return sedHTML;
 	};	
 
 
@@ -436,11 +436,16 @@
 					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(localStorage['region']);
 					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]').change();					
 				}
-				// 'sedes category'
-				else if ( $( 'div[id="block-views-sedes-block-cat"]' ).length ) {
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(localStorage['pais']);
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();					
-				}				
+				// // 'sedes category'
+				// else if ( $( 'div[id="block-views-sedes-block-cat"]' ).length ) {
+				// 	$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(localStorage['pais']);
+				// 	$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();					
+				// }
+				// // 'sedes sub-category'
+				// else if ( $( 'div[id="block-views-sedes-block-subcat"]' ).length ) {
+				// 	$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).val(localStorage['pais']);
+				// 	$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]').change();					
+				// }
 
 			});
 			// Event: Create regions when pais changes
@@ -521,69 +526,54 @@
 
 			/* Printing 'sedes' within 'Directorio Verde' */
 
-			// // Add num. sedes within sub-categories
-			// $('.view-ver-tax', context).once('despierta', function () {
-				
-			// 	// Print new sedes view
-			// 	var sedesObj = Drupal.theme.prototype.sedesObj($('.view-id-sedes', context));
-
-			// 	// Change css category
-			// 	var cat = $( 'h3', this ).text();
-			// 	$( 'h3', this ).replaceWith('<p><span>' + cat + '</span></p>');
-
-			// 	// Extract num. sub-categories
-			// 	var subcats = Drupal.theme.prototype.getNumSubCategories(sedesObj, cat);
-
-			// 	// Add num sedes for each subcategory
-			// 	$('a', this).map( function () {
-			// 		var val = $(this).text();
-			// 		val = val.replace(/^\s*/g,'');
-			// 		val = val.replace(/\s*$/g,'');
-			// 		var num = 0;
-			// 		if ( subcats[val] !== undefined ) { num = subcats[val] }
-			// 		$ ( this ).append( " ("+num+")" );
-			// 	});
-			// });
-
 			// Print new sedes view (Once)
-			$('div[id="block-views-sedes-block-cat"] .view-id-sedes .view-content').once("DOMNodeRemovedFromDocument",function(){
-console.log("NO SEDES");
-			});
-			$('div[id="block-views-sedes-block-subcat"] .view-id-sedes .view-content, div[id="block-views-sedes-block-cat"] .view-id-sedes .view-content').once("DOMSubtreeModified",function(){
-console.log("SEDES CHANGE");
+			$('div[id="block-views-sedes-block-cat"] .view-id-sedes, div[id="block-views-sedes-block-subcat"] .view-id-sedes').once("DOMSubtreeModified",function(){
 				$(this).hide();
+				var subcats = {};
+				var sedeHTML = "";
+				if ( $('.view-content', this).length ) {
+					// Create Object: Sedes
+					var sedesObj = Drupal.theme.prototype.sedesObj($('.view-content', this));
 
-				// Create Object: Sedes
-				var sedesObj = Drupal.theme.prototype.sedesObj(this);
+					// Add num. sedes within sub-categories
+					var cat = "";
+					if ( $('.view-ver-tax h3').length ) {
+						cat = $( '.view-ver-tax h3' ).text();
+						$( '.view-ver-tax h3' ).replaceWith('<p><span class="cat-title">' + cat + '</span></p>');					
+					}
+					else if ( $('.view-ver-tax span.cat-title').length ) {
+						cat = $( '.view-ver-tax span.cat-title' ).text();
+					}
+					// Extract num. sub-categories
+					subcats = Drupal.theme.prototype.getNumSubCategories(sedesObj, cat);
 
-				// Add num. sedes within sub-categories
-				var cat = "";
-				if ( $('.view-ver-tax h3').length ) {
-					cat = $( '.view-ver-tax h3' ).text();
-					$( '.view-ver-tax h3' ).replaceWith('<p><span class="cat-title">' + cat + '</span></p>');					
+					// Create HTML
+					var sedeHTML = Drupal.theme('sedeArticle', sedesObj);
+					$('.view-content', this).remove();
+
 				}
-				else if ( $('.view-ver-tax span.cat-title').length ) {
-					cat = $( '.view-ver-tax span.cat-title' ).text();
+				// NO RESULTS
+				else {
+					$('.view-filters', this).addClass('element-invisible');
+					sedeHTML = '<div class="view-content">' + htmlNoResults + '</div>';
 				}
-				// Extract num. sub-categories
-				var subcats = Drupal.theme.prototype.getNumSubCategories(sedesObj, cat);
+				// Print sedes list
+				$(this).append( $(sedeHTML) );
+				
+				// Print num. sub-cagtegories
 				$('.view-ver-tax a').map( function () {
 					var val = $(this).text();
 					val = val.replace(/^\s*/g,'');
 					val = val.replace(/\s*$/g,'');
 					val = val.replace(/\s*\(\d*\)\s*$/g,'');
 					var num = 0;
-					if ( subcats[val] !== undefined ) { num = subcats[val] }
+					if ( !jQuery.isEmptyObject(subcats) && subcats[val] !== undefined ) { num = subcats[val] }
 					$(this).contents().last().remove();
 					$ ( this ).append( val+" ("+num+")" );
 				});
 
-				// Create HTML
-				var $sedeHTML = Drupal.theme('sedeArticle', sedesObj);
-				$(this).html($sedeHTML);
-
 	 			// Event Click: sedes more info
-				$( this ).on( 'click', '.resultados .info.url', function() {
+				$('.view-content', this).on( 'click', '.resultados .info.url', function() {
 					if ( $('img',this).hasClass('more_info') ) { // change to down (-> hide)
 						$('img',this).removeClass('more_info');
 						$('img', this).rotate({ animateTo:0});
@@ -602,7 +592,6 @@ console.log("SEDES CHANGE");
 
 				$(this).show();
 			});
-
 
 			/* Search panel / Sedes in the frontpage */
 

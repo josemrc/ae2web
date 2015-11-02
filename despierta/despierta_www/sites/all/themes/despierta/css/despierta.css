@@ -188,7 +188,8 @@ a {
   background-color: #D7E7EA;
   border: 1px solid #AED6E2;
 }
-.resultados .promo div.subrayado {
+.resultados .promo .subrayado {
+  clear: both;
   border-bottom: 1px solid #AED6E2;
   margin-top: 10px;
 }
@@ -235,7 +236,8 @@ a {
 .resultados .media-bod p.ult {
   margin-bottom: 0;
 }
-.resultados div.subrayado {
+.resultados .subrayado {
+  clear: both;
   border-bottom: 1px solid #afdc99;
 }
 .resultados .sede {
@@ -248,6 +250,7 @@ a {
   top: -1px;
 }
 .resultados .masinfo {
+  clear: both;
   display: none;
   height: auto;
 }
