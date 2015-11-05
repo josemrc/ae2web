@@ -160,12 +160,6 @@
 
   </div></div> <!-- /.section, /#header -->
 
-  <?php if ($messages): ?>
-    <div id="messages"><div class="section clearfix">
-      <?php print $messages; ?>
-    </div></div> <!-- /.section, /#messages -->
-  <?php endif; ?>
-
   <?php if ($page['featured']): ?>
     <div id="featured"><div class="section clearfix">
       <?php print render($page['featured']); ?>
@@ -184,6 +178,12 @@
       </div></div> <!-- /.section, /#sidebar-first -->
     <?php endif; ?>
 
+  <?php if ($messages): ?>
+    <div id="messages"><div class="section clearfix">
+      <?php print $messages; ?>
+    </div></div> <!-- /.section, /#messages -->
+  <?php endif; ?>
+  
     <div id="content" class="column"><div class="section">
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>

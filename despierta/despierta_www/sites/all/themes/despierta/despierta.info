@@ -36,6 +36,8 @@ stylesheets[print][] = css/print.css
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap/bootstrap.min.js
 ;scripts[] = js/jquery-ui-1.11.4/jquery-ui.min.js
+scripts[] = js/bootstrap/bootstrap-responsive-tabs.js
+scripts[] = js/bootstrap/responsive-tabs.js
 
 scripts[] = js/despierta.behaviors.js
 

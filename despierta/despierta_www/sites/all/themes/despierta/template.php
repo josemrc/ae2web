@@ -264,15 +264,15 @@ function despierta_preprocess_image(&$variables) {
  *
  */
 function despierta_preprocess_user_login(&$vars) {
-  // $vars['intro_text'] = t('Acceso de usuarios');
+  $vars['intro_text'] = t('Acceso de usuarios');
 }
 
 function despierta_preprocess_user_register_form(&$vars) {
-  // $vars['intro_text'] = t('Registro para anunciantes');
+  $vars['intro_text'] = t('Registro para anunciantes');
 }
 
 function despierta_preprocess_user_pass(&$vars) {
-  // $vars['intro_text'] = t('Recuperación de cuenta');
+  $vars['intro_text'] = t('Recuperación de cuenta');
 }
 
 // function despierta_form_search_block_form_alter(&$form, &$form_state, $form_id) {
