@@ -220,6 +220,10 @@ p.pasos {
 #block-views-sedes-block-cat {
   display: none;
 }
+.resultados {
+  padding: 0;
+  margin: 0;
+}
 .resultados .media {
   background-color: #e8f6e3;
   padding: 15px;

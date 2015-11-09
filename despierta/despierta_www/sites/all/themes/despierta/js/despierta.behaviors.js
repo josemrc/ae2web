@@ -7,7 +7,7 @@
 	// if (localStorage['pais'] === undefined || localStorage['pais'] == "") { localStorage['pais'] = "España" }
 	// if (localStorage['region'] === undefined || localStorage['region'] == "") { localStorage['region'] = "Madrid" }
 
-	var htmlNoResults = '<section class="resultados col-lg-9 col-md-12 col-xs-12"><div class="alert alert-info" role="alert">No hay resultados para ésta búsqueda</div><nav><ul class="pagination"></ul></nav></section>';
+	var htmlNoResults = '<section class="resultados col-lg-6 col-md-10 col-xs-10"><div class="alert alert-info" role="alert">No hay resultados para ésta búsqueda</div><nav><ul class="pagination"></ul></nav></section>';
 
   /**
    *
@@ -307,12 +307,12 @@
 
 	// Create HTML: article
 	Drupal.theme.prototype.sedeArticle = function (sedesObj) {
-		var sedHTML = '<section class="resultados col-lg-9 col-md-12 col-xs-12">';
+		var sedHTML = '<section class="col-lg-7 col-md-7 col-sm-7 col-xs-12 resultados">';
 		for ( var nid in sedesObj ) {
 			var sedeObj = sedesObj[nid];
 			sedHTML += '<article class="media ">';
 
-			sedHTML += '<div class="logoempresa col-lg-2 col-md-3 col-sm-3 col-xs-4">';
+			sedHTML += '<div class="logoempresa col-lg-2 col-md-3 col-sm-3 col-xs-3">';
 			sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
 			sedHTML += '</div>';
 
@@ -421,11 +421,11 @@
 		for (var i=0; i<tabList.length; i++) {
 			var tab = tabList[i];
 			var active = (i == 0)? 'active': '';
-			labels += '<li role="presentation" class="'+active+' js-tab"><a href="#'+tab.id+'" aria-controls="'+tab.id+'" role="tab" data-toggle="tab">'+tab.label+'</a></li>';
+			labels += '<li role="presentation" class="'+active+' "><a href="#'+tab.id+'" aria-controls="'+tab.id+'" role="tab" data-toggle="tab">'+tab.label+'</a></li>';
 			contents += '<div role="tabpanel" class="tab-pane '+active+'" id="'+tab.id+'">' + tab.cont + '</div>';
 		}
-		var tabHTML = '<ul class="nav nav-tabs responsive js-example responsive-tabs" role="tablist">'+labels+'</ul>';
-		tabHTML += '<div class="tab-content responsive">'+contents+'</div>';
+		var tabHTML = '<ul class="nav nav-tabs" role="tablist">'+labels+'</ul>';
+		tabHTML += '<div class="tab-content">'+contents+'</div>';
 		return '<div class="tab-despierta">'+tabHTML+'</div>';;
 	};
 
@@ -672,8 +672,8 @@
 					//subcats = Drupal.theme.prototype.getNumSubCategories(sedesGroups, cat);
 
 					// Create HTML
-					//var sedeHTML = Drupal.theme('sedeArticle', sedesObj);
 					var sedeHTML = Drupal.theme('tabSedes', sedesGroups);
+					//sedeHTML = 	'<div id="tabBusq" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + sedeHTML + '</div>';
 					$('.view-content', this).remove();
 
 				}
