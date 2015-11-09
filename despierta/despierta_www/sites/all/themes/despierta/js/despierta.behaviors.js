@@ -644,19 +644,16 @@
 			});	
 
 			
-
-
 			/* Printing 'sedes' of 'Regiones' and 'Categories' (and 'Subcategories') */
 			// Print new sedes view (Once)
-			$(
-			  'div[id="block-views-sedes-block-regiones"] .view-id-sedes, '+
-			  'div[id="block-views-sedes-block-cat"] .view-id-sedes, '+
-			  'div[id="block-views-sedes-block-subcat"] .view-id-sedes,'+
-			  'div[id="block-views-exp-sedes2-busq-avan"] .view-id-sedes2'
-			  ).once("DOMSubtreeModified",function(){
+			$(	'div[id="block-views-sedes-block-regiones"] .view-id-sedes, '+
+				'div[id="block-views-sedes-block-cat"] .view-id-sedes, '+
+			  	'div[id="block-views-sedes-block-subcat"] .view-id-sedes,'+
+			  	'.view-id-sedes2'
+			).once("DOMSubtreeModified",function(){
 				var subcats = {};
 				var sedeHTML = "";
-console.log("entra");
+
 				if ( $('.view-content', this).length ) {
 					// Create Object: Sedes
 					// var sedesObj = Drupal.theme.prototype.sedesObj($('.view-content', this));
@@ -722,6 +719,41 @@ console.log("entra");
 				$('div[id="block-views-sedes-block-cat"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-subcat"]').css('display', 'block');
 			});
+
+			/* Contact form */
+			$('form[id="contact-site-form"]', context).once('despierta', function () {
+				$('input:not(.form-submit)', this).addClass("form-control");
+				$('select', this).addClass("form-control");
+				$('textarea', this).addClass("form-control");
+
+				$('label[for="edit-name"]', this).contents().first()[0].textContent = "Nombre ";
+				$('input[id="edit-name"]', this).attr('placeholder','Introduce el nombre');
+				$('label[for="edit-mail"]', this).contents().first()[0].textContent = "Correo electrónico ";
+				$('input[id="edit-mail"]', this).attr('placeholder','Introduce el e-mail');
+				$('div[class*="form-item-subject"]', this).remove();
+				$('textarea[id="edit-message"]', this).attr('placeholder','Teclea su comentario');
+				$('textarea[id="edit-message"]', this).css('resize', 'none');
+				$('label[for="edit-cid"]', this).contents().first()[0].textContent = "Motivo de la notificación ";
+				$('input[id="edit-submit"]', this).attr('value','Enviar');
+				$('input.form-submit', this).addClass("btn btn-success pull-left");
+				
+
+				var contHTML = '<div class="form-horizontal col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+				contHTML += '</div>';
+
+			});			
+			
+// 
+// 		<div class="form-group text-left ">
+// 			<label class="col-xs-3 control-label" for="nombre">Nombre</label>
+// 			<div class="col-xs-9">
+
+
+// <div class="form-horizontal col-lg-6 col-md-6 col-sm-6 col-xs-12 conimagen">
+// 		<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-6">
+// 			<p class="col-sm-offset-3 col-sm-9 control-label">Motivo de la notificación</p>
+// 			<div class="form-group">
+
 			
 			/* Login form page */			
 			$('form[id="user-login"]', context).once('despierta', function () {
