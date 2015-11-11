@@ -474,7 +474,7 @@
 
 				// Create HTML for 'Regions'
 				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, localStorage['pais']);
-				$( '#header .region .sel-pais' ).append($regHTML);
+				$( '#header .region > div:nth-child(1)' ).after($regHTML);
 
 				// Delete
 				$('div[id="block-views-tax-regiones-block"]').remove();

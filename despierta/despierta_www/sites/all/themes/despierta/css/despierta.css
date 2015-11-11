@@ -12,7 +12,6 @@ body {
 .vocabulary-directorio-verde {
   font-size: 16px;
 }
-
 /* ---------- Color Module Styles ----------- */
 body {
   color: #707173;
@@ -32,8 +31,19 @@ p.pasos {
   font-weight: bold;
   color: #92b737;
 }
-/* --------------- Main Menu ------------ */
+/* --------------- Overall wrappers ------------ */
+.sede-fieldset > .fieldset-wrapper {
+  display: flex;
+}
 
+#block-system-user-menu a {
+  background-color: #f5f5f5;
+  color: #418389  
+}
+/*
+ * HEADER BLOCK
+ */
+/* --------------- Main Menu ------------ */
 #main-menu {
   clear: both;
   float: right !important;
@@ -56,35 +66,92 @@ p.pasos {
   color:#ffffff;
   border-radius: 5px;
 }
-
-/* --------------- Overall wrappers ------------ */
-
-.sede-fieldset > .fieldset-wrapper {
-	display: flex;
+#sidr-wrapper-0 {
+  position: absolute;
+  top: 0;
+  left: 0;  
+  float: left;
+  display: inline-block;
+  margin-right: 20px;
 }
-
-#block-system-user-menu a {
-  background-color: #f5f5f5;
-  color: #418389	
+.mi-navbar-toggle {
+    background-color: rgba(171, 188, 118, 1);
+    background-image: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 0px;
+    padding: 9px 10px;
 }
-
-/* --------------- Pais / Regions View ------------ */
-
-#sel-pais > select {
-	width: 153px;
+.mi-navbar-toggle {
+    border-color: #DDDDDD;
+    margin-top: 0;
 }
-#sel-regions > select {
-	width: 153px;
+.mi-navbar-toggle .icon-bar {
+    background-color: #888888;
 }
-
+.mi-navbar-toggle .icon-bar {
+    background-color: #ffffff;
+    border-radius: 1px;
+    display: block;
+    height: 3px;
+    width: 25px;
+}
+.mi-navbar-toggle .icon-bar + .icon-bar {
+    margin-top: 10px;
+}
+.mi-navbar-toggle:hover, .mi-navbar-toggle:focus {
+    background-color: #DDD;
+}
 /* --------------- Logo View ------------ */
 #logo img {
-  display: inline;
+  display: inline-block;
+  margin-left: 30px;
+}
+/* --------------- Pais / Regions View ------------ */
+
+select#sel-pais,
+select#sel-regions {
+	width: 153px;
 }
 
+/* --------------- Wellcome View ------------ */
 .block-welcome-username {
   margin-top: 5px;
 }
+/* --------------- Header Panel Responsive ------------ */
+@media (max-width: 625px) {
+  .mi-navbar-toggle .icon-bar {
+    width: 20px;
+  }  
+  #logo img {
+    width: 50%;
+  }
+}
+@media (max-width: 517px) {
+  .mi-navbar-toggle .icon-bar {
+    width: 17px;
+  }  
+  #logo img {
+    width: 50%;
+  }
+  select#sel-pais,
+  select#sel-regions {
+    width: 130px;
+  }
+  .block-welcome-username {
+    font-size: 12px;
+    margin-top: 0;
+  }  
+}
+@media (max-width: 460px) {
+  #logo img {
+    width: 45%;
+  }
+  select#sel-pais,
+  select#sel-regions {
+    width: 110px;
+  }
+}
+
 
 /* --------------- Login/Register View ------------ */
 #user-register-form .spot {

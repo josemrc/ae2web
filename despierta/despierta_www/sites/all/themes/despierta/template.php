@@ -283,6 +283,15 @@ function despierta_preprocess_user_pass(&$vars) {
   $vars['intro_text'] = t('Recuperación de cuenta');
 }
 
+/**
+ * Implements hook_responsive_menus_styles_alter().
+ */
+function despierta_responsive_menus_styles_alter(&$styles) {
+  // Use Sidr's 'light' theme instead of 'dark'
+  $styles['sidr']['css_files'] = array(libraries_get_path('sidr') . '/stylesheets/jquery.sidr.light.css');
+}
+
+
 // function despierta_form_search_block_form_alter(&$form, &$form_state, $form_id) {
 //     $form['search_block_form']['#title'] = t('New Search'); // Change the text on the label element
 //     $form['search_block_form']['#title_display'] = 'invisible'; // Toggle label visibilty
