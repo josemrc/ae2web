@@ -1,0 +1,60 @@
+
+/* REQUIRED for core functionality */
+
+.responsive-tabs__heading { display: none;}
+.responsive-tabs__list__item { display: inline; cursor:pointer;}
+
+
+@media (max-width: 767px) {
+	.responsive-tabs__list { display: none;}
+	.responsive-tabs__heading { display: block; cursor: pointer; }
+	.responsive-tabs__panel--closed-accordion-only { display: none;}
+}
+
+@media (min-width: 768px) {
+	.responsive-tabs__panel--closed-accordion-only { display: block !important;}
+}
+
+/* END - Required for core functionality */
+
+
+/* OPTIONAL - Basic Skin */
+
+.responsive-tabs-wrapper { 
+	clear: both;
+	zoom: 1; 
+}
+.responsive-tabs-wrapper:before,
+.responsive-tabs-wrapper:after {
+    content: "";
+    display: table;
+} 
+.responsive-tabs-wrapper:after {
+    clear: both;
+}
+
+@media (max-width: 767px) {
+	.responsive-tabs__heading { 
+		padding: 0.4em;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        boix-shadow: 0px 2px 3px rgba(0,0,0,0.2);
+		background: #ddd;
+		position: relative;
+	}
+
+	.responsive-tabs__heading i {
+     -webkit-transition: all 0.3s ease-in;
+             transition: all 0.3s ease-in;
+    }
+	.responsive-tabs__heading--active i {
+    -webkit-transform:rotate(90deg);
+       -moz-transform:rotate(90deg);
+         -o-transform:rotate(90deg);
+  /* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1); */
+        -ms-transform:rotate(90deg); 
+            transform:rotate(90deg); 
+	 }
+}
+
+/* END - Optional - Basic Skin */

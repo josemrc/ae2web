@@ -9,6 +9,55 @@
 
 	var htmlNoResults = '<section class="resultados col-lg-6 col-md-10 col-xs-10"><div class="alert alert-info" role="alert">No hay resultados para ésta búsqueda</div><nav><ul class="pagination"></ul></nav></section>';
 
+// var myApp;
+// myApp = myApp || (function () {
+//     var pleaseWaitDiv = $('<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div></div>');
+//     return {
+//         showPleaseWait: function() {
+//             pleaseWaitDiv.modal();
+//         },
+//         hidePleaseWait: function () {
+//             pleaseWaitDiv.modal('hide');
+//         },
+
+//     };
+// })();
+
+// 	function waitingDialog(waiting) { // I choose to allow my loading screen dialog to be customizable, you don't have to
+// 	    $("#loadingScreen").html( waiting.message &amp;&amp; '' != waiting.message ? waiting.message : 'Please wait...');
+// 	    $("#loadingScreen").dialog('option', 'title', waiting.title &amp;&amp; '' != waiting.title ? waiting.title : 'Loading');
+// 	    $("#loadingScreen").dialog('open');
+// 	}
+// 	function closeWaitingDialog() {
+// 	    $("#loadingScreen").dialog('close');
+// 	}
+
+// 	waitingDialog({title: "Hi", message: "I'm loading..."});
+
+
+// $(document).ready(function() {
+//     // create the loading window and set autoOpen to false
+//     $("#loadingScreen").dialog({
+//         autoOpen: false,    // set this to false so we can manually open it
+//         dialogClass: "loadingScreenWindow",
+//         closeOnEscape: false,
+//         draggable: false,
+//         width: 460,
+//         minHeight: 50,
+//         modal: true,
+//         buttons: {},
+//         resizable: false,
+//         open: function() {
+//             // scrollbar fix for IE
+//             $('body').css('overflow','hidden');
+//         },
+//         close: function() {
+//             // reset overflow
+//             $('body').css('overflow','auto');
+//         }
+//     }); // end of dialog
+// });
+
   /**
    *
    * Global functions.
@@ -27,7 +76,7 @@
 		return vars;
 	}
 	$(window).load(function() {
-
+// myApp.showPleaseWait();		
 		var urlVars = getUrlVars();
 		if ( urlVars['q'] == "legal" ) {
 			// change title
@@ -292,16 +341,19 @@
 	// Create HTML: tab List
 	Drupal.theme.prototype.tabSedes = function (sedesObj) {
 		var tabList = [];
-		for (var key in sedesObj) {
+		var keys = Object.keys(sedesObj).sort();
+		for (var i=0; i < keys.length; i++ ) {
+			var key = keys[i];
 			var sedeObj = sedesObj[key];
-			key = key.replace(/^[^\:]*\:\s*/g,'');
+			var label = key.replace(/^[^\:]*\:\s*/g,'');
+			var id = label.replace(/\s/g,'_');
 			tabList.push({
-				'id': key,
-				'label': key,
+				'id': id,
+				'label': label,
 				'cont': Drupal.theme('sedeArticle', sedeObj)
 			});
 		}
-		var tabHTML = Drupal.theme('createTabPanel', tabList);
+		var tabHTML = Drupal.theme('createTabPanel', tabList, "tabSedes");
 		return tabHTML;
 	};
 
@@ -415,7 +467,8 @@
    * 
    */
 	// Create HTML tab (jQuery)
-	Drupal.theme.prototype.createTabPanel = function (tabList) {
+	Drupal.theme.prototype.createTabPanel = function (tabList, id) {
+		var tabid = "";
 		var labels = "";
 		var contents = "";
 		for (var i=0; i<tabList.length; i++) {
@@ -424,7 +477,10 @@
 			labels += '<li role="presentation" class="'+active+' "><a href="#'+tab.id+'" aria-controls="'+tab.id+'" role="tab" data-toggle="tab">'+tab.label+'</a></li>';
 			contents += '<div role="tabpanel" class="tab-pane '+active+'" id="'+tab.id+'">' + tab.cont + '</div>';
 		}
-		var tabHTML = '<ul class="nav nav-tabs" role="tablist">'+labels+'</ul>';
+		if ( id !== undefined || id != "" ) {
+			tabid = 'id='+id;
+		}
+		var tabHTML = '<ul '+tabid+' class="nav nav-tabs" role="tablist">'+labels+'</ul>';
 		tabHTML += '<div class="tab-content">'+contents+'</div>';
 		return '<div class="tab-despierta">'+tabHTML+'</div>';;
 	};
@@ -499,61 +555,8 @@
 				}
 
 			});
-			// Event: Create regions when pais changes
-			$( '#header select[id="sel-pais"]' ).change( function(event) {
-				// Display none 'sede' list
-				$('div[id="block-views-sedes-block-cat"]').css('display', 'none');
-				$('div[id="block-views-sedes-block-subcat"]').css('display', 'none');
-
-				var pais = $( 'option:selected', this ).text();
-				var region = "";
-				if ( pais == "Todos los paises" ) { pais = "" }	
-				localStorage['pais'] = pais;
-				localStorage['region'] = region;
-				
-				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pais);
-				$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);
-
-				// If we are in frontapge  page => Select given 'pais'
-				if ( $( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(region);
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).val(pais);
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).change();
-				}
-				// If we are in categories of 'directorio-verde' page => Select given 'pais'
-				else if ( $( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(pais);
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).change();
-				}
-				// If we are in sub-categories of 'directorio-verde' page => Select given 'pais'
-				else if ( $( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).val(pais);
-					$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).change();
-				}
-			});
-			$( '#header select[id="sel-regions"]' ).change( function(event) {
-				var region = $( 'option:selected', this ).text();
-				if ( region == "Todas las regiones" ) { region = "" }
-				localStorage['region'] = region;
-				// If we are in frontapge  page => Select given 'pais'
-				if ( $( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(region);
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).change();
-				}
-				// If we are in categories of 'directorio-verde' page => Select given 'pais'
-				else if ( $( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).val(region);
-					$( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).change();
-				}
-			});
 
 			/* Search panel / Sedes in the frontpage */
-
 			// Create Busqueda Panel
 			$('#block-views-frontpage-desc-busq-block', context).once('despierta', function () {
 
@@ -579,19 +582,6 @@
 				$( '.view-content', this).append($('<div id="tabBusq" class="col-lg-8 col-md-8 col-sm-7 col-xs-12">' + tabHTML + '</div>'));
 
 			});
-
-			// Active Busqueda tabs
-			$('#tabBusq').delegate('ul a', 'click', function(e) {
-				e.preventDefault();
-				$(this).tab('show');
-			});
-			// fakewaffle.responsiveTabs(['xs', 'sm']);
-		    // $('.js-example').bootstrapResponsiveTabs({
-		    //   minTabWidth: 80,
-		    //   maxTabWidth: 150
-		    // });
-
-
 			// Modify fields of Busqueda Panels
 			$('form[id^="views-exposed-form-sedes2"] input').each( function() {
 				$(this).addClass('form-control');
@@ -615,7 +605,6 @@
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-t-ven"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-pais"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-reg"]' ).remove();
-
 			// Create panels
 			$('form[id^="views-exposed-form-sedes2-busq-avan"] .views-exposed-form', context).once('despierta', function () {
 				var avanHTML = '';
@@ -639,10 +628,9 @@
 				avanHTML += '<div class="pull-left col-xs-12">'+
 								$( '.views-submit-button', this ).html()+
 							'</div>';
-				$( this ).append(avanHTML);
-				$( '.views-exposed-widget', this ).remove();
+				$( '.views-exposed-widgets', this ).empty();
+				$( '.views-exposed-widgets', this ).html(avanHTML);
 			});	
-
 			
 			/* Printing 'sedes' of 'Regiones' and 'Categories' (and 'Subcategories') */
 			// Print new sedes view (Once)
@@ -719,7 +707,6 @@
 				$('div[id="block-views-sedes-block-cat"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-subcat"]').css('display', 'block');
 			});
-
 			/* Contact form */
 			$('form[id="contact-site-form"]', context).once('despierta', function () {
 				$('input:not(.form-submit)', this).addClass("form-control");
@@ -742,19 +729,6 @@
 				contHTML += '</div>';
 
 			});			
-			
-// 
-// 		<div class="form-group text-left ">
-// 			<label class="col-xs-3 control-label" for="nombre">Nombre</label>
-// 			<div class="col-xs-9">
-
-
-// <div class="form-horizontal col-lg-6 col-md-6 col-sm-6 col-xs-12 conimagen">
-// 		<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-6">
-// 			<p class="col-sm-offset-3 col-sm-9 control-label">Motivo de la notificación</p>
-// 			<div class="form-group">
-
-			
 			/* Login form page */			
 			$('form[id="user-login"]', context).once('despierta', function () {
 				$('input:not(.form-submit)', this).addClass("form-control");
@@ -781,8 +755,7 @@
 
 			});
 
-
-			/* Add clasess in multiple elements */
+			/* Add clasess for multiple elements */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
 				$('img', this).each( function() {
 					$(this).addClass('imgcateg');
@@ -807,6 +780,78 @@
 			});
 			$('form[id="views-exposed-form-sedes-block-subcat"] div[id="edit-pais-wrapper"]', context).once('despierta', function () {
 				$(this).addClass('element-invisible');
+			});
+
+
+			/* Events */
+			// Event: Create regions when pais changes
+			$( '#header select[id="sel-pais"]' ).change( function(event) {
+				// Display none 'sede' list
+				$('div[id="block-views-sedes-block-cat"]').css('display', 'none');
+				$('div[id="block-views-sedes-block-subcat"]').css('display', 'none');
+
+				var pais = $( 'option:selected', this ).text();
+				var region = "";
+				if ( pais == "Todos los paises" ) { pais = "" }	
+				localStorage['pais'] = pais;
+				localStorage['region'] = region;
+				
+				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pais);
+				$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);
+
+				// If we are in frontapge  page => Select given 'pais'
+				if ( $( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).length ) {
+					event.stopPropagation();
+					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(region);
+					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).val(pais);
+					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-pais"]' ).change();
+				}
+				// If we are in categories of 'directorio-verde' page => Select given 'pais'
+				else if ( $( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).length ) {
+					event.stopPropagation();
+					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(pais);
+					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).change();
+				}
+				// If we are in sub-categories of 'directorio-verde' page => Select given 'pais'
+				else if ( $( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).length ) {
+					event.stopPropagation();
+					$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).val(pais);
+					$( 'form[id="views-exposed-form-sedes-block-subcat"] input[id="edit-pais"]' ).change();
+				}
+			});
+			$( '#header select[id="sel-regions"]' ).change( function(event) {
+				var region = $( 'option:selected', this ).text();
+				if ( region == "Todas las regiones" ) { region = "" }
+				localStorage['region'] = region;
+				// If we are in frontapge  page => Select given 'pais'
+				if ( $( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).length ) {
+					event.stopPropagation();
+					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(region);
+					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).change();
+				}
+				// If we are in categories of 'directorio-verde' page => Select given 'pais'
+				else if ( $( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).length ) {
+					event.stopPropagation();
+					$( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).val(region);
+					$( 'form[id="views-exposed-form-sedes-block"] input[id="edit-pais"]' ).change();
+				}
+			});
+			// Active Busqueda tabs
+			$('#tabBusq').delegate('ul a', 'click', function(e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+			// $(document).ready(function() {
+			//     $(".tabbable.responsive").resptabs(); 
+			// });
+			// fakewaffle.responsiveTabs(['xs', 'sm']);
+		    // $('.js-example').bootstrapResponsiveTabs({
+		    //   minTabWidth: 80,
+		    //   maxTabWidth: 150
+		    // });
+			$('#tabSedes').tabCollapse({
+			    tabsClass: 'hidden-sm hidden-xs',
+			    accordionClass: 'visible-sm visible-xs'
 			});
 
 		}

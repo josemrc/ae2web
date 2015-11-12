@@ -40,6 +40,10 @@ p.pasos {
   background-color: #f5f5f5;
   color: #418389  
 }
+#loadingScreen {
+    background: url(../images/loading.gif) no-repeat 5px 8px;
+    padding-left: 25px;
+}
 /*
  * HEADER BLOCK
  */
@@ -107,12 +111,10 @@ p.pasos {
   margin-left: 30px;
 }
 /* --------------- Pais / Regions View ------------ */
-
 select#sel-pais,
 select#sel-regions {
 	width: 153px;
 }
-
 /* --------------- Wellcome View ------------ */
 .block-welcome-username {
   margin-top: 5px;
@@ -152,17 +154,6 @@ select#sel-regions {
   }
 }
 
-
-/* --------------- Login/Register View ------------ */
-#user-register-form .spot {
-    color: #118FB2;
-    font-size: 20px;
-    background: none repeat scroll 0 0 #F5F5F5;
-    border-radius: 5px;
-    padding: 10px 0;
-    margin-top: 40px;
-}
-
 /* --------------- Frontpage: Eco/GeoEco View ------------ */
 .imgeco {
     margin-left: auto;
@@ -183,18 +174,18 @@ select#sel-regions {
   color: #78A02C;
   font-size: 45px;
   line-height: 50px;
-  margin-bottom: 50px;
   text-align: center;
 }
 #block-views-frontpage-desc-busq-block .view-display-id-busq_block {
-  margin: 0 auto 0 58px;
-  width: 92.5%;
+  margin: 0 auto 0 auto;
+  width: 100%;
   background: linear-gradient(#fff, #e8f6e3) repeat scroll 0 0 rgba(0, 0, 0, 0);
   padding-bottom: 10px;
 }
 #block-views-frontpage-desc-busq-block .view-display-id-busq_block img.img-responsive {
   position: relative;
   top:  25px;
+  margin-bottom: 30px;
 }
 .tab-despierta ul.nav.nav-tabs {
   border-bottom: 6px solid #6EBF46;
@@ -228,7 +219,6 @@ select#sel-regions {
   background-color: #449d44;
   border-color: #398439;
 }
-
 /* --------------- Busqueda Avanzada ------------ */
 
 #block-views-frontpage-desc-busq-block label,
@@ -243,7 +233,6 @@ select#sel-regions {
 #block-views-exp-sedes2-busq-simple .btn {
   margin: 0;
 }
-
 /* --------------- Banners View ------------ */
 .view-id-banners {
   font-size: 18px;
@@ -273,6 +262,16 @@ select#sel-regions {
   cursor: default;
 }
 
+/* --------------- Login/Register View ------------ */
+#user-register-form .spot {
+    color: #118FB2;
+    font-size: 20px;
+    background: none repeat scroll 0 0 #F5F5F5;
+    border-radius: 5px;
+    padding: 10px 0;
+    margin-top: 40px;
+}
+
 /* --------------- Panel Admnistracion: Sedes View ------------ */
 .encab {
   color: #52801A;
@@ -281,6 +280,11 @@ select#sel-regions {
   background-color: #96c147;
   color: #fff;
   text-align: center;
+}
+
+/* --------------- Tabs ------------ */
+.view-display-id-block_regiones .nav > li > a {
+  display: inline-flex;
 }
 
 /* --------------- Sedes View ------------ */
