@@ -9,99 +9,48 @@
 
 	var htmlNoResults = '<section class="resultados col-lg-6 col-md-10 col-xs-10"><div class="alert alert-info" role="alert">No hay resultados para ésta búsqueda</div><nav><ul class="pagination"></ul></nav></section>';
 
-// var myApp;
-// myApp = myApp || (function () {
-//     var pleaseWaitDiv = $('<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div></div>');
-//     return {
-//         showPleaseWait: function() {
-//             pleaseWaitDiv.modal();
-//         },
-//         hidePleaseWait: function () {
-//             pleaseWaitDiv.modal('hide');
-//         },
+ //  /**
+ //   *
+ //   * Global functions.
+ //   * 
+ //   */
 
-//     };
-// })();
+	// // Read a page's GET URL variables and return them as an associative array.
+	// function getUrlVars () {
+	// 	var vars = [], hash;
+	// 	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 
-// 	function waitingDialog(waiting) { // I choose to allow my loading screen dialog to be customizable, you don't have to
-// 	    $("#loadingScreen").html( waiting.message &amp;&amp; '' != waiting.message ? waiting.message : 'Please wait...');
-// 	    $("#loadingScreen").dialog('option', 'title', waiting.title &amp;&amp; '' != waiting.title ? waiting.title : 'Loading');
-// 	    $("#loadingScreen").dialog('open');
-// 	}
-// 	function closeWaitingDialog() {
-// 	    $("#loadingScreen").dialog('close');
-// 	}
-
-// 	waitingDialog({title: "Hi", message: "I'm loading..."});
-
-
-// $(document).ready(function() {
-//     // create the loading window and set autoOpen to false
-//     $("#loadingScreen").dialog({
-//         autoOpen: false,    // set this to false so we can manually open it
-//         dialogClass: "loadingScreenWindow",
-//         closeOnEscape: false,
-//         draggable: false,
-//         width: 460,
-//         minHeight: 50,
-//         modal: true,
-//         buttons: {},
-//         resizable: false,
-//         open: function() {
-//             // scrollbar fix for IE
-//             $('body').css('overflow','hidden');
-//         },
-//         close: function() {
-//             // reset overflow
-//             $('body').css('overflow','auto');
-//         }
-//     }); // end of dialog
-// });
-
-  /**
-   *
-   * Global functions.
-   * 
-   */
-
-	// Read a page's GET URL variables and return them as an associative array.
-	function getUrlVars () {
-		var vars = [], hash;
-		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-
-		for(var i = 0; i < hashes.length; i++) {
-			hash = hashes[i].split('=');
-			vars[hash[0]] = decodeURIComponent( hash[1] );
-		}
-		return vars;
-	}
-	$(window).load(function() {
-// myApp.showPleaseWait();		
-		var urlVars = getUrlVars();
-		if ( urlVars['q'] == "legal" ) {
-			// change title
-			$('h1[id="page-title"]').text("Aviso legal");
-		}
-		else if ( urlVars['q'] == "usuario/login" ) {
-			// remove title
-			$('h1[id="page-title"]').remove();
-		}
-		else if ( urlVars['q'] == "usuario/recuperar" ) {
-			// remove title
-			$('h1[id="page-title"]').remove();
-		}
-		else if ( urlVars['q'] == "empresa/registro" ) {
-			// remove title
-			$('h1[id="page-title"]').remove();
-		}
+	// 	for(var i = 0; i < hashes.length; i++) {
+	// 		hash = hashes[i].split('=');
+	// 		vars[hash[0]] = decodeURIComponent( hash[1] );
+	// 	}
+	// 	return vars;
+	// }
+	// $(window).load(function() {
+	// 	var urlVars = getUrlVars();
+	// 	if ( urlVars['q'] == "legal" ) {
+	// 		// change title
+	// 		$('h1[id="page-title"]').text("Aviso legal");
+	// 	}
+	// 	else if ( urlVars['q'] == "usuario/login" ) {
+	// 		// remove title
+	// 		$('h1[id="page-title"]').remove();
+	// 	}
+	// 	else if ( urlVars['q'] == "usuario/recuperar" ) {
+	// 		// remove title
+	// 		$('h1[id="page-title"]').remove();
+	// 	}
+	// 	else if ( urlVars['q'] == "empresa/registro" ) {
+	// 		// remove title
+	// 		$('h1[id="page-title"]').remove();
+	// 	}
 		
-		// Display none 'sede' list
-		$('div[id="block-views-ver-tax-block"]').css('display', 'none');
-		// $('div[id="block-views-sedes-block-regiones"]').css('display', 'none');
-		// $('div[id="block-views-sedes-block-cat"]').css('display', 'none');
-		$('div[id="block-views-sedes-block-subcat"]').css('display', 'none');
-
-	});
+	// 	// Display none 'sede' list
+	// 	$('div[id="block-views-ver-tax-block"]').css('display', 'none');
+	// 	// $('div[id="block-views-sedes-block-regiones"]').css('display', 'none');
+	// 	// $('div[id="block-views-sedes-block-cat"]').css('display', 'none');
+	// 	$('div[id="block-views-sedes-block-subcat"]').css('display', 'none');
+	// });
 
   /**
    *
@@ -518,6 +467,66 @@
 			// processed previously. By using .once('foo') all processed elements will
 			// get tagged with a 'foo-processed' class, causing all future invocations
 			// of this behavior to ignore them.
+
+			var waitApp = (function () {
+				var pleaseWaitDiv = $('<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><p>Cargando...</p><div class="flower-loader"></div></div>');
+			    return {
+			        showPleaseWait: function() {
+			            pleaseWaitDiv.modal('show');
+			        },
+			        hidePleaseWait: function () {
+			            pleaseWaitDiv.modal('hide');
+			        },
+
+			    };
+			})();
+			// waitApp.showPleaseWait();
+
+
+
+  /**
+   *
+   * Global functions.
+   * 
+   */
+
+	// Read a page's GET URL variables and return them as an associative array.
+	function getUrlVars () {
+		var vars = [], hash;
+		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+		for(var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split('=');
+			vars[hash[0]] = decodeURIComponent( hash[1] );
+		}
+		return vars;
+	}
+	// $(window).load(function() {
+		var urlVars = getUrlVars();
+		if ( urlVars['q'] == "legal" ) {
+			// change title
+			$('h1[id="page-title"]').text("Aviso legal");
+		}
+		else if ( urlVars['q'] == "usuario/login" ) {
+			// remove title
+			$('h1[id="page-title"]').remove();
+		}
+		else if ( urlVars['q'] == "usuario/recuperar" ) {
+			// remove title
+			$('h1[id="page-title"]').remove();
+		}
+		else if ( urlVars['q'] == "empresa/registro" ) {
+			// remove title
+			$('h1[id="page-title"]').remove();
+		}
+		
+		// Display none 'sede' list
+		$('div[id="block-views-ver-tax-block"]').css('display', 'none');
+		// $('div[id="block-views-sedes-block-regiones"]').css('display', 'none');
+		// $('div[id="block-views-sedes-block-cat"]').css('display', 'none');
+		$('div[id="block-views-sedes-block-subcat"]').css('display', 'none');
+	// });
+				
 
 			/* Pais/Regiones View */
 			$('div[id="block-views-tax-regiones-block"]', context).once('despierta', function () {

@@ -37,8 +37,8 @@ stylesheets[print][] = css/print.css
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap/bootstrap.min.js
 scripts[] = js/bootstrap-tabcollapse.js
-scripts[] = js/bootstrap/responsive-tabs.js
 
+;scripts[] = js/bootstrap/responsive-tabs.js
 ;scripts[] = js/bootstrap/jquery.blockUI.js
 ;scripts[] = js/jquery.easy-overlay.js
 ;scripts[] = js/classie.js

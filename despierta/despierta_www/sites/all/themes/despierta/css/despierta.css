@@ -40,13 +40,32 @@ p.pasos {
   background-color: #f5f5f5;
   color: #418389  
 }
-#loadingScreen {
-    background: url(../images/loading.gif) no-repeat 5px 8px;
-    padding-left: 25px;
+
+/* --------------- Loading modal ------------ */
+#pleaseWaitDialog p {
+  margin: 0;
+  position: absolute;
+  top: 14%;
+  left: 47%;
+  margin-right: -50%;
 }
+#pleaseWaitDialog .flower-loader {
+  margin: 0;
+  position: absolute !important;
+  top: 20%;
+  left: 50%;
+  margin-right: -50%;
+}
+.modal-backdrop {
+   background-color: white;
+   opacity: 1 !important;
+}
+
+
 /*
  * HEADER BLOCK
  */
+
 /* --------------- Main Menu ------------ */
 #main-menu {
   clear: both;
@@ -186,6 +205,7 @@ select#sel-regions {
   position: relative;
   top:  25px;
   margin-bottom: 30px;
+  width: 70%;
 }
 .tab-despierta ul.nav.nav-tabs {
   border-bottom: 6px solid #6EBF46;
