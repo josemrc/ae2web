@@ -40,13 +40,16 @@ p.pasos {
   background-color: #f5f5f5;
   color: #418389  
 }
+div#page-wrapper {
+  display: none;
+}
 
 /* --------------- Loading modal ------------ */
 #pleaseWaitDialog p {
   margin: 0;
   position: absolute;
-  top: 14%;
-  left: 47%;
+  top: 10%;
+  left: 48%;
   margin-right: -50%;
 }
 #pleaseWaitDialog .flower-loader {
@@ -664,6 +667,11 @@ select#sel-regions {
   background-position: -95px 0px;
 }
 
+
+/*
+ * FOOTER BLOCK
+ */
+
 /* --------------- Copyright View ------------ */
 .derechos, .aviso, .aviso a {
   color: #8fa49d;
@@ -680,6 +688,9 @@ select#sel-regions {
   margin-right: auto;
 }
 
+#footer-wrapper {
+  margin-top: 30px;
+}
 
 /* --------------- Footer Image ------------ */
 .imgfooter {
@@ -687,4 +698,8 @@ select#sel-regions {
   padding-right: 30px;
   margin-bottom: 10px
 }
-
+@media (max-width: 625px) {
+  .imgfooter {
+    display: none;
+  } 
+}

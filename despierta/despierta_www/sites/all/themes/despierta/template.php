@@ -38,13 +38,13 @@ function despierta_theme() {
     'preprocess functions' => array(
       'despierta_preprocess_user_pass'
     ),
-  );
+  ); 
   // $items['user_profile_form'] = array(
   //   'render element' => 'form',
   //   'path' => drupal_get_path('theme', 'despierta') . '/templates',
   //   'template' => 'user-profile-edit',
   //   'preprocess functions' => array(
-  //     'despierta_preprocess_user_pass'
+  //     'despierta_preprocess_user_profile_form'
   //   ),
   // );  
   return $items;
@@ -282,6 +282,9 @@ function despierta_preprocess_user_register_form(&$vars) {
 function despierta_preprocess_user_pass(&$vars) {
   $vars['intro_text'] = t('Recuperación de cuenta');
 }
+function despierta_preprocess_user_profile_form(&$vars) {
+  $vars['intro_text'] = t('Panel de Administración - Datos de acceso');
+}
 
 /**
  * Implements hook_responsive_menus_styles_alter().
@@ -289,6 +292,15 @@ function despierta_preprocess_user_pass(&$vars) {
 function despierta_responsive_menus_styles_alter(&$styles) {
   // Use Sidr's 'light' theme instead of 'dark'
   $styles['sidr']['css_files'] = array(libraries_get_path('sidr') . '/stylesheets/jquery.sidr.light.css');
+}
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function despierta_form_node_form_alter(&$form, &$form_state, &$form_id) {
+  if ( $form_id == 'sede_node_form' ) {
+    unset($form['preview']);
+    drupal_set_title(t('Panel de Administración - Paso 2: Registrar nueva Sede'));
+  }
 }
 
 /**

@@ -48,23 +48,23 @@
 }
 
 #triptych {
-  width: 960px;
+/*  width: 960px;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto;*/
 }
 .region-triptych-first,
 .region-triptych-middle,
 .region-triptych-last {
-  display: inline;
+/*  display: inline;
   float: left; /* LTR */
   position: relative;
-}
+*/}
 .region-triptych-first,
 .region-triptych-middle,
 .region-triptych-last {
-  margin: 20px 20px 30px;
+/*  margin: 20px 20px 30px;
   width: 280px;
-}
+*/}
 
 /*#highlighted {
   margin-left: 66.6%;
@@ -96,16 +96,6 @@
   clear: both;
 }
 
-/**
- * Modify images.
- */
-@media all and (max-width: 480px) {
-  /* Display none images */
-  .imgeco {
-    display: none;
-  }
-}
-
 /* Navigation bar */
 @media all and (min-width: 480px) {
   #main {
@@ -126,9 +116,25 @@
 }
 
 /**
- * Use 3 grid columns for smaller screens.
+ * Use 3 grid columns for SMALLER screens.
  */
-@media all and (min-width: 480px) and (max-width: 959px) {
+/*@media (max-width: 850px) {
+  .sidebar-first .region-triptych-first,
+  .sidebar-first .region-triptych-middle,
+  .sidebar-first .region-triptych-last {
+    background-color: red;
+    float: left;
+    display: inline-block;
+    width: 33.33333%;
+    margin-left: 0%;
+    margin-right: -33.33333%;   
+  }
+}*/
+
+/**
+ * Use 3 grid columns for SMALLER screens.
+ */
+@media all and (min-width: 900px) and (max-width: 959px) {
 
   /**
    * The layout when there is only one sidebar, the left one.
@@ -141,6 +147,12 @@
     margin-left: 33.33333%;
     margin-right: -100%;
   }
+  .sidebar-first .region-triptych-middle {
+    float: left;
+    width: 33.33333%;
+    margin-left: 0%;
+    margin-right: -33.33333%;
+  }
 
   /* Span 1 column, starting in 1st column from left. */
   .sidebar-first .region-sidebar-first {
@@ -148,7 +160,7 @@
     width: 33.33333%;
     margin-left: 0%;
     margin-right: -33.33333%;
-  }
+  } 
 
   /**
    * The layout when there is only one sidebar, the right one.
@@ -175,23 +187,23 @@
    */
 
   /* Span 2 columns, starting in 2nd column from left. */
-  .two-sidebars #content {
+/*  .two-sidebars #content {
     float: left;
     width: 66.66667%;
     margin-left: 33.33333%;
     margin-right: -100%;
-  }
+  }*/
 
   /* Span 1 column, starting in 1st column from left. */
-  .two-sidebars .region-sidebar-first {
+/*  .two-sidebars .region-sidebar-first {
     float: left;
     width: 33.33333%;
     margin-left: 0%;
     margin-right: -33.33333%;
-  }
+  }*/
 
   /* Start a new row and span all 3 columns. */
-  .two-sidebars .region-sidebar-second {
+/*  .two-sidebars .region-sidebar-second {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -199,10 +211,10 @@
     padding-left: 0;
     padding-right: 0;
     clear: left;
-  }
+  }*/
 
   /* Apply the shared properties of grid items in a single, efficient ruleset. */
-  .two-sidebars .region-sidebar-second .block {
+/*  .two-sidebars .region-sidebar-second .block {
     padding-left: 10px;
     padding-right: 10px;
     -moz-box-sizing: border-box;
@@ -214,36 +226,36 @@
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-  }
+  }*/
 
   /* Span 1 column, starting in the 1st column from left. */
-  .two-sidebars .region-sidebar-second .block:nth-child(3n+1) {
+/*  .two-sidebars .region-sidebar-second .block:nth-child(3n+1) {
     float: left;
     width: 33.33333%;
     margin-left: 0%;
     margin-right: -33.33333%;
     clear: left;
-  }
+  }*/
 
   /* Span 1 column, starting in the 2nd column from left. */
-  .two-sidebars .region-sidebar-second .block:nth-child(3n+2) {
+/*  .two-sidebars .region-sidebar-second .block:nth-child(3n+2) {
     float: left;
     width: 33.33333%;
     margin-left: 33.33333%;
     margin-right: -66.66667%;
-  }
+  }*/
 
   /* Span 1 column, starting in the 3rd column from left. */
-  .two-sidebars .region-sidebar-second .block:nth-child(3n) {
+/*  .two-sidebars .region-sidebar-second .block:nth-child(3n) {
     float: left;
     width: 33.33333%;
     margin-left: 66.66667%;
     margin-right: -100%;
-  }
+  }*/
 }
 
 /**
- * Use 5 grid columns for larger screens.
+ * Use 5 grid columns for LARGER screens.
  */
 @media all and (min-width: 960px) {
 
@@ -292,26 +304,26 @@
    */
 
   /* Span 3 columns, starting in 2nd column from left. */
-  .two-sidebars #content {
+/*  .two-sidebars #content {
     float: left;
     width: 60%;
     margin-left: 20%;
     margin-right: -80%;
-  }
+  }*/
 
   /* Span 1 column, starting in 1st column from left. */
-  .two-sidebars .region-sidebar-first {
+/*  .two-sidebars .region-sidebar-first {
     float: left;
     width: 20%;
     margin-left: 0%;
     margin-right: -20%;
-  }
+  }*/
 
   /* Span 1 column, starting in 5th column from left. */
-  .two-sidebars .region-sidebar-second {
+/*  .two-sidebars .region-sidebar-second {
     float: left;
     width: 20%;
     margin-left: 80%;
     margin-right: -100%;
-  }
+  }*/
 }
