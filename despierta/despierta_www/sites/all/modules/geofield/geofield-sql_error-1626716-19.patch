@@ -1,0 +1,16 @@
+diff --git a/views/proximity_plugins/geofieldProximityManual.inc b/views/proximity_plugins/geofieldProximityManual.inc
+index b9e8967..2d890b8 100644
+--- a/views/proximity_plugins/geofieldProximityManual.inc
++++ b/views/proximity_plugins/geofieldProximityManual.inc
+@@ -35,8 +35,8 @@ class geofieldProximityManual extends geofieldProximityBase implements geofieldP
+ 
+   public function getSourceValue($views_plugin) {
+     return array(
+-      'latitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lat'] : $views_plugin->options['geofield_proximity_manual']['lat'],
+-      'longitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lon'] : $views_plugin->options['geofield_proximity_manual']['lon'],
++      'latitude' => (isset($views_plugin->value) && $views_plugin->value['origin']['lat'] !== '') ? $views_plugin->value['origin']['lat'] : $views_plugin->options['geofield_proximity_manual']['lat'],
++      'longitude' => (isset($views_plugin->value) && $views_plugin->value['origin']['lon'] !== '') ? $views_plugin->value['origin']['lon'] : $views_plugin->options['geofield_proximity_manual']['lon'],
+     );
+   }
+ }
+\ No newline at end of file
