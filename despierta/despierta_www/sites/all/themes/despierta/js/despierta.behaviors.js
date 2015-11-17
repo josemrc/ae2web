@@ -827,6 +827,56 @@
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
 			});
 
+			/* Geolocation */
+			function foundLocation(position) {
+				var centerloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				var lat = position.coords.latitude;
+				var long = position.coords.longitude;
+				var latlng = lat + ',' + long;
+				var opts = {
+					latlng: latlng,
+					sensor: true,
+				}	
+				$.getJSON( "http://maps.googleapis.com/maps/api/geocode/json", opts )
+					.done(function( data ) {
+						if ( !jQuery.isEmptyObject(data) && jQuery.isArray(data.results) && data.results[0] && data.results[0].address_components ) {
+							var address = data.results[0].address_components;
+							for ( var i=0; i < address.length; i++ ) {
+								var geoloc = address[i];
+								if ( jQuery.isArray(geoloc.types) && geoloc.types[0] ) {
+									var type = geoloc.types[0];
+									if ( type == "locality" ) {
+										var locality = geoloc.long_name;
+				console.log( locality );			
+									}
+									else if ( type == "country" ) {
+										var country = geoloc.long_name;
+				console.log( country );
+									}
+								}
+
+							}
+						}
+					})
+					.fail(function( jqxhr, textStatus, error ) {
+						var err = textStatus + ", " + error;
+						console.log( "Request Failed: " + err );
+				});
+						// var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+						// document.getElementById('edit-distance-latitude').value = lat;
+						// document.getElementById('edit-distance-longitude').value = long;
+						// document.getElementById('edit-distance-search-distance').value = 0.4;
+						// document.forms["views-exposed-form-hire-page"].submit();
+						// // alert('Found location: ' + lat + ', ' + long);
+			}
+			if (navigator.geolocation) {
+// console.log(navigator.geolocation);
+				navigator.geolocation.getCurrentPosition(foundLocation, error);
+			}
+			else {
+				error('not supported');
+			};
+
 			/* Add clasess for multiple elements */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
 				$('img', this).each( function() {
