@@ -19,16 +19,16 @@
 				var pleaseWaitDiv = $('<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><p>Cargando...</p><div class="flower-loader"></div></div>');
 				return {
 					showPleaseWait: function() {
-console.log('showPleaseWait');
-console.log(waitFlag);
+// console.log('showPleaseWait');
+// console.log(waitFlag);
 						if ( !jQuery.isEmptyObject(waitFlag) ) {
 							// $('div[id="page-wrapper"]').css('display','none');
 							pleaseWaitDiv.modal('show');
 						}
 					},
 					hidePleaseWait: function () {
-console.log('hidePleaseWait');
-console.log(waitFlag);
+// console.log('hidePleaseWait');
+// console.log(waitFlag);
 						if ( jQuery.isEmptyObject(waitFlag) ) {
 							$('div[id="page-wrapper"]').css('display','block');
 							pleaseWaitDiv.modal('hide');
@@ -774,6 +774,7 @@ console.log(waitFlag);
 			/* Sedes form page */
 			$('form[id="sede-node-form"]', context).once('despierta', function () {
 				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");
+				$('select:not(select[id^="edit-field-sede-pais-und-hierarchical-select-selects"])', this).addClass("form-control");
 
 				$('input[id="edit-title"]', this).attr('placeholder','Introduce el nombre comercial como anunciante para esta Sede');
 				$('textarea[id="edit-field-sede-descripcion-breve-und-0-value"]', this).attr('placeholder','Introduce una descripción breve de la entidad');
@@ -785,13 +786,46 @@ console.log(waitFlag);
 
 				$('input[id="edit-field-sede-logo-und-0-upload"]', this).addClass("filestyle");
 				$('input[id="edit-field-sede-logo-und-0-upload-button"]', this).attr('value','Subir Imagen');
+				$('input[id="edit-field-sede-logo-und-0-upload-button"]', this).addClass("btn btn-info");
+
+				$('input[id="edit-field-sede-email-und-0-email"]', this).attr('placeholder','Introduce un correo electrónico de tu Sede');
+				$('input[id="edit-field-sede-web-und-0-value"]', this).attr('placeholder','www.tupagina.com');
+				$('input[id="edit-field-sede-telefono-und-0-value"]', this).attr('placeholder','Introduce el teléfono de tu Sede');
 
 				$('input[id="edit-field-sede-region-venta-und-hierarchical-select-dropbox-add"]', this).addClass("btn btn-success pull-right");
 
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
-				$('input[id="edit-preview"]', this).remove();				
+				$('input[id="edit-preview"]', this).remove();
 			});
-
+			$('select[id^="edit-field-sede-direccion-und-0-country"]').once("DOMSubtreeModified",function(){
+				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] input').addClass("form-control");
+				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] select').addClass("form-control");
+				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-country"]').html('País ');
+				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-thoroughfare"]').html('Dirección ');
+				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-thoroughfare"]').attr('placeholder','Introduce la dirección de la sede');
+				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-postal-code"]').html('Código Postal ');
+				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-postal-code"]').attr('placeholder','Introduce el código postal de la sede');
+				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-locality"]').html('Ciudad ');
+				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-locality"]').attr('placeholder','Introduce la ciudad de la sede');
+				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-administrative-area"]').html('Región ');
+				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-administrative-area"]').attr('placeholder','Introduce la región de la sede');
+				$('form[id="sede-node-form"] div[class*="form-item-field-sede-direccion-und-0-premise"]').remove();
+				$('form[id="sede-node-form"] div[class*="form-item-field-sede-direccion-und-0-dependent-locality"]').remove();
+				$('form[id="sede-node-form"] div[id="edit-field-sede-tipo-venta"] input:checked').each( function() {
+					if ( $(this).siblings().text().indexOf("Establecimiento físico") !== -1 ) {
+						$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] label').each( function() {
+							$(this).append('<span class="form-required">*</span>');
+						});
+					}
+				});
+			});
+			$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] div[class*="hierarchical-select"]').css('display', 'table');				
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] select').addClass("form-control");
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] input').addClass("btn btn-info");
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] input').wrap('<div class="edit-field-sede-pais-button"></div>');
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
+			});
 
 			/* Add clasess for multiple elements */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
