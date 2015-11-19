@@ -891,6 +891,12 @@
 			// 	error('not supported');
 			// };
 
+			/* Sede Page */
+			$('div[class*="node-sede"]', context).once('despierta', function () {				
+				$('div[class*="field-name-field-location"]', this).remove();
+			});
+			
+
 			/* Add clasess for multiple elements */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
 				$('img', this).each( function() {
