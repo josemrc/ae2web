@@ -337,17 +337,14 @@
 	Drupal.theme.prototype.tabSedes = function (sedesObj, tabAll) {
 		var tabList = [];
 		if ( tabAll === true ) {
-			// var cont = "";
 			var msedeObj = {};
 			for (var key in sedesObj ) {
 				var sedeObj = sedesObj[key];
 				jQuery.extend(msedeObj,sedeObj);
-				// cont += Drupal.theme('sedeArticle', sedeObj);
 			}
 			tabList.push({
 				'id': 'todas',
 				'label': 'Todas',
-				// 'cont': cont
 				'cont': Drupal.theme('sedeArticle', msedeObj)
 			});
 		}
@@ -356,7 +353,7 @@
 			var key = keys[i];
 			var sedeObj = sedesObj[key];
 			var label = key.replace(/^[^\:]*\:\s*/g,'');
-			var id = label.replace(/\s/g,'_');
+			var id = label.replace(/[\s\,]/g,'_');
 			tabList.push({
 				'id': id,
 				'label': label,
@@ -509,7 +506,7 @@
 				// 'sedes regions'
 				Drupal.theme.prototype.selectPaisRegion(localStorage['pais'], localStorage['region']);
 				var regquery = "";
-				if ( localStorage['region'] != "" ) { regquery = localStorage['region'] }
+				if ( localStorage['region'] != "" ) { regquery = localStorage['pais'] + ',' + localStorage['region'] }
 				else { regquery = localStorage['pais'] }
 				if ( $( 'div[id="block-views-sedes-block-regiones"]' ).length ) {
 					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(regquery);
@@ -543,7 +540,7 @@
 					localStorage['region'] = region;					
 				}
 				var regquery = "";
-				if ( localStorage['region'] != "" ) { regquery = localStorage['region'] }
+				if ( localStorage['region'] != "" ) { regquery = localStorage['pais'] + ',' + localStorage['region'] }
 				else { regquery = localStorage['pais'] }
 
 
@@ -638,7 +635,7 @@
 				$( '.views-exposed-widgets', this ).html(avanHTML);
 			});	
 			
-			/* Printing 'sedes' of 'Regiones' and 'Categories' (and 'Subcategories') */
+			/* Printing 'sedes' of 'Regiones' and 'Categories' */
 			// Print new sedes view (Once)
 			$(	'div[id="block-views-sedes-block-regiones"] .view-id-sedes, '+
 				'div[id="block-views-sedes-block-cat"] .view-id-sedes, '+
@@ -655,14 +652,25 @@
 					if ( $(this).parents('div[id="block-views-sedes-block-regiones"]').length != 0 ) {
 						tabAll = true;
 					}
+					// When we are in the category page:
+					// get sub-categories
+					// add region/pais in the title
 					if ( $(this).parents('div[id="block-views-sedes-block-cat"]').length != 0 ) {
 						subcats = Drupal.theme.prototype.getNumSubCategories(sedesGroups);
+
+						var title = $('h1[id="page-title"]').text();
+						var prefixtitle = title.substring(0, title.indexOf(" en "));
+						if ( prefixtitle != "" ) { title = prefixtitle }
+						var region = $('select[id="sel-regions"] option:selected').text();
+						var pais = $('select[id="sel-pais"] option:selected').text();
+						var q = region;
+						if ( region == "Todas las regiones" ) { q = pais }
+						$('h1[id="page-title"]').html(title + " en " + q );
 					}
 
 					// Create HTML
 					var sedeHTML = Drupal.theme('tabSedes', sedesGroups, tabAll);
 					$('.view-content', this).remove();
-
 				}
 				// NO RESULTS
 				else {
@@ -708,7 +716,30 @@
 				$('div[id="block-views-sedes-block-regiones"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-cat"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-subcat"]').css('display', 'block');
+
 			});
+			// Delete redundance in regions, When we are in the category page:
+			$('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-regions-wrapper"]', context).once('despierta', function () {
+				var pais = $('select[id="sel-pais"] option:selected').text();
+				var region = $('select[id="sel-regions"] option:selected').text();
+				$('div[class*="form-item-edit-regions"]', this).each( function() {
+					var labregion = $('label[for*="edit-regions"]', this).text();
+					if ( allPaisRegionsObj[pais] !== undefined ) {
+						if ( allPaisRegionsObj[pais].regions[labregion] === undefined ) {
+							$(this).remove();
+						}
+						else {
+							if ( (labregion == region) || (region == "Todas las regiones") ) {
+								$('input[id*="edit-regions"]', this).prop('checked', true);
+							}
+							else {
+								$('input[id*="edit-regions"]', this).prop('checked', false);
+							}
+						}
+					}
+				});	
+			});
+			
 			/* Contact form */
 			$('form[id="contact-site-form"]', context).once('despierta', function () {
 				$('input:not(.form-submit)', this).addClass("form-control");
@@ -883,9 +914,6 @@
 				$(this).addClass('element-invisible');
 			});
 			$('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-pais-wrapper"]', context).once('despierta', function () {
-				$(this).addClass('element-invisible');
-			});
-			$('form[id="views-exposed-form-sedes-block-subcat"] div[id="edit-pais-wrapper"]', context).once('despierta', function () {
 				$(this).addClass('element-invisible');
 			});
 			$('.region-triptych-first').addClass('col-md-4');
