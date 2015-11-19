@@ -212,6 +212,7 @@ select#sel-regions {
 }
 .tab-despierta ul.nav.nav-tabs {
   border-bottom: 6px solid #6EBF46;
+  /*float: left;*/
 }
 .tab-despierta ul li {
   font-size: 18px;
