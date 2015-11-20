@@ -212,17 +212,6 @@
 			var nid = $('caption:first', table).text().replace(/ /g,'');
 			if ( sedes[nid] === undefined ) {
 				var sede = {
-					title: "",
-					logo: "",
-					descb: "",
-					descc: "",
-					email: "",
-					web: "",
-					tlf: "",
-					region: "",
-					t_act: "",
-					t_mov: "",
-					t_vent: "",
 					cat: {},
 					subcats: {},
 					etiqs: {},
@@ -246,46 +235,72 @@
 						else if ( k == 4 ) { // desc. completa
 							sede.descc = $(td).text();
 						}
-						else if ( k == 5 ) { // email							
+						else if ( k == 5 ) { // direccion
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							sede.direccion = val;
+						}
+						else if ( k == 6 ) { // CP
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							sede.cp = val;
+						}
+						else if ( k == 7 ) { // city
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							sede.city = val;
+						}						
+						else if ( k == 8 ) { // country
+							var val;
+							if ( $('a', td).length ) { val = $('a', td).text() }
+							else { val = $(td).text() }
+							val = val.replace(/^\s*/g,'');
+							val = val.replace(/\s*$/g,'');
+							sede.country = val;
+						}						
+						else if ( k == 9 ) { // email							
 							sede.email = $('a', td).text().replace(/\n*\s*/g,'');
 						}
-						else if ( k == 6 ) { // web
+						else if ( k == 10 ) { // web
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.web = val.replace(/\n*\s*/g,'');
 						}
-						else if ( k == 7 ) { // tlf
+						else if ( k == 11 ) { // tlf
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.tlf = val.replace(/\n*\s*/g,'');
 						}
-						else if ( k == 8 ) { // pais/region
-							var val;
-							if ( $('a', td).length ) { val = $('a', td).text() }
-							else { val = $(td).text() }
-							sede.region = val.replace(/\n*\s*/g,'');
-						}
-						else if ( k == 9 ) { // tipo actividad
+						else if ( k == 12 ) { // tipo actividad
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.t_act = val;
 						}
-						else if ( k == 10 ) { // tipo movimiento
+						else if ( k == 13 ) { // tipo movimiento
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.t_mov = val;
 						}
-						else if ( k == 11 ) { // tipo venta
+						else if ( k == 14 ) { // tipo venta
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
 							sede.t_vent = val;
 						}
-						else if ( k == 12 ) { // Categoria
+						else if ( k == 15 ) { // Categoria
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
@@ -293,10 +308,11 @@
 							val = val.replace(/^\s*/g,'');
 							val = val.replace(/\s*$/g,'');
 							val = val.replace(/Categoria:\s*/g,'');
+							if ( sede[cat] === undefined ) { sede.cat = {} }
 							if ( sede.cat[val] === undefined ) { sede.cat[val] = {} }
 							cat = val;
 						}
-						else if ( k == 13 ) { // Sub-Categoria
+						else if ( k == 16 ) { // Sub-Categoria
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
@@ -306,7 +322,7 @@
 							if ( sede.cat[cat][val] === undefined ) { sede.cat[cat][val] = [] }
 							subcat = val;
 						}
-						else if ( k == 14 ) { // Etiquetas
+						else if ( k == 17 ) { // Etiquetas
 							var val;
 							if ( $('a', td).length ) { val = $('a', td).text() }
 							else { val = $(td).text() }
@@ -383,10 +399,23 @@
 					sedHTML += '<div class="inform  text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 				sedHTML += '</div>';
 				sedHTML += '<div class="col-md-6 col-sm-6 col-xs-12 text-right">';
-					sedHTML += '<p class="direccion"></p>';
-					sedHTML += '<p><img class="ico" src="sites/default/files/ico_tlfno.png"><a class="url" href="tel:">' + sedeObj.tlf + '</a></p>';
-					sedHTML += '<p><img class="ico" src="sites/default/files/ico_email.png"><a class="url" href="mailto:">' + sedeObj.email + '</a></p>';
-					sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
+					var dircompl = '';
+					var cp = '';
+					if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = 'Dirección: '+sedeObj.direccion }
+					if ( sedeObj.city !== undefined && sedeObj.city != "" ) { cp += sedeObj.city }
+					if ( sedeObj.cp !== undefined && sedeObj.cp != "" ) { cp += ' ('+sedeObj.cp+')' }
+					if ( sedeObj.country !== undefined && sedeObj.country != "" ) { cp += ' '+sedeObj.country }
+					sedHTML += '<p class="direccion">' + dircompl + '</p>';
+					sedHTML += '<p class="cp">' + cp + '</p>';
+					if ( sedeObj.tlf !== undefined && sedeObj.tlf != "" ) {
+						sedHTML += '<p><img class="ico" src="sites/default/files/ico_tlfno.png"><a class="url" href="tel:">' + sedeObj.tlf + '</a></p>';						
+					}
+					if ( sedeObj.email !== undefined && sedeObj.email != "" ) {
+						sedHTML += '<p><img class="ico" src="sites/default/files/ico_email.png"><a class="url" href="mailto:'+sedeObj.email+'">' + sedeObj.email + '</a></p>';
+					}
+					if ( sedeObj.web !== undefined && sedeObj.web != "" ) {
+						sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
+					}
 				sedHTML += '</div>';
 				sedHTML += '<div class="clean subrayado col-md-12"></div>';
 				sedHTML += '<div class="clean masinfo col-md-12">';
@@ -555,6 +584,25 @@
 					event.stopPropagation();
 					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(localStorage['pais']);
 					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();
+
+					// // Change  checkbox of filter
+					// $('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-regions-wrapper"]', context).once('despierta', function () {
+					// 	var pais = $('select[id="sel-pais"] option:selected').text();
+					// 	var region = $('select[id="sel-regions"] option:selected').text();
+					// 	$('div[class*="form-item-edit-regions"]', this).each( function() {
+					// 		var labregion = $('label[for*="edit-regions"]', this).text();
+					// 		if ( allPaisRegionsObj[pais] !== undefined ) {
+					// 			if ( allPaisRegionsObj[pais].regions[labregion] !== undefined ) {
+					// 				if ( (labregion == region) || (region == "Todas las regiones") ) {
+					// 					$('input[id*="edit-regions"]', this).prop('checked', true);
+					// 				}
+					// 				else {
+					// 					$('input[id*="edit-regions"]', this).prop('checked', false);
+					// 				}
+					// 			}					
+					// 		}
+					// 	});	
+					// });
 				}
 			});
 
@@ -635,7 +683,7 @@
 				$( '.views-exposed-widgets', this ).html(avanHTML);
 			});	
 			
-			/* Printing 'sedes' of 'Regiones' and 'Categories' */
+			/* Printing Sedes: 'Regiones' and 'Categories' */
 			// Print new sedes view (Once)
 			$(	'div[id="block-views-sedes-block-regiones"] .view-id-sedes, '+
 				'div[id="block-views-sedes-block-cat"] .view-id-sedes, '+
@@ -727,14 +775,6 @@
 					if ( allPaisRegionsObj[pais] !== undefined ) {
 						if ( allPaisRegionsObj[pais].regions[labregion] === undefined ) {
 							$(this).remove();
-						}
-						else {
-							if ( (labregion == region) || (region == "Todas las regiones") ) {
-								$('input[id*="edit-regions"]', this).prop('checked', true);
-							}
-							else {
-								$('input[id*="edit-regions"]', this).prop('checked', false);
-							}
 						}
 					}
 				});	
@@ -893,7 +933,7 @@
 
 			/* Sede Page */
 			$('div[class*="node-sede"]', context).once('despierta', function () {				
-				$('div[class*="field-name-field-location"]', this).remove();
+				// $('div[class*="field-name-field-location"]', this).remove();
 			});
 			
 
@@ -914,6 +954,8 @@
 				})
 			});
 			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes section').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12');
+			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes .direccion').addClass('element-invisible');
+			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes .cp').addClass('element-invisible');
 
 			// Hide filter elements of 'Paises' within "Directorio verde" pages
 			$('form[id="views-exposed-form-sedes-block-regiones"]', context).once('despierta', function () {
