@@ -43,6 +43,9 @@ p.pasos {
 div#page-wrapper {
   display: none;
 }
+div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-sedes-block-regiones {
+  display: none;
+}
 
 /* --------------- Loading modal ------------ */
 #pleaseWaitDialog p {
@@ -63,7 +66,11 @@ div#page-wrapper {
    background-color: white;
    opacity: 1 !important;
 }
-
+#loading p, #loading .flower-loader {
+  margin-top: 30px;
+  left: 50%;
+  margin-right: -50%;
+}
 
 /*
  * HEADER BLOCK
@@ -136,6 +143,7 @@ div#page-wrapper {
 select#sel-pais,
 select#sel-regions {
 	width: 153px;
+  margin-bottom: 5px;
 }
 /* --------------- Wellcome View ------------ */
 .block-welcome-username {
@@ -265,6 +273,25 @@ select#sel-regions {
   border: 1px solid #96c147;
   max-width: 90%;
 }
+@media (max-width: 625px) {
+  .view-id-banners img {
+    clear: both;
+    width: 70%;
+  }
+}
+@media (max-width: 517px) {
+  .view-id-banners img {
+    clear: both;
+    width: 50%;
+  }
+}
+@media (max-width: 460px) {
+  .views-field-field-page-image {
+    clear: both;
+    display: none;
+  }
+}
+
 
 /* --------------- SubCategories View ------------ */
 .view-ver-tax p{
@@ -315,6 +342,9 @@ select#sel-regions {
 #block-views-sedes-block-cat {
   display: none;
 }
+.no-resultados {
+  margin-top: 15px;
+}
 .resultados {
   padding: 0;
   margin: 0;
@@ -324,16 +354,16 @@ select#sel-regions {
   padding: 15px;
   border: 1px solid #afdc99;
   position: relative;
-  height: 120px;
+  height: 150px;
 }
 .resultados .media.promo {
   background-color: #D7E7EA;
   border: 1px solid #AED6E2;
 }
-.resultados .promo .subrayado {
+.resultados .subrayado {
   clear: both;
   border-bottom: 1px solid #AED6E2;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 .resultados .logoempresa {
   
@@ -405,6 +435,10 @@ select#sel-regions {
 .resultados .masinfo .text-right{
   font-weight: bold;
 }
+.resultados .text-right{
+  font-size: 14px;
+}
+
 /*.resultados #filters {
   padding: 20px 0 0 20px;
   margin-left: 15px;
@@ -469,8 +503,10 @@ select#sel-regions {
   padding: 0;
   cursor: pointer;
 }*/
+
+
 /* responsive */
-@media (max-width: 1199px){
+/*@media (max-width: 1199px){
   .resultados .filtros{
     margin-top: 30px;
     clear: both;
@@ -542,6 +578,15 @@ select#sel-regions {
   .resultados .banda .text-center {
     text-align: left;
   }
+}*/
+
+/* --------------- Filter Sedes: second bar ------------ */
+#block-views-exp-sedes-block-cat .views-exposed-widget {
+  padding: 0;
+  margin-bottom: 30px;
+}
+#block-views-exp-sedes-block-cat .fieldset-legend {
+  font-size: 16px;
 }
 
 
