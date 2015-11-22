@@ -677,6 +677,8 @@
 				$(this).css('width', '69px');
 			});
 			$('form[id^="views-exposed-form-sedes2"] input#edit-query').attr('placeholder', '¿Qué buscas?');
+			$('form[id^="views-exposed-form-sedes2"] input#edit-field-sede-direccion-locality').attr('placeholder', 'Localidad (Opcional)');
+
 
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-cat"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-subcat"]' ).remove();

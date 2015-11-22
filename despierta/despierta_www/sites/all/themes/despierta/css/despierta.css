@@ -184,6 +184,10 @@ select#sel-regions {
   }
 }
 
+/*
+ * CONTENT BLOCK
+ */
+
 /* --------------- Frontpage: Eco/GeoEco View ------------ */
 .imgeco {
     margin-left: auto;
@@ -216,7 +220,7 @@ select#sel-regions {
   position: relative;
   top:  25px;
   margin-bottom: 30px;
-  width: 70%;
+  width: 50%;
 }
 .tab-despierta ul.nav.nav-tabs {
   border-bottom: 6px solid #6EBF46;
@@ -251,6 +255,17 @@ select#sel-regions {
   background-color: #449d44;
   border-color: #398439;
 }
+
+/* --------------- Frontpage: Region ------------ */
+#block-views-sedes-block-regiones .tab-content {
+  margin-top: 5px;
+}
+
+/* --------------- Frontpage: Geolocalation ------------ */
+#ip-geoloc-map-of-view-geolocalization-block {
+  height: 600px;
+}
+
 /* --------------- Busqueda Avanzada ------------ */
 
 #block-views-frontpage-desc-busq-block label,
@@ -265,6 +280,12 @@ select#sel-regions {
 #block-views-exp-sedes2-busq-simple .btn {
   margin: 0;
 }
+
+
+/* 
+ * Categorias pages
+ */
+
 /* --------------- Banners View ------------ */
 .view-id-banners {
   font-size: 18px;
@@ -355,6 +376,7 @@ select#sel-regions {
   border: 1px solid #afdc99;
   position: relative;
   height: 150px;
+  margin: 0px 10px 10px 0;
 }
 .resultados .media.promo {
   background-color: #D7E7EA;
