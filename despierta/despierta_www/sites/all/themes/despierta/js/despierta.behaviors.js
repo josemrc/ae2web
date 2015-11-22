@@ -939,6 +939,17 @@
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
 			});
 
+			/* Directorio Verde page */
+			$('.view-despierta-directorio-verde', context).once('despierta', function () {
+				var otras = $('div[class*="fdoverde"]:contains("Otras categorías")', this).get();
+				$('div[class="view-content"]', this).append(otras);
+				// $('div[class*="fdoverde"]:contains("Otras categorías")', this).remove();
+				$('img', this).each( function() {
+					$(this).addClass('imgcateg');
+				})
+			});
+
+
 			/* Sede Page */
 			$('div[class*="node-sede"]', context).once('despierta', function () {				
 				// $('div[class*="field-name-field-location"]', this).remove();
@@ -952,11 +963,6 @@
 			
 
 			/* Add clasess for multiple elements */
-			$('.view-despierta-directorio-verde', context).once('despierta', function () {
-				$('img', this).each( function() {
-					$(this).addClass('imgcateg');
-				})
-			});
 			$('.view-despierta-pie', context).once('despierta', function () {
 				$('img', this).each( function() {
 					$(this).addClass('imgfooter');
@@ -1003,16 +1009,15 @@
 			}
 
 			/* Show and Hide */
-console.log("context");
-console.log(context);
-console.log("settings");
-console.log(settings);
+// console.log("context");
+// console.log(context);
+// console.log("settings");
+// console.log(settings);
 			// hide
 			$('div[id="block-views-ver-tax-block"]').css('display', 'none');
 			$('div[class*="view-display-id-block_cat"]').css('display', 'none');
 			$('form[id="views-exposed-form-sedes-block-cat"]').css('display', 'none');
 			$('div[class*="view-display-id-block_regiones"]').css('display', 'none');
-			// $('div[id="ip-geoloc-map-of-view-geolocalization-block"]').css('display', 'none');
 
 			// show depending on...
 			if ( 	$(context).prop("tagName") == "FORM" &&
@@ -1023,7 +1028,6 @@ console.log(settings);
 				$('div[class*="view-display-id-block_cat"]').fadeIn('slow');
 				$('form[id="views-exposed-form-sedes-block-cat"]').fadeIn('slow');
 				$('div[class*="view-display-id-block_regiones"]').fadeIn('slow');
-				// $('div[id="ip-geoloc-map-of-view-geolocalization-block"]').css('display', 'block');
 				$('div[class*="view-geolocalization"]').removeClass('element-invisible');
 			}
 			else {
