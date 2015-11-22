@@ -370,11 +370,11 @@ ul#tabSedes {
 }
 .resultados .media {
   background-color: #e8f6e3;
-  padding: 15px;
   border: 1px solid #afdc99;
   position: relative;
-  height: 150px;
+  height: 140px;
   margin-bottom: 10px;
+  padding: 5px;
 }
 .resultados .media.promo {
   background-color: #D7E7EA;
@@ -385,21 +385,18 @@ ul#tabSedes {
   border-bottom: 1px solid #AED6E2;
   margin-top: 15px;
 }
-.resultados .logoempresa {
-  
-}
 .prici {
   min-height: 155px;
 }
 .resultados .media-object {
-    /*max-width: 125px;*/
+    max-width: 90px;
     max-height: 90px;
     margin: 0 auto;
     position: relative;
     top: 5px;
     z-index: 3;
 }
-.resultados h1{
+.resultados h1 {
   padding-top: 0;
 }
 .resultados h2 {
@@ -422,11 +419,22 @@ ul#tabSedes {
 .resultados .ico_flecha {
   margin-left: 7px;
 }
+.resultados .media-bod {
+  margin: 0;
+  padding: 5px;
+  font-size: 14px;
+}
+.resultados .media-bod .allinfo {
+  padding: 5px;
+}
+.resultados .media-bod h2 {
+  margin-top: 5px;
+}
 .resultados .media-bod p {
   margin-bottom: 5px;
 }
-.resultados .media-bod p.ult {
-  margin-bottom: 0;
+.resultados .media-bod .desc_breve {
+  margin-top: 5px;
 }
 .resultados .subrayado {
   clear: both;
@@ -445,6 +453,11 @@ ul#tabSedes {
   clear: both;
   display: none;
   height: auto;
+  font-size: 16px;
+
+}
+.resultados .masinfo p {
+  padding: 5px;
 }
 .resultados .masinfo div:first-child {
   padding-top: 20px;
@@ -455,77 +468,36 @@ ul#tabSedes {
 .resultados .masinfo .text-right{
   font-weight: bold;
 }
-.resultados .text-right{
+.resultados .text-right {
   font-size: 14px;
+  padding: 5px;
 }
-
-/*.resultados #filters {
-  padding: 20px 0 0 20px;
-  margin-left: 15px;
-}
-.resultados #filters label {
-  display: block;
-  padding: 3px 0;
-}
-.resultados .checkbox{
-  margin-bottom: 20px;
-}
-.resultados .checkbox label + label{
-  margin-left: 20px;
-}
-.resultados .checkbox label.ppal{
-  clear: both;
-  font-weight: bold;
-  color: #496e32;
-  background-color: #F4F9F2;
-}
-.resultados .peques{
-  display: none;
-}
-.resultados #boton{
-  margin: 0 auto;
-  width: 67px;
-}
-.resultados .enlacemapa{
-  cursor: pointer;
-}
-.resultados .plano{
-  background-color: #f5f5f5;
-    border-radius: 9px;
-    color: #383838;
-    display: none;
-    font-weight: bold;
-    position: fixed;
-    text-align: left;
-    z-index: 1002;
-}
-.resultados .mapagrande {
-  padding:15px;
-}
-.resultados .banda{
-  background-color: #e8f6e3;
-    border-bottom: 2px solid #afdc99;
-    border-radius: 9px 9px 0 0;
-    height: 40px;
-    padding: 10px;
-}
-.resultados .banda .logo{
-  left: -15px;
-    padding: 0;
-    position: relative;
-    top: -5px;
-    width: 100px;
-}
-.resultados .banda .text-center{
-  color: #496e32;
-}
-.resultados .banda .glyphicon{
-  padding: 0;
-  cursor: pointer;
-}*/
-
 
 /* responsive */
+@media (max-width: 625px) {
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+}
+@media (max-width: 517px) {
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+  .resultados .media-object {
+    max-width: 75px;
+    max-height: 75px;
+  }  
+}
+@media (max-width: 460px) {
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+  .resultados .media-object {
+    max-width: 65px;
+    max-height: 65px;
+  }
+}
+
 /*@media (max-width: 1199px){
   .resultados .filtros{
     margin-top: 30px;
@@ -623,7 +595,6 @@ ul#tabSedes {
   height: 197px;
   padding: 10px;
   text-align: center;
-  /*max-width: 223px;*/
   margin: 0 20px 20px 0;
 }
 .fdoverde a {
@@ -647,19 +618,17 @@ ul#tabSedes {
     width: 350px;
 }
 .fdoverde a:hover img{
-    width: 375px;
+    /*width: 375px;*/
     top: -4px;
     left: -5px;
 }
 
 /*@media (max-width: 1199px){
   .fdoverde{
-    height: 165px;
   }
 }
 @media (max-width: 991px){
   .fdoverde{
-    height: 132px;
   }
 }
 @media (max-width: 767px){
@@ -678,6 +647,8 @@ ul#tabSedes {
       width: 100%;
   }
 }*/
+
+
 
 
 

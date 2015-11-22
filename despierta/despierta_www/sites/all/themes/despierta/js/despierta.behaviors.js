@@ -21,28 +21,6 @@
 							'</div>'+
 						'</section>';
 
-	// // Var that controls every block is ready after changes
-	// var waitFlag = {
-	// 	'regions': 'wait',
-	// };
-	// var waitApp = (function () {
-	// 	var pleaseWaitDiv = $('<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><p>Cargando...</p><div class="flower-loader"></div></div>');
-	// 	return {
-	// 		showPleaseWait: function() {
-	// 			if ( !jQuery.isEmptyObject(waitFlag) ) {
-	// 				// $('div[id="page-wrapper"]').css('display','none');
-	// 				pleaseWaitDiv.modal('show');
-	// 			}
-	// 		},
-	// 		hidePleaseWait: function () {
-	// 			if ( jQuery.isEmptyObject(waitFlag) ) {
-	// 				$('div[id="page-wrapper"]').css('display','block');
-	// 				pleaseWaitDiv.modal('hide');
-	// 			}
-	// 		},
-	//     };
-	// })();
-
   /**
    *
    * Global functions.
@@ -439,18 +417,20 @@
 			var sedeObj = sedesObj[nid];
 			sedHTML += '<article class="media ">';
 
-			sedHTML += '<div class="logoempresa col-lg-2 col-md-3 col-sm-3 col-xs-3">';
-			sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
-			sedHTML += '</div>';
+			sedHTML += '<div class="media-bod col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 prici">';
 
-			sedHTML += '<div class="media-bod col-lg-10 col-md-9 col-sm-9 col-xs-12 prici">';
-				sedHTML += '<div class="col-md-6 col-sm-6 col-xs-12">';
+				sedHTML += '<div class="logoempresa col-lg-2 col-md-2 col-sm-2 col-s-2 col-xs-2">';
+					sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
+				sedHTML += '</div>';
+				
+				sedHTML += '<div class="allinfo col-lg-5 col-md-5 col-sm-5 col-s-9 col-xs-9">';
 					sedHTML += '<h2>' + sedeObj.title + '<div class="info url"><span>+ info</span>';
 						sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
 					sedHTML += '</div></h2>';
-					sedHTML += '<div class="inform  text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
+					sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 				sedHTML += '</div>';
-				sedHTML += '<div class="col-md-6 col-sm-6 col-xs-12 text-right">';
+
+				sedHTML += '<div class="col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
 					var dircompl = '';
 					var cp = '';
 					if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = 'Dirección: '+sedeObj.direccion }
@@ -468,14 +448,21 @@
 					if ( sedeObj.web !== undefined && sedeObj.web != "" ) {
 						sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
 					}
+
 				sedHTML += '</div>';
-				sedHTML += '<div class="clean subrayado col-md-12"></div>';
-				sedHTML += '<div class="clean masinfo col-md-12">';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de venta:</p><p class="col-xs-8">' + sedeObj.t_vent + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de actividad:</p><p class="col-xs-8">' + sedeObj.t_act + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Tipo de movimiento:</p><p class="col-xs-8">' + sedeObj.t_mov + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Descripción:</p><p class="col-xs-8">' + sedeObj.descc + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-right col-xs-4">Etiquetas:</p><p class="col-xs-8">' + Object.keys(sedeObj.etiqs).join(', ') + '</p></div>';
+				sedHTML += '<div class="clean subrayado col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12"></div>';
+				sedHTML += '<div class="clean masinfo col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12">';
+					var cats = "";
+					for ( var c in sedeObj.cat ) {
+						var subcats = Object.keys(sedeObj.cat[c]).join(', ');
+						cats += c + ' (' + subcats + '); ';
+					}
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
+					// sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + Object.keys(sedeObj.etiqs).join('; ') + '</p></div>';
 
 				sedHTML += '</div>';
 			sedHTML += '</div> <!-- media-bod -->';
@@ -798,7 +785,7 @@
 						$('span',this).html('+ info');
 						$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
 						$('.subrayado', this).fadeOut(500);
-						$(this).parents('article').animate({height: '150px'}, 500);
+						$(this).parents('article').animate({height: '140px'}, 500);
 					}
 					// change to up (-> show)
 					else {
@@ -941,9 +928,12 @@
 
 			/* Directorio Verde page */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
-				var otras = $('div[class*="fdoverde"]:contains("Otras categorías")', this).get();
 				$('div[class="view-content"]', this).append(otras);
-				// $('div[class*="fdoverde"]:contains("Otras categorías")', this).remove();
+				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
+				$('div[class*="views-row"]', this).each( function() {
+					$(this).wrapInner('<div class="fdoverde"></div>');
+				});
+				var otras = $('div[class*="views-row"]:contains("Otras categorías")', this).get();
 				$('img', this).each( function() {
 					$(this).addClass('imgcateg');
 				})
@@ -954,13 +944,6 @@
 			$('div[class*="node-sede"]', context).once('despierta', function () {				
 				// $('div[class*="field-name-field-location"]', this).remove();
 			});
-
-
-			/* Add at the end all about 'Otras categorias' */
-			$('div[class*="node-sede"]', context).once('despierta', function () {				
-				// $('div[class*="field-name-field-location"]', this).remove();
-			});
-			
 
 			/* Add clasess for multiple elements */
 			$('.view-despierta-pie', context).once('despierta', function () {
@@ -974,8 +957,7 @@
 				})
 			});
 			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12');
-			//$('div[id="block-views-sedes-block-regiones"] .view-id-sedes .direccion').addClass('element-invisible');
-			//$('div[id="block-views-sedes-block-regiones"] .view-id-sedes .cp').addClass('element-invisible');
+			$('div[id="block-views-sedes-block-cat"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
 
 			// Hide filter elements of 'Paises' within "Directorio verde" pages
 			$('form[id="views-exposed-form-sedes-block-regiones"]', context).once('despierta', function () {
@@ -989,30 +971,7 @@
 			$('.region-triptych-last').addClass('col-md-4');
 
 
-
-			/* Events */
-			// Active Busqueda tabs
-			$('#tabBusq').delegate('ul a', 'click', function(e) {
-				e.preventDefault();
-				$(this).tab('show');
-			});
-			$('#tabSedes').tabCollapse({
-			    tabsClass: 'hidden-sm hidden-xs',
-			    accordionClass: 'visible-sm visible-xs'
-			});
-
-			/* New functions */
-			if (typeof(Number.prototype.toRad) === "undefined") {
-		  		Number.prototype.toRad = function() {
-					return this * Math.PI / 180;
-				}
-			}
-
 			/* Show and Hide */
-// console.log("context");
-// console.log(context);
-// console.log("settings");
-// console.log(settings);
 			// hide
 			$('div[id="block-views-ver-tax-block"]').css('display', 'none');
 			$('div[class*="view-display-id-block_cat"]').css('display', 'none');
@@ -1029,14 +988,13 @@
 				$('form[id="views-exposed-form-sedes-block-cat"]').fadeIn('slow');
 				$('div[class*="view-display-id-block_regiones"]').fadeIn('slow');
 				$('div[class*="view-geolocalization"]').removeClass('element-invisible');
+				$('ul[id="tabSedes"]').addClass('pull-left');
+				// Get current geoposition
+				if ( navigator.geolocation && $('div[class*="view-display-id-block_regiones"]').length ) {
+					navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
+				}
 			}
 			else {
-
-				// if ( 	$(context).prop("tagName") == "DIV" &&
-				// 		($(context).hasClass('view-display-id-block_cat') || $(context).hasClass('view-display-id-block_regiones') )
-				// ) {
-
-				// }
 				if ( $( ".flower-loader" ).length == 0 ) {
 					$('div[id="block-views-sedes-block-cat"]').prepend('<div id="loading"><p>Cargando...</p><div class="flower-loader"></div></div>');
 					$('div[id="block-views-sedes-block-regiones"]').prepend('<div id="loading"><p>Cargando...</p><div class="flower-loader"></div></div>');
@@ -1044,15 +1002,23 @@
 				$('div[id="page-wrapper"]').css('display', 'block');
 			}
 
+			/* Events */
+			// Active Busqueda tabs
+			$('#tabBusq').delegate('ul a', 'click', function(e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+			$('#tabSedes').tabCollapse({
+			    tabsClass: 'hidden-sm hidden-xs ',
+			    accordionClass: 'visible-sm visible-xs'
+			});
 
-			/* Get current geoposition */
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
+			/* New functions */
+			if (typeof(Number.prototype.toRad) === "undefined") {
+		  		Number.prototype.toRad = function() {
+					return this * Math.PI / 180;
+				}
 			}
-			else {
-				console.log('not supported');
-			}
-
 
 
 		} // end: attach 
