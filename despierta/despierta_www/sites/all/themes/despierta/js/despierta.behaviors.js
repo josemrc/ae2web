@@ -398,18 +398,29 @@
 				'cont': Drupal.theme('sedeArticle', msedeObj)
 			});
 		}
+		var endTab = {};
 		var keys = Object.keys(sedesObj).sort();
 		for (var i=0; i < keys.length; i++ ) {
 			var key = keys[i];
 			var sedeObj = sedesObj[key];
 			var label = key.replace(/^[^\:]*\:\s*/g,'');
 			var id = label.replace(/[\s\,]/g,'_');
-			tabList.push({
-				'id': id,
-				'label': label,
-				'cont': Drupal.theme('sedeArticle', sedeObj)
-			});
+			if ( id == "Otras_categorías" ) {
+				endTab = {
+					'id': id,
+					'label': label,
+					'cont': Drupal.theme('sedeArticle', sedeObj)
+				}
+			}
+			else {
+				tabList.push({
+					'id': id,
+					'label': label,
+					'cont': Drupal.theme('sedeArticle', sedeObj)
+				});
+			}
 		}
+		if ( !jQuery.isEmptyObject(endTab) ) { tabList.push(endTab) }
 		var tabHTML = Drupal.theme('createTabPanel', tabList, "tabSedes");
 		return tabHTML;
 	};
@@ -932,6 +943,12 @@
 			$('div[class*="node-sede"]', context).once('despierta', function () {				
 				// $('div[class*="field-name-field-location"]', this).remove();
 			});
+
+
+			/* Add at the end all about 'Otras categorias' */
+			$('div[class*="node-sede"]', context).once('despierta', function () {				
+				// $('div[class*="field-name-field-location"]', this).remove();
+			});
 			
 
 			/* Add clasess for multiple elements */
@@ -995,7 +1012,8 @@ console.log(settings);
 			$('div[class*="view-display-id-block_cat"]').css('display', 'none');
 			$('form[id="views-exposed-form-sedes-block-cat"]').css('display', 'none');
 			$('div[class*="view-display-id-block_regiones"]').css('display', 'none');
-			$('div[id="block-views-geolocalization-block"]').css('display', 'none');
+			// $('div[id="ip-geoloc-map-of-view-geolocalization-block"]').css('display', 'none');
+
 			// show depending on...
 			if ( 	$(context).prop("tagName") == "FORM" &&
 					($(context).attr('id') == "views-exposed-form-sedes-block-regiones") ||
@@ -1005,10 +1023,11 @@ console.log(settings);
 				$('div[class*="view-display-id-block_cat"]').fadeIn('slow');
 				$('form[id="views-exposed-form-sedes-block-cat"]').fadeIn('slow');
 				$('div[class*="view-display-id-block_regiones"]').fadeIn('slow');
-				
-				$('div[id="block-views-geolocalization-block"]').css('display', 'block');
+				// $('div[id="ip-geoloc-map-of-view-geolocalization-block"]').css('display', 'block');
+				$('div[class*="view-geolocalization"]').removeClass('element-invisible');
 			}
 			else {
+
 				// if ( 	$(context).prop("tagName") == "DIV" &&
 				// 		($(context).hasClass('view-display-id-block_cat') || $(context).hasClass('view-display-id-block_regiones') )
 				// ) {
