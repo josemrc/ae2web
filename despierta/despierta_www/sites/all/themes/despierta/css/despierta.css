@@ -498,80 +498,6 @@ ul#tabSedes {
   }
 }
 
-/*@media (max-width: 1199px){
-  .resultados .filtros{
-    margin-top: 30px;
-    clear: both;
-  }
-  .resultados #filters{
-    margin-left: 0;
-  }
-  .resultados .checkbox label + label {
-      margin-left: 0;
-  }
-  .resultados #boton button{
-    margin-top: 10px;
-  }
-  .resultados .peques{
-    display: none;
-  }
-}
-@media (max-width: 991px){
-  .resultados .media-object {
-    top: 12px;
-    height: 100px;
-  }
-  .resultados #simplesearch{
-    clear: both;
-  }
-  .resultados #simplesearch div{
-    margin-top: 15px;
-  }
-}
-@media (max-width: 767px){
-  .resultados .info {
-      cursor: pointer;
-      float: right;
-      margin-top: 20px;
-      position: static;
-  }
-  .resultados h2 {
-      float: left;
-  }
-  .resultados .media-bod .text-right{
-    text-align: left;
-  }
-  .resultados .info.url,
-  .resultados .imgmapa,
-  .resultados .media-bod h2 {
-    display:none;
-  }
-  .resultados .media-object {
-      height: 50px;
-      top: 0;
-  }
-  .resultados .peques{
-    display: block;
-  }
-  .resultados .sede {
-    margin-top: 15px;
-  }
-  .resultados .media-bod p.ult {
-      margin-bottom: 5px;
-  }
-  .resultados .inform p:not(.sede){
-    font-size: 15px;
-  }
-}
-@media (max-width: 440px){
-  .resultados .banda div:first-child{
-    display: none;
-  }
-  .resultados .banda .text-center {
-    text-align: left;
-  }
-}*/
-
 /* --------------- Filter Sedes: second bar ------------ */
 #block-views-exp-sedes-block-cat .views-exposed-widget {
   padding: 0;
@@ -585,6 +511,7 @@ ul#tabSedes {
 /* --------------- Directorio Verde ------------ */
 .view-despierta-directorio-verde {
   width: 100%;
+  margin-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -598,10 +525,20 @@ ul#tabSedes {
   margin: 0 20px 20px 0;
 }
 .fdoverde a {
+  color: #4F7509;
+  font-size: 18px;
+  text-decoration: none;
+}
+.fdoverde a:visited {
+  text-decoration: none;
+}
+.fdoverde a:hover {
+  color: #418389;
   text-decoration: none;
 }
 .imgcateg {
   overflow: hidden;
+  border: 1px solid #4f7509;
   border-radius: 5px;
   height: 162px;
   display: block;
@@ -618,9 +555,55 @@ ul#tabSedes {
     width: 350px;
 }
 .fdoverde a:hover img{
-    /*width: 375px;*/
+    width: 375px;
     top: -4px;
     left: -5px;
+}
+@media (max-width: 1199px) {
+    .imgcateg {
+        /*height: 131px;*/
+    }
+    .fdoverde a img{
+        /*width: 282px;*/
+    }
+    .fdoverde a:hover img {
+        /*width: 307px;*/
+/*        top: -4px;
+        left: -5px;*/
+    }
+}
+@media (max-width: 991px) {
+  .fdoverde a {
+    font-size: 16px;
+  }    
+  .imgcateg {
+    /*width: 350px;*/
+    /*height: 100px;*/
+  }
+    .fdoverde a img{
+      /*width: 282px;*/
+        /*width: 211px;*/
+    }
+    .fdoverde a:hover img {
+        /*width: 230px;*/
+/*        top: -4px;
+        left: -5px;*/
+    }
+}
+@media (max-width: 908px) {
+  .imgcateg {
+    width: auto;
+  }
+}
+@media (max-width: 767px) {
+  .fdoverde {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .fdoverde a {
+    font-size: 14px;
+  }
 }
 
 /*@media (max-width: 1199px){

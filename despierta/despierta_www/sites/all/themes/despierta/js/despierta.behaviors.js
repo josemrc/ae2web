@@ -928,14 +928,17 @@
 
 			/* Directorio Verde page */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
-				$('div[class="view-content"]', this).append(otras);
 				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
 				$('div[class*="views-row"]', this).each( function() {
 					$(this).wrapInner('<div class="fdoverde"></div>');
 				});
 				var otras = $('div[class*="views-row"]:contains("Otras categorías")', this).get();
-				$('img', this).each( function() {
+				$('div[class="view-content"]', this).append(otras);
+				$('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
 					$(this).addClass('imgcateg');
+				})
+				$('div[class*="views-field-field-imagen"] img', this).each( function() {
+					$(this).removeClass('img-responsive');
 				})
 			});
 
