@@ -303,22 +303,5 @@ function despierta_form_node_form_alter(&$form, &$form_state, &$form_id) {
   }
 }
 
-/**
- * Implements breadcrumb.
- */
-// function despierta_breadcrumb(&$variables) {
-// var_dump($variables);
-//   // $breadcrumb = $variables['breadcrumb'];
-//   // if ($breadcrumb[1] == "Directorio verde") {  
-//   //   // linking to home page
-//   //   $links[0] = l(t('Home'), '<front>');
-
-//   //   // Keeping the trail/current page as non linked
-//   //   $links[1] = ('your desired breadcrumb');
-//   //   drupal_set_breadcrumb($links);
-//   // }
-
-// }
-
 
 ?>

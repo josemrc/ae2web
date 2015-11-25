@@ -6,11 +6,19 @@
 	var allPaisRegionsObj = {};
 	var currentPosition = {};
 
-	if (localStorage['region'] == "Todas las regiones") { localStorage['region'] = "" }
+	// if (localStorage['region'] == "Todas las regiones") { localStorage['region'] = "" }
 
 	// Warning!! HARD-CORE
-	// if (localStorage['pais'] === undefined || localStorage['pais'] == "") { localStorage['pais'] = "España" }
-	// if (localStorage['region'] === undefined || localStorage['region'] == "") { localStorage['region'] = "Madrid" }
+	if (localStorage['pais'] === undefined || localStorage['pais'] == "") { localStorage['pais'] = "España" }
+	if (localStorage['region'] === undefined || localStorage['region'] == "") { localStorage['region'] = "Madrid" }
+    
+    // Get current position
+    if (navigator.geolocation) {
+    	navigator.geolocation.getCurrentPosition(getPosition, getPositionError);
+	}
+	//if ( navigator.geolocation && $('div[class*="view-display-id-block_regiones"]').length ) {
+		// navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
+	// }			
 
 	var htmlNoResults = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
@@ -27,7 +35,8 @@
    * 
    */
 	// Read a page's GET URL variables and return them as an associative array.
-	Drupal.theme.prototype.getUrlVars = function (elem) {
+	// Drupal.theme.prototype.getUrlVars = function (elem) {
+	function getUrlVars(elem) {
 		var vars = [], hash;
 		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 
@@ -36,6 +45,17 @@
 			vars[hash[0]] = decodeURIComponent( hash[1] );
 		}
 		return vars;
+	}
+	/* New functions */
+	if (typeof(Number.prototype.toRad) === "undefined") {
+  		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
+		}
+	}
+	if (typeof(String.prototype.capitalizeFirstLetter) === "undefined") {
+		String.prototype.capitalizeFirstLetter = function() {
+			return this.charAt(0).toUpperCase() + this.slice(1);
+		}				
 	}
 
   /**
@@ -54,46 +74,114 @@
 		var d = R * c; // Distance in km
 		return d;
 	}
-	function foundLocation(position) {
-			var centerloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			var lat = position.coords.latitude;
-			var long = position.coords.longitude;
-			var latlng = lat + ',' + long;
-			currentPosition = {
-				long: long,
-				lat: lat,
-				latlng: latlng,
-				sensor: true,
-			}
-			// $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json", opts )
-			// 	.done(function( data ) {
-			// 		if ( !jQuery.isEmptyObject(data) && jQuery.isArray(data.results) && data.results[0] && data.results[0].address_components ) {
-			// 			var address = data.results[0].address_components;
-			// 			for ( var i=0; i < address.length; i++ ) {
-			// 				var geoloc = address[i];
-			// 				if ( jQuery.isArray(geoloc.types) && geoloc.types[0] ) {
-			// 					var type = geoloc.types[0];
-			// 					if ( type == "locality" ) {
-			// 						var locality = geoloc.long_name;
-			// console.log( locality );			
-			// 					}
-			// 					else if ( type == "country" ) {
-			// 						var country = geoloc.long_name;
-			// console.log( country );
-			// 					}
-			// 				}
-
-			// 			}
-			// 		}
-			// 	})
-			// 	.fail(function( jqxhr, textStatus, error ) {
-			// 		var err = textStatus + ", " + error;
-			// 		console.log( "Request Failed: " + err );
-			// });
+	function getPosition(position) {
+// console.log("getPosition");
+		var lat = position.coords.latitude;
+		var long = position.coords.longitude;
+		var latlng = lat + ',' + long;
+		currentPosition = {
+			long: long,
+			lat: lat,
+			latlng: latlng,
+			sensor: true,
+		}
 	}
-	function foundLocationError(msg) {
+	function getPositionError(msg) {
 		console.log(msg);
 	}
+
+
+	function foundLocation(position) {
+// console.log("foundLocation");
+// console.log(position);
+// console.log(currentPosition);
+		var lat = position.coords.latitude;
+		var long = position.coords.longitude;
+		var latlng = lat + ',' + long;
+		currentPosition = {
+			long: long,
+			lat: lat,
+			latlng: latlng,
+			sensor: true,
+		}
+		jQuery.ajax({			
+			url: 'http://maps.googleapis.com/maps/api/geocode/json',
+			data: currentPosition,
+			dataType: 'json',
+			async: false,
+		})
+		.done(function( data ) {
+// console.log( data );
+			if ( !jQuery.isEmptyObject(data) && jQuery.isArray(data.results) && data.results[0] && data.results[0].address_components ) {
+				var address = data.results[0].address_components;
+				for ( var i=0; i < address.length; i++ ) {
+					var geoloc = address[i];
+					if ( jQuery.isArray(geoloc.types) && geoloc.types[0] ) {
+						var type = geoloc.types[0];
+						if ( type == "locality" ) {
+							var locality = geoloc.long_name;
+// console.log( locality );
+						}
+						else if ( type == "country" ) {
+							var country = geoloc.long_name;
+// console.log( country );
+						}
+					}
+
+				}
+			}
+		})
+		.fail(function( jqxhr, textStatus, error ) {
+			var err = textStatus + ", " + error;
+			console.log( "Request Failed: " + err );
+		});						
+
+
+	}
+
+  /**
+   *
+   * Global functions.
+   * 
+   */
+	// Change title adding the region
+	Drupal.theme.prototype.getTitleRegion = function (title) {
+		var prefixtitle = title.substring(0, title.indexOf(" en "));
+		if ( prefixtitle != "" ) { title = prefixtitle }
+		var region = $('select[id="sel-regions"] option:selected').text();
+		var pais = $('select[id="sel-pais"] option:selected').text();
+		var q = region;
+		if ( region == "Todas las regiones" ) { q = pais }
+		return title + " en " + q;
+	};
+
+	// Apply changes when 'pais/region' panel is modified (or active)
+	Drupal.theme.prototype.applyRegionOption = function (pais, region) {
+		var regquery = "";
+		if ( region != "" ) { regquery = pais + ',' + region }
+		else { regquery = pais }
+
+		// Change title in 'Directorio verde' and 'Categories' pages
+		if ( $( 'div[id="block-views-sedes-block-cat"]' ).length ) {
+			var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
+			$('h1[id="page-title"]').html( q );
+		}
+		if ( $( 'div[class*="view-despierta-directorio-verde"]' ).length ) {
+			var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
+			$('h1[id="page-title"]').html( q );
+		}
+
+		// Chages the filter forms!!! (Regiones and Category)			
+		if ( $( 'div[id="block-views-sedes-block-regiones"]' ).length ) {
+			$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(regquery);
+			$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]').change();
+		}
+		// 'sedes category'
+		else if ( $( 'div[id="block-views-sedes-block-cat"]' ).length ) {
+			$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(pais);
+			$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();
+		}
+	};
 
   /**
    *
@@ -323,12 +411,12 @@
 								}
 							}
 							else {
-								if (navigator.geolocation) {
-									navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
-								}
-								else {
-									console.log('not supported');
-								}
+								// if (navigator.geolocation) {
+								// 	navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
+								// }
+								// else {
+								// 	console.log('not supported');
+								// }
 							}
 						}
 					});
@@ -528,7 +616,9 @@
 	Drupal.behaviors.despiertaBehaviors = {
 		attach: function (context, settings) {
 
-			var urlVars = Drupal.theme.prototype.getUrlVars();
+			// Changes titles for multiple pages
+			// var urlVars = Drupal.theme.prototype.getUrlVars();
+			var urlVars = getUrlVars();
 			if ( urlVars['q'] == "legal" ) {
 				// change title
 				$('h1[id="page-title"]').text("Aviso legal");
@@ -546,8 +636,68 @@
 				$('h1[id="page-title"]').remove();
 			}
 
+			/* Change Breadcrumb from URL */
+			$('div[id="breadcrumb"]', context).once('despierta', function () {
+				// delete frontpage
+				if ( urlVars === undefined || urlVars['q'] === undefined ) {
+					$(this).remove();
+				}
+				else {
+					var path = urlVars['q'].split('/');
+					if ( path.length > 0 ) {
+						// delete for: empresa,usuario
+						if ( path[0] == "usuario" || path[0] == "empresa" ) {
+							$(this).remove();
+						}
+						else { 
+							var out = '<div class="breadcrumb">';
+							out += '<a href="/despierta/">Inicio</a>';
+							var p = '';						
+							for ( var i=1; i <= path.length; i++) {
+								var n = path[i-1];
+								if ( n != '' ) {
+									p += (p == '')? n : '/'+n;
+									n = n.replace(/-/g,' ');
+									n = n.capitalizeFirstLetter();
+									if ( i == path.length ) { out += ' - <span>'+n+'</span>' }
+									else { out += ' - <a href="/despierta/?q='+p+'">'+n+'</a>' }
+								}
+							}
+							out += '</div>';
+							$(this).html(out);
+
+						}
+					}
+				}
+			});
+			/* Main Menu */
+			$('div[id="main-menu"]', context).once('despierta', function () {
+				$('ul[id="main-menu-links"]').addClass('nav navbar-nav navbar-right');				
+				// add 'hoja' img
+				$('ul[id="main-menu-links"] li[class^="menu"]').each(function() {
+					$(this).append('<img class="hoja" src="sites/default/files/hoja.png">');					
+				});
+			});
+
+			
+
 			/* Pais/Regiones View */
 			$('div[id="block-views-tax-regiones-block"]', context).once('despierta', function () {
+
+// 				if (	localStorage['pais'] === undefined || localStorage['pais'] == "" || 
+// 						localStorage['region'] === undefined || localStorage['region'] == ""
+// 				 ) {
+// 				 	getLocation();
+// 					//Get current geoposition
+// // 			    	if (navigator.geolocation) {
+// // console.log("navigator");
+// // $.when( navigator.geolocation.getCurrentPosition ).then(function( data ) {
+// // console.log(data);
+// // 	foundLocation();
+// // });				
+// 					// }
+// 				}
+
 				// Create Object: Pais - Regions
 				allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('.view-regiones', this) );
 
@@ -562,77 +712,12 @@
 				// Delete
 				$('div[id="block-views-tax-regiones-block"]').remove();
 
-				// Active 'Sedes' views with initial pais/regions
-				// 'sedes regions'
+				// Save 'localStorage' into 'options'
 				Drupal.theme.prototype.selectPaisRegion(localStorage['pais'], localStorage['region']);
-				var regquery = "";
-				if ( localStorage['region'] != "" ) { regquery = localStorage['pais'] + ',' + localStorage['region'] }
-				else { regquery = localStorage['pais'] }
-				if ( $( 'div[id="block-views-sedes-block-regiones"]' ).length ) {
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(regquery);
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]').change();
-				}
-				// 'sedes category'
-				else if ( $( 'div[id="block-views-sedes-block-cat"]' ).length ) {
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(localStorage['pais']);
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();
-				}
-			});
-			// Event: Create regions when pais changes
-			$( '#header select[id="sel-pais"], #header select[id="sel-regions"]' ).change( function(event) {
-				// Display none 'sede' list
-				$('div[id="block-views-sedes-block-cat"]').css('display', 'none');
+				
+				// Apply 'pais/regions' options
+				Drupal.theme.prototype.applyRegionOption(localStorage['pais'], localStorage['region']);
 
-				if ( $(this).attr('id') == "sel-pais" ) {
-					var pais = $( 'option:selected', this ).text();
-					var region = "";
-					localStorage['pais'] = pais;
-					localStorage['region'] = region;
-					
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pais);
-					$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);					
-				}
-				else if ( $(this).attr('id') == "sel-regions" ) {
-					var region = $( 'option:selected', this ).text();
-					if ( region == "Todas las regiones" ) { region = "" }
-					localStorage['region'] = region;					
-				}
-				var regquery = "";
-				if ( localStorage['region'] != "" ) { regquery = localStorage['pais'] + ',' + localStorage['region'] }
-				else { regquery = localStorage['pais'] }
-
-
-				// If we are in frontapge  page => Select given 'pais'
-				if ( $( 'form[id="views-exposed-form-sedes-block-regiones"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]' ).val(regquery);
-					$( 'form[id="views-exposed-form-sedes-block-regiones"] input[id="edit-region"]').change();
-				}
-				// If we are in categories of 'directorio-verde' page => Select given 'pais'
-				else if ( $( 'form[id="views-exposed-form-sedes-block-cat"]' ).length ) {
-					event.stopPropagation();
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]' ).val(localStorage['pais']);
-					$( 'form[id="views-exposed-form-sedes-block-cat"] input[id="edit-pais"]').change();
-
-					// // Change  checkbox of filter
-					// $('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-regions-wrapper"]', context).once('despierta', function () {
-					// 	var pais = $('select[id="sel-pais"] option:selected').text();
-					// 	var region = $('select[id="sel-regions"] option:selected').text();
-					// 	$('div[class*="form-item-edit-regions"]', this).each( function() {
-					// 		var labregion = $('label[for*="edit-regions"]', this).text();
-					// 		if ( allPaisRegionsObj[pais] !== undefined ) {
-					// 			if ( allPaisRegionsObj[pais].regions[labregion] !== undefined ) {
-					// 				if ( (labregion == region) || (region == "Todas las regiones") ) {
-					// 					$('input[id*="edit-regions"]', this).prop('checked', true);
-					// 				}
-					// 				else {
-					// 					$('input[id*="edit-regions"]', this).prop('checked', false);
-					// 				}
-					// 			}					
-					// 		}
-					// 	});	
-					// });
-				}
 			});
 
 
@@ -733,18 +818,8 @@
 					}
 					// When we are in the category page:
 					// get sub-categories
-					// add region/pais in the title
 					if ( $(this).parents('div[id="block-views-sedes-block-cat"]').length != 0 ) {
 						subcats = Drupal.theme.prototype.getNumSubCategories(sedesGroups);
-
-						var title = $('h1[id="page-title"]').text();
-						var prefixtitle = title.substring(0, title.indexOf(" en "));
-						if ( prefixtitle != "" ) { title = prefixtitle }
-						var region = $('select[id="sel-regions"] option:selected').text();
-						var pais = $('select[id="sel-pais"] option:selected').text();
-						var q = region;
-						if ( region == "Todas las regiones" ) { q = pais }
-						$('h1[id="page-title"]').html(title + " en " + q );
 					}
 
 					// Create HTML
@@ -761,8 +836,7 @@
 				// Print sedes list
 				$(this).append( $(sedeHTML) );
 
-				// Print num. sub-cagtegories
-				
+				// Print num. sub-cagtegories				
 				$('ul[id="tabSedes"] a').map( function () {
 					var val = $(this).text();
 					val = val.replace(/^\s*/g,'');
@@ -801,8 +875,14 @@
 				$('div[id="block-views-sedes-block-regiones"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-cat"]').css('display', 'block');
 				$('div[id="block-views-sedes-block-subcat"]').css('display', 'block');
-
 			});
+
+			/* Filter form: Sede 'categories' */
+			$('div[id="block-views-exp-sedes-block-cat"]', context).once('despierta', function () {
+				$(this).addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+				// $('div[id="block-views-sedes-block-cat"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-right');
+			});
+
 			// Delete redundance in regions, When we are in the category page:
 			$('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-regions-wrapper"]', context).once('despierta', function () {
 				var pais = $('select[id="sel-pais"] option:selected').text();
@@ -816,10 +896,42 @@
 					}
 				});	
 			});
-			/* Filter form: Sede 'categories' */
-			$('form[id="views-exposed-form-sedes-block-cat"]', context).once('despierta', function () {
-				// $('input', this).addClass("form-control");
+
+
+			/* Sede 'categories' */
+			$('div[id="block-views-banners-block"]', context).once('despierta', function () {
+				$(this).append('<hr>');
 			});
+
+			
+
+
+			/* Directorio Verde page */
+			$('.view-despierta-directorio-verde', context).once('despierta', function () {
+				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
+				$('div[class*="views-row"]', this).each( function() {
+					$(this).wrapInner('<div class="fdoverde"></div>');
+				});
+				var otras = $('div[class*="views-row"]:contains("Otras categorías")', this).get();
+				$('div[class="view-content"]', this).append(otras);
+				$('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
+					$(this).addClass('imgcateg');
+				})
+				$('div[class*="views-field-field-imagen"] img', this).each( function() {
+					$(this).removeClass('img-responsive');
+				})
+			});
+
+
+			/* Sede Page */
+			$('div[class*="node-sede"]', context).once('despierta', function () {				
+				// $('div[class*="field-name-field-location"]', this).remove();
+			});
+
+
+			/*
+			 * FORMS PAGES
+			*/			
 
 			/* Contact form */
 			$('form[id="contact-site-form"]', context).once('despierta', function () {
@@ -926,29 +1038,7 @@
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
 			});
 
-			/* Directorio Verde page */
-			$('.view-despierta-directorio-verde', context).once('despierta', function () {
-				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
-				$('div[class*="views-row"]', this).each( function() {
-					$(this).wrapInner('<div class="fdoverde"></div>');
-				});
-				var otras = $('div[class*="views-row"]:contains("Otras categorías")', this).get();
-				$('div[class="view-content"]', this).append(otras);
-				$('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
-					$(this).addClass('imgcateg');
-				})
-				$('div[class*="views-field-field-imagen"] img', this).each( function() {
-					$(this).removeClass('img-responsive');
-				})
-			});
-
-
-			/* Sede Page */
-			$('div[class*="node-sede"]', context).once('despierta', function () {				
-				// $('div[class*="field-name-field-location"]', this).remove();
-			});
-
-			/* Add clasess for multiple elements */
+			/* Footer blocks */
 			$('.view-despierta-pie', context).once('despierta', function () {
 				$('img', this).each( function() {
 					$(this).addClass('imgfooter');
@@ -959,20 +1049,14 @@
 					$(this).addClass('imgeco');
 				})
 			});
-			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12');
-			$('div[id="block-views-sedes-block-cat"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
-
-			// Hide filter elements of 'Paises' within "Directorio verde" pages
-			$('form[id="views-exposed-form-sedes-block-regiones"]', context).once('despierta', function () {
-				$(this).addClass('element-invisible');
-			});
-			$('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-pais-wrapper"]', context).once('despierta', function () {
-				$(this).addClass('element-invisible');
-			});
 			$('.region-triptych-first').addClass('col-md-4');
 			$('.region-triptych-middle').addClass('col-md-4');
 			$('.region-triptych-last').addClass('col-md-4');
 
+
+			/*
+			 * For functionality...
+			 */
 
 			/* Show and Hide */
 			// hide
@@ -982,20 +1066,23 @@
 			$('div[class*="view-display-id-block_regiones"]').css('display', 'none');
 
 			// show depending on...
-			if ( 	$(context).prop("tagName") == "FORM" &&
-					($(context).attr('id') == "views-exposed-form-sedes-block-regiones") ||
-					($(context).attr('id') == "views-exposed-form-sedes-block-cat")
+			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&					
+					($(context).attr('id') == "views-exposed-form-sedes-block-regiones" ||
+					$(context).attr('id') == "views-exposed-form-sedes-block-cat" )
 			) {
-				$('div[id="loading"]').fadeOut('slow');
+				$('div[id="loading"]').css('display', 'none');
 				$('div[class*="view-display-id-block_cat"]').fadeIn('slow');
 				$('form[id="views-exposed-form-sedes-block-cat"]').fadeIn('slow');
 				$('div[class*="view-display-id-block_regiones"]').fadeIn('slow');
 				$('div[class*="view-geolocalization"]').removeClass('element-invisible');
-				$('ul[id="tabSedes"]').addClass('pull-left');
-				// Get current geoposition
-				if ( navigator.geolocation && $('div[class*="view-display-id-block_regiones"]').length ) {
-					navigator.geolocation.getCurrentPosition(foundLocation, foundLocationError);
-				}
+				$('ul[id="tabSedes"]').addClass('pull-left col-lg-12 col-md-12 col-sm-12 col-xs-12');
+				$('#tabSedes').tabCollapse({
+					tabsClass: 'hidden-sm hidden-xs',
+					accordionClass: 'visible-sm visible-xs'
+				});
+				// hide filter forms
+				$('form[id="views-exposed-form-sedes-block-regiones"]').addClass('element-invisible');
+				$('form[id="views-exposed-form-sedes-block-cat"] div[id="edit-pais-wrapper"]').addClass('element-invisible');
 			}
 			else {
 				if ( $( ".flower-loader" ).length == 0 ) {
@@ -1005,23 +1092,43 @@
 				$('div[id="page-wrapper"]').css('display', 'block');
 			}
 
-			/* Events */
+			/* Events even in the elements that have been created dynamically.
+			 * Then, this part has to be at the end of code.
+			 */
 			// Active Busqueda tabs
 			$('#tabBusq').delegate('ul a', 'click', function(e) {
 				e.preventDefault();
 				$(this).tab('show');
 			});
-			$('#tabSedes').tabCollapse({
-			    tabsClass: 'hidden-sm hidden-xs ',
-			    accordionClass: 'visible-sm visible-xs'
-			});
+			// Changes in the 'pais/region' options.
+			// Has to be 'delegate' because it is created dynamically
+			$(context).delegate('#header select[id="sel-pais"], #header select[id="sel-regions"]', 'change', function(event) {
+				// Display none 'sede' list
+				$('div[id="block-views-sedes-block-cat"]').css('display', 'none');
 
-			/* New functions */
-			if (typeof(Number.prototype.toRad) === "undefined") {
-		  		Number.prototype.toRad = function() {
-					return this * Math.PI / 180;
+				if ( $(this).attr('id') == "sel-pais" ) {
+					var pais = $( 'option:selected', this ).text();
+					var region = "";
+					localStorage['pais'] = pais;
+					localStorage['region'] = region;
+					
+					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pais);
+					$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);					
 				}
-			}
+				else if ( $(this).attr('id') == "sel-regions" ) {
+					var region = $( 'option:selected', this ).text();
+					if ( region == "Todas las regiones" ) { region = "" }
+					localStorage['region'] = region;					
+				}
+				// It is useful??
+				// event.stopPropagation();
+
+				// Apply 'pais/regions' options
+				Drupal.theme.prototype.applyRegionOption(localStorage['pais'], localStorage['region']);
+			});
+			// Add classes for the new 'sedes' pages
+			$('div[id="block-views-sedes-block-regiones"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12');
+			$('div[id="block-views-sedes-block-cat"] .view-id-sedes section[class^="resultados"]').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12');
 
 
 		} // end: attach 

@@ -19,11 +19,9 @@ body {
 h1 {
   color: #92b737;
 }
-
 a {
   color: #418389;
 }
-
 .region-header a {
   color: #92B737
 }
@@ -31,11 +29,11 @@ p.pasos {
   font-weight: bold;
   color: #92b737;
 }
+
 /* --------------- Overall wrappers ------------ */
 .sede-fieldset > .fieldset-wrapper {
   display: flex;
 }
-
 #block-system-user-menu a {
   background-color: #f5f5f5;
   color: #418389  
@@ -72,6 +70,7 @@ div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-
   margin-right: -50%;
 }
 
+
 /*
  * HEADER BLOCK
  */
@@ -89,8 +88,9 @@ div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-
 #main-menu-links li {
   float: left; /* LTR */
   list-style: none;
-  padding: 0 1px;
+  /*padding: 0 1px;*/
   margin: 0 1px;
+  padding-right: 22px;
 }
 #main-menu-links a {
   background-color: #adbd7e;
@@ -134,21 +134,30 @@ div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-
 .mi-navbar-toggle:hover, .mi-navbar-toggle:focus {
     background-color: #DDD;
 }
+#main-menu .hoja {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+}
+
 /* --------------- Logo View ------------ */
 #logo img {
   display: inline-block;
   margin-left: 30px;
 }
+
 /* --------------- Pais / Regions View ------------ */
 select#sel-pais,
 select#sel-regions {
 	width: 153px;
   margin-bottom: 5px;
 }
+
 /* --------------- Wellcome View ------------ */
 .block-welcome-username {
   margin-top: 5px;
 }
+
 /* --------------- Header Panel Responsive ------------ */
 @media (max-width: 625px) {
   .mi-navbar-toggle .icon-bar {
@@ -184,16 +193,24 @@ select#sel-regions {
   }
 }
 
+
+
 /*
  * CONTENT BLOCK
  */
+
+/* --------------- BreadCrumb ------------ */
+@media (max-width: 991px) {
+  #breadcrumb {
+    display: none;
+  }
+}
 
 /* --------------- Frontpage: Eco/GeoEco View ------------ */
 .imgeco {
     margin-left: auto;
     margin-right: auto;
 }
-
 #block-views-frontpage-desc-block-geoeco h3 {
   color: #637346;
   font-size: 30px;
@@ -263,6 +280,7 @@ ul#tabSedes {
 
 
 /* --------------- Frontpage: Geolocalation ------------ */
+
 
 /* --------------- Busqueda Avanzada ------------ */
 
@@ -498,9 +516,10 @@ ul#tabSedes {
   }
 }
 
-/* --------------- Filter Sedes: second bar ------------ */
+/* --------------- Filter Sedes 'Categorias' ------------ */
 #block-views-exp-sedes-block-cat .views-exposed-widget {
   padding: 0;
+  margin-top: 15px;
   margin-bottom: 30px;
 }
 #block-views-exp-sedes-block-cat .fieldset-legend {
@@ -515,14 +534,17 @@ ul#tabSedes {
   padding-left: 20px;
   padding-right: 20px;
 }
+.views-field-name {
+  margin-bottom: 3px;
+}
 .fdoverde {
   background: linear-gradient(#DEFCA6, #4F7509);
   padding: 5px;
   border-radius: 5px;
-  height: 197px;
+  height: 200px;
   padding: 10px;
   text-align: center;
-  margin: 0 20px 20px 0;
+  margin: 0 13px 13px 0;
 }
 .fdoverde a {
   color: #4F7509;
@@ -559,36 +581,13 @@ ul#tabSedes {
     top: -4px;
     left: -5px;
 }
-@media (max-width: 1199px) {
-    .imgcateg {
-        /*height: 131px;*/
-    }
-    .fdoverde a img{
-        /*width: 282px;*/
-    }
-    .fdoverde a:hover img {
-        /*width: 307px;*/
-/*        top: -4px;
-        left: -5px;*/
-    }
-}
 @media (max-width: 991px) {
+  .imgcateg {
+    width: 350px;
+  }
   .fdoverde a {
     font-size: 16px;
   }    
-  .imgcateg {
-    /*width: 350px;*/
-    /*height: 100px;*/
-  }
-    .fdoverde a img{
-      /*width: 282px;*/
-        /*width: 211px;*/
-    }
-    .fdoverde a:hover img {
-        /*width: 230px;*/
-/*        top: -4px;
-        left: -5px;*/
-    }
 }
 @media (max-width: 908px) {
   .imgcateg {
@@ -605,35 +604,6 @@ ul#tabSedes {
     font-size: 14px;
   }
 }
-
-/*@media (max-width: 1199px){
-  .fdoverde{
-  }
-}
-@media (max-width: 991px){
-  .fdoverde{
-  }
-}
-@media (max-width: 767px){
-  .fdoverde{
-    height: auto;
-    margin: 0 auto;
-    max-width: 223px;
-    }
- .directorio_verde .col-xs-12.cont {
-    width: 33%;
-  }
-
-}
-@media (max-width: 540px){
-  .directorio_verde .col-xs-12.cont {
-      width: 100%;
-  }
-}*/
-
-
-
-
 
 /* --------------- Redes View ------------ */
 
