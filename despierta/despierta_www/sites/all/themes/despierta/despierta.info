@@ -22,6 +22,10 @@ datestamp = "1440020197"
 ;stylesheets[all][] = css/menu_sideslide.css
 ;stylesheets[all][] = css/jquery-ui-1.11.4/jquery-ui.min.css
 
+
+;stylesheets[all][] = js/store/storelocator.css
+
+
 stylesheets[all][] = css/bootstrap/bootstrap.min.css
 stylesheets[all][] = css/responsive-tabs.css
 stylesheets[all][] = css/responsive.css
@@ -37,6 +41,12 @@ stylesheets[print][] = css/print.css
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap/bootstrap.min.js
 scripts[] = js/bootstrap-tabcollapse.js
+
+
+;scripts[] = js/store/store-locator.min.js
+;scripts[] = js/store/medicare-static-ds.js
+;scripts[] = js/store/medicare-dynamic-ds.js
+;scripts[] = js/store/panel.js
 
 ;scripts[] = js/bootstrap/responsive-tabs.js
 ;scripts[] = js/bootstrap/jquery.blockUI.js

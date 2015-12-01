@@ -4,6 +4,7 @@
  * Code for the Google Store Locator feature.
  */
 
+
 /**
  * Implements hook_ctools_plugin_api().
  */
@@ -367,7 +368,7 @@ function google_store_locator_default_page() {
       }
     }
   }
-
+var_dump(theme('google_store_locator_contents', $variables));
   return theme('google_store_locator_contents', $variables);
 }
 
@@ -567,4 +568,96 @@ function google_store_locator_admin_form_validate($form, &$form_state) {
     form_set_error('gsl_map_lat',
     t('Please enter a latitude between -90 and 90'));
   }
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function google_store_locator_block_info() {
+  $blocks = array();
+  $blocks['my_block'] = array(
+    'info' => t('My Custom Block'),
+  );
+  
+  return $blocks;
+}
+/**
+ * Implements hook_block_view().
+ */
+function google_store_locator_block_view($delta='') {
+  $block = array();
+  
+  switch($delta) {
+    case 'my_block' :
+      $block['content'] = my_block_view();
+      break;
+  }
+  
+  return $block;
+}
+
+/**
+ * Custom function to assemble renderable array for block content.
+ * Returns a renderable array with the block content.
+ * @return
+ *   returns a renderable array of block content.
+ */
+function my_block_view() {
+  $data_path = variable_get('gsl_json_path', 'store-locator/json');
+  $map_zoom = variable_get('gsl_map_zoom', '4');
+  $map_cluster= variable_get('gsl_map_cluster', FALSE);
+  $map_cluster_grid= variable_get('gsl_map_cluster_grid', 50);
+  $map_cluster_zoom_limit = variable_get('gsl_cluster_zoom_limit', 10);
+  $viewport_manage = variable_get('gsl_viewport', FALSE);
+  $viewport_marker_limit = variable_get('gsl_marker_zoom_limit', 10);
+  $map_long = variable_get('gsl_map_long', '-100');
+  $map_lat = variable_get('gsl_map_lat', '40');
+  $items_per_panel = variable_get('gsl_items_per_panel', 10);
+  $loc_aware = variable_get('gsl_loc_aware', '0');
+  $search_label = variable_get('gsl_search_label', "Where are you?");
+
+  $variables = array(
+    'data_path' => $data_path,
+    'map_zoom' => $map_zoom,
+    'map_cluster' => $map_cluster,
+    'map_cluster_grid' => $map_cluster_grid,
+    'map_cluster_zoom' => $map_cluster_zoom_limit,
+    'viewport_manage' => $viewport_manage,
+    'viewport_marker_limit' => $viewport_marker_limit,
+    'map_long' => $map_long,
+    'map_lat' => $map_lat,
+    'items_per_panel' => $items_per_panel,
+    'loc_aware' => $loc_aware,
+    'search_label' => $search_label,
+  );
+
+  $marker_icon_fid = variable_get('gsl_marker_icon', '');
+
+  // Add the zoom setting if location awareness is enabled.
+  if ($loc_aware == '1') {
+    $variables['loc_aware_zoom'] = variable_get('gsl_loc_aware_zoom');
+  }
+
+  if (!empty($marker_icon_fid)) {
+    $marker_file = file_load($marker_icon_fid);
+    $variables['marker_path'] = $marker_file->uri;
+  }
+
+  // Add the feature list if some exist.
+  $feature_field = field_info_field('gsl_feature_filter_list');
+  if (isset($feature_field)) {
+    $feature_list = list_allowed_values($feature_field);
+    if (!empty($feature_list)) {
+      // Need to sanitize the keys and labels returned from
+      // list_allowed_values().
+      foreach ($feature_list as $key => $label) {
+        $skey = field_filter_xss($key);
+        $variables['feature_list'][$skey] = field_filter_xss($label);
+      }
+    }
+  }
+  $output = theme_google_store_locator_contents($variables);
+  return $output;
+
 }
