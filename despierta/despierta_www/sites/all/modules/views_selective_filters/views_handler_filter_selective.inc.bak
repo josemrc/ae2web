@@ -193,9 +193,7 @@ class views_handler_filter_selective extends views_handler_filter_in_operator {
       return;
     }
     // Decode the values to restore special chars.
-    if (is_array($this->value)) {
-      $this->value = array_map('urldecode', $this->value);
-    }
+    $this->value = array_map('urldecode', $this->value);
     parent::query();
   }
   

@@ -422,13 +422,13 @@
 						}
 						else if ( k == 18 ) { // Location (Address)
 							var val;
-							val = jQuery.parseJSON( $(td).text() );
-							sede.location = val;
 							if ( !jQuery.isEmptyObject(currentPosition) ) {
-								var prox = proxDistance(currentPosition.long, currentPosition.lat, val.coordinates[0], val.coordinates[1]);
-								if ( prox !== undefined ) {
-									sede.proximity = prox;
-								}
+								// val = jQuery.parseJSON( $(td).text() );
+								// sede.location = val;
+								// var prox = proxDistance(currentPosition.long, currentPosition.lat, val.coordinates[0], val.coordinates[1]);
+								// if ( prox !== undefined ) {
+								// 	sede.proximity = prox;
+								// }
 							}
 							else {
 								// if (navigator.geolocation) {
