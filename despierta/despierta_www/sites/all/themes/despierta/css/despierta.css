@@ -41,7 +41,8 @@ p.pasos {
 div#page-wrapper {
   display: none;
 }
-div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-sedes-block-regiones {
+/*div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-sedes-block-regiones {*/
+div#block-views-ver-tax-block {
   display: none;
 }
 
@@ -371,8 +372,18 @@ ul#tabSedes {
 }
 
 /* --------------- Tabs ------------ */
-.view-display-id-block_regiones .nav > li > a {
-  display: inline-flex;
+/*.view-display-id-block_regiones .nav > li > a {*/
+#block-views-sedes-block .nav > li {
+  /*display: inline-flex;*/
+  margin: 0;
+  padding: 0 !important;
+}
+#block-views-sedes-block .tab-despierta ul li a {
+  font-size: 18px;
+  padding: 5px 10px 3px 10px;
+}
+#block-views-sedes-block .tab-despierta .tab-content {
+  padding: 0;
 }
 
 /* --------------- Sedes View ------------ */
@@ -516,16 +527,24 @@ ul#tabSedes {
   }
 }
 
-/* --------------- Filter Sedes 'Categorias' ------------ */
-#block-views-exp-sedes-block-cat .views-exposed-widget {
+/* --------------- Map Sedes ------------ */
+#block-views-sedes-block .attachment {
+  padding-right: 0;
+}
+
+
+/* --------------- Filter Sedes ------------ */
+/*#block-views-exp-sedes-block-cat .views-exposed-widget {
   padding: 0;
   margin-top: 15px;
   margin-bottom: 30px;
 }
 #block-views-exp-sedes-block-cat .fieldset-legend {
   font-size: 16px;
+}*/
+#block-views-sedes-block .view-filters {
+  padding-right: 0;
 }
-
 
 /* --------------- Directorio Verde ------------ */
 .view-despierta-directorio-verde {
