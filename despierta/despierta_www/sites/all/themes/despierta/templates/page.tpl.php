@@ -171,7 +171,7 @@
   <div id="main-wrapper" class="clearfix"><div id="main" class="clearfix">
 
     <?php if ($breadcrumb): ?>
-      <div id="breadcrumb"><?php print $breadcrumb; ?></div>
+      <!-- <div id="breadcrumb"><?php print $breadcrumb; ?></div> -->
     <?php endif; ?>
 
     <?php if ($page['sidebar_first']): ?>
@@ -252,3 +252,17 @@
   </div></div> <!-- /.section, /#footer-wrapper -->
 
 </div></div> <!-- /#page, /#page-wrapper -->
+
+<div class="modal hide fade" id="myModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
+</div>

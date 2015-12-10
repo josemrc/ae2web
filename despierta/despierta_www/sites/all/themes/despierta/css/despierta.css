@@ -41,36 +41,27 @@ p.pasos {
 div#page-wrapper {
   display: none;
 }
-/*div#block-views-ver-tax-block, div#block-views-sedes-block-cat, div#block-views-sedes-block-regiones {*/
 div#block-views-ver-tax-block {
   display: none;
 }
 
-/* --------------- Loading modal ------------ */
-#pleaseWaitDialog p {
-  margin: 0;
+/* --------------- Loading views ------------ */
+#loading {
   position: absolute;
-  top: 10%;
-  left: 48%;
-  margin-right: -50%;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
 }
-#pleaseWaitDialog .flower-loader {
-  margin: 0;
-  position: absolute !important;
-  top: 20%;
+#loading .flower-loader {
   left: 50%;
-  margin-right: -50%;
+  margin-left: 20px;
+  margin-top: 50px;
 }
-.modal-backdrop {
-   background-color: white;
-   opacity: 1 !important;
+#loading p {  
+  margin-top: 15px;
+  margin-left: 50%;
+  font-weight: bold;
 }
-#loading p, #loading .flower-loader {
-  margin-top: 30px;
-  left: 50%;
-  margin-right: -50%;
-}
-
 
 /*
  * HEADER BLOCK
@@ -245,7 +236,6 @@ ul#tabSedes {
 }
 .tab-despierta ul.nav.nav-tabs {
   border-bottom: 6px solid #6EBF46;
-  /*float: left;*/
 }
 .tab-despierta ul li {
   font-size: 18px;
@@ -277,12 +267,6 @@ ul#tabSedes {
   border-color: #398439;
 }
 
-/* --------------- Frontpage: Region ------------ */
-
-
-/* --------------- Frontpage: Geolocalation ------------ */
-
-
 /* --------------- Busqueda Avanzada ------------ */
 
 #block-views-frontpage-desc-busq-block label,
@@ -298,6 +282,10 @@ ul#tabSedes {
   margin: 0;
 }
 
+#block-views-exp-sedes2-busq-simple,
+#block-views-exp-sedes2-busq-avan {
+  margin-bottom: 30px;
+}
 
 /* 
  * Categorias pages
@@ -372,24 +360,22 @@ ul#tabSedes {
 }
 
 /* --------------- Tabs ------------ */
-/*.view-display-id-block_regiones .nav > li > a {*/
-#block-views-sedes-block .nav > li {
-  /*display: inline-flex;*/
+#block-views-sedes-block .nav > li,
+.view-sedes2 .nav > li {
   margin: 0;
   padding: 0 !important;
 }
-#block-views-sedes-block .tab-despierta ul li a {
+#block-views-sedes-block .tab-despierta ul li a,
+.view-sedes2 .tab-despierta ul li a {
   font-size: 18px;
   padding: 5px 10px 3px 10px;
 }
-#block-views-sedes-block .tab-despierta .tab-content {
+#block-views-sedes-block .tab-despierta .tab-content,
+.view-sedes2 .tab-despierta .tab-content {
   padding: 0;
 }
 
 /* --------------- Sedes View ------------ */
-#block-views-sedes-block-cat {
-  display: none;
-}
 .no-resultados {
   margin-top: 15px;
 }
@@ -534,17 +520,21 @@ ul#tabSedes {
 
 
 /* --------------- Filter Sedes ------------ */
-/*#block-views-exp-sedes-block-cat .views-exposed-widget {
-  padding: 0;
-  margin-top: 15px;
-  margin-bottom: 30px;
-}
-#block-views-exp-sedes-block-cat .fieldset-legend {
-  font-size: 16px;
-}*/
 #block-views-sedes-block .view-filters {
   padding-right: 0;
+  font-size: 14px;
 }
+#block-views-sedes-block .view-filters .ppal {
+  clear: both;
+  font-weight: bold;
+  color: #496e32;
+  background-color: #F4F9F2;
+  width: 100%;
+}
+#block-views-sedes-block .view-filters .ppal > input{
+  margin-right: 5px;
+}
+
 
 /* --------------- Directorio Verde ------------ */
 .view-despierta-directorio-verde {

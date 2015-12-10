@@ -413,7 +413,7 @@ function field_collection_fieldset_field_widget_form(&$form, &$form_state, $fiel
         $element['#after_build'][] = 'field_collection_field_widget_embed_delay_required_validation';
       }
 
-      if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+      if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED && empty($form_state['programmed'])) {
         $element['remove_button'] = array(
           '#delta' => $delta,
           '#name' => implode('_', $parents) . '_remove_button',
@@ -423,7 +423,7 @@ function field_collection_fieldset_field_widget_form(&$form, &$form_state, $fiel
           '#submit' => array('field_collection_remove_submit'),
           '#limit_validation_errors' => array(),
           '#ajax' => array(
-            'path' => 'field_collection/ajax',
+            'callback' => 'field_collection_remove_js',
             'effect' => 'fade',
           ),
           '#weight' => 1000,
@@ -448,7 +448,9 @@ function field_collection_fieldset_field_attach_form($entity_type, $entity, &$fo
     $field = field_info_field($field_name);
 
     if ($field['type'] == 'field_collection' && $field['settings']['hide_blank_items']
-      && field_access('edit', $field, $entity_type) && $instance['widget']['type'] == 'field_collection_fieldset') {
+      && field_access('edit', $field, $entity_type) && $instance['widget']['type'] == 'field_collection_fieldset'
+      && $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED
+      && empty($form_state['programmed'])) {
 
       $element_langcode = $form[$field_name]['#language'];
       if ($form[$field_name][$element_langcode]['#max_delta'] > 0) {
@@ -460,6 +462,15 @@ function field_collection_fieldset_field_attach_form($entity_type, $entity, &$fo
         $max_delta = $form[$field_name][$element_langcode]['#max_delta'];
         $form[$field_name][$element_langcode][$max_delta]['#collapsed'] = FALSE;
       }
+
+      $element_langcode = $form[$field_name]['#language'];
+      $element_wrapper = $form[$field_name][$element_langcode]['add_more']['#ajax']['wrapper'];
+      for ($i = 0; $i <= $form[$field_name][$element_langcode]['#max_delta']; $i++) {
+        if (isset($form[$field_name][$element_langcode][$i]['remove_button'])) {
+          $form[$field_name][$element_langcode][$i]['remove_button']['#ajax']['wrapper'] = $element_wrapper;
+        }
+      }
+
     }
   }
 }

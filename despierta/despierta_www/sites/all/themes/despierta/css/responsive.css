@@ -118,22 +118,6 @@
 /**
  * Use 3 grid columns for SMALLER screens.
  */
-/*@media (max-width: 850px) {
-  .sidebar-first .region-triptych-first,
-  .sidebar-first .region-triptych-middle,
-  .sidebar-first .region-triptych-last {
-    background-color: red;
-    float: left;
-    display: inline-block;
-    width: 33.33333%;
-    margin-left: 0%;
-    margin-right: -33.33333%;   
-  }
-}*/
-
-/**
- * Use 3 grid columns for SMALLER screens.
- */
 @media all and (min-width: 900px) and (max-width: 959px) {
 
   /**

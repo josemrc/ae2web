@@ -9,12 +9,12 @@
  * Define callbacks used for field collection labels.
  *
  * @param array $field
- *   the field collection for which field label options should be returned.
+ *   The field collection for which field label options should be returned.
  *
  * @return array
  *   callback functions.
  */
-function hook_field_collection_fieldset_field_as_label_info($field) {
+function hook_field_collection_fieldset_field_as_label_info(array $field) {
   return array(
     'text' => array(
       'label' => 'Field collection: text field',
@@ -35,7 +35,7 @@ function hook_field_collection_fieldset_field_as_label_info($field) {
  * @return string
  *   Title for the field collection.
  */
-function field_collection_fieldset_field_as_label_callback($context) {
+function field_collection_fieldset_field_as_label_callback(array $context) {
   $title = '';
   if ($field_value = $context['field_collection_item_wrapper']->{$context['field_as_label']}->value()) {
     $info = field_info_field($context['field_as_label']);
@@ -59,6 +59,6 @@ function field_collection_fieldset_field_as_label_callback($context) {
  *     - field_collection_item_wrapper the field collection for which
  *     a label is created.
  */
-function hook_field_collection_fieldset_field_as_label_alter(&$title, $context) {
+function hook_field_collection_fieldset_field_as_label_alter(&$title, array $context) {
   $title = '[' . $title . ']';
 }

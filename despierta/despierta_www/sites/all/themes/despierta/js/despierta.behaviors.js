@@ -136,7 +136,6 @@
 			$('h1[id="page-title"]').html( q );
 		}
 
-
 		// Simple search:
 		// Copy regions in the search panels (if apply)
 		if ( $('form[id="views-exposed-form-sedes2-busq-simple"]').length ) {
@@ -240,16 +239,14 @@
 
 	// Create Sedes group
 	Drupal.theme.prototype.sedesReport = function (elem) {
-		var sedesReport = { 'Todas': {} };
+		var sedesReport = {};
 		$('.view-grouping', elem).map( function (i, group) {
 			var cat = $('.view-grouping-header', this).text();
 			cat = cat.replace(/Categoria\:\s*/g,'');
-			sedesReport[cat] = {};
 			$( 'table', group ).map( function (i, table) {
 				var subcat = $('caption:first', table).text();
 				subcat = subcat.replace(/Subcategoria\:\s*/g,'');
 				subcat = subcat.replace(/\n*\s*$/g,'');
-				sedesReport[cat][subcat] = {};
 				$('tbody > tr', table).map( function (j, tr) {
 					var sede = {};
 					var nid = "";
@@ -337,18 +334,14 @@
 						var val = $('td[class$="views-field-field-sede-tipo-venta"]', tr).text();
 						sede.t_vent = val;
 					}
-					if ( $('td[class$="views-field-field-sede-tipo-pais"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-tipo-pais"]', tr).text();
+					if ( $('td[class$="views-field-field-sede-pais"]', tr).length ) {
+						var val = "";
+						$('td[class$="views-field-field-sede-pais"] .lineage-item', tr).each(function(){ val += ';'+$(this).text(); });
 						sede.p_serv = val;
 					}
-					// add main vars
-					if ( sedesReport[cat][subcat][nid] === undefined ) {
-						sedesReport[cat][subcat][nid] = sede;
-						sedesReport[cat][subcat][nid].etiqs = [];
-					}
-					if ( sedesReport['Todas'][nid] === undefined ) {
-						sedesReport['Todas'][nid] = sede;
-						sedesReport['Todas'][nid].cats = {};
+					if ( sedesReport[nid] === undefined ) {
+						sedesReport[nid] = sede;
+						sedesReport[nid].cats = {};
 					}
 
 					// concatenate 'directorio-verde' values (cat > subcat > etiqs)
@@ -356,163 +349,232 @@
 						var val = $('td[class$="sede-etiq"]', tr).text();
 						val = val.replace(/^\n*\s*/g,'');
 						val = val.replace(/\n*\s*$/g,'');
-						sedesReport[cat][subcat][nid].etiqs.push(val);						
-						if ( sedesReport['Todas'][nid]['cats'][cat] === undefined ) { sedesReport['Todas'][nid]['cats'][cat] = {} }
-						if ( sedesReport['Todas'][nid]['cats'][cat][subcat] === undefined ) { sedesReport['Todas'][nid]['cats'][cat][subcat] = {} }
-						sedesReport['Todas'][nid]['cats'][cat][subcat][val] = 1;
+						if ( sedesReport[nid].cats[cat] === undefined ) { sedesReport[nid].cats[cat] = {} }
+						if ( sedesReport[nid].cats[cat][subcat] === undefined ) { sedesReport[nid].cats[cat][subcat] = {} }
+						sedesReport[nid].cats[cat][subcat][val] = 1;
 					}
 				});
 			});
 		});
 		return sedesReport;
 	};
+	
+	// Create tab list depending on type of view
+	Drupal.theme.prototype.createTabHeader = function (inSedesObj, tabAll) {
+		var tabHeader = {};
+		for ( var nid in inSedesObj ) {
+			var iSedeObj = inSedesObj[nid];
+			for ( var cat in iSedeObj.cats ) {
+				var sede = {
+					'title': "",
+					'nid': "",
+					'locality': "",
+					'country': "",
+					'proximity': "",
+					'p_serv': "",
 
-	// Extract the number of subcategories
-	Drupal.theme.prototype.getNumSubCategories = function(sedesObj) {
-		var subcats = {};
-		for ( var cat in sedesObj ) {
-			if ( cat != "Todas" ) {
-				for ( var subcat in sedesObj[cat] ) {
-					subcats[subcat] = Object.keys(sedesObj[cat][subcat]).length;
-				}				
+				};
+				if ( iSedeObj.title != undefined ) { sede.title = iSedeObj.title }
+				if ( iSedeObj.nid != undefined ) { sede.nid = iSedeObj.nid }
+				if ( iSedeObj.locality != undefined ) { sede.locality = iSedeObj.locality.toLowerCase() }
+				if ( iSedeObj.country != undefined ) { sede.country = iSedeObj.country.toLowerCase() }
+				if ( iSedeObj.proximity != undefined ) { sede.proximity = iSedeObj.proximity }
+				if ( iSedeObj.p_serv != undefined ) { sede.p_serv = iSedeObj.p_serv.toLowerCase() }
+				// Region view
+				if ( tabAll === true ) {
+					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
+					tabHeader['Todas'][nid] = sede;
+					if ( tabHeader[cat] === undefined ) { tabHeader[cat] = {} }
+					tabHeader[cat][nid] = sede;
+				}
+				// Categoria view
+				else {
+					for ( var subcat in iSedeObj.cats[cat] ) {
+						if ( tabHeader[subcat] === undefined ) { tabHeader[subcat] = {} }
+						tabHeader[subcat][nid] = sede;
+					}
+				}
 			}
 		}
-		return subcats;
+		return tabHeader;
 	};
-	
+
+	// Sort sedes by proximity
+	Drupal.theme.prototype.sortSedesBy = function (sedesObj) {
+		var pais = $( '#header select[id="sel-pais"] option:selected').text().toLowerCase();
+		var region = $('#header select[id="sel-regions"] option:selected').text().toLowerCase();
+		var sortable = [];
+		var sortableBy = {
+			'locality': [],
+			'country': [],
+			'title': []
+		};
+		// sort by proximity visitor position
+		for (var nid in sedesObj) { sortable.push([nid, sedesObj[nid].proximity]) }
+		sortable.sort(function(a, b) {return a[1] - b[1]});
+		for ( var i=0; i < sortable.length; i++ ) {
+			var nid = sortable[i][0];
+			var sedeObj = sedesObj[nid];		
+			// 1. Check if sede has locality direction
+			if ( sedeObj.locality != "" && ( sedeObj.locality == region ) ) {
+				sortableBy.locality.push( sedeObj );
+			}
+			// 2. Check if sede has country direction
+			else if ( sedeObj.country != "" && ( sedeObj.country == pais ) ) {
+				sortableBy.country.push( sedeObj );
+			}
+			// 3. Check if sede works on locality
+			else if ( sedeObj.p_serv != "" && ( sedeObj.p_serv.indexOf(';'+region) >=0 )) {
+				sortableBy.title.push( sedeObj );
+			}
+			// 4. Check if sede works on country and the rest
+			else {
+				sortableBy.title.push( sedeObj );
+			}
+		}
+		return sortableBy;
+	};
+
 	// Create HTML: tab List
 	Drupal.theme.prototype.tabSedes = function (inSedesObj, tabAll) {
 		var tabList = [];
-		var sedesObj = {};
-		var startTab = {};
+		var todasTab = {};
 		var endTab = {};
-		// overwrite sedesObj list if we are category page
-		if ( tabAll === false ) {
-			for ( var cat in inSedesObj ) {
-				if ( cat != "Todas" ) {
-					for ( var subcat in inSedesObj[cat] ) {
-						sedesObj[subcat] = inSedesObj[cat][subcat];
-					}
+		// Create tab list depending on type of view
+		var tabHeaders = Drupal.theme.prototype.createTabHeader(inSedesObj, tabAll);
+		var tabNames = Object.keys(tabHeaders).sort();
+		for (var i=0; i < tabNames.length; i++ ) {
+			var tname = tabNames[i];
+			var tcont = "";
+			var sortedSedes = Drupal.theme.prototype.sortSedesBy(tabHeaders[tname]);
+
+			// 1. Sort by locality direcction (and proximity)
+			if ( sortedSedes.locality ) {
+				var sedes = sortedSedes.locality;
+				for (var j=0; j < sedes.length; j++ ) {
+					var nid = sedes[j].nid;
+					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
 				}
 			}
-		}
-		else {
-			jQuery.extend(sedesObj,inSedesObj);
-		}
-		var keys = Object.keys(sedesObj).sort();
-		for (var i=0; i < keys.length; i++ ) {
-			var key = keys[i];
-			var sedeObj = sedesObj[key];
-			var label = key.replace(/^[^\:]*\:\s*/g,'');
-			var id = label.replace(/[\s\,]/g,'_');
-			id = id.replace(/\.*/g,'');
-			if ( id == "Todas" ) {
-				startTab = {
+			// 2. Sort by country direction (and proximity)
+			if ( sortedSedes.country ) {
+				var sedes = sortedSedes.country;
+				for (var j=0; j < sedes.length; j++ ) {
+					var nid = sedes[j].nid;
+					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
+				}
+			}
+			// 3. Sort by country where works (and proximity)
+			if ( sortedSedes.title ) {
+				var sedes = sortedSedes.title;
+				for (var j=0; j < sedes.length; j++ ) {
+					var nid = sedes[j].nid;
+					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
+				}
+			}			
+			if ( tcont != "" ) {
+				var id = tname.replace(/[\s\,]/g,'_');
+				id = id.replace(/\.*/g,'');
+				var label = tname;
+				if ( tabAll == false ) { label = label + ' (' + Object.keys(tabHeaders[tname]).length + ')'}
+
+				if ( id == "Todas" ) {
+					todasTab = {
 					'id': id,
 					'label': label,
-					'cont': Drupal.theme('sedeArticle', sedeObj)
+					'cont': '<div class="view-content"><section class="resultados">'+tcont+'</section></div>'
+					};
 				}
-			}
-			else {
-				var cont = "";
-				if ( tabAll === true ) {
-					for ( var subcat in sedeObj ) {
-						cont +=	Drupal.theme('sedeArticle', sedeObj[subcat]);
-					}
-				}
-				else {
-					cont +=	Drupal.theme('sedeArticle', sedeObj);
-				}
-				if ( id == "Más" ) {
+				else if ( id == "Más" ) {
 					endTab = {
 					'id': id,
 					'label': label,
-					'cont': cont
+					'cont': '<div class="view-content"><section class="resultados">'+tcont+'</section></div>'
 					};
 				}
 				else {
 					tabList.push({
 						'id': id,
 						'label': label,
-						'cont': cont
+						'cont': '<div class="view-content"><section class="resultados">'+tcont+'</section></div>'
 					});
 				}
 			}
 		}
-		if ( tabAll === true ) { tabList.unshift(startTab) }
+		if ( !jQuery.isEmptyObject(todasTab) ) { tabList.unshift(todasTab) }
 		if ( !jQuery.isEmptyObject(endTab) ) { tabList.push(endTab) }
 		var tabHTML = Drupal.theme('createTabPanel', tabList, "tabSedes");
 		return tabHTML;
 	};
 
+
+
 	// Create HTML: article
-	Drupal.theme.prototype.sedeArticle = function (sedesObj) {
-		// sort by proximity
-		var sortable = [];
-		for (var nid in sedesObj) { sortable.push([nid, sedesObj[nid].proximity]) }
-		sortable.sort(function(a, b) {return a[1] - b[1]});
-		var sedHTML = '<section class="resultados">';
-		for ( var i=0; i < sortable.length; i++ ) {
-			var nid = sortable[i][0];
+	Drupal.theme.prototype.sedeArticle = function (sedeObj, iCat) {
+ 		var sedHTML = '<article class="media ">';
 
-			var sedeObj = sedesObj[nid];
-			sedHTML += '<article class="media ">';
+		sedHTML += '<div class="media-bod col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 prici">';
 
-			sedHTML += '<div class="media-bod col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 prici">';
+			sedHTML += '<div class="logoempresa col-lg-2 col-md-2 col-sm-2 col-s-2 col-xs-2">';
+				sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
+			sedHTML += '</div>';
+			
+			sedHTML += '<div class="allinfo col-lg-5 col-md-5 col-sm-5 col-s-9 col-xs-9">';
+				sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
+					sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
+				sedHTML += '</div></h2>';
+				sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
+				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
+			sedHTML += '</div>';
 
-				sedHTML += '<div class="logoempresa col-lg-2 col-md-2 col-sm-2 col-s-2 col-xs-2">';
-					sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
-				sedHTML += '</div>';
-				
-				sedHTML += '<div class="allinfo col-lg-5 col-md-5 col-sm-5 col-s-9 col-xs-9">';
-					sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
-						sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
-					sedHTML += '</div></h2>';
-					sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
-					sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
-				sedHTML += '</div>';
+			sedHTML += '<div class="col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
+				var dircompl = '';
+				var cp = '';
+				if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = sedeObj.direccion }
+				if ( sedeObj.cp !== undefined && sedeObj.cp != "" ) { cp += sedeObj.cp }
+				if ( sedeObj.locality !== undefined && sedeObj.locality != "" ) { cp += (cp == "")? sedeObj.locality : ', '+sedeObj.locality }
+				sedHTML += '<p class="direccion">' + dircompl + '</p>';
+				sedHTML += '<p class="cp">' + cp + '</p>';
+				if ( sedeObj.tlf !== undefined && sedeObj.tlf != "" ) {
+					sedHTML += '<p><img class="ico" src="sites/default/files/ico_tlfno.png"><a class="url" href="tel:">' + sedeObj.tlf + '</a></p>';						
+				}
+				if ( sedeObj.email !== undefined && sedeObj.email != "" ) {
+					sedHTML += '<p><img class="ico" src="sites/default/files/ico_email.png"><a class="url" href="mailto:'+sedeObj.email+'">' + sedeObj.email + '</a></p>';
+				}
+				if ( sedeObj.web !== undefined && sedeObj.web != "" ) {
+					sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
+				}
 
-				sedHTML += '<div class="col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
-					var dircompl = '';
-					var cp = '';
-					if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = sedeObj.direccion }
-					if ( sedeObj.cp !== undefined && sedeObj.cp != "" ) { cp += sedeObj.cp }
-					if ( sedeObj.locality !== undefined && sedeObj.locality != "" ) { cp += (cp == "")? sedeObj.locality : ', '+sedeObj.locality }
-					sedHTML += '<p class="direccion">' + dircompl + '</p>';
-					sedHTML += '<p class="cp">' + cp + '</p>';
-					if ( sedeObj.tlf !== undefined && sedeObj.tlf != "" ) {
-						sedHTML += '<p><img class="ico" src="sites/default/files/ico_tlfno.png"><a class="url" href="tel:">' + sedeObj.tlf + '</a></p>';						
+			sedHTML += '</div>';
+			sedHTML += '<div class="clean subrayado col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12"></div>';
+			sedHTML += '<div class="clean masinfo col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12">';
+				var cats = "";
+				var etiqs = "";
+				var numCat = sedeObj.cats.length;
+				for ( var cat in sedeObj.cats ) {
+					if ( iCat == "Todas" ) {
+						cats += cat + ' (' + Object.keys(sedeObj.cats[cat]).join(', ') + '); '
 					}
-					if ( sedeObj.email !== undefined && sedeObj.email != "" ) {
-						sedHTML += '<p><img class="ico" src="sites/default/files/ico_email.png"><a class="url" href="mailto:'+sedeObj.email+'">' + sedeObj.email + '</a></p>';
+					else { cats += cat + '; ' }
+
+					for ( var subcat in sedeObj.cats[cat] ) {
+						if ( iCat == "Todas" ) { etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][subcat]).join(', ') + '); ' }
+						else if ( subcat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][subcat]).join('; ') }
 					}
-					if ( sedeObj.web !== undefined && sedeObj.web != "" ) {
-						sedHTML += '<p class="ult"><img class="ico" src="sites/default/files/ico_url.png"><a class="url" href="www.despierta.org" target="_blank" rel="nofollow">' + sedeObj.web + '</a></p>';
-					}
+				}
+				cats = cats.replace(/\;\s*$/g,'');
+				etiqs = etiqs.replace(/\;\s*$/g,'');
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';				
+				sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';
 
-				sedHTML += '</div>';
-				sedHTML += '<div class="clean subrayado col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12"></div>';
-				sedHTML += '<div class="clean masinfo col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12">';
-					var cats = "";
-					for ( var c in sedeObj.cat ) {
-						var subcats = Object.keys(sedeObj.cat[c]).join(', ');
-						cats += c + ' (' + subcats + '); ';
-					}
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
-					// sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + sedeObj.etiqs.join('; ') + '</p></div>';
+			sedHTML += '</div>';
+		sedHTML += '</div> <!-- media-bod -->';
 
-				sedHTML += '</div>';
-			sedHTML += '</div> <!-- media-bod -->';
-
-			sedHTML += '</article>';
-		}
-		sedHTML += '</section>';
-
-		sedHTML = '<div class="view-content">'+sedHTML+'</div>';
+		sedHTML += '</article>';
 		return sedHTML;
 	};	
 
@@ -730,7 +792,7 @@
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-t-mov"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-t-ven"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-pais"]' ).remove();
-			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-reg"]' ).remove();
+			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regions"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] input[id="edit-loc"]' ).attr('placeholder', 'Localidad');
 			// Create panels
 			$('form[id^="views-exposed-form-sedes2-busq-avan"] .views-exposed-form', context).once('despierta', function () {
@@ -744,7 +806,7 @@
 				avanHTML += '<div class="pull-left col-xs-12 col-md-4">'+
 								'<label>¿Dónde?</label>'+
 								$( 'div[id^="edit-pais-wrapper"] .form-item', this ).html()+
-								$( 'div[id^="edit-reg-wrapper"] .form-item', this ).html()+
+								$( 'div[id^="edit-regions-wrapper"] .form-item', this ).html()+
 								$( 'div[id^="edit-loc-wrapper"] .form-item', this ).html()+
 							'</div>';
 				avanHTML += '<div class="pull-left col-xs-12 col-md-4">'+
@@ -758,6 +820,7 @@
 							'</div>';
 				$( '.views-exposed-widgets', this ).empty();
 				$( '.views-exposed-widgets', this ).html(avanHTML);
+				$('select[id="edit-regions"]', this).attr('disabled', 'disabled');
 			});
 			// Simple
 			$('form[id^="views-exposed-form-sedes2-busq-simple"]', context).once('despierta', function () {
@@ -767,7 +830,6 @@
 				var pais = $('select[id="sel-pais"] option:selected').text();
 				$('input[id="edit-pais"]', this).val(pais);
 			});
-
 
 			
 			/* Printing Sedes */
@@ -781,7 +843,6 @@
 				if ( $('> div[class="view-content"]', this).length ) {
 					// Create Object: Sedes
 					var sedesReport = Drupal.theme.prototype.sedesReport($('.view-content', this));
-// console.log(sedesReport);
 
 					// Chech where we are...
 					// in the frontpage: print all
@@ -789,7 +850,6 @@
 					var tabAll = true;
 					if ( urlVars['q'] !== undefined && urlVars['q'] !== "" && urlVars['q'].indexOf("directorio-verde") >= 0 ) {
 						tabAll = false;
-						subcats = Drupal.theme.prototype.getNumSubCategories(sedesReport);
 					}
 
 					// Print sedes list
@@ -832,45 +892,72 @@
 					$(this).append($filters);
 				}
 
-				// Print num. sub-cagtegories				
-				$('ul[id="tabSedes"] a').map( function () {
-					var val = $(this).text();
-					val = val.replace(/^\s*/g,'');
-					val = val.replace(/\s*$/g,'');
-					val = val.replace(/\s*\(\d*\)\s*$/g,'');
-					if ( !jQuery.isEmptyObject(subcats) ) {
-						var num = 0;
-						if ( subcats[val] !== undefined ) { num = subcats[val] }
-						$(this).contents().last().remove();
-						$ ( this ).append( val+" ("+num+")" );
-					}
-				});
-
 			});
 
 
 			/* Filter form: Sede */
-			$('form[id="views-exposed-form-sedes-block"]', context).once('despierta', function () {				
+			$('form[id="views-exposed-form-sedes-block"]', context).once('despierta', function () {
 				var pais = $( '#header select[id="sel-pais"] option:selected').text();
 				var code = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
 				var region = $('#header select[id="sel-regions"] option:selected').text();
-				// Delete redundance in regions, When we are in the category page:
-				$('div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-item-edit-field-sede-direccion-locality-selective"]', this).each( function() {
-					var labregion = $('label', this).text();
-					if ( allPaisRegionsObj[code] !== undefined ) {
-						var id = labregion.toLowerCase();
-						id = id.replace(/^\n*\s*/g,'');
-						id = id.replace(/\n*\s*$/g,'');
-						id = id.replace(/\s/g,'_');						
-						if ( allPaisRegionsObj[code].regions[id] === undefined ) {
-							$(this).remove();
+				// If user selects All regions
+				if ( region == "Todas las regiones" ) {
+					// delete redundance in regions, When we are in the category page:
+					$('div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-item-edit-field-sede-direccion-locality-selective"]', this).each( function() {
+						var labregion = $('label', this).text();
+						if ( allPaisRegionsObj[code] !== undefined ) {
+							var id = labregion.toLowerCase();
+							id = id.replace(/^\n*\s*/g,'');
+							id = id.replace(/\n*\s*$/g,'');
+							id = id.replace(/\s/g,'_');						
+							if ( allPaisRegionsObj[code].regions[id] === undefined ) {
+								$(this).remove();
+							}
 						}
-					}
-				});	
-				// remove description label
+					});	
+				}
+				else { // If we have already selected region
+					// hide exposed filter of regions
+					$('div[id="edit-field-sede-direccion-locality-selective-wrapper"]', this).addClass('element-invisible');
+				}
+				// Remove description label
 				$('div[class*="form-type-select"] div[class="description"]', this).remove();
+				// Work with the filter form
+				$(	'div[id="edit-field-sede-direccion-locality-selective-wrapper"], '+
+					'div[id="edit-field-sede-tipo-actividad-tid-wrapper"], '+
+					'div[id="edit-field-sede-tipo-movimiento-tid-wrapper"], '+
+					'div[id="edit-field-sede-tipo-venta-tid-wrapper"], '+
+					'div[id="edit-name-selective-wrapper"] ', this).once('despierta', function () {
+						$(this).addClass('col-lg-6 col-md-6 col-s-12 col-sm-12 col-xs-12');
+						$(' > label', this).wrap('<div class="ppal"></div>');
+						$('.ppal', this).prepend( $('<input type="checkbox" id="all_filters">').change(function(event) {
+							if ( $(this).is(':checked') ) {
+								$(this).parent().siblings('.views-widget').find('input[type="checkbox"]').each(function(){
+									$(this).prop('checked', true);
+								});
+							}
+							else {
+								$(this).parent().siblings('.views-widget').find('input[type="checkbox"]').each(function(){
+									$(this).prop('checked', false);
+								});
+							}
+						}) );
+						// Check if all are checked
+						$('#all_filters', this).prop('checked', true);
+						$('.views-widget input[type="checkbox"]', this).each(function(){
+							if ( !$(this).is(':checked') ) {
+								$(this).parents('.views-widget').siblings('.ppal').find('input').prop('checked', false);
+							}
+						});
+				});
+				// Capture change event
+				$(this).change(function(event) {
+					$('div[id="block-views-sedes-block"] .view-id-sedes > .view-content').css('opacity', '0.2');
+					$('div[id="block-views-sedes-block"] .view-id-sedes > .attachment').css('opacity', '0.2');
+					$('div[id="block-views-sedes-block"] .view-id-sedes > .view-filters').css('opacity', '0.5');
+					$('div[id="loading"]').removeClass('element-invisible');
+				});
 			});
-
 
 			/* Sede 'categories' */
 			$('div[id="block-views-banners-block"]', context).once('despierta', function () {
@@ -1032,7 +1119,6 @@
 			 // hide
 			 Drupal.theme.prototype.hideSedesPanel();
 
-console.log(context);
 			// show depending on...
 			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
 					$(context).attr('id') == "views-exposed-form-sedes-block"
@@ -1047,7 +1133,7 @@ console.log(context);
 			}
 			else {
 				if ( $( ".flower-loader" ).length == 0 ) {
-					$('div[id="block-views-sedes-block"]').prepend('<div id="loading"><p>Cargando...</p><div class="flower-loader"></div></div>');
+					$('div[id="block-views-sedes-block"]').prepend('<div id="loading"><div class="flower-loader"></div><p>Cargando...</p></div>');
 				}
 				$('div[id="page-wrapper"]').css('display', 'block');
 			}
@@ -1084,26 +1170,33 @@ console.log(context);
 				// Apply 'pais/regions' options
 				Drupal.theme.prototype.applyRegionOption();
 			});
+
 			// Changes in the 'pais/region' options (Advances Search panel):
 			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"]', 'change', function(event) {
 				var pais = $( 'option:selected', this ).text();
+				var code = $( '#header select[id="sel-pais"] option[value="'+pais+'"]').attr('dp-pais-code');
+console.log('pais');
+console.log(code);
+console.log(pais);
 				var $options;
 				if ( pais != "Elige el país" && pais != "" && pais != undefined ) {
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pais);
+					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
 					$options = $('option', $regHTML).clone();
+					$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').removeAttr('disabled');
 				}
 				else {
-					$options = $('<option value="All">Elige una región</option>')
+					$options = $('<option value="All">Elige una región</option>');
 				}
-				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-reg"] > option').remove();
-				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-reg"]').append($options);
-
-			});			
+console.log($options);
+				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"] > option').remove();
+				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').append($options);
+			});
 			// Add classes for the new 'sedes' pages
 			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="view-content"] div[class="tab-despierta"] ul[class*="nav-tabs"]').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="view-content"] div[class="tab-despierta"] div[class*="tab-content"]').addClass('col-lg-7 col-md-7 col-sm-7 col-xs-12 pull-left');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="attachment"]').addClass('col-lg-5 col-md-5 col-sm-5 col-xs-12 pull-right');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class="view-filters"]').addClass('col-lg-5 col-md-5 col-sm-5 col-xs-12 pull-right');
+			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="view-content"] div[class="tab-despierta"] div[class*="tab-content"]').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
+			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="attachment"]').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class="view-filters"]').addClass('col-lg-5 col-md-5 col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('.ajax-progress-throbber').addClass('element-invisible');
 
 		} // end: attach of despierta theme
 	};
