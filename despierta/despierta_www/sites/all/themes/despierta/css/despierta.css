@@ -712,3 +712,33 @@ ul#tabSedes {
     display: none;
   } 
 }
+
+/*
+ * FORMS
+ */
+
+/* Gestion Menu */
+#block-menu-menu-opciones-gestion {
+  /*padding-top: 50px;*/
+  margin-right: 30px;
+}
+#block-menu-menu-opciones-gestion h2 {
+  color: #92b737;
+  font-size: 20px;
+}
+
+/* Sedes form */
+.node-sede-form label[for="edit-title"], 
+.node-sede-form label[for="edit-field-sede-descripcion-breve-und-0-value"],
+.node-sede-form label[for="edit-field-sede-tipo-movimiento-und"],
+.node-sede-form label[for="edit-field-sede-tipo-actividad-und"],
+.node-sede-form label[for="edit-field-directorio-verde-und"],
+.node-sede-form label[for="edit-field-sede-tipo-venta-und"],
+.node-sede-form label[for="edit-field-sede-logo-und-0-upload"],
+.node-sede-form label[for="edit-field-sede-email-und-0-email"],
+.node-sede-form label[for="edit-field-sede-web-und-0-value"],
+.node-sede-form .fieldset-description,
+.node-sede-form label[for="edit-field-sede-pais-und"] {
+  font-weight: bold;
+  font-size: 18px;
+}

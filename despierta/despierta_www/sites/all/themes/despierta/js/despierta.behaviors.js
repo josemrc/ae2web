@@ -559,6 +559,7 @@
 
 					for ( var subcat in sedeObj.cats[cat] ) {
 						if ( iCat == "Todas" ) { etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][subcat]).join(', ') + '); ' }
+						else if ( cat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat]).join('; ') }
 						else if ( subcat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][subcat]).join('; ') }
 					}
 				}
@@ -568,8 +569,12 @@
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';				
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';
+				if ( cats != "" ) {
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
+				}
+				if ( etiqs != "" ) {
+					sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
+				}
 
 			sedHTML += '</div>';
 		sedHTML += '</div> <!-- media-bod -->';
@@ -1047,8 +1052,8 @@
 				$('select:not(select[id^="edit-field-sede-pais-und-hierarchical-select-selects"])', this).addClass("form-control");
 
 				$('input[id="edit-title"]', this).attr('placeholder','Introduce el nombre comercial como anunciante para esta Sede');
-				$('textarea[id="edit-field-sede-descripcion-breve-und-0-value"]', this).attr('placeholder','Introduce una descripción breve de la entidad');
-				$('textarea[id="edit-field-sede-descripcion-breve-und-0-value"]', this).css('resize', 'none');
+				$('input[id="edit-field-sede-descripcion-breve-und-0-value"]', this).attr('placeholder','Introduce una descripción breve de la entidad');
+				$('input[id="edit-field-sede-descripcion-breve-und-0-value"]', this).css('resize', 'none');
 				$('textarea[id="edit-field-sede-descripcion-completa-und-0-value"]', this).attr('placeholder','Incluye todas las palabras, productos y servicios con los que trabaja tu entidad para que ésta sea más fácil de localizar en nuestro Buscador Verde');
 				$('textarea[id="edit-field-sede-descripcion-completa-und-0-value"]', this).css('resize', 'none');
 
@@ -1067,7 +1072,9 @@
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
 				$('input[id="edit-preview"]', this).remove();
 			});
+			// Changes when the country of direction has been modified
 			$('select[id^="edit-field-sede-direccion-und-0-country"]').once("DOMSubtreeModified",function(){
+				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] legend').remove();
 				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] input').addClass("form-control");
 				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] select').addClass("form-control");
 				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-country"]').html('País ');
@@ -1077,18 +1084,34 @@
 				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-postal-code"]').attr('placeholder','Introduce el código postal de la sede');
 				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-locality"]').html('Ciudad ');
 				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-locality"]').attr('placeholder','Introduce la ciudad de la sede');
-				$('form[id="sede-node-form"] label[for*="edit-field-sede-direccion-und-0-administrative-area"]').html('Región ');
-				$('form[id="sede-node-form"] input[id*="edit-field-sede-direccion-und-0-administrative-area"]').attr('placeholder','Introduce la región de la sede');
 				$('form[id="sede-node-form"] div[class*="form-item-field-sede-direccion-und-0-premise"]').remove();
 				$('form[id="sede-node-form"] div[class*="form-item-field-sede-direccion-und-0-dependent-locality"]').remove();
-				$('form[id="sede-node-form"] div[id="edit-field-sede-tipo-venta"] input:checked').each( function() {
-					if ( $(this).siblings().text().indexOf("Establecimiento físico") !== -1 ) {
-						$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] label').each( function() {
-							$(this).append('<span class="form-required">*</span>');
-						});
+				if ( $( 'option:selected', this ).text().indexOf("Ninguno") == -1 ) {
+					var regHTML = '<div class="form-item form-type-select form-item-field-sede-direccion-und-0-administrative-area">'+
+									'<label for="edit-field-sede-direccion-und-0-administrative-area">Región </label>'+
+									'<select class="state form-select form-control" autocomplete="address-level1" id="edit-field-sede-direccion-und-0-administrative-area" name="field_sede_direccion[und][0][administrative_area]">'+
+									'</select></div>';
+					$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] .addressfield-container-inline').append(regHTML);
+					var classes = $('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] div[class*="addressfield-container"]').attr('class');
+					var regExp = /country\-([^)]+)/;
+					var matches = regExp.exec(classes);
+					if ( matches.length > 1 ) {
+						var code = matches[1];
+						var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
+						$options = $('option:not([value="All"])', $regHTML).clone();
+						$('form[id="sede-node-form"] .form-item-field-sede-direccion-und-0-administrative-area').remove();
+						$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] .addressfield-container-inline').append(regHTML);							
+						$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] select[id="edit-field-sede-direccion-und-0-administrative-area"]').append($options);
 					}
-				});
+				}
+				// Direccion required if 'establecimiento fisico' is checked
+				if ( $('form[id="sede-node-form"] input[id="edit-field-sede-tipo-venta-und-1792"]').is(':checked') ) {
+					$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] .fieldset-description').each( function() {
+						$(this).append(' <span class="form-required">*</span>');
+					});
+				}
 			});
+			// Changes for 'Pais/regiones' where sell
 			$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] div[class*="hierarchical-select"]').css('display', 'table');				
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] select').addClass("form-control");
