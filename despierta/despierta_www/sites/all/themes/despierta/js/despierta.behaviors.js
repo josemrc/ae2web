@@ -651,6 +651,10 @@
 				// remove title
 				$('h1[id="page-title"]').remove();
 			}
+			else if ( urlVars['q'].indexOf("user") >= 0 ) {
+				// remove title
+				$('h1[id="page-title"]').remove();
+			}
 			else if ( urlVars['q'] == "empresa/registro" ) {
 				// remove title
 				$('h1[id="page-title"]').remove();
@@ -1148,7 +1152,6 @@
 			) {
 				Drupal.theme.prototype.showSedesPanel();
 
-				// $('ul[id="tabSedes"]').addClass('pull-left col-lg-12 col-md-12 col-sm-12 col-xs-12');
 				$('#tabSedes').tabCollapse({
 					tabsClass: 'hidden-sm hidden-xs',
 					accordionClass: 'visible-sm visible-xs'
