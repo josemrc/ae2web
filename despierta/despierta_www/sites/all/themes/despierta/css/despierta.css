@@ -48,6 +48,10 @@ div#block-views-ver-tax-block {
 /* --------------- Loading views ------------ */
 #loading {
   position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   z-index: 10000;
@@ -55,7 +59,8 @@ div#block-views-ver-tax-block {
 #loading .flower-loader {
   left: 50%;
   margin-left: 20px;
-  margin-top: 50px;
+  /*margin-top: 50px;*/
+  margin-top: 50%;
 }
 #loading p {  
   margin-top: 15px;
@@ -294,12 +299,18 @@ ul#tabSedes {
 /* --------------- Banners View ------------ */
 .view-id-banners {
   font-size: 18px;
+  margin-bottom: 30px;
 }
 .view-id-banners img {
   border: 1px solid #96c147;
   max-width: 90%;
 }
-@media (max-width: 625px) {
+@media (max-width: 991px) {
+  .views-field-field-page-image {
+    display: none;
+  }
+}
+/*@media (max-width: 625px) {
   .view-id-banners img {
     clear: both;
     width: 70%;
@@ -316,7 +327,7 @@ ul#tabSedes {
     clear: both;
     display: none;
   }
-}
+}*/
 
 
 /* --------------- SubCategories View ------------ */
@@ -359,7 +370,7 @@ ul#tabSedes {
   text-align: center;
 }
 
-/* --------------- Tabs ------------ */
+/* --------------- Sedes View ------------ */
 #block-views-sedes-block .nav > li,
 .view-sedes2 .nav > li {
   margin: 0;
@@ -375,7 +386,6 @@ ul#tabSedes {
   padding: 0;
 }
 
-/* --------------- Sedes View ------------ */
 .no-resultados {
   margin-top: 15px;
 }

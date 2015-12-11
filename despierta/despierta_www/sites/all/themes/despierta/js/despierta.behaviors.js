@@ -523,7 +523,7 @@
 				sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
 					sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
 				sedHTML += '</div></h2>';
-				sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
+				// sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
 				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 			sedHTML += '</div>';
 
@@ -1132,8 +1132,8 @@
 				});
 			}
 			else {
-				if ( $( ".flower-loader" ).length == 0 ) {
-					$('div[id="block-views-sedes-block"]').prepend('<div id="loading"><div class="flower-loader"></div><p>Cargando...</p></div>');
+				if ( $('div[id="block-views-sedes-block"]').length == 0 ) {
+					$('div[id="loading"]').addClass('element-invisible');
 				}
 				$('div[id="page-wrapper"]').css('display', 'block');
 			}
@@ -1175,9 +1175,6 @@
 			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"]', 'change', function(event) {
 				var pais = $( 'option:selected', this ).text();
 				var code = $( '#header select[id="sel-pais"] option[value="'+pais+'"]').attr('dp-pais-code');
-console.log('pais');
-console.log(code);
-console.log(pais);
 				var $options;
 				if ( pais != "Elige el país" && pais != "" && pais != undefined ) {
 					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
@@ -1187,7 +1184,6 @@ console.log(pais);
 				else {
 					$options = $('<option value="All">Elige una región</option>');
 				}
-console.log($options);
 				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"] > option').remove();
 				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').append($options);
 			});
