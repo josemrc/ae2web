@@ -254,6 +254,7 @@
 </div></div> <!-- /#page, /#page-wrapper -->
 
 <div id="loading">
+  <div class="background"></div>
   <div class="flower-loader"></div>
   <p>Cargando...</p>
 </div> <!-- /#loading -->

@@ -39,14 +39,14 @@ function despierta_theme() {
       'despierta_preprocess_user_pass'
     ),
   ); 
-  $items['user_profile_form'] = array(
-    'render element' => 'form',
-    'path' => drupal_get_path('theme', 'despierta') . '/templates',
-    'template' => 'user-profile-edit',
-    'preprocess functions' => array(
-      'despierta_preprocess_user_profile_form'
-    ),
-  );  
+  // $items['user_profile_form'] = array(
+  //   'render element' => 'form',
+  //   'path' => drupal_get_path('theme', 'despierta') . '/templates',
+  //   'template' => 'user-profile-edit',
+  //   'preprocess functions' => array(
+  //     'despierta_preprocess_user_profile_form'
+  //   ),
+  // );  
   return $items;
 }
 

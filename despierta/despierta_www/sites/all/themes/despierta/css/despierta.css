@@ -47,24 +47,34 @@ div#block-views-ver-tax-block {
 
 /* --------------- Loading views ------------ */
 #loading {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
   z-index: 10000;
 }
-#loading .flower-loader {
-  left: 50%;
-  margin-left: 20px;
-  /*margin-top: 50px;*/
-  margin-top: 50%;
+#loading .background {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  opacity: 0.5;
 }
-#loading p {  
-  margin-top: 15px;
-  margin-left: 50%;
+#loading .flower-loader {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  margin-left: 20px;
+}
+#loading p { 
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  padding-top: 40px;
   font-weight: bold;
 }
 
