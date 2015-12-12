@@ -84,9 +84,6 @@
 			$('div[id="block-views-sedes-block"] div[class*="view-id-sedes"][class*="view-display-id-block"] > div[class*="view-filters"]').css('display', 'none');
 			$('div[id="block-views-sedes-block"] div[class*="view-id-sedes"][class*="view-display-id-block"] > div[class*="view-content"]').css('display', 'none');
 			$('div[id="block-views-sedes-block"] div[class*="view-id-sedes"][class*="view-display-id-block"] > div[class*="attachment"]').addClass('element-invisible');
-			// none forever
-			$('div[id="block-views-sedes-block"] div[id="edit-field-sede-direccion-country-wrapper"]').css('display', 'none');
-			$('div[id="block-views-sedes-block"] div[id="edit-field-sede-venta-pais-reg-wrapper"]').css('display', 'none');
 		}	
 	};
 	Drupal.theme.prototype.showSedesPanel = function () {
@@ -97,13 +94,8 @@
 			$('div[id="block-views-sedes-block"] div[class*="view-id-sedes"][class*="view-display-id-block"] > div[class*="attachment"]').removeClass('element-invisible');
 		}
 	};
-
-	// Apply changes when 'pais/region' panel is modified (or active)
-	Drupal.theme.prototype.applyRegionOption = function () {
-
-		// hide panels
-		Drupal.theme.prototype.hideSedesPanel();
-
+	// Filter by direction or by country you sell
+	Drupal.theme.prototype.filterByRegionOnline = function (type) {
 		// create query 'pais/region'
 		var regquery = "";
 		var pais = $( '#header select[id="sel-pais"] option:selected').text();
@@ -113,6 +105,11 @@
 		if ( region != "" ) { regquery = pais + ',' + region }
 		else { regquery = pais }
 
+		if ( type != "online" ) { 
+			// code = "All";
+			// region = "";
+			// regquery = "";
+		}
 		// Sedes pages:
 		// Chages the filter forms of Sedes!!!
 		if ( $( 'form[id="views-exposed-form-sedes-block"]' ).length ) {
@@ -125,11 +122,47 @@
 					$(' > input', this).prop( "checked", false );
 				}
 			});
-			if ( regquery != "" ) {
-				$('form[id="views-exposed-form-sedes-block"] div[id="edit-field-sede-venta-pais-reg-wrapper"] input[id="edit-field-sede-venta-pais-reg"]').val(regquery);				
-			}
-			$('form[id="views-exposed-form-sedes-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"] input').change();
+			$('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
+			// $('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val("");
+			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"]').change();
 		}
+		
+	};
+
+	// Apply changes when 'pais/region' panel is modified (or active)
+	Drupal.theme.prototype.applyRegionOption = function () {
+
+		// hide panels
+		Drupal.theme.prototype.hideSedesPanel();
+
+		// create query 'pais/region'
+		// var regquery = "";
+		// var pais = $( '#header select[id="sel-pais"] option:selected').text();
+		// var code = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
+		// var region = $( '#header select[id="sel-regions"] option:selected').text();
+		// if ( region == "Todas las regiones" ) { region = "" }
+		// if ( region != "" ) { regquery = pais + ',' + region }
+		// else { regquery = pais }
+
+		// // Sedes pages:
+		// // Chages the filter forms of Sedes!!!
+		// if ( $( 'form[id="views-exposed-form-sedes-block"]' ).length ) {
+		// 	$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+code+'"] ').prop('selected', true);
+		// 	var lreg = region.toLowerCase();
+		// 	$( 'form[id="views-exposed-form-sedes-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-type-bef-checkbox"]').each(function(){
+		// 		if ( lreg != "" && $(' > input', this).attr('value').toLowerCase() == lreg ) {
+		// 			$(' > input', this).prop( "checked", true );
+		// 		} else {
+		// 			$(' > input', this).prop( "checked", false );
+		// 		}
+		// 	});
+		// 	if ( regquery != "" ) {
+		// 		$('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
+		// 	}
+		// 	$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"]').change();
+		// }
+		Drupal.theme.prototype.filterByRegionOnline();
+
 		// Change title in 'Directorio verde' and 'Categories' pages
 		if ( $( 'div[id="block-views-sedes-block"]' ).length ) {
 			var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
@@ -527,7 +560,7 @@
 				sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
 					sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
 				sedHTML += '</div></h2>';
-				sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
+				// sedHTML += '<span>' + sedeObj.proximity+ ': ' +JSON.stringify(sedeObj.location)+'</span>';
 				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 			sedHTML += '</div>';
 
@@ -754,8 +787,8 @@
 				Drupal.theme.prototype.applyRegionOption();
 
 				// Delete: tax_regions and visitor location Views
-				// $('div[id="block-views-tax-regiones-block"]').remove();
-				// $('div[id="block-views-visitor-location-block"]').remove();
+				$('div[id="block-views-tax-regiones-block"]').remove();
+				$('div[id="block-views-visitor-location-block"]').remove();
 			});
 
 
@@ -848,7 +881,7 @@
 			});
 
 			
-			/* Printing Sedes */
+			/* SEDES */
 			// Print new sedes view (Once)
 			$(	'div[id="block-views-sedes-block"] .view-id-sedes.view-display-id-block, .view-id-sedes2').once("DOMSubtreeModified",function() {
 				var subcats = {};
@@ -933,10 +966,6 @@
 						}
 					});	
 				}
-				else { // If we have already selected region
-					// hide exposed filter of regions
-					$('div[id="edit-field-sede-direccion-locality-selective-wrapper"]', this).addClass('element-invisible');
-				}
 				// Remove description label
 				$('div[class*="form-type-select"] div[class="description"]', this).remove();
 				// Work with the filter form
@@ -974,7 +1003,19 @@
 					// $('div[id="block-views-sedes-block"] .view-id-sedes > .view-filters').css('opacity', '0.5');
 					$('div[id="loading"]').removeClass('element-invisible');
 				});
+				// If Online is checheck Tipo de Venta change for online => filter
+				$('div[id="edit-field-sede-tipo-venta-tid-wrapper"] input[type=checkbox]', this).click(function(event) {
+					if ( $(this).is(':checked') ) {
+						if ( $(this).siblings('label').text() == "Establecimiento físico" ) {
+							Drupal.theme.prototype.filterByRegionOnline();
+						}
+						else {
+							Drupal.theme.prototype.filterByRegionOnline('online');
+						}
+					}
+				});				
 			});
+
 
 			/* Sede 'categories' */
 			$('div[id="block-views-banners-block"]', context).once('despierta', function () {
@@ -1154,9 +1195,7 @@
 			 * For functionality...
 			 */
 			 // hide
-			 Drupal.theme.prototype.hideSedesPanel();
-console.log(context);
-Drupal.theme.prototype.showSedesPanel();
+			 // Drupal.theme.prototype.hideSedesPanel();
 			// show depending on...
 			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
 					$(context).attr('id') == "views-exposed-form-sedes-block"
@@ -1169,7 +1208,6 @@ Drupal.theme.prototype.showSedesPanel();
 				});
 			}
 			else {
-console.log( $('div[id="block-views-sedes-block"]').length );
 				if ( $('div[id="block-views-sedes-block"]').length == 0 ) {
 					$('div[id="loading"]').addClass('element-invisible');
 				}
@@ -1226,11 +1264,17 @@ console.log( $('div[id="block-views-sedes-block"]').length );
 				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').append($options);
 			});
 			// Add classes for the new 'sedes' pages
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="view-content"] div[class="tab-despierta"] ul[class*="nav-tabs"]').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="view-content"] div[class="tab-despierta"] div[class*="tab-content"]').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class*="attachment"]').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
-			$('div[id="block-views-sedes-block"] .view-id-sedes > div[class="view-filters"]').addClass('col-lg-5 col-md-5 col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
+			$('#block-views-sedes-block .view-id-sedes > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('#block-views-sedes-block .view-id-sedes > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			// $('#block-views-exp-sedes-block .views-exposed-form').addClass('col-lg-5 col-md-5 col-s-12 col-sm-12 col-xs-12 pull-right');
+
+			// none forever
 			$('.ajax-progress-throbber').addClass('element-invisible');
+			$('div[id="block-views-sedes-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"]').css('display', 'none');
+			$('div[id="block-views-sedes-block"] div[id="edit-field-sede-direccion-country-wrapper"]').css('display', 'none');
+			$('div[id="block-views-sedes-block"] div[id="edit-field-sede-pais-tid-wrapper"]').css('display', 'none');
 
 		} // end: attach of despierta theme
 	};
