@@ -38,11 +38,6 @@ stylesheets[print][] = css/print.css
 ; Scripts
 ; ========================================
 
-scripts[] = js/jQueryRotate.js
-scripts[] = js/bootstrap/bootstrap.min.js
-scripts[] = js/bootstrap-tabcollapse.js
-
-
 ;scripts[] = js/store/store-locator.min.js
 ;scripts[] = js/store/medicare-static-ds.js
 ;scripts[] = js/store/medicare-dynamic-ds.js
@@ -57,6 +52,9 @@ scripts[] = js/bootstrap-tabcollapse.js
 ;scripts[] = js/jquery-ui-1.11.4/jquery-ui.min.js
 ;scripts[] = js/bootstrap/bootstrap-responsive-tabs.js
 
+scripts[] = js/jQueryRotate.js
+scripts[] = js/bootstrap.min.js
+scripts[] = js/bootstrap-tabcollapse.js
 scripts[] = js/despierta.behaviors.js
 
 ; ========================================
