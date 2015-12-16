@@ -248,9 +248,211 @@
    * 
    */
 
-	// Create Sedes group
-	Drupal.theme.prototype.sedesReport = function (elem) {
-		var sedesReport = {};
+	// Create report with a Sede
+	Drupal.theme.prototype.repSede = function (elem) {
+		var sede = {};
+		// nid (only for Sedes view)
+		if ( $('td[class$="views-field-nid"]', elem).length ) {
+			var val = $('td[class$="views-field-nid"]', elem).text().replace(/\n*\s*/g,'');
+			sede.nid = val;
+		}
+		// distance (only for Sedes view)
+		if ( $('td[class$="views-field-field-geofield-distance"]', elem).length ) {
+			var val = $('td[class$="views-field-field-geofield-distance"]', elem).text().replace(/\n*\s*/g,'');
+			sede.proximity = val;
+		}
+		if ( $('td[class$="views-field-field-location"]', elem).length ) {
+			var val = $('td[class$="views-field-field-location"]', elem).text().replace(/\n*\s*/g,'');
+			if ( val !== undefined && val != "" ) {
+				sede.location = jQuery.parseJSON( val );
+				// sede.proximity = geoProximity( parseFloat(localStorage['longitude']), parseFloat(localStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
+			}
+		}
+		// title
+		if ( $('td[class$="views-field-title"]', elem).length ) {
+			var val = $('td[class$="views-field-title"] > a', elem).text().replace(/\n*\s*/g,'');
+			sede.title = val;
+		}
+		else if ( $('#page-title').length ) {
+			var val = $('#page-title').text().replace(/\n*\s*/g,'');
+			sede.title = val;
+		}
+		// logo
+		if ( $('td[class$="views-field-field-sede-logo"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-logo"] > img', elem).attr('src').replace(/\n*\s*/g,'');
+			sede.logo = val;
+		}
+		else if ( $('.field-name-field-sede-logo .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-logo .field-item > img', elem).attr('src').replace(/\n*\s*/g,'');
+			sede.logo = val;
+		}
+		// desc. breve
+		if ( $('td[class$="views-field-field-sede-descripcion-breve"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-descripcion-breve"]', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.descb = val;
+		}
+		else if ( $('.field-name-field-sede-descripcion-breve .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-descripcion-breve .field-item', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.descb = val;
+		}
+		// desc. completa
+		if ( $('td[class$="views-field-field-sede-descripcion-completa"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-descripcion-completa"]', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.descc = val;
+		}
+		else if ( $('.field-name-field-sede-descripcion-completa .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-descripcion-completa .field-item', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.descc = val;
+		}
+		// direccion: street
+		if ( $('td[class$="views-field-field-sede-direccion-thoroughfare"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-direccion-thoroughfare"]', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			val = val.replace(/\s*,\s*/g,', ');
+			sede.direccion = val;
+		}
+		else if ( $('.field-name-field-sede-direccion .thoroughfare', elem).length ) {
+			var val = $('.field-name-field-sede-direccion .thoroughfare', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			val = val.replace(/\s*,\s*/g,', ');
+			sede.direccion = val;
+		}
+		// direccion: postal code
+		if ( $('td[class$="views-field-field-sede-direccion-postal-code"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-direccion-postal-code"]', elem).text().replace(/\n*\s*/g,'');
+			sede.cp = val;
+		}
+		else if ( $('.field-name-field-sede-direccion .postal-code', elem).length ) {
+			var val = $('.field-name-field-sede-direccion .postal-code', elem).text().replace(/\n*\s*/g,'');
+			sede.cp = val;
+		}
+		// direccion: locality
+		if ( $('td[class$="views-field-field-sede-direccion-locality"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-direccion-locality"]', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.locality = val;
+		}
+		else if ( $('.field-name-field-sede-direccion .locality', elem).length ) {
+			var val = $('.field-name-field-sede-direccion .locality', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.locality = val;
+		}
+		// direccion: country
+		if ( $('td[class$="views-field-field-sede-direccion-country"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-direccion-country"]', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.country = val;
+		}
+		else if ( $('.field-name-field-sede-direccion .country', elem).length ) {
+			var val = $('.field-name-field-sede-direccion .country', elem).text();
+			val = val.replace(/^\n*\s*/g,'');
+			val = val.replace(/\n*\s*$/g,'');
+			sede.country = val;
+		}
+		// email
+		if ( $('td[class$="views-field-field-sede-email"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-email"]', elem).text().replace(/\n*\s*/g,'');
+			sede.email = val;
+		}
+		else if ( $('.field-name-field-sede-email .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-email .field-item', elem).text().replace(/\n*\s*/g,'');
+			sede.email = val;
+		}
+		// web
+		if ( $('td[class$="views-field-field-sede-web"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-web"]', elem).text().replace(/\n*\s*/g,'');
+			sede.web = val;
+		}
+		else if ( $('.field-name-field-sede-web .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-web .field-item', elem).text().replace(/\n*\s*/g,'');
+			sede.web = val;
+		}		
+		// tlf
+		if ( $('td[class$="views-field-field-sede-telefono"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-telefono"]', elem).text().replace(/\n*\s*/g,'');
+			sede.tlf = val;
+		}
+		else if ( $('.field-name-field-sede-telefono .field-item', elem).length ) {
+			var val = $('.field-name-field-sede-telefono .field-item', elem).text().replace(/\n*\s*/g,'');
+			sede.tlf = val;
+		}
+		// tipo actividad
+		if ( $('td[class$="views-field-field-sede-tipo-actividad"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-tipo-actividad"]', elem).text();
+			sede.t_act = val;
+		}
+		else if ( $('.field-name-field-sede-tipo-actividad', elem).length ) {
+			var val = "";
+			$('.field-name-field-sede-tipo-actividad .lineage-item', elem).each(function(){ val += '; '+$(this).text(); });
+			val = val.replace(/^;\s*/g,'');
+			sede.t_act = val;
+		}
+		// tipo movimiento
+		if ( $('td[class$="views-field-field-sede-tipo-movimiento"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-tipo-movimiento"]', elem).text();
+			sede.t_mov = val;
+		}
+		else if ( $('.field-name-field-sede-tipo-movimiento', elem).length ) {
+			var val = "";
+			$('.field-name-field-sede-tipo-movimiento .lineage-item', elem).each(function(){ val += '; '+$(this).text(); });
+			val = val.replace(/^;\s*/g,'');
+			sede.t_mov = val;
+		}		
+		// tipo venta
+		if ( $('td[class$="views-field-field-sede-tipo-venta"]', elem).length ) {
+			var val = $('td[class$="views-field-field-sede-tipo-venta"]', elem).text();
+			sede.t_vent = val;
+		}
+		else if ( $('.field-name-field-sede-tipo-venta', elem).length ) {
+			var val = "";
+			$('.field-name-field-sede-tipo-venta .lineage-item', elem).each(function(){ val += '; '+$(this).text(); });
+			val = val.replace(/^;\s*/g,'');
+			sede.t_vent = val;
+		}		
+		// venta paises
+		if ( $('td[class$="views-field-field-sede-pais"]', elem).length ) {
+			var val = "";
+			$('td[class$="views-field-field-sede-pais"] .lineage-item', elem).each(function(){ val += '; '+$(this).text(); });
+			sede.p_serv = val;
+		}
+		else if ( $('.field-name-field-sede-pais', elem).length ) {
+			var val = "";
+			$('.field-name-field-sede-pais .lineage-item', elem).each(function(){ val += '; '+$(this).text(); });
+			val = val.replace(/^;\s*/g,'');
+			sede.p_serv = val;
+		}
+		// directorio-verde (only for Sede page)
+		if ( $('.field-name-field-directorio-verde', elem).length ) {
+			var cats = {};
+			$('.field-name-field-directorio-verde li[class*="taxonomy-term-reference"]', elem).each(function(){
+				var cat = $('.lineage-item-level-0', this).text();
+				var subcat = $('.lineage-item-level-1', this).text();
+				var etiq = $('.lineage-item-level-2', this).text();
+				if ( cats[cat] === undefined ) { cats[cat] = {} }
+				if ( cats[cat][subcat] === undefined ) { cats[cat][subcat] = {} }
+				cats[cat][subcat][etiq] = 1;
+			});
+			sede.cats = cats;
+		}
+
+		return sede;
+	};
+	// Create report with the list of Sedes
+	Drupal.theme.prototype.reportSedes = function (elem) {
+		var reportSedes = {};
 		$('.view-grouping', elem).map( function (i, group) {
 			var cat = $('.view-grouping-header', this).text();
 			cat = cat.replace(/Categoria\:\s*/g,'');
@@ -259,115 +461,117 @@
 				subcat = subcat.replace(/Subcategoria\:\s*/g,'');
 				subcat = subcat.replace(/\n*\s*$/g,'');
 				$('tbody > tr', table).map( function (j, tr) {
-					var sede = {};
-					var nid = "";
-					var proximity = "";
-					if ( $('td[class$="views-field-nid"]', tr).length ) {
-						var val = $('td[class$="views-field-nid"]', tr).text().replace(/\n*\s*/g,'');
-						nid = val;
-						sede.nid = nid;
-					}
-					if ( $('td[class$="views-field-field-geofield-distance"]', tr).length ) {
-						var val = $('td[class$="views-field-field-geofield-distance"]', tr).text().replace(/\n*\s*/g,'');
-						sede.proximity = val;
-					}
-					if ( $('td[class$="views-field-field-location"]', tr).length ) {
-						var val = $('td[class$="views-field-field-location"]', tr).text().replace(/\n*\s*/g,'');
-						if ( val !== undefined && val != "" ) {
-							sede.location = jQuery.parseJSON( val );
-							// sede.proximity = geoProximity( parseFloat(localStorage['longitude']), parseFloat(localStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
+					var sede = Drupal.theme.prototype.repSede( tr );
+					// var sede = {};
+					// if ( $('td[class$="views-field-nid"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-nid"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.nid = val;
+					// }
+					// if ( $('td[class$="views-field-field-geofield-distance"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-geofield-distance"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.proximity = val;
+					// }
+					// if ( $('td[class$="views-field-field-location"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-location"]', tr).text().replace(/\n*\s*/g,'');
+					// 	if ( val !== undefined && val != "" ) {
+					// 		sede.location = jQuery.parseJSON( val );
+					// 		// sede.proximity = geoProximity( parseFloat(localStorage['longitude']), parseFloat(localStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
+					// 	}
+					// }
+					// if ( $('td[class$="views-field-title"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-title"] > a', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.title = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-logo"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-logo"] > img', tr).attr('src').replace(/\n*\s*/g,'');
+					// 	sede.logo = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-descripcion-breve"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-descripcion-breve"]', tr).text();
+					// 	val = val.replace(/^\n*\s*/g,'');
+					// 	val = val.replace(/\n*\s*$/g,'');
+					// 	sede.descb = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-descripcion-completa"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-descripcion-completa"]', tr).text();
+					// 	val = val.replace(/^\n*\s*/g,'');
+					// 	val = val.replace(/\n*\s*$/g,'');
+					// 	sede.descc = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).text();
+					// 	val = val.replace(/^\s*/g,'');
+					// 	val = val.replace(/\s*$/g,'');
+					// 	val = val.replace(/\s*,\s*/g,', ');
+					// 	sede.direccion = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.cp = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-direccion-locality"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-direccion-locality"]', tr).text();
+					// 	val = val.replace(/^\s*/g,'');
+					// 	val = val.replace(/\s*$/g,'');
+					// 	sede.locality = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-direccion-country"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-direccion-country"]', tr).text();
+					// 	val = val.replace(/^\s*/g,'');
+					// 	val = val.replace(/\s*$/g,'');
+					// 	sede.country = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-email"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-email"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.email = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-web"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-web"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.web = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-telefono"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-telefono"]', tr).text().replace(/\n*\s*/g,'');
+					// 	sede.tlf = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-tipo-actividad"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-tipo-actividad"]', tr).text();
+					// 	sede.t_act = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).text();
+					// 	sede.t_mov = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-tipo-venta"]', tr).length ) {
+					// 	var val = $('td[class$="views-field-field-sede-tipo-venta"]', tr).text();
+					// 	sede.t_vent = val;
+					// }
+					// if ( $('td[class$="views-field-field-sede-pais"]', tr).length ) {
+					// 	var val = "";
+					// 	$('td[class$="views-field-field-sede-pais"] .lineage-item', tr).each(function(){ val += ';'+$(this).text(); });
+					// 	sede.p_serv = val;
+					// }
+					// add sede into list report
+					if ( sede.nid != undefined ) {
+						var nid = sede.nid;
+						// add for first time the report
+						if ( reportSedes[nid] === undefined ) {
+							reportSedes[nid] = sede;
+							reportSedes[nid].cats = {};
 						}
-					}
-					if ( $('td[class$="views-field-title"]', tr).length ) {
-						var val = $('td[class$="views-field-title"] > a', tr).text().replace(/\n*\s*/g,'');
-						sede.title = val;
-					}
-					if ( $('td[class$="views-field-field-sede-logo"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-logo"] > img', tr).attr('src').replace(/\n*\s*/g,'');
-						sede.logo = val;
-					}
-					if ( $('td[class$="views-field-field-sede-descripcion-breve"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-descripcion-breve"]', tr).text();
-						val = val.replace(/^\n*\s*/g,'');
-						val = val.replace(/\n*\s*$/g,'');
-						sede.descb = val;
-					}
-					if ( $('td[class$="views-field-field-sede-descripcion-completa"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-descripcion-completa"]', tr).text();
-						val = val.replace(/^\n*\s*/g,'');
-						val = val.replace(/\n*\s*$/g,'');
-						sede.descc = val;
-					}
-					if ( $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).text();
-						val = val.replace(/^\s*/g,'');
-						val = val.replace(/\s*$/g,'');
-						val = val.replace(/\s*,\s*/g,', ');
-						sede.direccion = val;
-					}
-					if ( $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).text().replace(/\n*\s*/g,'');
-						sede.cp = val;
-					}
-					if ( $('td[class$="views-field-field-sede-direccion-locality"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-direccion-locality"]', tr).text();
-						val = val.replace(/^\s*/g,'');
-						val = val.replace(/\s*$/g,'');
-						sede.locality = val;
-					}
-					if ( $('td[class$="views-field-field-sede-direccion-country"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-direccion-country"]', tr).text();
-						val = val.replace(/^\s*/g,'');
-						val = val.replace(/\s*$/g,'');
-						sede.country = val;
-					}
-					if ( $('td[class$="views-field-field-sede-email"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-email"]', tr).text().replace(/\n*\s*/g,'');
-						sede.email = val;
-					}
-					if ( $('td[class$="views-field-field-sede-web"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-web"]', tr).text().replace(/\n*\s*/g,'');
-						sede.web = val;
-					}
-					if ( $('td[class$="views-field-field-sede-telefono"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-telefono"]', tr).text().replace(/\n*\s*/g,'');
-						sede.tlf = val;
-					}
-					if ( $('td[class$="views-field-field-sede-tipo-actividad"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-tipo-actividad"]', tr).text();
-						sede.t_act = val;
-					}
-					if ( $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).text();
-						sede.t_mov = val;
-					}
-					if ( $('td[class$="views-field-field-sede-tipo-venta"]', tr).length ) {
-						var val = $('td[class$="views-field-field-sede-tipo-venta"]', tr).text();
-						sede.t_vent = val;
-					}
-					if ( $('td[class$="views-field-field-sede-pais"]', tr).length ) {
-						var val = "";
-						$('td[class$="views-field-field-sede-pais"] .lineage-item', tr).each(function(){ val += ';'+$(this).text(); });
-						sede.p_serv = val;
-					}
-					if ( sedesReport[nid] === undefined ) {
-						sedesReport[nid] = sede;
-						sedesReport[nid].cats = {};
-					}
-
-					// concatenate 'directorio-verde' values (cat > subcat > etiqs)
-					if ( $('td[class$="sede-etiq"]', tr).length ) {
-						var val = $('td[class$="sede-etiq"]', tr).text();
-						val = val.replace(/^\n*\s*/g,'');
-						val = val.replace(/\n*\s*$/g,'');
-						if ( sedesReport[nid].cats[cat] === undefined ) { sedesReport[nid].cats[cat] = {} }
-						if ( sedesReport[nid].cats[cat][subcat] === undefined ) { sedesReport[nid].cats[cat][subcat] = {} }
-						sedesReport[nid].cats[cat][subcat][val] = 1;
+						// concatenate 'directorio-verde' values (cat > subcat > etiqs)
+						if ( $('td[class$="sede-etiq"]', tr).length ) {
+							var val = $('td[class$="sede-etiq"]', tr).text();
+							val = val.replace(/^\n*\s*/g,'');
+							val = val.replace(/\n*\s*$/g,'');
+							if ( reportSedes[nid].cats[cat] === undefined ) { reportSedes[nid].cats[cat] = {} }
+							if ( reportSedes[nid].cats[cat][subcat] === undefined ) { reportSedes[nid].cats[cat][subcat] = {} }
+							reportSedes[nid].cats[cat][subcat][val] = 1;
+						}
 					}
 				});
 			});
 		});
-		return sedesReport;
+		return reportSedes;
 	};
 	
 	// Create tab list depending on type of view
@@ -467,7 +671,7 @@
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
-					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
+					tcont += Drupal.theme('articleSede', inSedesObj[nid], tname);
 				}
 			}
 			// 2. Sort by country direction (and proximity)
@@ -478,7 +682,7 @@
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
-					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
+					tcont += Drupal.theme('articleSede', inSedesObj[nid], tname);
 				}
 			}
 			// 3. Sort by country where works (and proximity)
@@ -489,7 +693,7 @@
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
-					tcont += Drupal.theme('sedeArticle', inSedesObj[nid], tname);
+					tcont += Drupal.theme('articleSede', inSedesObj[nid], tname);
 				}
 			}			
 			if ( tcont != "" ) {
@@ -530,7 +734,7 @@
 
 
 	// Create HTML: article
-	Drupal.theme.prototype.sedeArticle = function (sedeObj, iCat) {
+	Drupal.theme.prototype.articleSede = function (sedeObj, iCat) {
  		var sedHTML = '<article class="media ">';
 
 		sedHTML += '<div class="media-bod col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 prici">';
@@ -570,21 +774,23 @@
 			sedHTML += '<div class="clean masinfo col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12">';
 				var cats = "";
 				var etiqs = "";
-				var numCat = sedeObj.cats.length;
-				for ( var cat in sedeObj.cats ) {
-					if ( iCat == "Todas" ) {
-						cats += cat + ' (' + Object.keys(sedeObj.cats[cat]).join(', ') + '); '
-					}
-					else { cats += cat + '; ' }
+				if ( sedeObj.cats != undefined ) {
+					var numCat = sedeObj.cats.length;
+					for ( var cat in sedeObj.cats ) {
+						if ( iCat == "Todas" ) {
+							cats += cat + ' (' + Object.keys(sedeObj.cats[cat]).join(', ') + '); '
+						}
+						else { cats += cat + '; ' }
 
-					for ( var subcat in sedeObj.cats[cat] ) {
-						if ( iCat == "Todas" ) { etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][subcat]).join(', ') + '); ' }
-						else if ( cat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat]).join('; ') }
-						else if ( subcat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][subcat]).join('; ') }
+						for ( var subcat in sedeObj.cats[cat] ) {
+							if ( iCat == "Todas" ) { etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][subcat]).join(', ') + '); ' }
+							else if ( cat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat]).join('; ') }
+							else if ( subcat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][subcat]).join('; ') }
+						}
 					}
+					cats = cats.replace(/\;\s*$/g,'');
+					etiqs = etiqs.replace(/\;\s*$/g,'');
 				}
-				cats = cats.replace(/\;\s*$/g,'');
-				etiqs = etiqs.replace(/\;\s*$/g,'');
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
 				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
@@ -728,7 +934,7 @@
 
 			
 			/*
-			 * SELECTORS:
+			 * GEOLOCATION BLOCKS:
 			 */
 
 
@@ -864,7 +1070,9 @@
 			});
 
 			
-			/* SEDES */
+			/*
+			* SEDES
+			*/
 			// Print new sedes view (Once)
 			$(	'div[id="block-views-sedes-block"] .view-id-sedes.view-display-id-block, .view-id-sedes2').once("DOMSubtreeModified",function() {
 				var subcats = {};
@@ -873,7 +1081,7 @@
 				// Content:
 				if ( $('> div[class="view-content"]', this).length ) {
 					// Create Object: Sedes
-					var sedesReport = Drupal.theme.prototype.sedesReport($('.view-content', this));
+					var reportSedes = Drupal.theme.prototype.reportSedes($('.view-content', this));
 
 					// Chech where we are...
 					// in the frontpage: print all
@@ -884,7 +1092,7 @@
 					}
 
 					// Print sedes list
-					var sedeHTML = Drupal.theme('tabSedes', sedesReport, tabAll);
+					var sedeHTML = Drupal.theme('tabSedes', reportSedes, tabAll);
 					$('> .view-content', this).append( $(sedeHTML) );
 					$('> .view-content > div:not(.tab-despierta)', this).remove();
 
@@ -1033,9 +1241,18 @@
 			});
 
 
-			/* Sede Page */
-			$('div[class*="node-sede"]', context).once('despierta', function () {				
-				// $('div[class*="field-name-field-location"]', this).remove();
+			/* Sede: Individual Page */
+			$('div[id*="node-"].node-sede', context).once('despierta', function () {
+				// Create Sedes Report
+				var repSede = Drupal.theme.prototype.repSede( $('.content', this) );
+console.log(repSede);
+				var cont = Drupal.theme('articleSede', repSede, "Todas");
+				$(this).append('<section class="resultados">'+cont+'</section>');
+				$('.resultados .info.url', this).remove();
+				$('.resultados .masinfo', this).css('display', 'block');
+				$('.resultados .media', this).css('height', 'auto');
+				
+
 			});
 
 
