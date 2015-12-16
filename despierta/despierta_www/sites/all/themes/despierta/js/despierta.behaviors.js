@@ -751,7 +751,7 @@
 				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 			sedHTML += '</div>';
 
-			sedHTML += '<div class="col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
+			sedHTML += '<div class="locinfo col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
 				var dircompl = '';
 				var cp = '';
 				if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = sedeObj.direccion }
@@ -801,6 +801,7 @@
 				if ( etiqs != "" ) {
 					sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
 				}
+				sedHTML += '<div class="row p_serv"><p class="text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';
 
 			sedHTML += '</div>';
 		sedHTML += '</div> <!-- media-bod -->';
@@ -1117,6 +1118,8 @@
 							$(this).parents('article').animate({height:'100%'}, 500);
 						}
 					});
+					// Delete Paises en Venta
+					$('> .view-content .p_serv', this).remove();
 				}
 				else { // NO RESULTS
 					var noSedeHTML = '<div class="view-content">' + htmlNoResults + '</div>';
@@ -1245,16 +1248,15 @@
 			$('div[id*="node-"].node-sede', context).once('despierta', function () {
 				// Create Sedes Report
 				var repSede = Drupal.theme.prototype.repSede( $('.content', this) );
-console.log(repSede);
 				var cont = Drupal.theme('articleSede', repSede, "Todas");
 				$(this).append('<section class="resultados">'+cont+'</section>');
 				$('.resultados .info.url', this).remove();
 				$('.resultados .masinfo', this).css('display', 'block');
 				$('.resultados .media', this).css('height', 'auto');
-				
-
+				$('div[id*="node-"].node-sede .field-name-field-location .geofieldMap').prependTo('div[id*="node-"].node-sede .resultados .media .locinfo');
+				$('.content', this).remove();
+				$('#page-title').remove();				
 			});
-
 
 			/*
 			 * FORMS PAGES
@@ -1396,6 +1398,7 @@ console.log(repSede);
 			 // hide
 			 // Drupal.theme.prototype.hideSedesPanel();
 			// show depending on...
+console.log(context);
 			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
 					$(context).attr('id') == "views-exposed-form-sedes-block"
 			) {
