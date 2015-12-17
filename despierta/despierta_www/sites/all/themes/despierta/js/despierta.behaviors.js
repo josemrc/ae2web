@@ -950,7 +950,7 @@
 				visitorLocation['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
 				if (jQuery.isEmptyObject(localStorage) || localStorage === undefined ||
 					localStorage['country'] === undefined || localStorage['country'] == "" ||
-					localStorage['locality'] === undefined || localStorage['locality'] == ""
+					localStorage['locality'] === undefined  
 				) {
 					localStorage['country'] = visitorLocation['country'];
 					localStorage['code'] = visitorLocation['code'];
@@ -1398,7 +1398,6 @@
 			 // hide
 			 // Drupal.theme.prototype.hideSedesPanel();
 			// show depending on...
-console.log(context);
 			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
 					$(context).attr('id') == "views-exposed-form-sedes-block"
 			) {
