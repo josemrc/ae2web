@@ -303,5 +303,14 @@ function despierta_form_node_form_alter(&$form, &$form_state, &$form_id) {
   }
 }
 
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function despierta_form_contact_site_form_alter(&$form, $form_state) {
+  $form['subject']['#access'] = FALSE;
+  $form['cid']['#type'] = "radios";
+  unset($form['cid']['#options'][0]);
+}
+
 
 ?>

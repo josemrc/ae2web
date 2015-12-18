@@ -461,95 +461,8 @@
 				subcat = subcat.replace(/Subcategoria\:\s*/g,'');
 				subcat = subcat.replace(/\n*\s*$/g,'');
 				$('tbody > tr', table).map( function (j, tr) {
+					// create sede obj
 					var sede = Drupal.theme.prototype.repSede( tr );
-					// var sede = {};
-					// if ( $('td[class$="views-field-nid"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-nid"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.nid = val;
-					// }
-					// if ( $('td[class$="views-field-field-geofield-distance"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-geofield-distance"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.proximity = val;
-					// }
-					// if ( $('td[class$="views-field-field-location"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-location"]', tr).text().replace(/\n*\s*/g,'');
-					// 	if ( val !== undefined && val != "" ) {
-					// 		sede.location = jQuery.parseJSON( val );
-					// 		// sede.proximity = geoProximity( parseFloat(localStorage['longitude']), parseFloat(localStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
-					// 	}
-					// }
-					// if ( $('td[class$="views-field-title"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-title"] > a', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.title = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-logo"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-logo"] > img', tr).attr('src').replace(/\n*\s*/g,'');
-					// 	sede.logo = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-descripcion-breve"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-descripcion-breve"]', tr).text();
-					// 	val = val.replace(/^\n*\s*/g,'');
-					// 	val = val.replace(/\n*\s*$/g,'');
-					// 	sede.descb = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-descripcion-completa"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-descripcion-completa"]', tr).text();
-					// 	val = val.replace(/^\n*\s*/g,'');
-					// 	val = val.replace(/\n*\s*$/g,'');
-					// 	sede.descc = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-direccion-thoroughfare"]', tr).text();
-					// 	val = val.replace(/^\s*/g,'');
-					// 	val = val.replace(/\s*$/g,'');
-					// 	val = val.replace(/\s*,\s*/g,', ');
-					// 	sede.direccion = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-direccion-postal-code"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.cp = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-direccion-locality"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-direccion-locality"]', tr).text();
-					// 	val = val.replace(/^\s*/g,'');
-					// 	val = val.replace(/\s*$/g,'');
-					// 	sede.locality = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-direccion-country"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-direccion-country"]', tr).text();
-					// 	val = val.replace(/^\s*/g,'');
-					// 	val = val.replace(/\s*$/g,'');
-					// 	sede.country = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-email"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-email"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.email = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-web"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-web"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.web = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-telefono"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-telefono"]', tr).text().replace(/\n*\s*/g,'');
-					// 	sede.tlf = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-tipo-actividad"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-tipo-actividad"]', tr).text();
-					// 	sede.t_act = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-tipo-movimiento"]', tr).text();
-					// 	sede.t_mov = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-tipo-venta"]', tr).length ) {
-					// 	var val = $('td[class$="views-field-field-sede-tipo-venta"]', tr).text();
-					// 	sede.t_vent = val;
-					// }
-					// if ( $('td[class$="views-field-field-sede-pais"]', tr).length ) {
-					// 	var val = "";
-					// 	$('td[class$="views-field-field-sede-pais"] .lineage-item', tr).each(function(){ val += ';'+$(this).text(); });
-					// 	sede.p_serv = val;
-					// }
 					// add sede into list report
 					if ( sede.nid != undefined ) {
 						var nid = sede.nid;
@@ -791,17 +704,17 @@
 					cats = cats.replace(/\;\s*$/g,'');
 					etiqs = etiqs.replace(/\;\s*$/g,'');
 				}
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
-				sedHTML += '<div class="row"><p class="text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
 				if ( cats != "" ) {
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
 				}
 				if ( etiqs != "" ) {
-					sedHTML += '<div class="row"><p class="text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
 				}
-				sedHTML += '<div class="row p_serv"><p class="text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';
+				sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';
 
 			sedHTML += '</div>';
 		sedHTML += '</div> <!-- media-bod -->';
@@ -1268,20 +1181,40 @@
 				$('select', this).addClass("form-control");
 				$('textarea', this).addClass("form-control");
 
-				$('label[for="edit-name"]', this).contents().first()[0].textContent = "Nombre ";
-				$('input[id="edit-name"]', this).attr('placeholder','Introduce el nombre');
-				$('label[for="edit-mail"]', this).contents().first()[0].textContent = "Correo electrónico ";
-				$('input[id="edit-mail"]', this).attr('placeholder','Introduce el e-mail');
-				$('div[class*="form-item-subject"]', this).remove();
-				$('textarea[id="edit-message"]', this).attr('placeholder','Teclea su comentario');
-				$('textarea[id="edit-message"]', this).css('resize', 'none');
-				$('label[for="edit-cid"]', this).contents().first()[0].textContent = "Motivo de la notificación ";
-				$('input[id="edit-submit"]', this).attr('value','Enviar');
-				$('input.form-submit', this).addClass("btn btn-success pull-left");
+				$('.form-item-name label[for="edit-name"]', this).contents().first()[0].textContent = "Nombre ";
+				$('.form-item-name input[id="edit-name"]', this).attr('placeholder','Introduce el nombre');
+				$('.form-item-mail label[for="edit-mail"]', this).contents().first()[0].textContent = "Correo electrónico ";
+				$('.form-item-mail input[id="edit-mail"]', this).attr('placeholder','Introduce el e-mail');
+				$('.form-item-message textarea[id="edit-message"]', this).attr('placeholder','Teclea su comentario');
+				$('.form-item-message textarea[id="edit-message"]', this).css('resize', 'none');
+				$('.form-item-cid label[for="edit-cid"]', this).contents().first()[0].textContent = "Motivo de la notificación ";
+				$('.form-actions input[id="edit-submit"]', this).attr('value','Enviar');
+				$('.form-actions input.form-submit', this).addClass("btn btn-success pull-left");
 				
 
-				var contHTML = '<div class="form-horizontal col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+				var contHTML = '';
+				contHTML += '<div class="form-horizontal cont-col1 col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+					// contHTML += $('.form-item-name', this).clone().html();
+					// contHTML += $('.form-item-mail', this).clone().html();
+					// contHTML += $('.form-item-message', this).clone().html();
+					// contHTML += $('.captcha', this).clone().html();
 				contHTML += '</div>';
+				contHTML += '<div class="form-horizontal cont-col2 col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+					// contHTML += $('.form-item-cid', this).clone().html();
+					contHTML += '<img class="peque" src="sites/default/files/contactoxs.jpg">';
+				contHTML += '</div>';
+				contHTML += '<div class="form-group cont-row col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center clean">';
+					// contHTML += $('.form-actions', this).clone().html();
+				contHTML += '</div>';
+				// $(this).remove('> div');
+				$(this).append(contHTML);
+				$('.form-item-name', this).appendTo('.cont-col1');
+				$('.form-item-mail', this).appendTo('.cont-col1');
+				$('.form-item-message', this).appendTo('.cont-col1');
+				$('.captcha', this).appendTo('.cont-col1');
+				$('.form-item-cid', this).prependTo('.cont-col2');
+				$('.form-actions', this).appendTo('.cont-row');
+
 			});
 
 			/* Login form page */			

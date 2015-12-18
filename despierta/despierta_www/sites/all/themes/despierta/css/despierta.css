@@ -501,7 +501,7 @@ ul#tabSedes {
 .resultados .masinfo div {
   margin-bottom: 0;
 }
-.resultados .masinfo .text-right{
+.resultados .masinfo .rlabel {
   font-weight: bold;
 }
 .resultados .text-right {
@@ -752,4 +752,14 @@ ul#tabSedes {
 .node-sede-form label[for="edit-field-sede-pais-und"] {
   font-weight: bold;
   font-size: 18px;
+}
+
+/* Contact form */
+#contact-site-form .form-radio {
+  display: inline-block;
+  width: auto !important;
+}
+#contact-site-form .form-actions {
+  margin-left: 50%;
+  margin-right: 50%;
 }
