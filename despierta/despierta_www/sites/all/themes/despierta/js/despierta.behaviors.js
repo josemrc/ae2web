@@ -1186,7 +1186,6 @@
 
 			/* Sede: Individual Page */
 			$('.view-empresa-sedes', context).once('despierta', function () {
-console.log($('.view-content',this).length);
 				if ( $('.view-content',this).length == 0 ) {
 					$(this).append('<div class="view-content"><p>No hay ninguna sede. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
 				}
@@ -1232,6 +1231,7 @@ console.log($('.view-content',this).length);
 				$('.form-actions', this).appendTo('.cont-row');
 			});
 
+
 			/* Login form page */			
 			$('form[id="user-login"]', context).once('despierta', function () {
 				$('input:not(.form-submit)', this).addClass("form-control");
@@ -1244,7 +1244,7 @@ console.log($('.view-content',this).length);
 				$('input.form-submit', this).addClass("btn btn-success pull-right");
 			});
 
-			/* Register form page */			
+			/* Register form page */
 			$('form[id="user-register-form"]', context).once('despierta', function () {
 				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");
 
@@ -1318,13 +1318,36 @@ console.log($('.view-content',this).length);
 				$('input[id="edit-field-sede-logo-und-0-upload-button"]', this).attr('value','Subir Imagen');
 				$('input[id="edit-field-sede-logo-und-0-remove-button"]', this).attr('value','Eliminar Imagen');
 			});
-			// Changes for 'Pais/regiones' where sell
+			// Changes for 'Pais/regiones'
 			$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] div[class*="hierarchical-select"]').css('display', 'table');				
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] select').addClass("form-control");
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] input').addClass("btn btn-info");
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] input').wrap('<div class="edit-field-sede-pais-button"></div>');
-				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
+				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');				
+			});
+			// Changes the table of 'Pais/regiones'
+			$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] .dropbox').once("DOMSubtreeModified",function(){
+console.log("CAMBIA");
+				$('table tr[class*="dropbox-entry"]', this).each( function() {
+					if ( $('.hierarchical-select-item-separator', this).length == 0 ) {
+						$('.dropbox-item.dropbox-selected-item', this).append('<span class="dropbox-item dropbox-selected-item"> (Todas las regiones) </span>');
+					}
+				});
+			});
+
+
+			/* User form page */
+			$('form[id="user-profile-form"]', context).once('despierta', function () {
+				$('#edit-timezone', this).remove();
+				$('#edit-locale', this).remove();
+				$('#edit-contact', this).remove();
+				
+				$('#edit-field-nombre-razon-social', this).appendTo('#edit-account');
+
+				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");A
+				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
+				
 			});
 
 			/* Footer blocks */
