@@ -787,6 +787,10 @@
 					// change title
 					$('h1[id="page-title"]').text("Aviso legal");
 				}
+				else if ( urlVars['q'] == "usuario" ) {
+					// remove title
+					$('h1[id="page-title"]').remove();
+				}
 				else if ( urlVars['q'] == "usuario/login" ) {
 					// remove title
 					$('h1[id="page-title"]').remove();
@@ -1180,6 +1184,16 @@
 				$('#page-title').remove();				
 			});
 
+			/* Sede: Individual Page */
+			$('.view-empresa-sedes', context).once('despierta', function () {
+console.log($('.view-content',this).length);
+				if ( $('.view-content',this).length == 0 ) {
+					$(this).append('<div class="view-content"><p>No hay ninguna sede. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+				}
+
+			});
+
+
 			/*
 			 * FORMS PAGES
 			*/			
@@ -1239,9 +1253,12 @@
 				$('input[id="edit-field-repetir-contrasena-und-0-pass2"]', this).attr('placeholder','Repite la contraseña');
 				$('input[id="edit-field-nombre-razon-social-und-0-value"]', this).attr('placeholder','Introduce tu nombre de anunciante');
 				
-				$('#edit-legal legend', this).remove();				  
-				var legalHTML = '<label class="option" for="edit-legal-accept"><strong>Acepto los</strong> <a href="/despierta/?q=legal">los términos y condiciones</a> de nuestros servicios <span class="form-required" title="Este campo es obligatorio.">*</span></label>';
+				$('#edit-legal legend', this).remove();
+				var legalHTML = '<label class="option" for="edit-legal-accept">Acepto los <a href="/despierta/?q=legal">términos y condiciones</a> de nuestros servicios <span class="form-required" title="Este campo es obligatorio.">*</span></label>';
 				$('label[for="edit-legal-accept"]').replaceWith(legalHTML);
+
+				$('#edit-simplenews .fieldset-description', this).remove();
+
 				$('input.form-submit', this).addClass("btn btn-success pull-right");
 			});
 

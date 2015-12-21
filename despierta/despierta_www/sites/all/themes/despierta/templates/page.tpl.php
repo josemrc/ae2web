@@ -174,17 +174,17 @@
       <!-- <div id="breadcrumb"><?php print $breadcrumb; ?></div> -->
     <?php endif; ?>
 
+    <?php if ($messages): ?>
+      <div id="messages"><div class="section clearfix">
+        <?php print $messages; ?>
+      </div></div> <!-- /.section, /#messages -->
+    <?php endif; ?>
+
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar"><div class="section">
         <?php print render($page['sidebar_first']); ?>
       </div></div> <!-- /.section, /#sidebar-first -->
     <?php endif; ?>
-
-  <?php if ($messages): ?>
-    <div id="messages"><div class="section clearfix">
-      <?php print $messages; ?>
-    </div></div> <!-- /.section, /#messages -->
-  <?php endif; ?>
   
     <div id="content" class="column"><div class="section">
       <a id="main-content"></a>
