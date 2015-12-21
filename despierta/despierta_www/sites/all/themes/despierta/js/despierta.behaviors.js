@@ -582,6 +582,9 @@
 				if ( sedes.length > 0 ) {
 					tcont += "<center><h2>Sedes que poseen un tienda en su localidad</h2></center><hr>";
 				}
+				else {
+					tcont += "<center><h2>No hay Sedes que poseen un tienda en su localidad</h2></center><hr>";
+				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
 					tcont += Drupal.theme('articleSede', inSedesObj[nid], tname);
@@ -800,8 +803,14 @@
 					// remove title
 					$('h1[id="page-title"]').remove();
 				}
-
 			}
+			// Changes messages
+			$('div[id="messages"]', context).once('despierta', function () {
+				$('.messages.error').each(function() {
+
+				});
+			});
+			
 
 			/* Change Breadcrumb from URL */
 			$('div[id="breadcrumb"]', context).once('despierta', function () {
@@ -839,7 +848,7 @@
 			});
 			/* Main Menu */
 			$('div[id="main-menu"]', context).once('despierta', function () {
-				$('ul[id="main-menu-links"]').addClass('nav navbar-nav navbar-right');				
+				$('ul[id="main-menu-links"]').addClass('nav navbar-nav navbar-right');
 				// add 'hoja' img
 				$('ul[id="main-menu-links"] li[class^="menu"]').each(function() {
 					$(this).append('<img class="hoja" src="sites/default/files/hoja.png">');					
@@ -1194,19 +1203,12 @@
 
 				var contHTML = '';
 				contHTML += '<div class="form-horizontal cont-col1 col-lg-6 col-md-6 col-sm-6 col-xs-12">';
-					// contHTML += $('.form-item-name', this).clone().html();
-					// contHTML += $('.form-item-mail', this).clone().html();
-					// contHTML += $('.form-item-message', this).clone().html();
-					// contHTML += $('.captcha', this).clone().html();
 				contHTML += '</div>';
 				contHTML += '<div class="form-horizontal cont-col2 col-lg-6 col-md-6 col-sm-6 col-xs-12">';
-					// contHTML += $('.form-item-cid', this).clone().html();
-					contHTML += '<img class="peque" src="sites/default/files/contactoxs.jpg">';
+					contHTML += '<img src="sites/default/files/contactoxs.jpg">';
 				contHTML += '</div>';
 				contHTML += '<div class="form-group cont-row col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center clean">';
-					// contHTML += $('.form-actions', this).clone().html();
 				contHTML += '</div>';
-				// $(this).remove('> div');
 				$(this).append(contHTML);
 				$('.form-item-name', this).appendTo('.cont-col1');
 				$('.form-item-mail', this).appendTo('.cont-col1');
@@ -1214,7 +1216,6 @@
 				$('.captcha', this).appendTo('.cont-col1');
 				$('.form-item-cid', this).prependTo('.cont-col2');
 				$('.form-actions', this).appendTo('.cont-row');
-
 			});
 
 			/* Login form page */			

@@ -763,3 +763,14 @@ ul#tabSedes {
   margin-left: 50%;
   margin-right: 50%;
 }
+#contact-site-form .form-item-cid {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+#contact-site-form .cont-col2 .form-item {
+  margin-left: 20%;
+}
+#contact-site-form .cont-col2 img {
+  width: auto;
+
+}
