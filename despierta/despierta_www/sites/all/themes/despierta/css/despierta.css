@@ -372,7 +372,7 @@ ul#tabSedes {
 
 /* --------------- Panel Admnistracion: Sedes View ------------ */
 .encab {
-  color: #52801A;
+  /*color: #52801A;*/
 }
 .encab th {
   background-color: #96c147;
@@ -431,6 +431,11 @@ ul#tabSedes {
     position: relative;
     top: 5px;
     z-index: 3;
+}
+.resultados .sep-title {
+  color: #496e32;
+  font-size: 18px;
+  margin-top: 10px;
 }
 .resultados h1 {
   padding-top: 0;
@@ -528,10 +533,19 @@ ul#tabSedes {
   .resultados .media-bod .allinfo {
     float: right;
   }
+  .resultados .media-bod .locinfo {
+    display: none;
+  }
+  .resultados .media {
+    height: 130px;
+  }
   .resultados .media-object {
     max-width: 65px;
     max-height: 65px;
   }
+  .resultados .sep-title {
+    font-size: 14px;
+  }  
 }
 
 /* --------------- Map Sedes ------------ */
@@ -634,6 +648,11 @@ ul#tabSedes {
     font-size: 14px;
   }
 }
+@media (max-width: 460px) {
+  .fdoverde {
+    width: auto;
+  }
+}
 
 /* --------------- Redes View ------------ */
 
@@ -728,6 +747,10 @@ ul#tabSedes {
  * FORMS
  */
 
+/* Sede Form */
+#sede-node-form div[class^="field-type"] {
+  margin-top: 40px;
+}
 /* Gestion Menu */
 #block-menu-menu-opciones-gestion {
   /*padding-top: 50px;*/

@@ -283,7 +283,7 @@ function despierta_preprocess_user_pass(&$vars) {
   $vars['intro_text'] = t('Recuperación de cuenta');
 }
 function despierta_preprocess_user_profile_form(&$vars) {
-  $vars['intro_text'] = t('Panel de Administración - Modificar datos personales');
+  $vars['intro_text'] = t('Panel de Administración - Modificar datos de usuario');
 }
 
 /**
@@ -311,6 +311,5 @@ function despierta_form_contact_site_form_alter(&$form, $form_state) {
   $form['cid']['#type'] = "radios";
   unset($form['cid']['#options'][0]);
 }
-
 
 ?>

@@ -580,10 +580,10 @@
 			if ( sortedSedes.locality ) {
 				var sedes = sortedSedes.locality;
 				if ( sedes.length > 0 ) {
-					tcont += "<center><h2>Sedes que poseen un tienda en su localidad</h2></center><hr>";
+					tcont += "<center><div class='sep-title'>Sedes que poseen un tienda en su localidad</div></center><hr>";
 				}
 				else {
-					tcont += "<center><h2>No hay Sedes que poseen un tienda en su localidad</h2></center><hr>";
+					tcont += "<center><div class='sep-title'>No hay Sedes que poseen un tienda en su localidad</div></center><hr>";
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
@@ -594,7 +594,7 @@
 			if ( sortedSedes.country ) {
 				var sedes = sortedSedes.country;
 				if ( sedes.length > 0 ) {
-					tcont += "<center><h2>Sedes que poseen un establecimiento físico dentro de su país</h2></center><hr>";
+					tcont += "<center><div class='sep-title'>Sedes que poseen un establecimiento físico dentro de su país</div></center><hr>";
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
@@ -605,7 +605,7 @@
 			if ( sortedSedes.online ) {
 				var sedes = sortedSedes.online;
 				if ( sedes.length > 0 ) {
-					tcont += "<center><h2>Sedes que trabajan <i>Online</i> para su país</h2></center><hr>";
+					tcont += "<center><div class='sep-title'>Sedes que trabajan <i>Online</i> para su país</div></center><hr>";
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
@@ -1040,6 +1040,7 @@
 							$('img', this).rotate({ animateTo:180});
 							$('span',this).html('- info');
 							$(this).closest('.media-bod').children('.masinfo').fadeIn(500);
+							// $(this).closest('.media-bod').children('.locinfo').css('display', 'block');
 							$('.subrayado', this).fadeIn(500);
 							$(this).parents('article').animate({height:'100%'}, 500);
 						}
@@ -1187,7 +1188,15 @@
 			/* Sede: Individual Page */
 			$('.view-empresa-sedes', context).once('despierta', function () {
 				if ( $('.view-content',this).length == 0 ) {
-					$(this).append('<div class="view-content"><p>No hay ninguna sede. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+					$(this).append('<div class="view-content"><p>Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+				}
+				else {
+					$('.view-content',this).prepend('<div class=""><a href="/despierta/?q=empresa/anadir/sede">Crear nueva asede</a></div>');
+					$('.views-table', this).addClass("col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12");
+					// $('.views-table', this).addClass("col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12");
+					$('.views-table .views-field', this).each(function () {
+						$(this).addClass("col-lg-3 col-md-3 col-s-3 col-sm-3 col-xs-3 text-center");
+					});					
 				}
 
 			});
@@ -1288,6 +1297,21 @@
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
 				$('input[id="edit-preview"]', this).remove();
 			});
+			// Changes within 'Categorias/Subcategorias/Etiq'
+			$('select[id^="edit-field-directorio-verde-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
+				$('form[id="sede-node-form"] #edit-field-directorio-verde .hierarchical-select ').css('display', 'table');				
+				$('form[id="sede-node-form"] #edit-field-directorio-verde select').addClass("form-control");
+				$('form[id="sede-node-form"] #edit-field-directorio-verde input').addClass("btn btn-info");
+				$('form[id="sede-node-form"] #edit-field-directorio-verde input').wrap('<div class="edit-field-sede-pais-button"></div>');
+				$('form[id="sede-node-form"] #edit-field-directorio-verde table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ninguna palabre clave seleccionada.</td>');				
+			});
+			$('form[id="sede-node-form"] #edit-field-directorio-verde .dropbox').once("DOMSubtreeModified",function(){
+				$('table tr[class*="dropbox-entry"]', this).each( function() {
+					if ( $('.hierarchical-select-item-separator', this).length == 0 ) {
+						$('.dropbox-item.dropbox-selected-item', this).append('<span class="dropbox-item dropbox-selected-item"> (Todas las palabras clave) </span>');
+					}
+				});
+			});			
 			// Changes when the country of direction has been modified
 			$('select[id^="edit-field-sede-direccion-und-0-country"]').once("DOMSubtreeModified",function(){
 				$('form[id="sede-node-form"] div[id="edit-field-sede-direccion"] legend').remove();
@@ -1326,9 +1350,7 @@
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] input').wrap('<div class="edit-field-sede-pais-button"></div>');
 				$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');				
 			});
-			// Changes the table of 'Pais/regiones'
 			$('form[id="sede-node-form"] div[id="edit-field-sede-pais"] .dropbox').once("DOMSubtreeModified",function(){
-console.log("CAMBIA");
 				$('table tr[class*="dropbox-entry"]', this).each( function() {
 					if ( $('.hierarchical-select-item-separator', this).length == 0 ) {
 						$('.dropbox-item.dropbox-selected-item', this).append('<span class="dropbox-item dropbox-selected-item"> (Todas las regiones) </span>');
@@ -1342,10 +1364,14 @@ console.log("CAMBIA");
 				$('#edit-timezone', this).remove();
 				$('#edit-locale', this).remove();
 				$('#edit-contact', this).remove();
-				
+				$('#edit-picture', this).remove();
+				$('#edit-legal legend', this).remove();
+
+					
+
 				$('#edit-field-nombre-razon-social', this).appendTo('#edit-account');
 
-				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");A
+				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
 				
 			});
