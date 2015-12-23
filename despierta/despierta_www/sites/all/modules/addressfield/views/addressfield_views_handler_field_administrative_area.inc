@@ -37,7 +37,7 @@ class addressfield_views_handler_field_administrative_area extends views_handler
       module_load_include('inc', 'addressfield', 'addressfield.administrative_areas');
       $country = $values->{$this->country_alias};
       $areas = addressfield_get_administrative_areas($country);
-
+      
       if (!empty($areas[$value])) {
         $value = $areas[$value];
       }
