@@ -165,8 +165,12 @@
 		// Copy regions in the search panels (if apply)
 		if ( $('form[id="views-exposed-form-sedes2-busq-simple"]').length ) {
 			var $options = $('select[id="sel-regions"] > option').clone();
-			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-regions"] > option').remove();
-			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-regions"]').append($options);
+			// $options.each(function(){
+			// 	var v = $(this).attr('dp-reg-code');
+			// 	$(this).val(  v );
+			// });
+			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-field-sede-direccion-administrative-area-selective"] > option').remove();
+			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-field-sede-direccion-administrative-area-selective"]').append($options);
 		}
 		// Add pais into 
 		if ( $('form[id="views-exposed-form-sedes2-busq-simple"]').length ) {
@@ -238,7 +242,7 @@
 		if ( code !== "" ) {
 			for (var rCode in paisRegions[code].regions)  {
 				var region = paisRegions[code].regions[rCode];
-				selHTML += '<option value="'+region.name+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
+				selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
 			}
 		}
 		selHTML += '</select>';
@@ -976,10 +980,14 @@
 			$('form[id^="views-exposed-form-sedes2"] select').each( function() {
 				$(this).addClass('form-control');
 			});
-			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regions"]' ).remove();
+			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-field-sede-direccion-administrative-area-selective"]' ).remove();			
 			$('form[id^="views-exposed-form-sedes2"] .views-submit-button input').each( function() {
 				$(this).addClass('btn btn-success');
 				$(this).css('width', '69px');
+			});
+			$('form[id^="views-exposed-form-sedes2"] .views-reset-button input').each( function() {
+				$(this).addClass('btn btn-success');
+				$(this).css('width', '99px');
 			});
 			$('form[id^="views-exposed-form-sedes2"] input#edit-query').attr('placeholder', '¿Qué buscas?');
 
@@ -993,7 +1001,7 @@
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-t-ven"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-pais"]' ).remove();
 			$( 'form[id^="views-exposed-form-sedes2"] label[for="edit-regions"]' ).remove();
-			$( 'form[id^="views-exposed-form-sedes2"] input[id="edit-loc"]' ).attr('placeholder', 'Localidad');
+			$( 'form[id^="views-exposed-form-sedes2"] input[id="edit-field-sede-direccion-locality"]' ).attr('placeholder', 'Localidad');
 			// Create panels
 			$('form[id^="views-exposed-form-sedes2-busq-avan"] .views-exposed-form', context).once('despierta', function () {
 				var avanHTML = '';
@@ -1005,9 +1013,9 @@
 							'</div>';
 				avanHTML += '<div class="pull-left col-xs-12 col-md-4">'+
 								'<label>¿Dónde?</label>'+
-								$( 'div[id^="edit-pais-wrapper"] .form-item', this ).html()+
-								$( 'div[id^="edit-regions-wrapper"] .form-item', this ).html()+
-								$( 'div[id^="edit-loc-wrapper"] .form-item', this ).html()+
+								$( 'div[id^="edit-field-sede-direccion-country-selective-wrapper"] .form-item', this ).html()+
+								$( 'div[id^="edit-field-sede-direccion-administrative-area-selective-wrapper"] .form-item', this ).html()+
+								$( 'div[id^="edit-field-sede-direccion-locality-wrapper"] .form-item', this ).html()+
 							'</div>';
 				avanHTML += '<div class="pull-left col-xs-12 col-md-4">'+
 								'<label>¿Características?</label>'+
@@ -1017,10 +1025,19 @@
 							'</div>';
 				avanHTML += '<div class="pull-left col-xs-12">'+
 								$( '.views-submit-button', this ).html()+
+								$( '.views-reset-button', this ).html()+
 							'</div>';
 				$( '.views-exposed-widgets', this ).empty();
 				$( '.views-exposed-widgets', this ).html(avanHTML);
-				$('select[id="edit-regions"]', this).attr('disabled', 'disabled');
+				// Change pais code to label
+				$('select[id="edit-field-sede-direccion-country-selective"] > option', this).each(function(){
+					var rcode2 = $(this).val();
+					var rlabel = $( '#header select[id="sel-pais"] option[dp-pais-code="'+rcode2+'"]').val();
+					$(this).text(rlabel);
+				});
+				if ( $('select[id="edit-field-sede-direccion-country-selective"] option:selected').val() == "All" ) {
+					$('select[id="edit-field-sede-direccion-administrative-area-selective"]', this).attr('disabled', 'disabled');
+				}
 			});
 			// Simple
 			$('form[id^="views-exposed-form-sedes2-busq-simple"]', context).once('despierta', function () {
@@ -1030,7 +1047,6 @@
 				var pais = $('select[id="sel-pais"] option:selected').text();
 				$('input[id="edit-pais"]', this).val(pais);
 			});
-
 			
 			/*
 			* SEDES
@@ -1329,10 +1345,6 @@
 
 				$('div[class^="term-reference-tree-button"]', this).css('cursor', 'pointer');
 
-				// $('input[id="edit-field-sede-logo-und-0-upload"]', this).addClass("filestyle");
-				// $('input[id="edit-field-sede-logo-und-0-upload-button"]', this).attr('value','Subir Imagen');
-				// $('input[id="edit-field-sede-logo-und-0-upload-button"]', this).addClass("btn btn-info");
-
 				$('input[id="edit-field-sede-email-und-0-email"]', this).attr('placeholder','Introduce un correo electrónico de tu Sede');
 				$('input[id="edit-field-sede-web-und-0-value"]', this).attr('placeholder','www.tupagina.com');
 				$('input[id="edit-field-sede-telefono-und-0-value"]', this).attr('placeholder','Introduce el teléfono de tu Sede');
@@ -1494,21 +1506,29 @@
 			});
 
 			// Changes in the 'pais/region' options (Advances Search panel):
-			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"]', 'change', function(event) {
-				var pais = $( 'option:selected', this ).text();
-				var code = $( '#header select[id="sel-pais"] option[value="'+pais+'"]').attr('dp-pais-code');
-				var $options;
-				if ( pais != "Elige el país" && pais != "" && pais != undefined ) {
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
-					$options = $('option', $regHTML).clone();
-					$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').removeAttr('disabled');
-				}
-				else {
-					$options = $('<option value="All">Elige una región</option>');
-				}
-				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"] > option').remove();
-				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-regions"]').append($options);
-			});
+			// $(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-field-sede-direccion-country-selective"]', 'change', function(event) {
+			// 	var pais = $( 'option:selected', this ).text();
+			// 	var pcode = $( '#header select[id="sel-pais"] option[value="'+pais+'"]').attr('dp-pais-code');
+			// 	var $options;
+			// 	if ( pais != "Elige el país" && pais != "" && pais != undefined ) {
+			// 		$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-field-sede-direccion-administrative-area-selective"] > option').each(function(){
+			// 			var rcode = $(this).val();
+			// 			if ( rcode !== "All" ) {
+			// 				if ( allPaisRegionsObj[pcode] !== undefined && allPaisRegionsObj[pcode].regions[rcode] !== undefined ) {
+			// 					var rlabel = allPaisRegionsObj[pcode].regions[rcode].name;
+			// 					$(this).text( rlabel );
+			// 				}
+			// 				else {
+			// 					// $(this).remove();
+			// 				}
+			// 				$('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-field-sede-direccion-administrative-area-selective"]').removeAttr('disabled');								
+			// 			}
+			// 		});
+			// 	}
+			// 	else {
+			// 		$options = $('<option value="All">Elige una región</option>');
+			// 	}
+			// });
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
 			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');

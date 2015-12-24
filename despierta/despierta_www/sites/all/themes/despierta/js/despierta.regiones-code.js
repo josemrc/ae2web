@@ -270,7 +270,7 @@ function _addressfield_get_administrative_areas_defaults() {
   };
   administrative_areas['ES'] = {
     'C': "A Coruña",
-    'VI': 'Alava',
+    'VI': 'Álava',
     'AB': 'Albacete',
     'A': 'Alicante',
     'AL': "Almería",

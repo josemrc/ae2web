@@ -270,7 +270,8 @@ ul#tabSedes {
   border: 1px solid transparent;
   background-color: transparent;
 }
-#block-views-frontpage-desc-busq-block input#edit-submit-sedes2 {
+#block-views-frontpage-desc-busq-block input#edit-submit-sedes2,
+#block-views-frontpage-desc-busq-block input#edit-reset {
   margin-top: 0;
   color: #fff;
   background-color: #93c79b;
