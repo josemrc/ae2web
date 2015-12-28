@@ -5,7 +5,8 @@
    */
 	var allPaisRegionsObj = {};
 	var allSedes = {};
-	var visitorLocation = {};	
+	// var geocoder = new google.maps.Geocoder();
+	var visitorLocation = {};
 	var htmlNoResults = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
 							'No hay entidades registradas en esta región, '+
@@ -258,7 +259,8 @@
 			$('select[id="sel-pais"] > option[dp-pais-code="'+code+'"]').prop('selected', true);
 		}
 		if ( region !== undefined || region !== null || region !== "" ) {
-			$('select[id="sel-regions"] > option[value="'+region+'"]').prop('selected', true);
+			//$('select[id="sel-regions"] > option[text="'+region+'"]').prop('selected', true);
+			$('select[id="sel-regions"] > option:contains("'+region+'")').prop('selected', true);
 		}
 		return { 'pais': pais, 'region': region }
 	}; 
@@ -286,7 +288,7 @@
 			var val = $('td[class$="views-field-field-location"]', elem).text().replace(/\n*\s*/g,'');
 			if ( val !== undefined && val != "" ) {
 				sede.location = jQuery.parseJSON( val );
-				// sede.proximity = geoProximity( parseFloat(localStorage['longitude']), parseFloat(localStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
+				// sede.proximity = geoProximity( parseFloat(sessionStorage['longitude']), parseFloat(sessionStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
 			}
 		}
 		// title
@@ -902,26 +904,90 @@
 			/*
 			 * GEOLOCATION BLOCKS:
 			 */
+			// $('div[id="block-views-visitor-location-block"]', context).once('despierta', function () {
+			// 	// Add the visitor location into 'sessionStorage' (if not exist)
+			// 	visitorLocation['country'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country"] > span[class="field-content"]').text();
+			// 	visitorLocation['code'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country-code"] > span[class="field-content"]').text();
+			// 	visitorLocation['locality'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-locality"] > span[class="field-content"]').text();
+			// 	visitorLocation['latitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-latitude"] > span[class="field-content"]').text();
+			// 	visitorLocation['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
+			// 	sessionStorage['country'] = visitorLocation['country'];
+			// 	sessionStorage['code'] = visitorLocation['code'];
+			// 	sessionStorage['locality'] = visitorLocation['locality'];
+			// 	sessionStorage['latitude'] = visitorLocation['latitude'];
+			// 	sessionStorage['longitude'] = visitorLocation['longitude'];
+				
+			// 	console.log(sessionStorage);
+			// 	function success(position) {
+			// 		console.log(position.coords.longitude+','+position.coords.latitude);
+			// 	 var lat = position.coords.latitude;
+			// 	    var lng = position.coords.longitude;
+			// 	    codeLatLng(lat, lng);
+			// 	}
+			// 	function error(msg) {
+			// 		alert("No ha activado la geolocalización. Activela o seleccione la región manualmente (panel superior derecho)");
+			// 	}
+			// 	if (navigator.geolocation) {
+			// 		navigator.geolocation.getCurrentPosition(success, error);
+			// 	}
+			// 	function codeLatLng(lat, lng) {
+			// 		var latlng = new google.maps.LatLng(lat, lng);
+			// 		geocoder.geocode({'latLng': latlng}, function(results, status) {
+			// 			if (status == google.maps.GeocoderStatus.OK) {
+			// 				console.log(results)
+			// 				if (results[1]) {
+			// 					//formatted address
+			// 					alert(results[0].formatted_address)
+			// 					//find country name
+			// 					for (var i=0; i<results[0].address_components.length; i++) {
+			// 						for (var b=0;b<results[0].address_components[i].types.length;b++) {
+			// 							//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			// 							if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+			// 								//this is the object you are looking for
+			// 								city= results[0].address_components[i];
+			// 								break;
+			// 							}
+			// 						}
+			// 					}
+			// 					//city data
+			// 					// alert(city.short_name + " " + city.long_name)
+			// 				} else {
+			// 					alert("No results found");
+			// 				}
+			// 			} else {
+			// 				alert("Geocoder failed due to: " + status);
+			// 			}
+			// 		});
+			// 	}
 
+			// 	// Delete: tax_regions and visitor location Views
+			// 	$('div[id="block-views-tax-regiones-block"]').remove();
+			// 	$('div[id="block-views-visitor-location-block"]').remove();
+
+			// });
+
+			/*
+			 * PAIS/REGIONES
+			 */
 
 			/* Pais/Regiones View */
 			$('div[id="block-views-tax-regiones-block"]', context).once('despierta', function () {
 
-				// Add the visitor location into 'localStorage' (if not exist)
+				// // Add the visitor location into 'sessionStorage' (if not exist)
 				visitorLocation['country'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country"] > span[class="field-content"]').text();
 				visitorLocation['code'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country-code"] > span[class="field-content"]').text();
 				visitorLocation['locality'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-locality"] > span[class="field-content"]').text();
 				visitorLocation['latitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-latitude"] > span[class="field-content"]').text();
 				visitorLocation['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
-				if (jQuery.isEmptyObject(localStorage) || localStorage === undefined ||
-					localStorage['country'] === undefined || localStorage['country'] == "" ||
-					localStorage['locality'] === undefined  
+				if (jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined ||
+					sessionStorage['country'] === undefined || sessionStorage['country'] == "" ||
+					sessionStorage['locality'] === undefined  
 				) {
-					localStorage['country'] = visitorLocation['country'];
-					localStorage['code'] = visitorLocation['code'];
-					localStorage['locality'] = visitorLocation['locality'];
-					localStorage['latitude'] = visitorLocation['latitude'];
-					localStorage['longitude'] = visitorLocation['longitude'];
+					sessionStorage['country'] = visitorLocation['country'];
+					sessionStorage['code'] = visitorLocation['code'];
+					sessionStorage['locality'] = visitorLocation['locality'];
+					sessionStorage['latitude'] = visitorLocation['latitude'];
+					sessionStorage['longitude'] = visitorLocation['longitude'];
 				}
 
 				// Create Object: Pais - Regions
@@ -932,11 +998,11 @@
 				$( '#header .region' ).prepend($paisHTML);
 
 				// Create HTML for 'Regions'
-				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, localStorage['code']);
+				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
 				$( '#header .region > div:nth-child(1)' ).after($regHTML);
 
-				// Save 'localStorage' into 'options'
-				Drupal.theme.prototype.selectPaisRegion(localStorage);
+				// Save 'sessionStorage' into 'options'
+				Drupal.theme.prototype.selectPaisRegion(sessionStorage);
 				
 				// Apply 'pais/regions' options
 				Drupal.theme.prototype.applyRegionOption();
@@ -1488,9 +1554,9 @@
 					var pais = $( 'option:selected', this ).text();
 					var code = $('option:selected', this ).attr('dp-pais-code');
 					var region = "";
-					localStorage['country'] = pais;
-					localStorage['code'] = code;
-					localStorage['locality'] = region;					
+					sessionStorage['country'] = pais;
+					sessionStorage['code'] = code;
+					sessionStorage['locality'] = region;					
 					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
 					$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);					
 				}
@@ -1498,7 +1564,7 @@
 				else if ( $(this).attr('id') == "sel-regions" ) {
 					var region = $( 'option:selected', this ).text();
 					if ( region == "Todas las regiones" ) { region = "" }
-					localStorage['locality'] = region;
+					sessionStorage['locality'] = region;
 				}
 
 				// Apply 'pais/regions' options
