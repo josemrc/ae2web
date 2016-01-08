@@ -570,6 +570,20 @@ ul#tabSedes {
 #block-views-sedes-block .view-filters .ppal > input{
   margin-right: 5px;
 }
+#block-views-sedes-block .view-filters .load-sede-filter {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#block-views-frontpage-desc-busq-block input.load-sede-filter {
+  margin-top: 0;
+  color: #fff;
+  background-color: #93c79b;
+  border-color: #93c79b;
+}
+#block-views-frontpage-desc-busq-block input.load-sede-filter {
+  background-color: #449d44;
+  border-color: #398439;
+}
 
 
 /* --------------- Directorio Verde ------------ */
