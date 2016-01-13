@@ -55,7 +55,6 @@ stylesheets[print][] = css/print.css
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap.min.js
 scripts[] = js/bootstrap-tabcollapse.js
-scripts[] = js/despierta.geo.js
 scripts[] = js/despierta.regiones-code.js
 scripts[] = js/despierta.behaviors.js
 
