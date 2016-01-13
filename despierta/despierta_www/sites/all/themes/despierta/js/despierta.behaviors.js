@@ -4,6 +4,7 @@
    * Global vars
    */
 	var allPaisRegionsObj = {};
+	var visitor = {};
 	var allSedes = {};
 	var htmlNoResults = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
@@ -13,6 +14,16 @@
 							'póngase en contacto con nosotros'+
 							'</div>'+
 						'</section>';
+	var smsNoGeo = '<div id="messages"><div class="section clearfix">'+
+						'<div class="nogeo messages warning">'+
+							'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
+							'Le recomentamos que lo active, o en su defecto, '+
+							'seleccione el país y regiones mediante las opciones del panel superior derecho'+
+						'</div>'+
+					'</div></div>';
+
+	var urlVars = getUrlVars();
+
 
   /**
    *
@@ -53,6 +64,35 @@
 		}
 		return vars;
 	}
+	// Get city from lat/lng
+	function codeLatLng(lat, lng) {
+		var latlng = new google.maps.LatLng(lat, lng);
+		geocoder.geocode({'latLng': latlng}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					//formatted address
+					alert(results[0].formatted_address)
+					//find country name
+					for (var i=0; i<results[0].address_components.length; i++) {
+						for (var b=0;b<results[0].address_components[i].types.length;b++) {
+							//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+							if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+								//this is the object you are looking for
+								city= results[0].address_components[i];
+								break;
+							}
+						}
+					}
+					//city data
+					alert(city.short_name + " " + city.long_name)
+				} else {
+					alert("No results found");
+				}
+			} else {
+				alert("Geocoder failed due to: " + status);
+			}
+		});
+	}	
 	// Geolocation
 	function geoProximity(lon1, lat1, lon2, lat2) {
 		var R = 6371; // Radius of the earth in km
@@ -112,10 +152,10 @@
 		// Sedes pages:
 		// Chages the filter forms of Sedes!!!
 		if ( $( 'form[id="views-exposed-form-sedes-block"]' ).length ) {
-			// Add Region Code
-			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+pcode+'"] ').prop('selected', true);
 			var lreg = region.toLowerCase();
-
+			// Add Country Code
+			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+pcode+'"] ').prop('selected', true);
+			// Add Region Code
 			$( 'form[id="views-exposed-form-sedes-block"] #edit-field-sede-direccion-administrative-area-selective-wrapper .form-type-bef-checkbox').each(function(){
 				var rcode2 = $('input', this).val();
 				if ( rcode != undefined && rcode2 != undefined && rcode2 == rcode ) {
@@ -132,8 +172,6 @@
 					$(' > input', this).prop( "checked", false );
 				}
 			});
-
-
 			$('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
 			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"]').change();
 		}		
@@ -146,7 +184,7 @@
 			var $options = $('#header select[id="sel-regions"] > option').clone();
 			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-region"] > option').remove();
 			$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-region"]').append($options);
-			var urlVars = getUrlVars();
+			//var urlVars = getUrlVars();
 			if ( urlVars['q'] === undefined ) {
 				var rcode = $( '#header select[id="sel-regions"] option:selected').attr('dp-reg-code');
 				$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-region"] > option[value="'+rcode+'"]').prop('selected', true);
@@ -256,18 +294,17 @@
 		return $('<div class="sel-pais">' + selHTML + '</div>');
 	};
 	// Create HTML select option
-	Drupal.theme.prototype.regionesSelectList = function (paisRegions, code) {
+	Drupal.theme.prototype.regionesSelectList = function (paisRegions, inCode) {
 		var selHTML = '<select id="sel-regions">';		
 		selHTML += '<option value="All">Todas las regiones</option>';
-		if ( code !== "" ) {
-			for (var rCode in paisRegions[code].regions)  {
-				var region = paisRegions[code].regions[rCode];
-				selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
-			}
+		var code = ( inCode !== "" && inCode !== undefined ) ?  inCode : Object.keys(paisRegions)[0];
+		for (var rCode in paisRegions[code].regions)  {
+			var region = paisRegions[code].regions[rCode];
+			selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
 		}
 		selHTML += '</select>';
 		return $('<div class="sel-regions">' + selHTML + '</div>');
-	};
+	};	
 	// Select: Specific Pais - Region (for Geolocation)
 	// Eg, Drupal.theme.prototype.selectPaisRegion("Honduras", "Napo");
 	Drupal.theme.prototype.selectPaisRegion = function (cPosition) {
@@ -569,7 +606,8 @@
 				if ( iSedeObj.proximity != undefined ) { sede.proximity = iSedeObj.proximity }
 				if ( iSedeObj.p_serv != undefined ) { sede.p_serv = iSedeObj.p_serv.toLowerCase() }
 				// Region view
-				if ( tabAll === true ) {
+				//if ( tabAll === true ) {
+				if ( urlVars['q'] === undefined || urlVars['q'] === "" ) {
 					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
 					tabHeader['Todas'][nid] = sede;
 					if ( tabHeader[cat] === undefined ) { tabHeader[cat] = {} }
@@ -632,7 +670,7 @@
 		var tabList = [];
 		var todasTab = {};
 		var endTab = {};
-		var urlVars = getUrlVars();
+		//var urlVars = getUrlVars();
 		// Create tab list depending on type of view
 		var tabHeaders = Drupal.theme.prototype.createTabHeader(inSedesObj, tabAll);
 		var tabNames = Object.keys(tabHeaders).sort();
@@ -788,7 +826,9 @@
 				if ( etiqs != "" ) {
 					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
 				}
-				sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';
+				if ( sedeObj.p_serv != undefined && sedeObj.p_serv != "" ) {
+					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';					
+				}
 
 			sedHTML += '</div>';
 		sedHTML += '</div> <!-- media-bod -->';
@@ -851,8 +891,7 @@
 		attach: function (context, settings) {
 
 			// Changes titles for multiple pages
-			// var urlVars = Drupal.theme.prototype.getUrlVars();
-			var urlVars = getUrlVars();
+			// var urlVars = getUrlVars();
 			if ( urlVars['q'] != undefined ) {
 				if ( urlVars['q'] == "legal" ) {
 					// change title
@@ -878,14 +917,7 @@
 					// remove title
 					$('h1[id="page-title"]').remove();
 				}
-			}
-			// Changes messages
-			$('div[id="messages"]', context).once('despierta', function () {
-				$('.messages.error').each(function() {
-
-				});
-			});
-			
+			}			
 
 			/* Change Breadcrumb from URL */
 			$('div[id="breadcrumb"]', context).once('despierta', function () {
@@ -938,45 +970,97 @@
 			/* Pais/Regiones View */
 			$('div[id="block-views-tax-regiones-block"]', context).once('despierta', function () {
 
-				// Init the var that controls the geolocation
-				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage['geolocation'] === undefined ) {
-					if ( navigator.geolocation ) {
-						navigator.geolocation.getCurrentPosition(function() { sessionStorage['geolocation'] = true }, function() { sessionStorage['geolocation'] = false });
-					}
-					else {
-						sessionStorage['geolocation'] = false;
-					}
-				}
-				// Add the geolocation vars
-				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage['geolocation'] === "true" ) {
-					sessionStorage['country'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country"] > span[class="field-content"]').text();
-					sessionStorage['code'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country-code"] > span[class="field-content"]').text();
-					sessionStorage['locality'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-locality"] > span[class="field-content"]').text();
-					sessionStorage['latitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-latitude"] > span[class="field-content"]').text();
-					sessionStorage['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
-				}
-
 				// Create Object: Pais - Regions
 				allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('.view-tax-regiones', this) );
 
-				// Create HTML for 'Paises'
-				var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
-				$( '#header .region' ).prepend($paisHTML);
-
-				// Create HTML for 'Regions'
-				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
-				$( '#header .region > div:nth-child(1)' ).after($regHTML);
-
-				// Save 'sessionStorage' into 'options'
-				Drupal.theme.prototype.selectPaisRegion(sessionStorage);
-				
-				// Apply 'pais/regions' options
-				Drupal.theme.prototype.applyRegionOption();
+				// Save visitor vars
+				visitor['country'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country"] > span[class="field-content"]').text();
+				visitor['code'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country-code"] > span[class="field-content"]').text();
+				visitor['locality'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-locality"] > span[class="field-content"]').text();
+				visitor['latitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-latitude"] > span[class="field-content"]').text();
+				visitor['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
 
 				// Delete: tax_regions and visitor location Views
-				$('div[id="block-views-tax-regiones-block"]').remove();
 				$('div[id="block-views-visitor-location-block"]').remove();
+				$('div[id="block-views-tax-regiones-block"]').remove();
+				
+				function geoSuccess() {
+					sessionStorage['geolocation'] = "true";
+					sessionStorage.setItem('geolocation', "true");					
+					sessionStorage['country'] = visitor['country'];
+					sessionStorage['code'] = visitor['code'];
+					sessionStorage['locality'] = visitor['locality'];
+					sessionStorage['latitude'] = visitor['latitude'];
+					sessionStorage['longitude'] = visitor['longitude'];
+					//sessionStorage['locality'] = "Cantabria";
+					//sessionStorage['latitude'] = "43.4276255";
+					//sessionStorage['longitude'] = "-4.0463134";
+
+					// Create HTML for 'Paises'
+					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
+					$( '#header .region' ).prepend($paisHTML);
+
+					// Create HTML for 'Regions'
+					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
+					$( '#header .region > div:nth-child(1)' ).after($regHTML);
+
+					// Save 'sessionStorage' into 'options'
+					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
+
+					// Apply 'pais/regions' options
+					Drupal.theme.prototype.applyRegionOption();
+
+				}
+				function geoError() {
+					// print one time
+					if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === "false" ) {
+						$('#main-wrapper').prepend(smsNoGeo);
+					}
+					sessionStorage['geolocation'] = "false";
+					sessionStorage.setItem('geolocation', "false");
+
+					// Create HTML for 'Paises'
+					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
+					$( '#header .region' ).prepend($paisHTML);
+
+					// Create HTML for 'Regions'
+					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, '');
+					$( '#header .region > div:nth-child(1)' ).after($regHTML);
+
+					// Save 'sessionStorage' into 'options'
+					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
+
+					// Apply 'pais/regions' options
+					Drupal.theme.prototype.applyRegionOption();
+				}
+
+				// Init the var that controls the geolocation
+				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === "false" ) {
+					if ( navigator.geolocation ) {
+						navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+					}
+					else {
+						geoError();
+					}
+				}
+				else {
+					// Create HTML for 'Paises'
+					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
+					$( '#header .region' ).prepend($paisHTML);
+
+					// Create HTML for 'Regions'
+					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
+					$( '#header .region > div:nth-child(1)' ).after($regHTML);
+
+					// Save 'sessionStorage' into 'options'
+					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
+
+					// Apply 'pais/regions' options
+					Drupal.theme.prototype.applyRegionOption();
+				}
+
 			});
+
 
 			/* Search panel */
 			// Create Busqueda Panel
@@ -1085,6 +1169,12 @@
 				var subcats = {};
 				var sedeHTML = "";
 
+				// Jump in the case the session is not ready
+				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null ) {
+					$(this).addClass('element-invisible');
+					return;
+				}
+
 				// Content:
 				if ( $('> div[class="view-content"]', this).length ) {
 					// Create Object: Sedes
@@ -1093,10 +1183,11 @@
 					// Chech where we are...
 					// in the frontpage: print all
 					// in the category page: get sub-categories
-					var tabAll = true;
-					if ( urlVars['q'] !== undefined && urlVars['q'] !== "" && urlVars['q'].indexOf("directorio-verde") >= 0 ) {
-						tabAll = false;
-					}
+					// var tabAll = true;
+					// if ( urlVars['q'] !== undefined && urlVars['q'] !== "" && urlVars['q'].indexOf("directorio-verde") >= 0 ) {
+					//	 tabAll = false;
+					// }
+					var tabAll = false;
 
 					// Print sedes list
 					var sedeHTML = Drupal.theme('tabSedes', reportSedes, tabAll);
@@ -1138,10 +1229,8 @@
 				// Filter:
 				// move elements and create a button that show/hide the elements
 				if ( $('> .view-filters', this).length ) {
-					var $filters = $('> .view-filters', this).clone();
-					$('> .view-filters', this).remove();
-					$filters.prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
-					$(this).append($filters);
+					$('> .view-filters', this).appendTo($(this));
+					$('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
 					$('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
 						if ( $('form[id="views-exposed-form-sedes-block"]').hasClass('element-invisible') ) {
 							$('form[id="views-exposed-form-sedes-block"]').removeClass('element-invisible');
@@ -1156,7 +1245,6 @@
 
 			/* Filter form: Sede */
 			$('form[id="views-exposed-form-sedes-block"]', context).once('despierta', function () {
-				$(this).addClass('element-invisible');
 				var pais = $( '#header select[id="sel-pais"] option:selected').text();
 				var pcode = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
 				var region = $('#header select[id="sel-regions"] option:selected').text();
@@ -1172,9 +1260,6 @@
 							id = id.replace(/^\n*\s*/g,'');
 							id = id.replace(/\n*\s*$/g,'');
 							id = id.replace(/\s/g,'_');						
-							//if ( allPaisRegionsObj[pcode].regions[rcode] === undefined ) {
-							//	$(this).remove();
-							//}
 						}
 					});	
 				}
@@ -1508,6 +1593,7 @@
 					$('div[id="loading"]').addClass('element-invisible');
 				}
 				$('div[id="page-wrapper"]').css('display', 'block');
+
 			}
 
 			/* Events even in the elements that have been created dynamically.
@@ -1542,7 +1628,9 @@
 				// Apply 'pais/regions' options
 				Drupal.theme.prototype.applyRegionOption();
 
-				sessionStorage['geolocation'] = false;
+				sessionStorage['geolocation'] = "local";
+				$('#messages .nogeo').remove();
+
 			});
 			// Changes in the 'pais/region' options (Advances Search panel):
 			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] #edit-pais', 'change', function(event) {
@@ -1555,12 +1643,12 @@
 			$('#block-views-sedes-block .view-id-sedes > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 			// none forever
 			$('.ajax-progress-throbber').addClass('element-invisible');
+			$('form[id="views-exposed-form-sedes-block"]').addClass('element-invisible');
 			$('#block-views-sedes-block #edit-field-sede-direccion-locality-selective-wrapper').css('display', 'none');
 			$('#block-views-sedes-block #edit-field-sede-direccion-administrative-area-selective-wrapper').css('display', 'none');
 			$('#block-views-sedes-block #edit-field-sede-direccion-country-wrapper').css('display', 'none');
 			$('#block-views-sedes-block #edit-field-sede-pais-tid-wrapper').css('display', 'none');
-			$('#views-exposed-form-sedes2-busq-simple #edit-pais-wrapper').css('display', 'none');
-
+			$('#views-exposed-form-sedes2-busq-simple #edit-pais-wrapper').css('display', 'none');			
 		} // end: attach of despierta theme
 	};
 
