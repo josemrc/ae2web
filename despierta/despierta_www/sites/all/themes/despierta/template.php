@@ -121,6 +121,10 @@ function despierta_process_page(&$variables) {
     // Make sure the shortcut link is the first item in title_suffix.
     $variables['title_suffix']['add_or_remove_shortcut']['#weight'] = -100;
   }
+
+  // Add content stored in session variable for JQuery
+  drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');
+  
 }
 
 /**
@@ -311,5 +315,6 @@ function despierta_form_contact_site_form_alter(&$form, $form_state) {
   $form['cid']['#type'] = "radios";
   unset($form['cid']['#options'][0]);
 }
+
 
 ?>

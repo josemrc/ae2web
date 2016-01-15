@@ -606,8 +606,8 @@
 				if ( iSedeObj.proximity != undefined ) { sede.proximity = iSedeObj.proximity }
 				if ( iSedeObj.p_serv != undefined ) { sede.p_serv = iSedeObj.p_serv.toLowerCase() }
 				// Region view
-				//if ( tabAll === true ) {
-				if ( urlVars['q'] === undefined || urlVars['q'] === "" ) {
+				if ( tabAll === true ) {
+				// if ( urlVars['q'] === undefined || urlVars['q'] === "" ) {
 					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
 					tabHeader['Todas'][nid] = sede;
 					if ( tabHeader[cat] === undefined ) { tabHeader[cat] = {} }
@@ -966,101 +966,70 @@
 			/*
 			 * PAIS/REGIONES
 			 */
+		
 
 			/* Pais/Regiones View */
 			$('div[id="block-views-tax-regiones-block"]', context).once('despierta', function () {
 
 				// Create Object: Pais - Regions
 				allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('.view-tax-regiones', this) );
+				$('div[id="block-views-tax-regiones-block"]').remove();				
 
-				// Save visitor vars
-				visitor['country'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country"] > span[class="field-content"]').text();
-				visitor['code'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-country-code"] > span[class="field-content"]').text();
-				visitor['locality'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-locality"] > span[class="field-content"]').text();
-				visitor['latitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-latitude"] > span[class="field-content"]').text();
-				visitor['longitude'] = $('div[id="block-views-visitor-location-block"] div[class$="views-field-longitude"] > span[class="field-content"]').text();
+				// IP Geolocation!!!
+				var ip_geoloc = Drupal.settings.despierta.session.ip_geoloc;
+console.log(ip_geoloc);
 
-				// Delete: tax_regions and visitor location Views
-				$('div[id="block-views-visitor-location-block"]').remove();
-				$('div[id="block-views-tax-regiones-block"]').remove();
-				
-				function geoSuccess() {
-					sessionStorage['geolocation'] = "true";
-					sessionStorage.setItem('geolocation', "true");					
-					sessionStorage['country'] = visitor['country'];
-					sessionStorage['code'] = visitor['code'];
-					sessionStorage['locality'] = visitor['locality'];
-					sessionStorage['latitude'] = visitor['latitude'];
-					sessionStorage['longitude'] = visitor['longitude'];
-					//sessionStorage['locality'] = "Cantabria";
-					//sessionStorage['latitude'] = "43.4276255";
-					//sessionStorage['longitude'] = "-4.0463134";
-
-					// Create HTML for 'Paises'
-					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
-					$( '#header .region' ).prepend($paisHTML);
-
-					// Create HTML for 'Regions'
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
-					$( '#header .region > div:nth-child(1)' ).after($regHTML);
-
-					// Save 'sessionStorage' into 'options'
-					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
-
-					// Apply 'pais/regions' options
-					Drupal.theme.prototype.applyRegionOption();
-
-				}
-				function geoError() {
-					// print one time
-					if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === "false" ) {
-						$('#main-wrapper').prepend(smsNoGeo);
-					}
-					sessionStorage['geolocation'] = "false";
-					sessionStorage.setItem('geolocation', "false");
-
-					// Create HTML for 'Paises'
-					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
-					$( '#header .region' ).prepend($paisHTML);
-
-					// Create HTML for 'Regions'
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, '');
-					$( '#header .region > div:nth-child(1)' ).after($regHTML);
-
-					// Save 'sessionStorage' into 'options'
-					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
-
-					// Apply 'pais/regions' options
-					Drupal.theme.prototype.applyRegionOption();
-				}
-
-				// Init the var that controls the geolocation
-				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === "false" ) {
-					if ( navigator.geolocation ) {
-						navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
-					}
-					else {
-						geoError();
-					}
+				if ( sessionStorage['geolocation'] === "local" || sessionStorage.getItem('geolocation') === "local" ) {
+					sessionStorage['geolocation'] = "local";
+					sessionStorage.setItem('geolocation', "local");
 				}
 				else {
-					// Create HTML for 'Paises'
-					var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
-					$( '#header .region' ).prepend($paisHTML);
-
-					// Create HTML for 'Regions'
-					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
-					$( '#header .region > div:nth-child(1)' ).after($regHTML);
-
-					// Save 'sessionStorage' into 'options'
-					Drupal.theme.prototype.selectPaisRegion(sessionStorage);
-
-					// Apply 'pais/regions' options
-					Drupal.theme.prototype.applyRegionOption();
+					if ( !jQuery.isEmptyObject(ip_geoloc.location) && ip_geoloc.location !== undefined ) {
+						var geoloc = ip_geoloc.location;
+						if ( geoloc.country !== undefined && geoloc.country_code !== undefined && geoloc.locality !== undefined && geoloc.administrative_area_level_1 !== undefined && geoloc.administrative_area_level_2 !== undefined ) {
+							sessionStorage['geolocation'] = true;
+							sessionStorage.setItem('geolocation', true);
+							sessionStorage['country'] = geoloc['country'];
+							sessionStorage['code'] = geoloc['country_code'];
+							sessionStorage['locality'] = geoloc['locality'];
+							sessionStorage['latitude'] = geoloc['latitude'];
+							sessionStorage['longitude'] = geoloc['longitude'];
+alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['code']+" Localidad: "+sessionStorage['locality']+" address: "+geoloc.formatted_address);
+						}
+						else {
+							sessionStorage['geolocation'] = false;
+							sessionStorage.setItem('geolocation', false);
+						}
+					}
+					else {
+						sessionStorage['geolocation'] = false;
+						sessionStorage.setItem('geolocation', false);
+					}
 				}
 
-			});
+				// Create HTML for 'Paises'
+				var $paisHTML = Drupal.theme('paisSelectList', allPaisRegionsObj);
+				$( '#header .region' ).prepend($paisHTML);
 
+				// Create HTML for 'Regions'
+				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, sessionStorage['code']);
+				$( '#header .region > div:nth-child(1)' ).after($regHTML);
+
+				// Save 'sessionStorage' into 'options'
+				Drupal.theme.prototype.selectPaisRegion(sessionStorage);
+
+
+				// Apply 'pais/regions' options
+				if ( sessionStorage['geolocation'] !== "false" || sessionStorage.getItem('geolocation') !== "false" ) {				
+					Drupal.theme.prototype.applyRegionOption();
+				}
+				else {
+					Drupal.theme.prototype.hideSedesPanel();
+					$('div[id="loading"]').addClass('element-invisible');
+					$('div[id="page-wrapper"]').css('display', 'block');
+					$('#block-views-sedes-block').prepend(smsNoGeo);
+				}
+			});
 
 			/* Search panel */
 			// Create Busqueda Panel
@@ -1183,11 +1152,10 @@
 					// Chech where we are...
 					// in the frontpage: print all
 					// in the category page: get sub-categories
-					// var tabAll = true;
-					// if ( urlVars['q'] !== undefined && urlVars['q'] !== "" && urlVars['q'].indexOf("directorio-verde") >= 0 ) {
-					//	 tabAll = false;
-					// }
-					var tabAll = false;
+					var tabAll = true;
+					if ( urlVars['q'] !== undefined && urlVars['q'] !== "" && urlVars['q'].indexOf("directorio-verde") >= 0 ) {
+						 tabAll = false;
+					}
 
 					// Print sedes list
 					var sedeHTML = Drupal.theme('tabSedes', reportSedes, tabAll);
@@ -1593,7 +1561,6 @@
 					$('div[id="loading"]').addClass('element-invisible');
 				}
 				$('div[id="page-wrapper"]').css('display', 'block');
-
 			}
 
 			/* Events even in the elements that have been created dynamically.
