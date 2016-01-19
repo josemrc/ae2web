@@ -1013,7 +1013,18 @@
 								// sessionStorage['area_code'] = "S";
 								// sessionStorage['latitude'] = geoloc['latitude'];
 								// sessionStorage['longitude'] = geoloc['longitude'];
-	// alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['code']+" Localidad: "+sessionStorage['locality']+" address: "+geoloc.formatted_address);
+								var smsGeo = '<div id="messages"><div class="section clearfix">'+
+													'<div class="nogeo messages status">'+
+														'Geolocalización:<br>'+
+														' Country: '+sessionStorage['country']+'; '+
+														' Country_code: '+sessionStorage['code']+';'+
+														' Area: '+sessionStorage['area']+';'+
+														' Area_code: '+sessionStorage['area_code']+';'+
+														' Locality: '+sessionStorage['locality']+';'+
+														' Address: '+geoloc.formatted_address+
+													'</div>'+
+												'</div></div>';
+								$('#page-wrapper').prepend(smsGeo);
 							}
 							else {
 								sessionStorage['geolocation'] = false;
