@@ -2,6 +2,9 @@
 
   Drupal.behaviors.addCurrentLocation = {
     attach: function (context, settings) {
+console.log("addCurrentLocation2");
+console.log(context);
+console.log(settings);
       ip_geoloc_getCurrentPosition(
         settings.ip_geoloc_menu_callback,
         settings.ip_geoloc_reverse_geocode,
@@ -61,7 +64,7 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
             ip_geoloc_address[type] = component.long_name;
             if (type === 'administrative_area_level_2' && component.short_name !== null) {
               ip_geoloc_address['administrative_area_level_2_code'] = component.short_name;
-            }            
+            }
             if (type === 'country' && component.short_name !== null) {
               ip_geoloc_address['country_code'] = component.short_name;
             }

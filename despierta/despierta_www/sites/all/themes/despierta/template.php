@@ -123,7 +123,10 @@ function despierta_process_page(&$variables) {
   }
 
   // Add content stored in session variable for JQuery
-  drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');
+  if ( isset($_SESSION) ) {
+// var_dump($_SESSION);
+    drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');    
+  }
   
 }
 

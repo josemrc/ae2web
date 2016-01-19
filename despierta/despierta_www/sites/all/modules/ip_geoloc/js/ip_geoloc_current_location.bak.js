@@ -59,9 +59,6 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
           if (component.long_name !== null) {
             var type = component.types[0];
             ip_geoloc_address[type] = component.long_name;
-            if (type === 'administrative_area_level_2' && component.short_name !== null) {
-              ip_geoloc_address['administrative_area_level_2_code'] = component.short_name;
-            }            
             if (type === 'country' && component.short_name !== null) {
               ip_geoloc_address['country_code'] = component.short_name;
             }

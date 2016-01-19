@@ -310,7 +310,7 @@
 	Drupal.theme.prototype.selectPaisRegion = function (cPosition) {
 		var code = cPosition['code'];
 		var pais = cPosition['country'];
-		var region = cPosition['locality'];
+		var region = cPosition['area'];
 		if ( code !== undefined || code !== null || code !== "" ) {
 			$('select[id="sel-pais"] > option[dp-pais-code="'+code+'"]').prop('selected', true);
 		}
@@ -890,6 +890,14 @@
 	Drupal.behaviors.despiertaBehaviors = {
 		attach: function (context, settings) {
 
+// console.log("despiertaBehaviors");
+// console.log(settings);
+// ip_geoloc_getCurrentPosition(
+// settings.ip_geoloc_menu_callback,
+// settings.ip_geoloc_reverse_geocode,
+// settings.ip_geoloc_refresh_page
+// );
+
 			// Changes titles for multiple pages
 			// var urlVars = getUrlVars();
 			if ( urlVars['q'] != undefined ) {
@@ -976,34 +984,49 @@
 				$('div[id="block-views-tax-regiones-block"]').remove();				
 
 				// IP Geolocation!!!
-				var ip_geoloc = Drupal.settings.despierta.session.ip_geoloc;
-console.log(ip_geoloc);
-
 				if ( sessionStorage['geolocation'] === "local" || sessionStorage.getItem('geolocation') === "local" ) {
 					sessionStorage['geolocation'] = "local";
 					sessionStorage.setItem('geolocation', "local");
 				}
 				else {
-					if ( !jQuery.isEmptyObject(ip_geoloc.location) && ip_geoloc.location !== undefined ) {
-						var geoloc = ip_geoloc.location;
-						if ( geoloc.country !== undefined && geoloc.country_code !== undefined && geoloc.locality !== undefined && geoloc.administrative_area_level_1 !== undefined && geoloc.administrative_area_level_2 !== undefined ) {
-							sessionStorage['geolocation'] = true;
-							sessionStorage.setItem('geolocation', true);
-							sessionStorage['country'] = geoloc['country'];
-							sessionStorage['code'] = geoloc['country_code'];
-							sessionStorage['locality'] = geoloc['locality'];
-							sessionStorage['latitude'] = geoloc['latitude'];
-							sessionStorage['longitude'] = geoloc['longitude'];
-alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['code']+" Localidad: "+sessionStorage['locality']+" address: "+geoloc.formatted_address);
+					if ( Drupal.settings.despierta !== null && Drupal.settings.despierta !== undefined && 
+							Drupal.settings.despierta.session !== null && Drupal.settings.despierta.session !== undefined && 
+							Drupal.settings.despierta.session.ip_geoloc !== null && Drupal.settings.despierta.session.ip_geoloc !== undefined 
+					) {
+						var ip_geoloc = Drupal.settings.despierta.session.ip_geoloc;
+						if ( !jQuery.isEmptyObject(ip_geoloc) && ip_geoloc !== null && !jQuery.isEmptyObject(ip_geoloc.location) && ip_geoloc.location !== undefined ) {
+							var geoloc = ip_geoloc.location;
+							if ( geoloc.country !== undefined && geoloc.country_code !== undefined && geoloc.locality !== undefined && geoloc.administrative_area_level_1 !== undefined && geoloc.administrative_area_level_2 !== undefined ) {
+								sessionStorage['geolocation'] = true;
+								sessionStorage.setItem('geolocation', true);
+								sessionStorage['country'] = geoloc['country'];
+								sessionStorage['code'] = geoloc['country_code'];
+								sessionStorage['locality'] = geoloc['locality'];
+								sessionStorage['area'] = geoloc['administrative_area_level_2'];
+								sessionStorage['area_code'] = geoloc['administrative_area_level_2_code'];
+								sessionStorage['latitude'] = geoloc['latitude'];
+								sessionStorage['longitude'] = geoloc['longitude'];
+								// sessionStorage['country'] = geoloc['country'];
+								// sessionStorage['code'] = geoloc['country_code'];
+								// sessionStorage['locality'] = "Suances";
+								// sessionStorage['area'] = "Cantabria";
+								// sessionStorage['area_code'] = "S";
+								// sessionStorage['latitude'] = geoloc['latitude'];
+								// sessionStorage['longitude'] = geoloc['longitude'];
+	// alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['code']+" Localidad: "+sessionStorage['locality']+" address: "+geoloc.formatted_address);
+							}
+							else {
+								sessionStorage['geolocation'] = false;
+								sessionStorage.setItem('geolocation', false);
+							}
 						}
 						else {
 							sessionStorage['geolocation'] = false;
 							sessionStorage.setItem('geolocation', false);
 						}
-					}
-					else {
+					} else {
 						sessionStorage['geolocation'] = false;
-						sessionStorage.setItem('geolocation', false);
+						sessionStorage.setItem('geolocation', false);						
 					}
 				}
 
@@ -1018,7 +1041,6 @@ alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['co
 				// Save 'sessionStorage' into 'options'
 				Drupal.theme.prototype.selectPaisRegion(sessionStorage);
 
-
 				// Apply 'pais/regions' options
 				if ( sessionStorage['geolocation'] !== "false" || sessionStorage.getItem('geolocation') !== "false" ) {				
 					Drupal.theme.prototype.applyRegionOption();
@@ -1028,6 +1050,9 @@ alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['co
 					$('div[id="loading"]').addClass('element-invisible');
 					$('div[id="page-wrapper"]').css('display', 'block');
 					$('#block-views-sedes-block').prepend(smsNoGeo);
+					if ( $('#messages .messages:contains("Localizando")').length > 0 ) {
+						$('#messages .messages:contains("Localizando")').addClass('element-invisible');
+					}
 				}
 			});
 
@@ -1581,7 +1606,7 @@ alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['co
 					var region = "";
 					sessionStorage['country'] = pais;
 					sessionStorage['code'] = code;
-					sessionStorage['locality'] = region;					
+					sessionStorage['area'] = region;					
 					var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, code);
 					$( '#header div[class="sel-regions"]' ).replaceWith($regHTML);					
 				}
@@ -1589,7 +1614,7 @@ alert("Country: "+sessionStorage['country']+" country_code: "+sessionStorage['co
 				else if ( $(this).attr('id') == "sel-regions" ) {
 					var region = $( 'option:selected', this ).text();
 					if ( region == "Todas las regiones" ) { region = "" }
-					sessionStorage['locality'] = region;
+					sessionStorage['area'] = region;
 				}
 
 				// Apply 'pais/regions' options
