@@ -64,35 +64,35 @@
 		}
 		return vars;
 	}
-	// // Get city from lat/lng
-	// function codeLatLng(lat, lng) {
-	// 	var latlng = new google.maps.LatLng(lat, lng);
-	// 	geocoder.geocode({'latLng': latlng}, function(results, status) {
-	// 		if (status == google.maps.GeocoderStatus.OK) {
-	// 			if (results[1]) {
-	// 				//formatted address
-	// 				alert(results[0].formatted_address)
-	// 				//find country name
-	// 				for (var i=0; i<results[0].address_components.length; i++) {
-	// 					for (var b=0;b<results[0].address_components[i].types.length;b++) {
-	// 						//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
-	// 						if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
-	// 							//this is the object you are looking for
-	// 							city= results[0].address_components[i];
-	// 							break;
-	// 						}
-	// 					}
-	// 				}
-	// 				//city data
-	// 				alert(city.short_name + " " + city.long_name)
-	// 			} else {
-	// 				alert("No results found");
-	// 			}
-	// 		} else {
-	// 			alert("Geocoder failed due to: " + status);
-	// 		}
-	// 	});
-	// }	
+	// Get city from lat/lng
+	function codeLatLng(lat, lng) {
+		var latlng = new google.maps.LatLng(lat, lng);
+		geocoder.geocode({'latLng': latlng}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					//formatted address
+					alert(results[0].formatted_address)
+					//find country name
+					for (var i=0; i<results[0].address_components.length; i++) {
+						for (var b=0;b<results[0].address_components[i].types.length;b++) {
+							//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+							if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+								//this is the object you are looking for
+								city= results[0].address_components[i];
+								break;
+							}
+						}
+					}
+					//city data
+					alert(city.short_name + " " + city.long_name)
+				} else {
+					alert("No results found");
+				}
+			} else {
+				alert("Geocoder failed due to: " + status);
+			}
+		});
+	}	
 	// Geolocation
 	function geoProximity(lon1, lat1, lon2, lat2) {
 		var R = 6371; // Radius of the earth in km
@@ -117,19 +117,19 @@
 	};
 	// Show and Hide sedes panel
 	Drupal.theme.prototype.hideSedesPanel = function () {
-		if ( $('#block-views-sedes-block').length > 0 ) {
+		if ( $('#block-views-sedes3-block').length > 0 ) {
 			$('#loading').removeClass('element-invisible');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-filters').css('display', 'none');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-content').css('display', 'none');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .attachment').addClass('element-invisible');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .view-filters').css('display', 'none');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .view-content').css('display', 'none');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .attachment').addClass('element-invisible');
 		}	
 	};
 	Drupal.theme.prototype.showSedesPanel = function () {
-		if ( $('div[id="block-views-sedes-block"]').length > 0 ) {
+		if ( $('div[id="block-views-sedes3-block"]').length > 0 ) {
 			$('#loading').addClass('element-invisible');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-filters').fadeIn('slow');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-content').fadeIn('slow');
-			$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .attachment').removeClass('element-invisible');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .view-filters').fadeIn('slow');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .view-content').fadeIn('slow');
+			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block > .attachment').removeClass('element-invisible');
 		}
 	};
 	// Filter by direction or by country you sell
@@ -151,12 +151,12 @@
 		}
 		// Sedes pages:
 		// Chages the filter forms of Sedes!!!
-		if ( $( 'form[id="views-exposed-form-sedes-block"]' ).length ) {
+		if ( $( 'form[id="views-exposed-form-sedes3-block"]' ).length ) {
 			var lreg = region.toLowerCase();
 			// Add Country Code
-			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+pcode+'"] ').prop('selected', true);
+			$('form[id="views-exposed-form-sedes3-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+pcode+'"] ').prop('selected', true);
 			// Add Region Code
-			$( 'form[id="views-exposed-form-sedes-block"] #edit-field-sede-direccion-administrative-area-selective-wrapper .form-type-bef-checkbox').each(function(){
+			$( 'form[id="views-exposed-form-sedes3-block"] #edit-field-sede-direccion-administrative-area-selective-wrapper .form-type-bef-checkbox').each(function(){
 				var rcode2 = $('input', this).val();
 				if ( rcode != undefined && rcode2 != undefined && rcode2 == rcode ) {
 					$('input', this).prop( "checked", true );
@@ -165,15 +165,15 @@
 				}				
 			});
 			// Add city (locality)
-			$( 'form[id="views-exposed-form-sedes-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-type-bef-checkbox"]').each(function(){
+			$( 'form[id="views-exposed-form-sedes3-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-type-bef-checkbox"]').each(function(){
 				if ( lreg != "" && $(' > input', this).attr('value').toLowerCase() == lreg ) {
 					$(' > input', this).prop( "checked", true );
 				} else {
 					$(' > input', this).prop( "checked", false );
 				}
 			});
-			$('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
-			$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"]').change();
+			$('form[id="views-exposed-form-sedes3-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
+			$('form[id="views-exposed-form-sedes3-block"] select[id="edit-field-sede-direccion-country"]').change();
 		}		
 	};
 	// Modify the Simple/Advance Search form
@@ -223,7 +223,7 @@
 		Drupal.theme.prototype.filterByRegionOnline();
 
 		// Change title in 'Directorio verde' and 'Categories' pages
-		if ( $( 'div[id="block-views-sedes-block"]' ).length ) {
+		if ( $( 'div[id="block-views-sedes3-block"]' ).length ) {
 			var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
 			$('h1[id="page-title"]').html( q );
 		}
@@ -1061,7 +1061,7 @@
 					Drupal.theme.prototype.hideSedesPanel();
 					$('div[id="loading"]').addClass('element-invisible');
 					$('div[id="page-wrapper"]').css('display', 'block');
-					$('#block-views-sedes-block').prepend(smsNoGeo);
+					$('#block-views-sedes3-block').prepend(smsNoGeo);
 					if ( $('#messages .messages:contains("Localizando")').length > 0 ) {
 						$('#messages .messages:contains("Localizando")').addClass('element-invisible');
 					}
@@ -1171,7 +1171,7 @@
 			* SEDES
 			*/
 			// Print new sedes view (Once)
-			$(	'div[id="block-views-sedes-block"] .view-id-sedes.view-display-id-block, .view-id-sedes2').once("DOMSubtreeModified",function() {
+			$(	'div[id="block-views-sedes3-block"] .view-id-sedes3.view-display-id-block, .view-id-sedes2').once("DOMSubtreeModified",function() {
 				var subcats = {};
 				var sedeHTML = "";
 
@@ -1237,11 +1237,11 @@
 					$('> .view-filters', this).appendTo($(this));
 					$('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
 					$('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
-						if ( $('form[id="views-exposed-form-sedes-block"]').hasClass('element-invisible') ) {
-							$('form[id="views-exposed-form-sedes-block"]').removeClass('element-invisible');
+						if ( $('form[id="views-exposed-form-sedes3-block"]').hasClass('element-invisible') ) {
+							$('form[id="views-exposed-form-sedes3-block"]').removeClass('element-invisible');
 						}
 						else {
-							$('form[id="views-exposed-form-sedes-block"]').addClass('element-invisible');
+							$('form[id="views-exposed-form-sedes3-block"]').addClass('element-invisible');
 						}
 					});
 				}
@@ -1249,7 +1249,7 @@
 			});
 
 			/* Filter form: Sede */
-			$('form[id="views-exposed-form-sedes-block"]', context).once('despierta', function () {
+			$('form[id="views-exposed-form-sedes3-block"]', context).once('despierta', function () {
 				var pais = $( '#header select[id="sel-pais"] option:selected').text();
 				var pcode = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
 				var region = $('#header select[id="sel-regions"] option:selected').text();
@@ -1583,9 +1583,10 @@
 			 // hide
 			 // Drupal.theme.prototype.hideSedesPanel();
 			// show depending on...
-			if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
-					$(context).attr('id') == "views-exposed-form-sedes-block"
-			) {
+console.log(context);
+console.log(settings);
+			if ( $(context).prop("tagName") == "FORM" && context.context !== undefined && $(context).attr('id') == "views-exposed-form-sedes3-block" ) {
+
 				Drupal.theme.prototype.showSedesPanel();
 
 				$('#tabSedes').tabCollapse({
@@ -1593,12 +1594,32 @@
 					accordionClass: 'visible-sm visible-xs'
 				});
 			}
+			else if ( settings.ip_geoloc_refresh_page !== undefined && settings.ip_geoloc_refresh_page === true ) {
+
+			}
 			else {
-				if ( $('div[id="block-views-sedes-block"]').length == 0 ) {
+				if ( $('div[id="block-views-sedes3-block"]').length == 0 ) {
 					$('div[id="loading"]').addClass('element-invisible');
 				}
 				$('div[id="page-wrapper"]').css('display', 'block');
 			}
+
+			// if ( 	$(context).prop("tagName") == "FORM" && context.context !== undefined &&
+			// 		$(context).attr('id') == "views-exposed-form-sedes3-block"
+			// ) {
+			// 	Drupal.theme.prototype.showSedesPanel();
+
+			// 	$('#tabSedes').tabCollapse({
+			// 		tabsClass: 'hidden-sm hidden-xs',
+			// 		accordionClass: 'visible-sm visible-xs'
+			// 	});
+			// }
+			// else {
+			// 	if ( $('div[id="block-views-sedes3-block"]').length == 0 ) {
+			// 		$('div[id="loading"]').addClass('element-invisible');
+			// 	}
+			// 	$('div[id="page-wrapper"]').css('display', 'block');
+			// }
 
 			/* Events even in the elements that have been created dynamically.
 			 * Then, this part has to be at the end of code.
@@ -1633,6 +1654,13 @@
 				Drupal.theme.prototype.applyRegionOption();
 
 				sessionStorage['geolocation'] = "local";
+console.log("ip_geoloc_getCurrentPosition");
+ip_geoloc_getCurrentPosition(
+settings.ip_geoloc_menu_callback,
+settings.ip_geoloc_reverse_geocode,
+settings.ip_geoloc_refresh_page
+);
+
 				$('#messages .nogeo').remove();
 
 			});
@@ -1641,18 +1669,18 @@
 				Drupal.theme.prototype.modifySearchRegion();
 			});
 			// Add classes for the new 'sedes' pages
-			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
-			$('#block-views-sedes-block .view-id-sedes > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
-			$('#block-views-sedes-block .view-id-sedes > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
-			$('#block-views-sedes-block .view-id-sedes > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('#block-views-sedes3-block .view-id-sedes3 > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+			$('#block-views-sedes3-block .view-id-sedes3 > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
+			$('#block-views-sedes3-block .view-id-sedes3 > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('#block-views-sedes3-block .view-id-sedes3 > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 			// none forever
-			$('.ajax-progress-throbber').addClass('element-invisible');
-			$('form[id="views-exposed-form-sedes-block"]').addClass('element-invisible');
-			$('#block-views-sedes-block #edit-field-sede-direccion-locality-selective-wrapper').css('display', 'none');
-			$('#block-views-sedes-block #edit-field-sede-direccion-administrative-area-selective-wrapper').css('display', 'none');
-			$('#block-views-sedes-block #edit-field-sede-direccion-country-wrapper').css('display', 'none');
-			$('#block-views-sedes-block #edit-field-sede-pais-tid-wrapper').css('display', 'none');
-			$('#views-exposed-form-sedes2-busq-simple #edit-pais-wrapper').css('display', 'none');			
+			// $('.ajax-progress-throbber').addClass('element-invisible');
+			// $('form[id="views-exposed-form-sedes3-block"]').addClass('element-invisible');
+			// $('#block-views-sedes3-block #edit-field-sede-direccion-locality-selective-wrapper').css('display', 'none');
+			// $('#block-views-sedes3-block #edit-field-sede-direccion-administrative-area-selective-wrapper').css('display', 'none');
+			// $('#block-views-sedes3-block #edit-field-sede-direccion-country-wrapper').css('display', 'none');
+			// $('#block-views-sedes3-block #edit-field-sede-pais-tid-wrapper').css('display', 'none');
+			// $('#views-exposed-form-sedes2-busq-simple #edit-pais-wrapper').css('display', 'none');			
 		} // end: attach of despierta theme
 	};
 

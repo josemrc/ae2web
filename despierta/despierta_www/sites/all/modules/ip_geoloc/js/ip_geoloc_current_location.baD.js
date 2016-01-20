@@ -1,16 +1,7 @@
 (function ($) {
 
-  Drupal.behaviors.addCurrentLocation = {
-    attach: function (context, settings) {
-
-console.log("addCurrentLocation");
-console.log(context);
-console.log(settings);
-  var callbackUrl = settings.ip_geoloc_menu_callback;
-  var reverseGeocode = settings.ip_geoloc_reverse_geocode;
-  var refreshPage = settings.ip_geoloc_refresh_page;
-
-  function getLocation(position) {
+  Drupal.theme.prototype.getLocation = function (position) {
+  // function getLocation(position) {
 console.log("getLocation");
 console.log(position);
     if ( position === undefined ) {
@@ -70,7 +61,8 @@ console.log(position);
     });
   }
 
-  function handleLocationError(error) {
+  Drupal.theme.prototype.handleLocationError = function (error) {
+  // function handleLocationError(error) {
 console.log("handleLocationError");
     var data = new Object;
     data['error'] = Drupal.t('getCurrentPosition() returned error !code: !text. Browser: @browser',
@@ -79,7 +71,8 @@ console.log("handleLocationError");
     callbackServer(callbackUrl, data, false);
   }
 
-  function callbackServer(callbackUrl, data, refresh_page) {
+  Drupal.theme.prototype.callbackServer = function (callbackUrl, data, refresh_page) {
+  // function callbackServer(callbackUrl, data, refresh_page) {
     // For drupal.org/project/js module, if enabled.
     data['js_module'] = 'ip_geoloc';
     data['js_callback'] = 'current_location';
@@ -127,34 +120,70 @@ console.log(data);
     });
   }
 
-console.log("ip_geoloc_getCurrentPosition");
-  if (typeof(getCurrentPositionCalled) !== 'undefined') {
-console.log("Been here, done that (can happen in AJAX context).");
-    // Been here, done that (can happen in AJAX context).
-    return;
-  }
+  Drupal.theme.prototype.getPosition = function (callbackUrl, reverseGeocode, refreshPage) {
 
-  if (navigator.geolocation) {
-console.log("navigator.geolocation");
-    var startTime = (new Date()).getTime();
-    // navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 20000});
-    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError);
-    getCurrentPositionCalled = true;
-  }
-  else {
-console.log("navigator.geolocation else");
-    var data = new Object;
-    data['error'] = Drupal.t('IPGV&M: device does not support W3C API.');
-    callbackServer(callbackUrl, data, false);
-  }
+  console.log("ip_geoloc_getCurrentPosition");
+    if (typeof(getCurrentPositionCalled) !== 'undefined') {
+  console.log("Been here, done that (can happen in AJAX context).");
+      // Been here, done that (can happen in AJAX context).
+      return;
+    }
 
-    if ( navigator.userAgent.toLowerCase().indexOf("firefox") >= 0 ) {
-  console.log("ip_geoloc_getCurrentPosition OUT: "+navigator.userAgent);
+    if (navigator.geolocation) {
+  console.log("navigator.geolocation");
+      var startTime = (new Date()).getTime();
+      navigator.geolocation.getCurrentPosition(Drupal.theme.prototype.getLocation, Drupal.theme.prototype.handleLocationError, {enableHighAccuracy: true, timeout: 20000, maximumAge: 0});
+      getCurrentPositionCalled = true;
+    }
+    else {
+  console.log("navigator.geolocation else");
       var data = new Object;
-      data['error'] = Drupal.t('Mozilla problems');
-      // callbackServer(callbackUrl, data, true);
-      getLocation();
-    }  
+      data['error'] = Drupal.t('IPGV&M: device does not support W3C API.');
+      callbackServer(callbackUrl, data, false);
+    }
+  }
+
+
+  Drupal.behaviors.addCurrentLocation = {
+    attach: function (context, settings) {
+
+console.log("addCurrentLocation");
+console.log(context);
+console.log(settings);
+  var callbackUrl = settings.ip_geoloc_menu_callback;
+  var reverseGeocode = settings.ip_geoloc_reverse_geocode;
+  var refreshPage = settings.ip_geoloc_refresh_page;
+
+Drupal.theme.prototype.getPosition(callbackUrl, reverseGeocode, refreshPage);
+
+// console.log("ip_geoloc_getCurrentPosition");
+//   if (typeof(getCurrentPositionCalled) !== 'undefined') {
+// console.log("Been here, done that (can happen in AJAX context).");
+//     // Been here, done that (can happen in AJAX context).
+//     return;
+//   }
+
+//   if (navigator.geolocation) {
+// console.log("navigator.geolocation");
+//     var startTime = (new Date()).getTime();
+//     navigator.geolocation.getCurrentPosition(Drupal.theme.prototype.getLocation, Drupal.theme.prototypehandleLocationError, {enableHighAccuracy: true, timeout: 20000});
+//     // navigator.geolocation.getCurrentPosition(getLocation, handleLocationError);
+//     getCurrentPositionCalled = true;
+//   }
+//   else {
+// console.log("navigator.geolocation else");
+//     var data = new Object;
+//     data['error'] = Drupal.t('IPGV&M: device does not support W3C API.');
+//     callbackServer(callbackUrl, data, false);
+//   }
+
+  //   if ( navigator.userAgent.toLowerCase().indexOf("firefox") >= 0 ) {
+  // console.log("ip_geoloc_getCurrentPosition OUT: "+navigator.userAgent);
+  //     var data = new Object;
+  //     data['error'] = Drupal.t('Mozilla problems');
+  //     // callbackServer(callbackUrl, data, true);
+  //     getLocation();    
+  //   }  
 
       // ip_geoloc_getCurrentPosition(
       //   settings.ip_geoloc_menu_callback,
