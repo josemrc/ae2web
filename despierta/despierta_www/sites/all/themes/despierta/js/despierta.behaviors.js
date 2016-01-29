@@ -1203,14 +1203,14 @@
 
 			/* Directorio Verde page */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
+				// 'Mas' Category at the end
+				var otras = $('div[class*="views-row"]:contains("Más...")', this).get();
+				$('div[class="view-content"]', this).append(otras);
 				// style
 				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
 				$('div[class*="views-row"]', this).each( function() {
 					$(this).wrapInner('<div class="fdoverde"></div>');
 				});
-				// 'Mas' Category at the end
-				var otras = $('div[class*="views-row"]:contains("Más...")', this).get();
-				$('div[class="view-content"]', this).append(otras);
 				$('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
 					$(this).addClass('imgcateg');
 				})
@@ -1527,28 +1527,28 @@ console.log("loading");
 	// $('#loading').addClass('element-invisible');
 }
 
-// No results
-if ( $('#block-views-sedes3-block').length === 0 ) {
-	if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) ) {
-		if ( urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 ) {
-			if (
-				sessionStorage === undefined || sessionStorage === null || 
-				sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-				sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-				sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-			) {
-				$('.region.region-content').append(smsNoGeo);
-			}
-			else {
-				$('.region.region-content').append(htmlNoResults);
-			}
-		}
-		else if ( urlPaths[0] === 'home' ) {
-			$('.region.region-content').append(htmlNoResults);
-		}
+// // No results
+// if ( $('#block-views-sedes3-block').length === 0 ) {
+// 	if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) ) {
+// 		if ( urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 ) {
+// 			if (
+// 				sessionStorage === undefined || sessionStorage === null || 
+// 				sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
+// 				sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
+// 				sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
+// 			) {
+// 				$('.region.region-content').append(smsNoGeo);
+// 			}
+// 			else {
+// 				$('.region.region-content').append(htmlNoResults);
+// 			}
+// 		}
+// 		else if ( urlPaths[0] === 'home' ) {
+// 			$('.region.region-content').append(htmlNoResults);
+// 		}
 
-	}
-}
+// 	}
+// }
 
 
 
