@@ -1,33 +1,26 @@
 (function ($) {
 
 function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) {
+  $('#loading p').html("Localizando...");
 
   if (typeof(getCurrentPositionCalled) !== 'undefined') {
     // Been here, done that (can happen in AJAX context).
     return;
   }
 
-  // if (
-  //   sessionStorage === undefined || sessionStorage === null || 
-  //   sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-  //   sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-  //   sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-  // ) {
-    $('#loading p').html("Localizando...");
-    if (navigator.geolocation) {
-      var startTime = (new Date()).getTime();
-      navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 20000});
-      getCurrentPositionCalled = true;
-    }
-    else {
-      var data = new Object;
-      data['error'] = Drupal.t('IPGV&M: device does not support W3C API.');
+  if (navigator.geolocation) {
+    var startTime = (new Date()).getTime();
+    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 20000});
+    getCurrentPositionCalled = true;
+  }
+  else {
+    var data = new Object;
+    data['error'] = Drupal.t('IPGV&M: device does not support W3C API.');
 
-      despiertaGeoError();
+    despiertaGeoError();
 
-      callbackServer(callbackUrl, data, false);
-    }
-  // }
+    callbackServer(callbackUrl, data, false);
+  }
 
 
   // DESPIERTA Functions:
@@ -206,11 +199,18 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
 
   Drupal.behaviors.addCurrentLocation = {
     attach: function (context, settings) {
-      ip_geoloc_getCurrentPosition(
-        settings.ip_geoloc_menu_callback,
-        settings.ip_geoloc_reverse_geocode,
-        settings.ip_geoloc_refresh_page
-      );
+      if (
+        sessionStorage === undefined || sessionStorage === null || 
+        sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
+        sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
+        sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
+      ) {
+          ip_geoloc_getCurrentPosition(
+            settings.ip_geoloc_menu_callback,
+            settings.ip_geoloc_reverse_geocode,
+            settings.ip_geoloc_refresh_page
+          );
+      }
     }
   }
 

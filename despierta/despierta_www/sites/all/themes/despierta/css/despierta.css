@@ -63,6 +63,7 @@ p.pasos {
   right: 0;
   left: 0;
   z-index: 10000;
+  display: none;
 }
 #loading .background {
   height: 100%;
@@ -315,6 +316,11 @@ ul#tabSedes {
   margin-bottom: 30px;
 }
 
+#block-views-exp-sedes2-busq-simple form[id^="views-exposed-form-sedes2-busq-simple"],
+#block-views-exp-sedes2-busq-avan form[id^="views-exposed-form-sedes2-busq-avan"] {
+  display: none;
+}
+
 /* 
  * Categorias pages
  */
@@ -394,6 +400,10 @@ ul#tabSedes {
 }
 
 /* --------------- Sedes View ------------ */
+#block-views-sedes3-block,
+.view-sedes2 {
+  display: none;
+}
 #block-views-sedes-block .nav > li,
 #block-views-sedes3-block .nav > li,
 .view-sedes2 .nav > li {

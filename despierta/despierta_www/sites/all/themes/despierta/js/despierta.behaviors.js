@@ -100,6 +100,38 @@
 * Local functions.
 * 
 */
+// 	// Loading...
+// 	Drupal.theme.prototype.loadingPage = function (title) {
+// 		if ( sessionStorage !== undefined && sessionStorage !== null &&  
+// 			sessionStorage.getItem('geolocation') !== undefined && sessionStorage['geolocation'] !== undefined &&
+// 			sessionStorage.getItem('geolocation') !== null && sessionStorage['geolocation'] !== null && 
+// 			sessionStorage.getItem('geolocation') !== "" && sessionStorage['geolocation'] !== ""
+// 		) {
+// console.log("NO loading");
+// 			$('#loading').css('display', 'none');
+// 			// if ( settings.ip_geoloc_menu_callback ) {
+// 				// $('#main-wrapper > #main').prepend(smsLocalating);
+// 			// }
+// 		}
+// 		else {
+// console.log("loading");
+// 			$('#loading').css('display', 'block');
+// 			// $('#loading').addClass('element-invisible');
+// 		}
+// 	};
+	// Show and Hide sedes panel
+	Drupal.theme.prototype.hideSedesPanel = function () {
+		$('#block-views-sedes3-block').fadeOut('slow');
+		$('.view-sedes2').fadeOut('slow');
+		$('form[id^="views-exposed-form-sedes2-busq-simple"]').fadeOut('slow');
+		$('form[id^="views-exposed-form-sedes2-busq-avan"]').fadeOut('slow');
+	};
+	Drupal.theme.prototype.showSedesPanel = function () {
+		$('#block-views-sedes3-block').fadeIn('slow');
+		$('.view-sedes2').fadeIn('slow');
+		$('form[id^="views-exposed-form-sedes2-busq-simple"]').fadeIn('slow');
+		$('form[id^="views-exposed-form-sedes2-busq-avan"]').fadeIn('slow');
+	};
 	// Change title adding the region
 	Drupal.theme.prototype.getTitleRegion = function (title) {
  		var prefixtitle = title.substring(0, title.indexOf(" en "));
@@ -128,23 +160,6 @@
 		$('#logo > a').attr('href', npath);
 
 	};
-	// Show and Hide sedes panel
-	// Drupal.theme.prototype.hideSedesPanel = function () {
-	// 	if ( $('#block-views-sedes-block').length > 0 ) {
-	// 		$('#loading').removeClass('element-invisible');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-filters').css('display', 'none');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-content').css('display', 'none');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .attachment').addClass('element-invisible');
-	// 	}	
-	// };
-	// Drupal.theme.prototype.showSedesPanel = function () {
-	// 	if ( $('div[id="block-views-sedes-block"]').length > 0 ) {
-	// 		$('#loading').addClass('element-invisible');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-filters').fadeIn('slow');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .view-content').fadeIn('slow');
-	// 		$('#block-views-sedes-block .view-id-sedes.view-display-id-block > .attachment').removeClass('element-invisible');
-	// 	}
-	// };
 	// Filter by direction or by country you sell
 	Drupal.theme.prototype.filterByRegionOnline = function (type) {
 		// create query 'pais/region'
@@ -249,6 +264,21 @@
 		if ( $('#header select[id="sel-pais"]').length === 0 ) {
 			var $paisHTML = Drupal.theme('paisSelectList', regions);
 			$( '#header .region' ).prepend($paisHTML);
+
+// BEGIN-TEMPORAL:!!! BORRAR EN PRODUCCION
+var smsGeo = '<div id="messages"><div class="section clearfix">'+
+        '<div class="nogeo messages status">'+
+          'Geolocalización:<br>'+
+          ' Country: '+sessionStorage['country']+'; '+
+          ' Country_code: '+sessionStorage['code']+';'+
+          ' Area: '+sessionStorage['area']+';'+
+          ' Area_code: '+sessionStorage['area_code']+';'+
+          ' Locality: '+sessionStorage['locality']+';'+
+          ' Address: '+sessionStorage['formatted_address']+
+        '</div>'+
+      '</div></div>';
+$('#page-wrapper').prepend(smsGeo);
+// END-TEMPORAL:!!! BORRAR EN PRODUCCION
 		}
 
 		// Create HTML for 'Regions'
@@ -1111,6 +1141,8 @@
 					});
 				}
 
+				// show panel
+				Drupal.theme.prototype.showSedesPanel();
 			});
 
 			/* Filter form: Sede */
@@ -1461,24 +1493,10 @@
 			 // hide
 			 // Drupal.theme.prototype.hideSedesPanel();
 			// show depending on...
-// BEGIN-TEMPORAL:!!! BORRAR EN PRODUCCION
-var smsGeo = '<div id="messages"><div class="section clearfix">'+
-        '<div class="nogeo messages status">'+
-          'Geolocalización:<br>'+
-          ' Country: '+sessionStorage['country']+'; '+
-          ' Country_code: '+sessionStorage['code']+';'+
-          ' Area: '+sessionStorage['area']+';'+
-          ' Area_code: '+sessionStorage['area_code']+';'+
-          ' Locality: '+sessionStorage['locality']+';'+
-          ' Address: '+sessionStorage['formatted_address']+
-        '</div>'+
-      '</div></div>';
-$('#page-wrapper').prepend(smsGeo);
-// END-TEMPORAL:!!! BORRAR EN PRODUCCION
 
 console.log("urlPaths");
-console.log(urlPaths);
-console.log(settings.ip_geoloc_menu_callback);
+console.log(settings);
+console.log(context);
 console.log(sessionStorage);
 // 			if ( urlPaths !== undefined && urlPaths.length >= 4 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) && ( urlPaths[3] !== '') ) {
 // console.log("1");
@@ -1510,22 +1528,6 @@ console.log(sessionStorage);
 // 				}
 // 			}
 
-if ( sessionStorage !== undefined && sessionStorage !== null &&  
-	sessionStorage.getItem('geolocation') !== undefined && sessionStorage['geolocation'] !== undefined &&
-	sessionStorage.getItem('geolocation') !== null && sessionStorage['geolocation'] !== null && 
-	sessionStorage.getItem('geolocation') !== "" && sessionStorage['geolocation'] !== ""
-) {
-console.log("NO loading");
-	$('#loading').css('display', 'none');
-	// if ( settings.ip_geoloc_menu_callback ) {
-		// $('#main-wrapper > #main').prepend(smsLocalating);
-	// }
-}
-else {
-console.log("loading");
-	$('#loading').css('display', 'block');
-	// $('#loading').addClass('element-invisible');
-}
 
 // // No results
 // if ( $('#block-views-sedes3-block').length === 0 ) {
@@ -1550,7 +1552,26 @@ console.log("loading");
 // 	}
 // }
 
+if ( sessionStorage !== undefined && sessionStorage !== null &&  
+	sessionStorage.getItem('geolocation') !== undefined && sessionStorage['geolocation'] !== undefined &&
+	sessionStorage.getItem('geolocation') !== null && sessionStorage['geolocation'] !== null && 
+	sessionStorage.getItem('geolocation') !== "" && sessionStorage['geolocation'] !== ""
+) {
+console.log("NO loading");
+	$('#loading').css('display', 'none');
+	// if ( settings.ip_geoloc_menu_callback ) {
+		// $('#main-wrapper > #main').prepend(smsLocalating);
+	// }
+}
+else {
+console.log("loading");
+	$('#loading').css('display', 'block');
+	// $('#loading').addClass('element-invisible');
+}
 
+	// $('#loading').css('display', 'none');
+
+// Drupal.theme.prototype.hideSedesPanel();
 
 
 
