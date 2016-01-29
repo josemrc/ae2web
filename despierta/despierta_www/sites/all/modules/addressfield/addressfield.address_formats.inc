@@ -67,7 +67,125 @@ function addressfield_get_address_format($country_code) {
       'required_fields' => array('locality', 'postal_code'),
     );
   }
+  // despierta formats
+  $address_formats['AD'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['AR'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['BO'] = array(
+    'used_fields' => array('locality', 'administrative_area'),
+    'required_fields' => array('locality', 'administrative_area'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['CL'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['CO'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['CR'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['CR'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['EC'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['SV'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['GI'] = array(
+    'used_fields' => array('locality', 'postal_code'),
+    'required_fields' => array('locality', 'postal_code'),
+    // 'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['GT'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['HN'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['MX'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['NI'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['PA'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['PY'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['PE'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'locality_label' => t('District'),
+    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['PR'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'postal_code_label' => t('ZIP code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['DO'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['UY'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'render_administrative_area_value' => TRUE,
+  );
+  $address_formats['VE'] = array(
+    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+    'required_fields' => array('locality', 'administrative_area'),
+    'render_administrative_area_value' => TRUE,
+  );
 
+
+
+
+  // DEPRECATED FROM HERE
   $address_formats['AE'] = array(
     'used_fields' => array('administrative_area'),
     'administrative_area_label' => t('Emirate'),
@@ -75,11 +193,11 @@ function addressfield_get_address_format($country_code) {
   $address_formats['AM'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
   );
-  $address_formats['AR'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
-    'render_administrative_area_value' => TRUE,
-  );
+  // $address_formats['AR'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
+  //   'render_administrative_area_value' => TRUE,
+  // );
   $address_formats['AS'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area', 'postal_code'),
@@ -113,20 +231,20 @@ function addressfield_get_address_format($country_code) {
   $address_formats['CC'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
   );
-  $address_formats['CL'] = array(
-    'used_fields' => array('dependent_locality', 'locality', 'administrative_area', 'postal_code'),
-    'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
-    'render_administrative_area_value' => TRUE,
-  );
+  // $address_formats['CL'] = array(
+  //   'used_fields' => array('dependent_locality', 'locality', 'administrative_area', 'postal_code'),
+  //   'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
+  //   'render_administrative_area_value' => TRUE,
+  // );
   $address_formats['CN'] = array(
     'used_fields' => array('dependent_locality', 'locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area'),
     'dependent_locality_label' => t('District'),
   );
-  $address_formats['CO'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
-  );
+  // $address_formats['CO'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+  // );
   $address_formats['CV'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'administrative_area_label' => t('Island'),
@@ -161,9 +279,9 @@ function addressfield_get_address_format($country_code) {
     'administrative_area_label' => t('County'),
     'postal_code_label' => t('Postcode'),
   );
-  $address_formats['GI'] = array(
-    'used_fields' => array('postal_code'),
-  );
+  // $address_formats['GI'] = array(
+  //   'used_fields' => array('postal_code'),
+  // );
   $address_formats['GU'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area', 'postal_code'),
@@ -176,10 +294,10 @@ function addressfield_get_address_format($country_code) {
     'locality_label' => t('District'),
     'administrative_area_label' => t('Area', array(), array('context' => 'Territory of a country')),
   );
-  $address_formats['HN'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'required_fields' => array('locality', 'administrative_area'),
-  );
+  // $address_formats['HN'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'required_fields' => array('locality', 'administrative_area'),
+  // );
   $address_formats['ID'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'locality_label' => t('City/Regency'),
@@ -296,10 +414,10 @@ function addressfield_get_address_format($country_code) {
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
   );
-  $address_formats['NI'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
-  );
+  // $address_formats['NI'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+  // );
   $address_formats['NR'] = array(
     'used_fields' => array('administrative_area'),
     'required_fields' => array('administrative_area'),
@@ -311,14 +429,14 @@ function addressfield_get_address_format($country_code) {
     'locality_label' => t('Town/City'),
     'postal_code_label' => t('Postcode'),
   );
-  $address_formats['PA'] = array(
-    'used_fields' => array('locality', 'administrative_area'),
-  );
-  $address_formats['PE'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'locality_label' => t('District'),
-    'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
-  );
+  // $address_formats['PA'] = array(
+  //   'used_fields' => array('locality', 'administrative_area'),
+  // );
+  // $address_formats['PE'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'locality_label' => t('District'),
+  //   'administrative_area_label' => t('Department', array(), array('context' => 'Territory of a country')),
+  // );
   $address_formats['PF'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area', 'postal_code'),
@@ -331,11 +449,11 @@ function addressfield_get_address_format($country_code) {
   $address_formats['PH'] = array(
     'used_fields' => array('dependent_locality', 'locality', 'administrative_area', 'postal_code'),
   );
-  $address_formats['PR'] = array(
-    'used_fields' => array('locality', 'postal_code'),
-    'required_fields' => array('locality', 'postal_code'),
-    'postal_code_label' => t('ZIP code'),
-  );
+  // $address_formats['PR'] = array(
+  //   'used_fields' => array('locality', 'postal_code'),
+  //   'required_fields' => array('locality', 'postal_code'),
+  //   'postal_code_label' => t('ZIP code'),
+  // );
   $address_formats['PW'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area', 'postal_code'),
@@ -366,10 +484,10 @@ function addressfield_get_address_format($country_code) {
   $address_formats['SR'] = array(
     'used_fields' => array('locality', 'administrative_area'),
   );
-  $address_formats['SV'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'required_fields' => array('locality', 'administrative_area'),
-  );
+  // $address_formats['SV'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'required_fields' => array('locality', 'administrative_area'),
+  // );
   $address_formats['TH'] = array(
     'used_fields' => array('dependent_locality', 'locality', 'administrative_area', 'postal_code'),
   );
@@ -404,17 +522,17 @@ function addressfield_get_address_format($country_code) {
     'administrative_area_label' => t('State', array(), array('context' => 'Territory of a country')),
     'postal_code_label' => t('ZIP code'),
   );
-  $address_formats['UY'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-  );
+  // $address_formats['UY'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  // );
   $address_formats['UZ'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
   );
-  $address_formats['VE'] = array(
-    'used_fields' => array('locality', 'administrative_area', 'postal_code'),
-    'required_fields' => array('locality', 'administrative_area'),
-    'render_administrative_area_value' => TRUE,
-  );
+  // $address_formats['VE'] = array(
+  //   'used_fields' => array('locality', 'administrative_area', 'postal_code'),
+  //   'required_fields' => array('locality', 'administrative_area'),
+  //   'render_administrative_area_value' => TRUE,
+  // );
   $address_formats['VI'] = array(
     'used_fields' => array('locality', 'administrative_area', 'postal_code'),
     'required_fields' => array('locality', 'administrative_area', 'postal_code'),

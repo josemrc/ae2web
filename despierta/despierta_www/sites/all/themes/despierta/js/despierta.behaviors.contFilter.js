@@ -64,35 +64,35 @@
 		}
 		return vars;
 	}
-	// Get city from lat/lng
-	function codeLatLng(lat, lng) {
-		var latlng = new google.maps.LatLng(lat, lng);
-		geocoder.geocode({'latLng': latlng}, function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				if (results[1]) {
-					//formatted address
-					alert(results[0].formatted_address)
-					//find country name
-					for (var i=0; i<results[0].address_components.length; i++) {
-						for (var b=0;b<results[0].address_components[i].types.length;b++) {
-							//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
-							if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
-								//this is the object you are looking for
-								city= results[0].address_components[i];
-								break;
-							}
-						}
-					}
-					//city data
-					alert(city.short_name + " " + city.long_name)
-				} else {
-					alert("No results found");
-				}
-			} else {
-				alert("Geocoder failed due to: " + status);
-			}
-		});
-	}	
+	// // Get city from lat/lng
+	// function codeLatLng(lat, lng) {
+	// 	var latlng = new google.maps.LatLng(lat, lng);
+	// 	geocoder.geocode({'latLng': latlng}, function(results, status) {
+	// 		if (status == google.maps.GeocoderStatus.OK) {
+	// 			if (results[1]) {
+	// 				//formatted address
+	// 				alert(results[0].formatted_address)
+	// 				//find country name
+	// 				for (var i=0; i<results[0].address_components.length; i++) {
+	// 					for (var b=0;b<results[0].address_components[i].types.length;b++) {
+	// 						//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+	// 						if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+	// 							//this is the object you are looking for
+	// 							city= results[0].address_components[i];
+	// 							break;
+	// 						}
+	// 					}
+	// 				}
+	// 				//city data
+	// 				alert(city.short_name + " " + city.long_name)
+	// 			} else {
+	// 				alert("No results found");
+	// 			}
+	// 		} else {
+	// 			alert("Geocoder failed due to: " + status);
+	// 		}
+	// 	});
+	// }	
 	// Geolocation
 	function geoProximity(lon1, lat1, lon2, lat2) {
 		var R = 6371; // Radius of the earth in km
@@ -1654,12 +1654,6 @@ console.log(settings);
 				Drupal.theme.prototype.applyRegionOption();
 
 				sessionStorage['geolocation'] = "local";
-console.log("ip_geoloc_getCurrentPosition");
-ip_geoloc_getCurrentPosition(
-settings.ip_geoloc_menu_callback,
-settings.ip_geoloc_reverse_geocode,
-settings.ip_geoloc_refresh_page
-);
 
 				$('#messages .nogeo').remove();
 

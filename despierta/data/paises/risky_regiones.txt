@@ -1,0 +1,17 @@
+Andorra;AD
+Costa Rica;CR
+Ecuador;EC
+El Salvador;SV
+Gibraltar;GI
+Guatemala;GT
+Honduras;HN
+Nicaragua;NI
+Panamá;PA
+Paraguay;PY
+Puerto Rico;PR
+República Dominicana;DO
+Uruguay;UY
+
+
+Provincia de Buenos Aires;B
+

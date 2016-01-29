@@ -1,0 +1,450 @@
+Andorra;AD
+Canillo;C
+Encamp;E
+Ordino;O
+La Massana;M
+Andorra la Vieja;AV
+San Julián de Loria;SJL
+Escaldes-Engordany;EE
+
+Argentina;AR
+Ciudad de Buenos Aires;C
+Provincia de Buenos Aires;B
+Catamarca;K
+Chaco;H
+Chubut;U
+Córdoba;X
+Corrientes;W
+Entre Ríos;E
+Formosa;P
+Jujuy;Y
+La Pampa;L
+La Rioja;F
+Mendoza;M
+Misiones;N
+Neuquén;Q
+Río Negro;R
+Salta;A
+San Juan;J
+San Luis;D
+Santa Cruz;Z
+Santa Fe;S
+Santiago del Estero;G
+Tierra del Fuego;V
+Tucumán;T
+
+Bolivia;BO
+Beni;B
+Chuquisaca;C
+Cochabamba;CO
+La Paz;LP
+Oruro;O
+Pando;P
+Potosí;PO
+Santa Cruz;S
+Tarija;T
+
+Chile;CL
+Aysén del General Carlos Ibáñez del Campo;AI
+Antofagasta;AN
+La Araucanía;AR
+Arica y Parinacota;AP
+Atacama;AT
+Biobío;BI
+Coquimbo;CO
+Libertador General Bernardo O'Higgins;LI
+Los Lagos;LL
+Los Ríos;LR
+Magallanes y Antártica Chilena;MA
+Maule;ML
+Metropolitana de Santiago;RM
+Tarapacá;TA
+Valparaíso;VS
+
+Colombia;CO
+Amazonas;AMA
+Antioquia;ANT
+Arauca;ARA
+Atlántico;ATL
+Bolívar;BOL
+Boyacá;BOY
+Caldas;CAL
+Caquetá;CAQ
+Casanare;CAS
+Cauca;CAU
+Cesar;CES
+Córdoba;COR
+Cundinamarca;CUN
+Chocó;CHO
+Guainía;GUA
+Guaviare;GUV
+Huila;HUI
+La Guajira;LAG
+Magdalena;MAG
+Meta;MET
+Nariño;NAR
+Norte de Santander;NSA
+Putumayo;PUT
+Quindío;QUI
+Risaralda;RIS
+San Andrés y Providencia;SAP
+Santander;SAN
+Sucre;SUC
+Tolima;TOL
+Valle del Cauca;VAC
+Vaupés;VAU
+Vichada;VID
+
+Costa Rica;CR
+San José;SJ
+Alajuela;A
+Cartago;C
+Heredia;H
+Guanacaste;G
+Puntarenas;P
+Limón;L
+
+Ecuador;EC
+Azuay;A
+Bolívar;B
+Cañar;C
+Carchi;CA
+Chimborazo;CH
+Cotopaxi;CO
+El Oro;EO
+Esmeraldas;E
+Galápagos;G
+Guayas;GU
+Imbabura;I
+Loja;L
+Los Ríos;LR
+Manabí;M
+Morona Santiago;MO
+Napo;N
+Orellana;O
+Pastaza;P
+Pichincha;PI
+Santa Elena;SE
+Santo Domingo de los Tsáchilas;SDT
+Sucumbíos;S
+Tungurahua;T
+Zamora Chinchipe;ZC
+
+El Salvador;SV
+Ahuachapán;A
+Cabañas;C
+Chalatenango;CH
+Cuscatlán;CU
+La Libertad;LL
+La Paz;LP
+La Unión;LU
+Morazán;M
+San Miguel;SM
+San Salvador;SS
+San Vicente;SV
+Santa Ana;SA
+Sonsonate;S
+Usulután;U
+
+
+España;ES
+Álava;VI
+Albacete;AB
+Alicante;A
+Almería;AL
+Asturias;O
+Ávila;AV
+Badajoz;BA
+Islas Baleares;PM
+Barcelona;B
+Burgos;BU
+Cáceres;CC
+Cádiz;CA
+Cantabria;S
+Castellón;CS
+Ceuta;CE
+Ciudad Real;CR
+Córdoba;CO
+Cuenca;CU
+Gerona;GI
+Granada;GR
+Guadalajara;GU
+Guipúzcoa;SS
+Huelva;H
+Huesca;HU
+Jaén;J
+La Coruña;C
+La Rioja;LO
+Las Palmas;GC
+León;LE
+Lérida;L
+Lugo;LU
+Madrid;M
+Málaga;MA
+Melilla;ML
+Murcia;MU
+Navarra;NA
+Orense;OR
+Palencia;P
+Pontevedra;PO
+Salamanca;SA
+Santa Cruz de Tenerife;TF
+Segovia;SG
+Sevilla;SE
+Soria;SO
+Tarragona;T
+Teruel;TE
+Toledo;TO
+Valencia;V
+Valladolid;VA
+Vizcaya;BI
+Zamora;ZA
+Zaragoza;Z
+
+Gibraltar;GI
+Gibraltar;GI
+
+Guatemala;GT
+Alta Verapaz;AV
+Baja Verapaz;B
+Chimaltenango;C
+Chiquimula;CH
+El Progreso;EP
+El Quiché;EQ
+Escuintla;E
+Guatemala;GT
+Huehuetenango;H
+Izabal;I
+Jalapa;J
+Jutiapa;JU
+Petén;P
+Quetzaltenango;Q
+Retalhuleu;R
+Sacatepéquez;S
+San Marcos;SM
+Santa Rosa;SR
+Sololá;SO
+Suchitepéquez;SU
+Totonicapán;T
+Zacapa;Z
+
+Honduras;HN
+Atlántida;A
+Choluteca;C
+Colón;CO
+Comayagua;CM
+Copán;CP
+Cortés;CR
+El Paraíso;EP
+Francisco Morazán;FM
+Gracias a Dios;GD
+Intibucá;I
+Islas de la Bahía;IS
+La Paz;LP
+Lempira;L
+Ocotepeque;O
+Olancho;OL
+Santa Bárbara;SB
+Valle;V
+Yoro;Y
+
+
+México;MX
+Aguascalientes;AGU
+Baja California Sur;BCS
+Baja California;BCN
+Campeche;CAM
+Chiapas;CHP
+Chihuahua;CHH
+Coahuila de Zaragoza;COA
+Colima;COL
+Distrito Federal;DIF
+Durango;DUG
+Estado de Hidalgo;HID
+Estado de México;MEX
+Guanajuato;GUA
+Guerrero;GRO
+Jalisco;JAL
+Michoacán de Ocampo;MIC
+Morelos;MOR
+Nayarit;NAY
+Nuevo León;NLE
+Oaxaca;OAX
+Puebla;PUE
+Querétaro;QUE
+Quintana Roo;ROO
+San Luis Potosí;SLP
+Sinaloa;SIN
+Sonora;SON
+Tabasco;TAB
+Tamaulipas;TAM
+Tlaxcala;TLA
+Veracruz de Ignacio de la Llave;VER
+Yucatán;YUC
+Zacatecas;ZAC
+
+Nicaragua;NI
+Atlántico Norte;AN
+Atlántico Sur;AS
+Boaco;B
+Carazo;C
+Chinandega;CH
+Chontales;CO
+Estelí;E
+Granada;G
+Jinotega;J
+León;L
+Madriz;M
+Managua;MA
+Masaya;MS
+Matagalpa;MT
+Nueva Segovia;NS
+Rivas;R
+Río San Juan;RI
+
+Panamá;PA
+Bocas del Toro;BT
+Chiriquí;C
+Coclé;CO
+Colón;CL
+Darién;D
+Emberá-Wounaan;EW
+Guna Yala;GY
+Herrera;H
+Los Santos;LS
+Ngäbe-Buglé;NB
+Panamá;P
+Veraguas;V
+
+Paraguay;PY
+Alto Paraguay;AP
+Alto Paraná;AA
+Amambay;A
+Boquerón;B
+Caaguazú;C
+Caazapá;CA
+Canindeyú;CN
+Central;CE
+Concepción;CO
+Cordillera;CR
+Distrito Capital;DP
+Guairá;G
+Itapúa;I
+Misiones;M
+Paraguarí;P
+Presidente Hayes;PH
+San Pedro;SP
+Ñeembucú;N
+
+Perú;PE
+Amazonas;AMA
+Áncash;ANC
+Apurímac;APU
+Arequipa;ARE
+Ayacucho;AYA
+Cajamarca;CAJ
+Callao;CAL
+Cusco;CUS
+Huancavelica;HUV
+Huánuco;HUC
+Ica;ICA
+Junín;JUN
+La Libertad;LAL
+Lambayeque;LAM
+Lima;LIM
+Loreto;LOR
+Madre de Dios;MDD
+Moquegua;MOQ
+Pasco;PAS
+Piura;PIU
+Puno;PUN
+San Martín;SAM
+Tacna;TAC
+Tumbes;TUM
+Ucayali;UCA
+
+Puerto Rico;PR
+Puerto Rico;PR
+
+República Dominicana;DO
+Azua;A
+Bahoruco;B
+Barahona;BA
+Dajabón;D
+Duarte;DU
+Elías Piña;EP
+El Seibo;ES
+Espaillat;E
+Hato Mayor;HM
+Hermanas Mirabal;HI
+Independencia;I
+La Altagracia;LA
+La Romana;LR
+La Vega;LV
+María Trinidad Sánchez;MTS
+Monseñor Nouel;MN
+Montecristi;M
+Monte Plata;MP
+Pedernales;P
+Peravia;PR
+Puerto Plata;PP
+Samaná;S
+Sánchez Ramírez;SR
+San Cristóbal;SC
+San José de Ocoa;SJO
+San Juan;SJ
+San Pedro de Macorís;SPM
+Santiago;SA
+Santiago Rodríguez;SO
+Provincia Santo Domingo;PSD
+Valverde;V
+Distrito Nacional;DN
+
+Uruguay;UY
+Artigas;A
+Canelones;C
+Cerro Largo;CL
+Colonia;CO
+Durazno;D
+Flores;F
+Florida;FL
+Lavalleja;L
+Maldonado;M
+Montevideo;MO
+Paysandú;P
+Río Negro;RN
+Rivera;R
+Rocha;RO
+Salto;S
+San José;SJ
+Soriano;SO
+Tacuarembó;T
+Treinta y Tres;TT
+
+Venezuela;VE
+Amazonas;Z
+Anzoátegui;B
+Apure;C
+Aragua;D
+Barinas;E
+Bolívar;F
+Carabobo;G
+Cojedes;H
+Delta Amacuro;Y
+Dependencias Federales;W
+Distrito Capital;A
+Falcón;I
+Guárico;J
+Lara;K
+Miranda;M
+Monagas;N
+Mérida;L
+Nueva Esparta;O
+Portuguesa;P
+Sucre;R
+Trujillo;T
+Táchira;S
+Vargas;X
+Yaracuy;U
+Zulia;V
+

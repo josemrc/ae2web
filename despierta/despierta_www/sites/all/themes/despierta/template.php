@@ -122,11 +122,10 @@ function despierta_process_page(&$variables) {
     $variables['title_suffix']['add_or_remove_shortcut']['#weight'] = -100;
   }
 
-  // Add content stored in session variable for JQuery
-// var_dump($_SESSION);
-  if ( isset($_SESSION) ) {
-    drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');    
-  }
+  // // Add content stored in session variable for JQuery
+  // if ( isset($_SESSION) ) {
+  //   drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');    
+  // }
   
 }
 

@@ -38,10 +38,20 @@ p.pasos {
   background-color: #f5f5f5;
   color: #418389  
 }
-div#page-wrapper {
+/*div#page-wrapper {
   display: none;
 }
-div#block-views-ver-tax-block {
+*/
+/*div#block-views-ver-tax-block {
+  display: none;
+}
+*/
+.view-id-home {
+  display: none;
+}
+/* --------------- Home page Disable!! ------------ */
+
+#block-views-tax-regiones-block {
   display: none;
 }
 
@@ -58,7 +68,7 @@ div#block-views-ver-tax-block {
   height: 100%;
   width: 100%;
   background-color: grey;
-  opacity: 0.5;
+  /*opacity: 0.5;*/
 }
 #loading .flower-loader {
   position: absolute;
@@ -76,6 +86,7 @@ div#block-views-ver-tax-block {
   right: 0;
   padding-top: 40px;
   font-weight: bold;
+  color: white;
 }
 
 /*
@@ -205,6 +216,7 @@ select#sel-regions {
 /*
  * CONTENT BLOCK
  */
+
 
 /* --------------- BreadCrumb ------------ */
 @media (max-width: 991px) {
@@ -383,16 +395,19 @@ ul#tabSedes {
 
 /* --------------- Sedes View ------------ */
 #block-views-sedes-block .nav > li,
+#block-views-sedes3-block .nav > li,
 .view-sedes2 .nav > li {
   margin: 0;
   padding: 0 !important;
 }
 #block-views-sedes-block .tab-despierta ul li a,
+#block-views-sedes3-block .tab-despierta ul li a,
 .view-sedes2 .tab-despierta ul li a {
   font-size: 18px;
   padding: 5px 10px 3px 10px;
 }
 #block-views-sedes-block .tab-despierta .tab-content,
+#block-views-sedes3-block .tab-despierta .tab-content,
 .view-sedes2 .tab-despierta .tab-content {
   padding: 0;
 }
@@ -550,27 +565,32 @@ ul#tabSedes {
 }
 
 /* --------------- Map Sedes ------------ */
-#block-views-sedes-block .attachment {
+#block-views-sedes-block .attachment,
+#block-views-sedes3-block .attachment {
   padding-right: 0;
 }
 
 
 /* --------------- Filter Sedes ------------ */
-#block-views-sedes-block .view-filters {
+#block-views-sedes-block .view-filters,
+#block-views-sedes3-block .view-filters {
   padding-right: 0;
   font-size: 14px;
 }
-#block-views-sedes-block .view-filters .ppal {
+#block-views-sedes-block .view-filters .ppal,
+#block-views-sedes3-block .view-filters .ppal {
   clear: both;
   font-weight: bold;
   color: #496e32;
   background-color: #F4F9F2;
   width: 100%;
 }
-#block-views-sedes-block .view-filters .ppal > input{
+#block-views-sedes-block .view-filters .ppal > input,
+#block-views-sedes3-block .view-filters .ppal > input{
   margin-right: 5px;
 }
-#block-views-sedes-block .view-filters .load-sede-filter {
+#block-views-sedes-block .view-filters .load-sede-filter,
+#block-views-sedes3-block .view-filters .load-sede-filter {  
   margin-top: 10px;
   margin-bottom: 10px;
 }

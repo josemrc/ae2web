@@ -11,6 +11,15 @@
  *   NULL if not found.
  */
 function addressfield_get_administrative_areas($country_code) {
+
+  // Provides the default administrative areas from DESPIERTA taxonomy
+  $administrative_areas = _addressfield_get_administrative_areas_taxonomy_despierta($country_code);
+
+  return isset($administrative_areas) ? $administrative_areas : NULL;
+
+
+  // DEPRECATED FROM HERE
+
   // Maintain a static cache to avoid passing the administrative areas through
   // t() more than once per request.
   $administrative_areas = &drupal_static(__FUNCTION__, array());
@@ -23,6 +32,45 @@ function addressfield_get_administrative_areas($country_code) {
   }
 
   return isset($administrative_areas[$country_code]) ? $administrative_areas[$country_code] : NULL;
+}
+
+
+/**
+ * Provides the default administrative areas from DESPIERTA taxonomy
+ */
+function _addressfield_get_administrative_areas_taxonomy_despierta($country_code) {
+    $administrative_areas = array();
+    $voc = taxonomy_vocabulary_machine_name_load('regiones');
+    if($voc) {
+        $query = new EntityFieldQuery();
+        $query->entityCondition('entity_type', 'taxonomy_term')->fieldCondition('field_code', 'value', $country_code, '=');
+        $result = $query->execute();
+
+        if (!empty($result['taxonomy_term'])) {
+            // Set the internal pointer of an array to its first element
+            // Get the key value for the first item
+            reset($result['taxonomy_term']);
+            $tid = key($result['taxonomy_term']);
+
+            // get term
+            $p_term = taxonomy_term_load($tid);
+            if ( isset($p_term) ) {
+                // get childrens
+                foreach ( taxonomy_get_children($tid) as $term ) {
+                    $tcode = field_get_items('taxonomy_term', $term, 'field_code');
+                    if ($tcode) {
+                        // get field 'code'
+                        $code = field_view_value('taxonomy_term', $term, 'field_code', $tcode[0]);
+                        $rcode = render($code);
+                        if ( isset($rcode) ) {                            
+                            $administrative_areas[$rcode] = t($term->name);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return $administrative_areas;
 }
 
 /**
