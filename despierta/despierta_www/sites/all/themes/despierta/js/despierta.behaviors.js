@@ -194,16 +194,8 @@
 			$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region > option').remove();
 			$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region').append($options);
 			$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region > option[value="-"]').val("All");
-			if ( urlPaths === undefined ) {
-				var rcode = $( '#header #sel-regions option:selected').attr('dp-reg-code');
-				$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region > option[value="'+rcode+'"]').prop('selected', true);
-			}
-			else {
-				$('form[id="views-exposed-form-sedes2-busq-simple"] select[id="edit-region"] > option[value="'+oldrcode+'"]').prop('selected', true);
-			}
-			// Add pais into 
-			// var pais = $('select[id="sel-pais"] option:selected').text();
-			// $('form[id="views-exposed-form-sedes2-busq-simple"] input[id="edit-pais"]').val(pais);
+			var rcode = $( '#header #sel-regions option:selected').attr('dp-reg-code');
+			$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region > option[value="'+rcode+'"]').prop('selected', true);
 		}
 
 		if ( $('form[id="views-exposed-form-sedes2-busq-avan"]').length ) {
@@ -1129,7 +1121,7 @@ $('#page-wrapper').prepend(smsGeo);
 
 				// Filter:
 				// move elements and create a button that show/hide the elements
-				if ( $('> .view-filters', this).length ) {
+				if ( $('> .view-filters', this).length > 0 && $('> .view-empty', this).length === 0 ) {
 					$('> .view-filters', this).appendTo($(this));
 					$('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
 					$('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
