@@ -1,6 +1,8 @@
 (function ($) {
 
 function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) {
+// console.log("Loading");
+//   $('#loading').css('display', 'block');
   $('#loading p').html("Localizando...");
 
   if (typeof(getCurrentPositionCalled) !== 'undefined') {
@@ -56,6 +58,8 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
   function despiertaGeoError() {
     sessionStorage['geolocation'] = false;
     sessionStorage.setItem('geolocation', false);
+// console.log("NO loading");
+// $('#loading').css('display', 'none');
   }
   // geo Position
   function despiertaGeoSession(geoloc) {
@@ -80,6 +84,8 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
       sessionStorage['geolocation'] = false;
       sessionStorage.setItem('geolocation', false);
     }
+// console.log("NO loading");
+// $('#loading').css('display', 'none');
   }
 
   function getLocation(position) {

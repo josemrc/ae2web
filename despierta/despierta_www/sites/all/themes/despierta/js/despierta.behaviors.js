@@ -100,25 +100,6 @@
 * Local functions.
 * 
 */
-// 	// Loading...
-// 	Drupal.theme.prototype.loadingPage = function (title) {
-// 		if ( sessionStorage !== undefined && sessionStorage !== null &&  
-// 			sessionStorage.getItem('geolocation') !== undefined && sessionStorage['geolocation'] !== undefined &&
-// 			sessionStorage.getItem('geolocation') !== null && sessionStorage['geolocation'] !== null && 
-// 			sessionStorage.getItem('geolocation') !== "" && sessionStorage['geolocation'] !== ""
-// 		) {
-// console.log("NO loading");
-// 			$('#loading').css('display', 'none');
-// 			// if ( settings.ip_geoloc_menu_callback ) {
-// 				// $('#main-wrapper > #main').prepend(smsLocalating);
-// 			// }
-// 		}
-// 		else {
-// console.log("loading");
-// 			$('#loading').css('display', 'block');
-// 			// $('#loading').addClass('element-invisible');
-// 		}
-// 	};
 	// Show and Hide sedes panel
 	Drupal.theme.prototype.hideSedesPanel = function () {
 		$('#block-views-sedes3-block').fadeOut('slow');
@@ -884,6 +865,29 @@ $('#page-wrapper').prepend(smsGeo);
 	Drupal.behaviors.despiertaBehaviors = {
 		attach: function (context, settings) {
 
+			// console.log("settings");
+			// console.log(settings);
+			// console.log("context");
+			// console.log(context);
+			// console.log("sessionStorage");
+			// console.log(sessionStorage);
+			// console.log("urlPaths");
+			// console.log(urlPaths);
+
+			// Redirect when the root page has not 'home'
+			if ( urlPaths === undefined || urlPaths.length === 0 ) {
+				window.location.href = '?q=home';
+				$('#loading').css('display', 'block');
+			}
+
+			// Active loading page
+			if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || (urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 && urlPaths[3] !== '') ) ) {
+				if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") !== "FORM" ) {
+					// $(context).attr('id') !== "views-exposed-form-sedes3-block" && $(context).attr('id') !== "views-exposed-form-sedes2-busq-simple" 
+					$('#loading').css('display', 'block');
+				}
+			}
+
 			// Get Taxonomy regions
 			var allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('#block-views-tax-regiones-block .view-tax-regiones') );			
 
@@ -905,6 +909,9 @@ $('#page-wrapper').prepend(smsGeo);
 					$('h1[id="page-title"]').remove();
 				}
 			}
+
+
+
 
 			/* Change Breadcrumb from URL */
 			$('#breadcrumb', context).once('despierta', function () {
@@ -1063,12 +1070,6 @@ $('#page-wrapper').prepend(smsGeo);
 				var subcats = {};
 				var sedeHTML = "";
 
-				// // Jump in the case the session is not ready
-				// if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage.getItem('geolocation') === null ) {
-				// 	$(this).addClass('element-invisible');
-				// 	return;
-				// }
-
 				// Create report of Sedes:
 				// 		with Gelocation Sedes
 				var reportSedes = {};
@@ -1120,10 +1121,10 @@ $('#page-wrapper').prepend(smsGeo);
 					$('> .view-content .p_serv', this).remove();
 				}
 				else { // NO RESULTS
-					var noSedeHTML = '<div class="view-content">' + htmlNoResults + '</div>';
 					$('> .view-filters', this).addClass('element-invisible');
 					$('> .attachment .view-based-map', this).addClass('element-invisible');
-					$(this).prepend( $(noSedeHTML) );
+					// var noSedeHTML = '<div class="view-content">' + htmlNoResults + '</div>';
+					// $(this).prepend( $(noSedeHTML) );
 				}
 
 				// Filter:
@@ -1143,6 +1144,12 @@ $('#page-wrapper').prepend(smsGeo);
 
 				// show panel
 				Drupal.theme.prototype.showSedesPanel();
+
+				// Disable loading page
+				if ( urlPaths !== undefined && urlPaths.length >= 4 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) && urlPaths[3] !== '' ) {
+					$('#loading').css('display', 'none');
+				}
+
 			});
 
 			/* Filter form: Sede */
@@ -1487,94 +1494,6 @@ $('#page-wrapper').prepend(smsGeo);
 			$('.region-triptych-last').addClass('col-md-4');
 
 
-			/*
-			 * For functionality...
-			 */
-			 // hide
-			 // Drupal.theme.prototype.hideSedesPanel();
-			// show depending on...
-
-console.log("urlPaths");
-console.log(settings);
-console.log(context);
-console.log(sessionStorage);
-// 			if ( urlPaths !== undefined && urlPaths.length >= 4 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) && ( urlPaths[3] !== '') ) {
-// console.log("1");
-// // 				if ( settings.ip_geoloc_menu_callback ) {
-// // console.log("2");
-// // 					if (
-// // 						sessionStorage === undefined || sessionStorage === null || 
-// // 						sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-// // 						sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-// // 						sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-// // 					) {
-// // console.log("3");
-// // 						$('#main-wrapper > #main').prepend(smsLocalating);
-// // 					}
-// // 				}
-
-// 				if ( $('#block-views-sedes3-block').length === 0 ) {
-// 					if (
-// 						sessionStorage === undefined || sessionStorage === null || 
-// 						sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-// 						sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-// 						sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-// 					) {
-// 						$('.region.region-content').append(smsNoGeo);
-// 					}
-// 					else {
-// 						$('.region.region-content').append(htmlNoResults);
-// 					}
-// 				}
-// 			}
-
-
-// // No results
-// if ( $('#block-views-sedes3-block').length === 0 ) {
-// 	if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde' ) ) {
-// 		if ( urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 ) {
-// 			if (
-// 				sessionStorage === undefined || sessionStorage === null || 
-// 				sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-// 				sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-// 				sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-// 			) {
-// 				$('.region.region-content').append(smsNoGeo);
-// 			}
-// 			else {
-// 				$('.region.region-content').append(htmlNoResults);
-// 			}
-// 		}
-// 		else if ( urlPaths[0] === 'home' ) {
-// 			$('.region.region-content').append(htmlNoResults);
-// 		}
-
-// 	}
-// }
-
-if ( sessionStorage !== undefined && sessionStorage !== null &&  
-	sessionStorage.getItem('geolocation') !== undefined && sessionStorage['geolocation'] !== undefined &&
-	sessionStorage.getItem('geolocation') !== null && sessionStorage['geolocation'] !== null && 
-	sessionStorage.getItem('geolocation') !== "" && sessionStorage['geolocation'] !== ""
-) {
-console.log("NO loading");
-	$('#loading').css('display', 'none');
-	// if ( settings.ip_geoloc_menu_callback ) {
-		// $('#main-wrapper > #main').prepend(smsLocalating);
-	// }
-}
-else {
-console.log("loading");
-	$('#loading').css('display', 'block');
-	// $('#loading').addClass('element-invisible');
-}
-
-	// $('#loading').css('display', 'none');
-
-// Drupal.theme.prototype.hideSedesPanel();
-
-
-
 			/* Events even in the elements that have been created dynamically.
 			 * Then, this part has to be at the end of code.
 			 */
@@ -1647,11 +1566,16 @@ console.log("loading");
 			// Display none forever
 			$('.ajax-progress-throbber').addClass('element-invisible');
 			$('#views-exposed-form-sedes2-busq-simple #edit-pais-wrapper').css('display', 'none');
-			$('#views-exposed-form-sedes3-block').addClass('element-invisible');
 			$('#block-views-sedes3-block #edit-field-sede-direccion-locality-selective-wrapper').css('display', 'none');
 			$('#block-views-sedes3-block #edit-field-sede-direccion-administrative-area-selective-wrapper').css('display', 'none');
 			$('#block-views-sedes3-block #edit-field-sede-direccion-country-wrapper').css('display', 'none');
 			$('#block-views-sedes3-block #edit-field-sede-pais-tid-wrapper').css('display', 'none');
+			if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") != "FORM" ) {
+				$('#views-exposed-form-sedes3-block').addClass('element-invisible');
+			}
+			else {
+				$('#views-exposed-form-sedes3-block').removeClass('element-invisible');	
+			}
 
 			// remove forever
 			// $('#block-views-tax-regiones-block').remove();
