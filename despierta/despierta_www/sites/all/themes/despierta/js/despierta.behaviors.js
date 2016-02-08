@@ -3,6 +3,7 @@
 /**
 * Global vars
 */
+	var despiertaTimeOut = 7000;
 	var urlPaths = getUrlPaths();   
 	var htmlNoResults = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
@@ -12,15 +13,27 @@
 							'póngase en contacto con nosotros'+
 							'</div>'+
 						'</section>';
-	var smsNoGeo = '<div id="block-views-sedes3-block" class="block block-views"><div class="content nogeo">'+
-						'<div id="messages"><div class="section clearfix">'+
-						'<div class="nogeo messages warning">'+
+	// var smsNoGeo = '<div id="block-views-sedes3-block" class="block block-views"><div class="content nogeo">'+
+	// 					'<div id="messages"><div class="section clearfix">'+
+	// 					'<div class="nogeo messages warning">'+
+	// 						'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
+	// 						'Le recomentamos que lo active, o en su defecto, '+
+	// 						'seleccione el país y regiones mediante las opciones del panel superior derecho'+
+	// 					'</div>'+
+	// 					'</div></div>'+
+	// 				'</div></div>';
+	var smsNoGeo = '<section class="no-resultados">'+
+							'<div class="alert alert-warning" role="alert">'+
 							'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
 							'Le recomentamos que lo active, o en su defecto, '+
 							'seleccione el país y regiones mediante las opciones del panel superior derecho'+
-						'</div>'+
-						'</div></div>'+
-					'</div></div>';
+							'</div>'+
+						'</section>';
+    var smsNoGeoTimeOut = '<section class="no-resultados">'+
+                '<div class="alert alert-warning" role="alert">'+
+                'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                '</div>'+
+              '</section>';
 	var smsLocalating = '<div id="messages"><div class="section clearfix">'+
 						'<div class="locating messages status">'+
 							'Localizando su posición...'+
@@ -100,6 +113,18 @@
 * Local functions.
 * 
 */
+	// Is Ready the geolocation and the website?
+	Drupal.theme.prototype.isReady = function () {
+		if ( $('#loading').css('display') === "block" ) {
+			if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage['geolocation'] === undefined || sessionStorage.getItem('geolocation') === undefined || sessionStorage.getItem('geolocation') === null ) {
+				$('#loading').css('display', 'none');
+				if ( $('#block-views-sedes3-block .view-sedes3 > .view-empty').length > 0 ) {
+					$('#block-views-sedes3-block .view-sedes3 > .view-empty').html(smsNoGeoTimeOut);
+				}
+			}
+		}
+	};
+
 	// Show and Hide sedes panel
 	Drupal.theme.prototype.hideSedesPanel = function () {
 		$('#block-views-sedes3-block').fadeOut('slow');
@@ -879,6 +904,9 @@ $('#page-wrapper').prepend(smsGeo);
 					$('#loading').css('display', 'block');
 				}
 			}
+
+			// Check if geolocation and the website is ready after a time
+			setTimeout(Drupal.theme.prototype.isReady, despiertaTimeOut);
 
 			// Get Taxonomy regions
 			var allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('#block-views-tax-regiones-block .view-tax-regiones') );			

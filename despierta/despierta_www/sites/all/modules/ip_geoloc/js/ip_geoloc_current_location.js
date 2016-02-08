@@ -12,7 +12,7 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
 
   if (navigator.geolocation) {
     var startTime = (new Date()).getTime();
-    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 20000});
+    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 5000});
     getCurrentPositionCalled = true;
   }
   else {
@@ -55,11 +55,30 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
     return location;
   }
   // geo Error
-  function despiertaGeoError() {
+  function despiertaGeoError(error) {
     sessionStorage['geolocation'] = false;
     sessionStorage.setItem('geolocation', false);
-// console.log("NO loading");
-// $('#loading').css('display', 'none');
+
+    // Finish loading
+    $('#loading').css('display', 'none');
+    // change the empty results when the geolocation is not working
+    if ( $('#block-views-sedes3-block .view-sedes3 > .view-empty').length > 0 ) {
+      var smsNoGeo = '<section class="no-resultados">'+
+                  '<div class="alert alert-warning" role="alert">'+
+                  'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
+                  'Le recomentamos que lo active, o en su defecto, '+
+                  'seleccione el país y regiones mediante las opciones del panel superior derecho'+
+                  '</div>'+
+                '</section>';
+      if ( error.code === 3 && error.message === "Position acquisition timed out" ) {
+        var smsNoGeo = '<section class="no-resultados">'+
+                    '<div class="alert alert-warning" role="alert">'+
+                    'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                    '</div>'+
+                  '</section>';
+      }
+      $('#block-views-sedes3-block .view-sedes3 > .view-empty').html(smsNoGeo);
+    }
   }
   // geo Position
   function despiertaGeoSession(geoloc) {
@@ -81,11 +100,8 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
       window.location.href = createRegionURL(urlPaths);
     }
     else {
-      sessionStorage['geolocation'] = false;
-      sessionStorage.setItem('geolocation', false);
+      despiertaGeoError();
     }
-// console.log("NO loading");
-// $('#loading').css('display', 'none');
   }
 
   function getLocation(position) {
@@ -152,7 +168,7 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
       {'!code': error.code, '!text': error.message, '@browser': navigator.userAgent});
 
     // Create Client session for Despierta
-    despiertaGeoError();
+    despiertaGeoError(error);
 
     // Pass error back to PHP rather than alert();
     callbackServer(callbackUrl, data, false);
@@ -205,18 +221,18 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
 
   Drupal.behaviors.addCurrentLocation = {
     attach: function (context, settings) {
-      if (
-        sessionStorage === undefined || sessionStorage === null || 
-        sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-        sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-        sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-      ) {
+      // if (
+      //   sessionStorage === undefined || sessionStorage === null || 
+      //   sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
+      //   sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
+      //   sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
+      // ) {
           ip_geoloc_getCurrentPosition(
             settings.ip_geoloc_menu_callback,
             settings.ip_geoloc_reverse_geocode,
             settings.ip_geoloc_refresh_page
           );
-      }
+      // }
     }
   }
 
