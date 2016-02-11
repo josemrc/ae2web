@@ -82,6 +82,8 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
     }
   }
   function despiertaGeoLocationError() {
+    $('#sms_geoloc_nodespierta').modal('show');
+
     sessionStorage['geolocation'] = false;
     sessionStorage.setItem('geolocation', false);
 
@@ -91,8 +93,8 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
     if ( $('#block-views-sedes3-block .view-sedes3 > .view-empty').length > 0 ) {
       var smsNoGeo = '<section class="no-resultados">'+
                   '<div class="alert alert-warning" role="alert">'+
-                  'Se encuentra geolocalización pero no existen sedes en su país o región.'+
-                  'Seleccione el país y regiones mediante las opciones del panel superior derecho en la web.';
+                  'Se encuentra geolocalización pero no existen sedes en su país o región. '+
+                  'Seleccione el país y regiones mediante las opciones del panel superior derecho en la web.'+
                   '</div>'+
                 '</section>';
       $('#block-views-sedes3-block .view-sedes3 > .view-empty').html(smsNoGeo);
@@ -140,7 +142,7 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
         }
         else {
           sessionStorage['area_code'] = '-';
-          geolocation = "true";            
+          geolocation = "true";
         }
       }
       
@@ -151,13 +153,17 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
         sessionStorage['area'] = geoloc['administrative_area_level_1'];
         sessionStorage['area_2'] = geoloc['administrative_area_level_2'];
         sessionStorage['formatted_address'] = geoloc['formatted_address'];
+
+        var urlPaths = getUrlPaths();
+        window.location.href = createRegionURL(urlPaths);
+
       }
       else {
+        sessionStorage['code'] = '-';
+        sessionStorage['area_code'] = '-';
         despiertaGeoLocationError();
       }
 
-      var urlPaths = getUrlPaths();
-      window.location.href = createRegionURL(urlPaths);
     }
     else {
       despiertaGeoLocationError();

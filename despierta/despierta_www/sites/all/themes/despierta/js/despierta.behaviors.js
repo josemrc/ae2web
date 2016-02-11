@@ -22,7 +22,7 @@
 						'</section>';
     var smsNoGeoTimeOut = '<section class="no-resultados">'+
                 '<div class="alert alert-warning" role="alert">'+
-                  'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                  'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando. '+
                   'Si persiste el problema, localice sus sedes modificando el panel superior derecho en la web.'+
                 '</div>'+
               '</section>';
