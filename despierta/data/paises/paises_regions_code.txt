@@ -8,8 +8,8 @@ San Julián de Loria;SJL
 Escaldes-Engordany;EE
 
 Argentina;AR
-Ciudad de Buenos Aires;C
-Provincia de Buenos Aires;B
+Ciudad Autónoma de Buenos Aires;C
+Buenos Aires;B
 Catamarca;K
 Chaco;H
 Chubut;U

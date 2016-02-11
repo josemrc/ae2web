@@ -3,8 +3,8 @@
 /**
 * Global vars
 */
-	var despiertaTimeOut = 7000;
-	var urlPaths = getUrlPaths();   
+	var despiertaTimeOut = 15000;
+	var urlPaths = getUrlPaths();
 	var htmlNoResults = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
 							'No hay entidades registradas en esta región, '+
@@ -13,25 +13,17 @@
 							'póngase en contacto con nosotros'+
 							'</div>'+
 						'</section>';
-	// var smsNoGeo = '<div id="block-views-sedes3-block" class="block block-views"><div class="content nogeo">'+
-	// 					'<div id="messages"><div class="section clearfix">'+
-	// 					'<div class="nogeo messages warning">'+
-	// 						'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
-	// 						'Le recomentamos que lo active, o en su defecto, '+
-	// 						'seleccione el país y regiones mediante las opciones del panel superior derecho'+
-	// 					'</div>'+
-	// 					'</div></div>'+
-	// 				'</div></div>';
 	var smsNoGeo = '<section class="no-resultados">'+
 							'<div class="alert alert-warning" role="alert">'+
-							'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
-							'Le recomentamos que lo active, o en su defecto, '+
-							'seleccione el país y regiones mediante las opciones del panel superior derecho'+
+								'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
+								'Le recomentamos que lo active, o en su defecto, '+
+								'seleccione el país y regiones mediante las opciones del panel superior derecho en la web.'+
 							'</div>'+
 						'</section>';
     var smsNoGeoTimeOut = '<section class="no-resultados">'+
                 '<div class="alert alert-warning" role="alert">'+
-                'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                  'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                  'Si persiste el problema, localice sus sedes modificando el panel superior derecho en la web.'+
                 '</div>'+
               '</section>';
 	var smsLocalating = '<div id="messages"><div class="section clearfix">'+
@@ -69,6 +61,7 @@
 	}; 
 	// Read a page's GET URL variables and return them as an associative array.
 	function getUrlPaths() {
+	// Drupal.theme.prototype.getUrlPaths = function () {
 		var vars = {}, hash;
 		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 		for(var i = 0; i < hashes.length; i++) {
@@ -77,23 +70,6 @@
 		}
 		var paths = (vars !== undefined && vars['q'] !== undefined && vars['q'] !== "") ? vars['q'].split('/') : [];
 		return paths;
-	}
-	// Redirect region location
-	function createRegionURL(url) {
-		var location = '';
-		if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' ) ) {
-			var pcode = sessionStorage['code'];
-			var rcode = sessionStorage['area_code'];
-			var dcode = '';
-			if ( url[0] === 'home' ) {
-				dcode = 'all';
-			}
-			else if ( url[0] === 'directorio-verde' ) {
-				dcode = (url.length >= 4 && url[3] !== undefined && url[3] !== null && url[3] !== "" ) ? url[3] : '';
-			}
-			location = '?q=' + url[0] + '/' + pcode + '/'+ rcode + '/' + dcode;
-		}
-		return location;
 	}
 	// Geolocation
 	function geoProximity(lon1, lat1, lon2, lat2) {
@@ -110,9 +86,28 @@
 
 /**
 *
-* Local functions.
+* Prototype functions.
 * 
 */
+	// Redirect region location
+	function createRegionURL(url) {
+	// Drupal.theme.prototype.createRegionURL = function (url) {
+		Drupal.theme.prototype.isLoading(undefined, 0.5); // active loading page
+		var location = '';
+		if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' ) ) {
+			var pcode = sessionStorage['code'];
+			var rcode = sessionStorage['area_code'];
+			var dcode = '';
+			if ( url[0] === 'home' ) {
+				dcode = 'all';
+			}
+			else if ( url[0] === 'directorio-verde' ) {
+				dcode = (url.length >= 4 && url[3] !== undefined && url[3] !== null && url[3] !== "" ) ? url[3] : '';
+			}
+			location = '?q=' + url[0] + '/' + pcode + '/'+ rcode + '/' + dcode;
+		}
+		return location;
+	}
 	// Is Ready the geolocation and the website?
 	Drupal.theme.prototype.isReady = function () {
 		if ( $('#loading').css('display') === "block" ) {
@@ -124,7 +119,27 @@
 			}
 		}
 	};
-
+	// Active loading page
+	Drupal.theme.prototype.isLoading = function (context, opacity) {
+		if ( $('#loading').css('display') === "none" ) {			
+			// when the root page has not 'home'
+			if ( urlPaths === undefined || urlPaths.length === 0 ) {
+				$('#loading').css('display', 'block');
+			}
+			if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || (urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 && urlPaths[3] !== '') ) ) {
+				if ( context !== undefined && $(context).prop("tagName") === undefined && $(context).prop("tagName") !== "FORM" ) {
+					// $(context).attr('id') !== "views-exposed-form-sedes3-block" && $(context).attr('id') !== "views-exposed-form-sedes2-busq-simple" 
+					$('#loading').css('display', 'block');
+				}
+				else if ( context === undefined ) {
+					$('#loading').css('display', 'block');
+				}
+			}
+			if ( opacity !== undefined ) {
+				$('#loading .background').css('opacity', opacity);
+			}
+		}
+	};
 	// Show and Hide sedes panel
 	Drupal.theme.prototype.hideSedesPanel = function () {
 		$('#block-views-sedes3-block').fadeOut('slow');
@@ -144,15 +159,21 @@
 		if ( prefixtitle != "" ) { title = prefixtitle }
 		var region = $('select[id="sel-regions"] option:selected').text();
 		var pais = $('select[id="sel-pais"] option:selected').text();
-		var q = region;
-		if ( region == "Todas las regiones" ) { q = pais }
-		return title + " en " + q;
+		var rtitle = title;
+		if ( region == "Todas las regiones" ) {
+			rtitle += " en " + pais;
+		}
+		else if ( region !== "" ) {
+			rtitle += " en " + region;
+		}
+		return rtitle;
 	};
 	// Change 'directorio-verde' menu
 	Drupal.theme.prototype.changeLinkToRegion = function () {
 		var pcode = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
 		var rcode = $( '#header select[id="sel-regions"] option:selected').attr('dp-reg-code');
 		var dcode = 'all';
+		rcode = ( rcode === undefined ) ? '-' : rcode;
 
 		// change directorio-verde menu
 		var $menu = $('#main-menu-links li[class^="menu"] a[href*="directorio-verde"]');
@@ -309,7 +330,33 @@ $('#page-wrapper').prepend(smsGeo);
 			}
 		});
 		return paises;
-	};	
+	};
+	Drupal.theme.prototype.paisRegionesNameObj = function (elem) {
+		var paises = {};
+		$('div[class="region"]', elem).map( function () {
+			var region = $(this).text().toLowerCase();
+			region = region.replace(/^\n*\s*/g,'');
+			region = region.replace(/\n*\s*$/g,'');
+			var region_id = region;
+			region_id = region_id.replace(/\s/g,'_');
+			var pais = $(this).attr('dp-pais');
+			var pcode = $(this).attr('dp-pais-code').toLowerCase();
+			var rcode = $(this).attr('dp-region-code').toLowerCase();
+			if ( paises[pcode] === undefined ) {
+				paises[pcode] = {
+					'name': pais,
+					'regions': {}
+				};
+			}
+			if ( paises[pcode].regions[region] === undefined ) {
+				paises[pcode].regions[region] = {
+					'code': rcode,
+					'name': region
+				};
+			}
+		});
+		return paises;
+	};
 	// Create Object: Pais - Regions (from the Enable list of 'paises/regions')
 	Drupal.theme.prototype.paisRegionesEnableObj = function (elem) {
 		var regions = [];
@@ -324,6 +371,7 @@ $('#page-wrapper').prepend(smsGeo);
 	// Create HTML select option
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
 		var selHTML = '<select id="sel-pais">';
+		selHTML += '<option value="-" dp-pais-code="-">Seleccione un país</option>';
 		for (var pCode in paisRegions) {
 			var pais = paisRegions[pCode].name;
 			selHTML += '<option value="'+pais+'" dp-pais-code="'+pCode+'">' + pais + '</option>';
@@ -334,11 +382,18 @@ $('#page-wrapper').prepend(smsGeo);
 	// Create HTML select option
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, inCode) {
 		var selHTML = '<select id="sel-regions">';		
-		selHTML += '<option value="-" dp-reg-code="-">Todas las regiones</option>';
-		var code = ( inCode !== "" && inCode !== undefined ) ?  inCode : Object.keys(paisRegions)[0];
-		for (var rCode in paisRegions[code].regions)  {
-			var region = paisRegions[code].regions[rCode];
-			selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
+		// var code = ( inCode !== "" && inCode !== undefined ) ?  inCode : Object.keys(paisRegions)[0];
+		// for (var rCode in paisRegions[code].regions)  {
+		// 	var region = paisRegions[code].regions[rCode];
+		// 	selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
+		// }
+		if ( inCode !== undefined && inCode !== "" && inCode !== "-" ) {
+			selHTML += '<option value="-" dp-reg-code="-">Todas las regiones</option>';
+			var code = inCode;
+			for (var rCode in paisRegions[code].regions)  {
+				var region = paisRegions[code].regions[rCode];
+				selHTML += '<option value="'+rCode+'" dp-reg-code="'+rCode+'">'+region.name+'</option>';
+			}
 		}
 		selHTML += '</select>';
 		return $('<div class="sel-regions">' + selHTML + '</div>');
@@ -894,22 +949,16 @@ $('#page-wrapper').prepend(smsGeo);
 			// Redirect when the root page has not 'home'
 			if ( urlPaths === undefined || urlPaths.length === 0 ) {
 				window.location.href = '?q=home';
-				$('#loading').css('display', 'block');
 			}
 
 			// Active loading page
-			if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || (urlPaths[0] === 'directorio-verde' && urlPaths.length >= 4 && urlPaths[3] !== '') ) ) {
-				if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") !== "FORM" ) {
-					// $(context).attr('id') !== "views-exposed-form-sedes3-block" && $(context).attr('id') !== "views-exposed-form-sedes2-busq-simple" 
-					$('#loading').css('display', 'block');
-				}
-			}
+			Drupal.theme.prototype.isLoading(context);
 
 			// Check if geolocation and the website is ready after a time
 			setTimeout(Drupal.theme.prototype.isReady, despiertaTimeOut);
 
 			// Get Taxonomy regions
-			var allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('#block-views-tax-regiones-block .view-tax-regiones') );			
+			var allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('#block-views-tax-regiones-block .view-tax-regiones') );
 
 			// Crete region panel
 			Drupal.theme.prototype.createRegionPanel(allPaisRegionsObj);
@@ -1262,6 +1311,22 @@ $('#page-wrapper').prepend(smsGeo);
 
 			/* Directorio Verde page */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
+				// var pcode = "";
+				// var rcode = "";
+				// if ( urlPaths !== undefined && urlPaths.length >= 3 &&  urlPaths[0] === 'directorio-verde' ) {
+				// 	if ( urlPaths[1] !== "" && urlPaths[1] !== "-" && urlPaths[2] !== "" && urlPaths[2] === "-" ) {
+				// 		pcode = ;
+				// 		// var opath = $menu.attr('href');
+				// 		// opath = opath.replace(/directorio-verde([^\$]*)$/g,'directorio-verde');
+				// 		// var npath = opath + '/' + pcode + '/' + rcode ;
+				// 		// $menu.attr('href', npath);
+				// 	}
+				// }
+
+				// change title including region
+				var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
+				$('h1[id="page-title"]').html( q );
+
 				// 'Mas' Category at the end
 				var otras = $('div[class*="views-row"]:contains("Más...")', this).get();
 				$('div[class="view-content"]', this).append(otras);
@@ -1269,17 +1334,26 @@ $('#page-wrapper').prepend(smsGeo);
 				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
 				$('div[class*="views-row"]', this).each( function() {
 					$(this).wrapInner('<div class="fdoverde"></div>');
+					// rewrite with tax id					
+					var tax_href = $('.views-field-name .field-content a', this).attr('href');
+					$('.views-field-field-imagen .field-content a', this).attr('href', tax_href);
+					// add class
+					$('.views-field-field-imagen .field-content', this).addClass('imgcateg'); 
+					// no img-responsive
+					$('.views-field-field-imagen .field-content img', this).removeClass('img-responsive');
 				});
-				$('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
-					$(this).addClass('imgcateg');
-				})
+
+
+				// $('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
+				// 	$(this).addClass('imgcateg');
+				// 	// $('a', this)
+				// 	$('img', this).removeClass('img-responsive'); // no img-responsive
+				// })
 				// no img-responsive
-				$('div[class*="views-field-field-imagen"] img', this).each( function() {
-					$(this).removeClass('img-responsive');
-				})
-				// change title including region
-				var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
-				$('h1[id="page-title"]').html( q );
+				// $('div[class*="views-field-field-imagen"] img', this).each( function() {
+				// 	$(this).removeClass('img-responsive');
+				// })
+
 
 			});
 
@@ -1541,6 +1615,10 @@ $('#page-wrapper').prepend(smsGeo);
 				sessionStorage['area_code'] = rcode;
 				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
 				$( '#header .sel-regions' ).replaceWith($regHTML);					
+				
+				// Redirect region location
+				window.location.href = createRegionURL(urlPaths);
+				// window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
@@ -1563,10 +1641,10 @@ $('#page-wrapper').prepend(smsGeo);
 
 				// Redirect region location
 				window.location.href = createRegionURL(urlPaths);
+				// window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
-
 
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();

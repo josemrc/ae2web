@@ -12,7 +12,7 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
 
   if (navigator.geolocation) {
     var startTime = (new Date()).getTime();
-    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 5000});
+    navigator.geolocation.getCurrentPosition(getLocation, handleLocationError, {enableHighAccuracy: true, timeout: 10000});
     getCurrentPositionCalled = true;
   }
   else {
@@ -67,40 +67,100 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
                   '<div class="alert alert-warning" role="alert">'+
                   'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
                   'Le recomentamos que lo active, o en su defecto, '+
-                  'seleccione el país y regiones mediante las opciones del panel superior derecho'+
+                  'seleccione el país y regiones mediante las opciones del panel superior derecho en la web.'+
                   '</div>'+
                 '</section>';
-      if ( error.code === 3 && error.message === "Position acquisition timed out" ) {
+      if ( error !== undefined && error.code === 3 && error.message === "Position acquisition timed out" ) {
         var smsNoGeo = '<section class="no-resultados">'+
                     '<div class="alert alert-warning" role="alert">'+
-                    'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                  'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando.'+
+                  'Si persiste el problema, localice sus sedes modificando el panel superior derecho en la web.'+
                     '</div>'+
                   '</section>';
       }
       $('#block-views-sedes3-block .view-sedes3 > .view-empty').html(smsNoGeo);
     }
   }
+  function despiertaGeoLocationError() {
+    sessionStorage['geolocation'] = false;
+    sessionStorage.setItem('geolocation', false);
+
+    // Finish loading
+    $('#loading').css('display', 'none');
+    // change the empty results when the geolocation is not working
+    if ( $('#block-views-sedes3-block .view-sedes3 > .view-empty').length > 0 ) {
+      var smsNoGeo = '<section class="no-resultados">'+
+                  '<div class="alert alert-warning" role="alert">'+
+                  'Se encuentra geolocalización pero no existen sedes en su país o región.'+
+                  'Seleccione el país y regiones mediante las opciones del panel superior derecho en la web.';
+                  '</div>'+
+                '</section>';
+      $('#block-views-sedes3-block .view-sedes3 > .view-empty').html(smsNoGeo);
+    }
+  }
+  function matchArea(regiones, reg_geoloc) {
+    var rcode;
+    reg_geoloc = reg_geoloc.toLowerCase();
+    if ( regiones[reg_geoloc] !== undefined ) {
+      rcode = regiones[reg_geoloc]['code'];
+    }
+    return rcode;
+  }
   // geo Position
   function despiertaGeoSession(geoloc) {
-    if ( geoloc.country !== undefined && geoloc.country_code !== undefined && geoloc.locality !== undefined && geoloc.administrative_area_level_1 !== undefined && geoloc.administrative_area_level_2 !== undefined ) {
+    var geolocation = "false";
+    var allPaisRegionsObj = Drupal.theme.prototype.paisRegionesObj( $('#block-views-tax-regiones-block .view-tax-regiones') )
+    var allNamePaisRegionsObj = Drupal.theme.prototype.paisRegionesNameObj( $('#block-views-tax-regiones-block .view-tax-regiones') )
+    if ( geoloc.country !== undefined && geoloc.country_code !== undefined && ( geoloc.locality !== undefined || geoloc.administrative_area_level_1 !== undefined || geoloc.administrative_area_level_2 !== undefined ) ) {
+
       // Convert Dspierta geoloc from Geocode values
-      sessionStorage['geolocation'] = true;
-      sessionStorage.setItem('geolocation', true);
       sessionStorage['country'] = geoloc['country'];
-      sessionStorage['code'] = geoloc['country_code'].toLowerCase();
-      sessionStorage['locality'] = geoloc['locality'];
-      sessionStorage['area'] = geoloc['administrative_area_level_2'];
-      sessionStorage['area_code'] = geoloc['administrative_area_level_2_code'].toLowerCase();
       sessionStorage['latitude'] = geoloc['latitude'];
       sessionStorage['longitude'] = geoloc['longitude'];
-      sessionStorage['formatted_address'] = geoloc['formatted_address'];
+      // check pais code
+      var geoloc_pcode = geoloc['country_code'].toLowerCase();
+      if ( allPaisRegionsObj[geoloc_pcode] !== undefined ) {
+        sessionStorage['code'] = geoloc_pcode;
 
-      // Redirect region location
+        // check area2 code (by Spain)
+        var geoloc_area2_code = ( geoloc['administrative_area_level_2_code'] !== undefined ) ? geoloc['administrative_area_level_2_code'].toLowerCase() : '';
+        var geoloc_area1 = ( geoloc['administrative_area_level_1'] !== undefined ) ? geoloc['administrative_area_level_1'].toLowerCase() : '';
+        var geoloc_loc = ( geoloc['locality'] !== undefined ) ? geoloc['locality'].toLowerCase() : '';
+        if ( allPaisRegionsObj[geoloc_pcode][geoloc_area2_code] !== undefined ) {
+          sessionStorage['area_code'] = rcode_geoloc;
+          geolocation = "true";
+        }
+        else if ( allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_area1] !== undefined ) {
+          sessionStorage['area_code'] = allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_area1]['code'];
+          geolocation = "true";
+        }
+        else if ( allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_loc] !== undefined ) {
+          sessionStorage['area_code'] = allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_loc]['code'];
+          geolocation = "true";
+        }
+        else {
+          sessionStorage['area_code'] = '-';
+          geolocation = "true";            
+        }
+      }
+      
+      if ( geolocation === "true" ) {
+        sessionStorage['geolocation'] = true;
+        sessionStorage.setItem('geolocation', true);          
+        sessionStorage['locality'] = geoloc['locality'];
+        sessionStorage['area'] = geoloc['administrative_area_level_1'];
+        sessionStorage['area_2'] = geoloc['administrative_area_level_2'];
+        sessionStorage['formatted_address'] = geoloc['formatted_address'];
+      }
+      else {
+        despiertaGeoLocationError();
+      }
+
       var urlPaths = getUrlPaths();
       window.location.href = createRegionURL(urlPaths);
     }
     else {
-      despiertaGeoError();
+      despiertaGeoLocationError();
     }
   }
 
@@ -221,18 +281,18 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
 
   Drupal.behaviors.addCurrentLocation = {
     attach: function (context, settings) {
-      // if (
-      //   sessionStorage === undefined || sessionStorage === null || 
-      //   sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
-      //   sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
-      //   sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
-      // ) {
+      if (
+        sessionStorage === undefined || sessionStorage === null || 
+        sessionStorage.getItem('geolocation') === undefined || sessionStorage['geolocation'] === undefined || 
+        sessionStorage.getItem('geolocation') === null || sessionStorage['geolocation'] === null || 
+        sessionStorage.getItem('geolocation') !== "local" || sessionStorage['geolocation'] !== "local"
+      ) {
           ip_geoloc_getCurrentPosition(
             settings.ip_geoloc_menu_callback,
             settings.ip_geoloc_reverse_geocode,
             settings.ip_geoloc_refresh_page
           );
-      // }
+      }
     }
   }
 
