@@ -1162,7 +1162,14 @@ $('#page-wrapper').prepend(smsGeo);
 				if ( !$.isEmptyObject(reportSedes) ) {
 					// Print sedes list
 					var sedeHTML = Drupal.theme('tabSedes', reportSedes);
-					$('> .view-content', this).append( $(sedeHTML) );
+
+					// replace when geolocation is empty but there are online
+					if ( $('> .view-empty', this).length > 0 ) {
+						$('> .view-empty', this).replaceWith( '<div class="view-content">'+sedeHTML+'</div>' );
+					}
+					else {
+						$('> .view-content', this).append( $(sedeHTML) );
+					}
 					$('> .view-content > div:not(.tab-despierta)', this).remove();
 
 	 				// Event Click: sedes more info
