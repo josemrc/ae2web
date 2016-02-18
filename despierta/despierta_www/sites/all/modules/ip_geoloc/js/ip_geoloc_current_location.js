@@ -106,7 +106,6 @@ function ip_geoloc_getCurrentPosition(callbackUrl, reverseGeocode, refreshPage) 
     sessionStorage.setItem('geolocation', "local");
 
     // Finish loading
-console.log("loading despiertaGeoError");
     $('#loading').css('display', 'none');
   }
   // geo Position
