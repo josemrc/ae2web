@@ -171,6 +171,10 @@ select#sel-regions {
 	width: 153px;
   margin-bottom: 5px;
 }
+#sms_geoloc_nodespierta .sel-pais,
+#sms_geoloc_nodespierta .sel-regions {
+  text-align: center;
+}
 
 /* --------------- Wellcome View ------------ */
 .block-welcome-username {
@@ -585,7 +589,7 @@ ul#tabSedes {
 #block-views-sedes-block .view-filters,
 #block-views-sedes3-block .view-filters {
   padding-right: 0;
-  font-size: 14px;
+  font-size: 12px;
 }
 #block-views-sedes-block .view-filters .ppal,
 #block-views-sedes3-block .view-filters .ppal {

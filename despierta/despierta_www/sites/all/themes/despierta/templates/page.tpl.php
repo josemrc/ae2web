@@ -263,6 +263,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="sms_geoloc_nodespierta">
   <div class="modal-dialog">
     <div class="modal-content">
+<!--
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Información de geolocalización</h4>
@@ -270,9 +271,14 @@
       <div class="modal-body">
         <p>Se encuentra geolocalizado pero no existen sedes en su país o región.</p>
         <p>Seleccione el país y regiones mediante las opciones del panel superior derecho en la web</p>
+       </div>
+-->
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Selecione un país y su región</h4>
       </div>
+        <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Aplicar</button></center>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

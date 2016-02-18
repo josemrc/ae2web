@@ -90,8 +90,8 @@
 * 
 */
 	// Redirect region location
-	function createRegionURL(url) {
-	// Drupal.theme.prototype.createRegionURL = function (url) {
+	// function createRegionURL(url) {
+	Drupal.theme.prototype.createRegionURL = function (url) {
 		Drupal.theme.prototype.isLoading(undefined, 0.5); // active loading page
 		var location = '';
 		if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' ) ) {
@@ -269,6 +269,7 @@
 	Drupal.theme.prototype.createRegionPanel = function (regions) {
 		var pcode = '';
 		var rcode = '';
+		// Get pcode & rcode from session
 		if ( !jQuery.isEmptyObject(sessionStorage) && !sessionStorage !== undefined && sessionStorage['geolocation'] !== undefined && sessionStorage.getItem('geolocation') !== undefined && sessionStorage.getItem('geolocation') !== null ) {
 			if (
 			sessionStorage['geolocation'] !== "true" || sessionStorage.getItem('geolocation') !== "true" || 
@@ -287,7 +288,7 @@
 // BEGIN-TEMPORAL:!!! BORRAR EN PRODUCCION
 var smsGeo = '<div id="messages"><div class="section clearfix">'+
         '<div class="nogeo messages status">'+
-          'Geolocalización:<br>'+
+          'Geolocalización: '+sessionStorage['geolocation']+'<br>'+
           ' Country: '+sessionStorage['country']+'; '+
           ' Country_code: '+sessionStorage['code']+';'+
           ' Area: '+sessionStorage['area']+';'+
@@ -707,7 +708,7 @@ $('#page-wrapper').prepend(smsGeo);
 		var tabHeader = {};
 		for ( var nid in inSedesObj ) {
 			var iSedeObj = inSedesObj[nid];
-			if ( iSedeObj !== undefined && iSedeObj.cats !== undefined ) {			
+			if ( iSedeObj !== undefined && iSedeObj.cats !== undefined ) {
 				for ( var cat in iSedeObj.cats ) {
 					var sede = {};
 					if ( iSedeObj.title !== undefined ) { sede.title = iSedeObj.title }
@@ -884,6 +885,177 @@ $('#page-wrapper').prepend(smsGeo);
 		return sedHTML;
 	};	
 
+	// Create Object: num filtes
+	Drupal.theme.prototype.getNumFilters = function (inSedesObj) {
+		var report = {
+			't_act': {},
+			't_mov': {},
+			't_vent': {},
+			'etiqs': {}
+		};
+		for ( var nid in inSedesObj ) {
+			var iSedeObj = inSedesObj[nid];
+			if ( iSedeObj !== undefined ) {
+				if ( iSedeObj.t_act !== undefined ) {
+					var filter_txt = iSedeObj.t_act;
+					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
+					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
+					var filters = filter_txt.split(';');
+					for (var i=0; i<filters.length; i++) {
+						//var filter = filters[i].toLowerCase();
+						var filter = filters[i];
+						filter = filter.replace(/^\n*\s*/g,'');
+						filter = filter.replace(/\n*\s*$/g,'');
+						if ( report.t_act[filter] === undefined ) {
+							report.t_act[filter] = 1;
+						}
+						else {
+							report.t_act[filter] += 1;	
+						}
+					}
+				}
+				if ( iSedeObj.t_mov !== undefined ) {
+					var filter_txt = iSedeObj.t_mov;
+					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
+					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
+					var filters = filter_txt.split(';');
+					for (var i=0; i<filters.length; i++) {
+						//var filter = filters[i].toLowerCase();
+						var filter = filters[i];
+						filter = filter.replace(/^\n*\s*/g,'');
+						filter = filter.replace(/\n*\s*$/g,'');
+						if ( report.t_mov[filter] === undefined ) {
+							report.t_mov[filter] = 1;
+						}
+						else {
+							report.t_mov[filter] += 1;	
+						}
+					}
+				}
+				if ( iSedeObj.t_vent !== undefined ) {
+					var filter_txt = iSedeObj.t_vent;
+					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
+					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
+					var filters = filter_txt.split(';');
+					for (var i=0; i<filters.length; i++) {
+						//var filter = filters[i].toLowerCase();
+						var filter = filters[i];
+						filter = filter.replace(/^\n*\s*/g,'');
+						filter = filter.replace(/\n*\s*$/g,'');
+						if ( report.t_vent[filter] === undefined ) {
+							report.t_vent[filter] = 1;
+						}
+						else {
+							report.t_vent[filter] += 1;	
+						}
+					}
+				}
+				if ( iSedeObj.cats !== undefined ) {
+					var filter_txt = '';
+					for ( var cat in iSedeObj.cats ) {
+						for ( var subcat in iSedeObj.cats[cat] ) {
+							filter_txt += Object.keys(iSedeObj.cats[cat][subcat]).join('; ');
+							filter_txt += ';';
+						}
+					}
+					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
+					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
+					var filters = filter_txt.split(';');
+					for (var i=0; i<filters.length; i++) {
+						//var filter = filters[i].toLowerCase();
+						var filter = filters[i];
+						filter = filter.replace(/^\n*\s*/g,'');
+						filter = filter.replace(/\n*\s*$/g,'');
+						if ( filter != "" ) {
+							if ( report.etiqs[filter] === undefined ) {
+								report.etiqs[filter] = 1;
+							}
+							else {
+								report.etiqs[filter] += 1;	
+							}
+
+						}
+					}
+				}
+			}
+		}
+		return report;
+	};
+	// Add missing fitlers
+	Drupal.theme.prototype.addMissingEtiquetas = function (numFilters) {
+		for ( var etiq in numFilters.etiqs ) {			
+			if ( $('#edit-name-selective-wrapper .form-item.form-type-bef-checkbox input[value="'+etiq+'"]').length === 0 ) {
+				var etiqValue = etiq.toLowerCase();
+				etiqValue = etiqValue.replace(/[éáűőúöüóíÉÁŰPŐÚÖÜÓÍ]/g,'-');
+				etiqValue = etiqValue.replace(/\s/g,'-');
+				var etiqHTML = '<div class="form-item form-type-bef-checkbox form-item-edit-name-selective-'+etiqValue+'">'+
+							'<input type="checkbox" name="name_selective[]" id="edit-name-selective-'+etiqValue+'" value="'+etiq+'">'+
+							'<label class="option" for="edit-name-selective-'+etiqValue+'"> '+etiq+'</label>'+
+							'</div>';
+				$('#edit-name-selective-wrapper .bef-checkboxes').append(etiqHTML);
+
+			}
+		}
+	};
+	// Check missing fitlers
+	Drupal.theme.prototype.checkMissingEtiquetas = function (context) {
+		if ( $(context).prop("tagName") !== undefined && $(context).prop("tagName") === "FORM" ) {
+			if ( context.length >= 1 && context.context !== undefined ) {
+				$('input[name="name_selective[]"]', context.context).each( function() {
+					if ( $(this).is(':checked') ) {
+						var etiq = $(this).val();
+						$('#edit-name-selective-wrapper .form-item.form-type-bef-checkbox input[value="'+etiq+'"]').prop('checked', true);
+					}
+				});
+			}
+		}
+	};
+
+	// Create HTML: num. filters
+	Drupal.theme.prototype.addNumFilters = function (numFilters) {
+		$('#edit-field-sede-tipo-actividad-tid-wrapper label[for^="edit-field-sede-tipo-actividad-tid-"]').each( function() {			
+			var filter_init = $(this).text();
+			var filter = filter_init;
+			filter = filter.replace(/^\n*\s*/g,'');
+			filter = filter.replace(/\n*\s*$/g,'');
+			var repFilter = numFilters.t_act[filter];
+			if ( repFilter !== undefined && repFilter !== 0 ) {
+				$(this).text(filter_init+' ('+repFilter+')')
+			}			
+		});
+		$('#edit-field-sede-tipo-venta-tid-wrapper label[for^="edit-field-sede-tipo-venta-tid-"]').each( function() {			
+			var filter_init = $(this).text();
+			var filter = filter_init;
+			filter = filter.replace(/^\n*\s*/g,'');
+			filter = filter.replace(/\n*\s*$/g,'');
+			var repFilter = numFilters.t_vent[filter];
+			if ( repFilter !== undefined && repFilter !== 0 ) {
+				$(this).text(filter_init+' ('+repFilter+')')
+			}
+		});
+		$('#edit-field-sede-tipo-movimiento-tid-wrapper label[for^="edit-field-sede-tipo-movimiento-tid-"]').each( function() {			
+			var filter_init = $(this).text();
+			var filter = filter_init;
+			filter = filter.replace(/^\n*\s*/g,'');
+			filter = filter.replace(/\n*\s*$/g,'');
+			var repFilter = numFilters.t_mov[filter];
+			if ( repFilter !== undefined && repFilter !== 0 ) {
+				$(this).text(filter_init+' ('+repFilter+')')
+			}
+		});
+		$('#edit-name-selective-wrapper label[for^="edit-name-selective-"]').each( function() {			
+			var filter_init = $(this).text();
+			var filter = filter_init;
+			filter = filter.replace(/^\n*\s*/g,'');
+			filter = filter.replace(/\n*\s*$/g,'');
+			var repFilter = numFilters.etiqs[filter];
+			if ( repFilter !== undefined && repFilter !== 0 ) {
+				$(this).text(filter_init+' ('+repFilter+')')
+			}
+		});
+	};
+
+
 /**
 *
 * Busqueda Panel (Frontpage).
@@ -945,6 +1117,24 @@ $('#page-wrapper').prepend(smsGeo);
 			// console.log(sessionStorage);
 			// console.log("urlPaths");
 			// console.log(urlPaths);
+
+			// Get pcode & rcode from URL path
+			if ( urlPaths !== undefined && urlPaths.length > 0 && (urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde') ) {
+				if ( urlPaths[1] !== undefined && urlPaths[1] !== "" ) {
+					sessionStorage['code'] = urlPaths[1];
+					if ( urlPaths[2] !== undefined && urlPaths[2] !== "" ) {
+						sessionStorage['area_code'] = urlPaths[2];
+					}
+					else {
+						sessionStorage['area_code'] = '-';
+					}
+				}
+				else {
+					sessionStorage['code'] = '-';
+					sessionStorage['code'] = '-';
+				}
+				sessionStorage['geolocation'] = "local";
+			}
 
 			// Redirect when the root page has not 'home'
 			if ( urlPaths === undefined || urlPaths.length === 0 ) {
@@ -1160,6 +1350,7 @@ $('#page-wrapper').prepend(smsGeo);
 
 				// Print Content:
 				if ( !$.isEmptyObject(reportSedes) ) {
+
 					// Print sedes list
 					var sedeHTML = Drupal.theme('tabSedes', reportSedes);
 
@@ -1195,12 +1386,16 @@ $('#page-wrapper').prepend(smsGeo);
 					});
 					// Delete Paises en Venta
 					$('> .view-content .p_serv', this).remove();
+
+					// Get and Add num. sedes per filter
+					// Add missing filters
+					var numFilters = Drupal.theme.prototype.getNumFilters(reportSedes);
+					Drupal.theme.prototype.addMissingEtiquetas(numFilters);
+					Drupal.theme.prototype.addNumFilters(numFilters);
 				}
 				else { // NO RESULTS
 					$('> .view-filters', this).addClass('element-invisible');
 					$('> .attachment .view-based-map', this).addClass('element-invisible');
-					// var noSedeHTML = '<div class="view-content">' + htmlNoResults + '</div>';
-					// $(this).prepend( $(noSedeHTML) );
 				}
 
 				// Filter:
@@ -1318,18 +1513,6 @@ $('#page-wrapper').prepend(smsGeo);
 
 			/* Directorio Verde page */
 			$('.view-despierta-directorio-verde', context).once('despierta', function () {
-				// var pcode = "";
-				// var rcode = "";
-				// if ( urlPaths !== undefined && urlPaths.length >= 3 &&  urlPaths[0] === 'directorio-verde' ) {
-				// 	if ( urlPaths[1] !== "" && urlPaths[1] !== "-" && urlPaths[2] !== "" && urlPaths[2] === "-" ) {
-				// 		pcode = ;
-				// 		// var opath = $menu.attr('href');
-				// 		// opath = opath.replace(/directorio-verde([^\$]*)$/g,'directorio-verde');
-				// 		// var npath = opath + '/' + pcode + '/' + rcode ;
-				// 		// $menu.attr('href', npath);
-				// 	}
-				// }
-
 				// change title including region
 				var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
 				$('h1[id="page-title"]').html( q );
@@ -1349,19 +1532,6 @@ $('#page-wrapper').prepend(smsGeo);
 					// no img-responsive
 					$('.views-field-field-imagen .field-content img', this).removeClass('img-responsive');
 				});
-
-
-				// $('div[class*="views-field-field-imagen"] .field-content', this).each( function() {
-				// 	$(this).addClass('imgcateg');
-				// 	// $('a', this)
-				// 	$('img', this).removeClass('img-responsive'); // no img-responsive
-				// })
-				// no img-responsive
-				// $('div[class*="views-field-field-imagen"] img', this).each( function() {
-				// 	$(this).removeClass('img-responsive');
-				// })
-
-
 			});
 
 			$('.view-banners', context).once('despierta', function () {
@@ -1609,7 +1779,31 @@ $('#page-wrapper').prepend(smsGeo);
 
 				sessionStorage['geolocation'] = "local";
 
-				// $('#messages .nogeo').remove();
+				// country has been changed. rewrite 'region' options
+				var pais = $('option:selected', this ).text();
+				var pcode = $('option:selected', this).attr('dp-pais-code');
+				var rcode = '-';
+				var region = '';
+				sessionStorage['country'] = pais;
+				sessionStorage['code'] = pcode;
+				sessionStorage['area'] = region;
+				sessionStorage['area_code'] = rcode;
+
+				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
+				$( '#header .sel-regions' ).replaceWith($regHTML);					
+				
+				// Redirect region location
+				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
+
+				// Simple/Advance search
+				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
+
+				// change directorio-verde menu
+				Drupal.theme.prototype.changeLinkToRegion();
+			});
+			$(context).delegate('#sms_geoloc_nodespierta select[id="sel-pais"]', 'change', function(event) {
+
+				sessionStorage['geolocation'] = "local";
 
 				// country has been changed. rewrite 'region' options
 				var pais = $('option:selected', this ).text();
@@ -1620,20 +1814,22 @@ $('#page-wrapper').prepend(smsGeo);
 				sessionStorage['code'] = pcode;
 				sessionStorage['area'] = region;
 				sessionStorage['area_code'] = rcode;
+
 				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
-				$( '#header .sel-regions' ).replaceWith($regHTML);					
-				
+				$( '#sms_geoloc_nodespierta .sel-regions' ).replaceWith($regHTML);				
+			});
+			$(context).delegate('#sms_geoloc_nodespierta .btn', 'click', function(event) {
+
 				// Redirect region location
-				window.location.href = createRegionURL(urlPaths);
-				// window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
+				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
 
 				// change directorio-verde menu
-				Drupal.theme.prototype.changeLinkToRegion();
-			});
+				Drupal.theme.prototype.changeLinkToRegion();				
 
+			});
 			$(context).delegate('#header select[id="sel-regions"]', 'change', function(event) {
 
 				sessionStorage['geolocation'] = "local";
@@ -1647,21 +1843,35 @@ $('#page-wrapper').prepend(smsGeo);
 				sessionStorage['area_code'] = rcode;
 
 				// Redirect region location
-				window.location.href = createRegionURL(urlPaths);
-				// window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
+				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
 
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();
-
 			});
+			$(context).delegate('#sms_geoloc_nodespierta select[id="sel-regions"]', 'change', function(event) {
+
+				sessionStorage['geolocation'] = "local";
+
+				// region has been changed
+				var pcode = $('#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
+				var region = $('option:selected', this).text();
+				var rcode = $('option:selected', this).attr('dp-reg-code');
+				if ( region === "Todas las regiones" ) { region = ""; rcode = '-' }
+				sessionStorage['area'] = region;
+				sessionStorage['area_code'] = rcode;
+
+			});			
 			// Changes in the 'pais/region' options (Advances Search panel):
 			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] #edit-pais', 'change', function(event) {
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
 			});
+			// Check missing filters
+			Drupal.theme.prototype.checkMissingEtiquetas(context);
+
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes3-block .view-id-sedes3 > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
 			$('#block-views-sedes3-block .view-id-sedes3 > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
@@ -1684,7 +1894,7 @@ $('#page-wrapper').prepend(smsGeo);
 
 			// remove forever
 			// $('#block-views-tax-regiones-block').remove();
-			$('#block-views-sedes3-block .view-id-sedes3.view-display-id-block .view-display-id-online .view-content').remove();
+			// $('#block-views-sedes3-block .view-id-sedes3.view-display-id-block .view-display-id-online .view-content').remove();
 
 		} // end: attach of despierta theme
 	};
