@@ -1801,35 +1801,36 @@ $('#page-wrapper').prepend(smsGeo);
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();
 			});
-			$(context).delegate('#sms_geoloc_nodespierta select[id="sel-pais"]', 'change', function(event) {
+// 			$('#sms_geoloc_nodespierta select[id="sel-pais"]').change(function(event) {
+// 			// $(context).delegate('#sms_geoloc_nodespierta select[id="sel-pais"]', 'change', function(event) {
+// console.log("sms_geoloc_nodespierta CAHNGE");
+// 				sessionStorage['geolocation'] = "local";
 
-				sessionStorage['geolocation'] = "local";
+// 				// country has been changed. rewrite 'region' options
+// 				var pais = $('option:selected', this ).text();
+// 				var pcode = $('option:selected', this).attr('dp-pais-code');
+// 				var rcode = '-';
+// 				var region = '';
+// 				sessionStorage['country'] = pais;
+// 				sessionStorage['code'] = pcode;
+// 				sessionStorage['area'] = region;
+// 				sessionStorage['area_code'] = rcode;
 
-				// country has been changed. rewrite 'region' options
-				var pais = $('option:selected', this ).text();
-				var pcode = $('option:selected', this).attr('dp-pais-code');
-				var rcode = '-';
-				var region = '';
-				sessionStorage['country'] = pais;
-				sessionStorage['code'] = pcode;
-				sessionStorage['area'] = region;
-				sessionStorage['area_code'] = rcode;
+// 				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
+// 				$( '#sms_geoloc_nodespierta .sel-regions' ).replaceWith($regHTML);				
+// 			});
+// 			$(context).delegate('#sms_geoloc_nodespierta .btn', 'click', function(event) {
 
-				var $regHTML = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
-				$( '#sms_geoloc_nodespierta .sel-regions' ).replaceWith($regHTML);				
-			});
-			$(context).delegate('#sms_geoloc_nodespierta .btn', 'click', function(event) {
+// 				// Redirect region location
+// 				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 
-				// Redirect region location
-				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
+// 				// Simple/Advance search
+// 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
 
-				// Simple/Advance search
-				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
+// 				// change directorio-verde menu
+// 				Drupal.theme.prototype.changeLinkToRegion();				
 
-				// change directorio-verde menu
-				Drupal.theme.prototype.changeLinkToRegion();				
-
-			});
+// 			});
 			$(context).delegate('#header select[id="sel-regions"]', 'change', function(event) {
 
 				sessionStorage['geolocation'] = "local";
@@ -1851,19 +1852,19 @@ $('#page-wrapper').prepend(smsGeo);
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();
 			});
-			$(context).delegate('#sms_geoloc_nodespierta select[id="sel-regions"]', 'change', function(event) {
+			// $(context).delegate('#sms_geoloc_nodespierta select[id="sel-regions"]', 'change', function(event) {
 
-				sessionStorage['geolocation'] = "local";
+			// 	sessionStorage['geolocation'] = "local";
 
-				// region has been changed
-				var pcode = $('#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
-				var region = $('option:selected', this).text();
-				var rcode = $('option:selected', this).attr('dp-reg-code');
-				if ( region === "Todas las regiones" ) { region = ""; rcode = '-' }
-				sessionStorage['area'] = region;
-				sessionStorage['area_code'] = rcode;
+			// 	// region has been changed
+			// 	var pcode = $('#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
+			// 	var region = $('option:selected', this).text();
+			// 	var rcode = $('option:selected', this).attr('dp-reg-code');
+			// 	if ( region === "Todas las regiones" ) { region = ""; rcode = '-' }
+			// 	sessionStorage['area'] = region;
+			// 	sessionStorage['area_code'] = rcode;
 
-			});			
+			// });			
 			// Changes in the 'pais/region' options (Advances Search panel):
 			$(context).delegate('form[id="views-exposed-form-sedes2-busq-avan"] #edit-pais', 'change', function(event) {
 				// Simple/Advance search

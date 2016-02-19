@@ -260,7 +260,7 @@
   <p>Cargando...</p>
 </div> <!-- /#loading -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="sms_geoloc_nodespierta">
+<div class="modal fade" tabindex="-1" role="dialog" id="sms_geoloc_nodespierta" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
