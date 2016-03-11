@@ -14,18 +14,6 @@ datestamp = "1440020197"
 ; Stylesheets
 ; ========================================
 
-;stylesheets[all][] = css/loading.css
-;stylesheets[all][] = css/normalize.css
-;stylesheets[all][] = css/style.css
-;stylesheets[all][] = css/colors.css
-;stylesheets[all][] = css/demo.css
-;stylesheets[all][] = css/menu_sideslide.css
-;stylesheets[all][] = css/jquery-ui-1.11.4/jquery-ui.min.css
-
-
-;stylesheets[all][] = js/store/storelocator.css
-
-
 stylesheets[all][] = css/bootstrap/bootstrap.min.css
 stylesheets[all][] = css/responsive-tabs.css
 stylesheets[all][] = css/responsive.css
@@ -37,20 +25,6 @@ stylesheets[print][] = css/print.css
 ; ========================================
 ; Scripts
 ; ========================================
-
-;scripts[] = js/store/store-locator.min.js
-;scripts[] = js/store/medicare-static-ds.js
-;scripts[] = js/store/medicare-dynamic-ds.js
-;scripts[] = js/store/panel.js
-
-;scripts[] = js/bootstrap/responsive-tabs.js
-;scripts[] = js/bootstrap/jquery.blockUI.js
-;scripts[] = js/jquery.easy-overlay.js
-;scripts[] = js/classie.js
-;scripts[] = js/main.js
-;scripts[] = js/jquery.responsive-tabs-min.js
-;scripts[] = js/jquery-ui-1.11.4/jquery-ui.min.js
-;scripts[] = js/bootstrap/bootstrap-responsive-tabs.js
 
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap.min.js

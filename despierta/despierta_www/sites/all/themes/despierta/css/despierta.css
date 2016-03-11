@@ -234,6 +234,7 @@ select#sel-regions {
 .imgeco {
     margin-left: auto;
     margin-right: auto;
+    width: 250px;
 }
 #block-views-frontpage-desc-block-geoeco h3 {
   color: #637346;
@@ -254,6 +255,7 @@ select#sel-regions {
 #block-views-frontpage-desc-busq-block .view-display-id-busq_block {
   margin: 0 auto 0 auto;
   width: 100%;
+  height: 350px;
   background: linear-gradient(#fff, #e8f6e3) repeat scroll 0 0 rgba(0, 0, 0, 0);
   padding-bottom: 10px;
 }
@@ -262,6 +264,20 @@ select#sel-regions {
   top:  25px;
   margin-bottom: 30px;
   width: 50%;
+}
+#tabIcons {
+  padding-top: 50px;
+  padding-left: 50px;
+}
+#tabIcons a img{
+  transition: transform 300ms linear 0s;
+}
+#tabIcons a:hover img{
+  transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+}
+#tabIcons img {
+  width: 60px;
 }
 ul#tabSedes {
   margin-bottom: 5px;
@@ -339,8 +355,17 @@ ul#tabSedes {
   max-width: 90%;
 }
 @media (max-width: 991px) {
-  .views-field-field-page-image {
+  #block-views-frontpage-desc-busq-block .view-display-id-busq_block {
+    height: auto;
+  }
+  .imgeco {
     display: none;
+  }
+  #tabIcons {
+    display: none;
+  }
+  #block-views-frontpage-desc-busq-block h1 {
+    font-size: 40px;
   }
 }
 /*@media (max-width: 625px) {
@@ -621,6 +646,9 @@ ul#tabSedes {
 
 
 /* --------------- Directorio Verde ------------ */
+.directorio-verde-icons {
+  display: none;
+}
 .view-despierta-directorio-verde {
   width: 100%;
   margin-top: 20px;
@@ -825,24 +853,27 @@ ul#tabSedes {
   font-weight: bold;
   font-size: 18px;
 }
-
+#edit-field-sede-logo-und-0-upload {
+  height: auto;
+  margin-bottom: 3px;
+}
 /* Contact form */
 #contact-site-form .form-radio {
   display: inline-block;
   width: auto !important;
 }
 #contact-site-form .form-actions {
-  margin-left: 50%;
-  margin-right: 50%;
+  margin-left: 45%;
+  /*margin-right: 50%;*/
 }
 #contact-site-form .form-item-cid {
-  margin-bottom: 0;
+/*  margin-bottom: 0;
   margin-top: 0;
+*/
 }
-#contact-site-form .cont-col2 .form-item {
-  margin-left: 20%;
-}
-#contact-site-form .cont-col2 img {
+#contact-site-form .cont-col1 img {
   width: auto;
-
+}
+#contact-site-form .cont-col1 .form-item {
+  /*margin-left: 30%;*/
 }
