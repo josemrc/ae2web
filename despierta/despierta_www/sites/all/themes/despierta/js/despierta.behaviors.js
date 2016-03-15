@@ -5,7 +5,7 @@
 */
 	var despiertaTimeOut = 15000;
 	var urlPaths = getUrlPaths();
-	var htmlNoResults = '<section class="no-resultados">'+
+	var htmlNoResults = '<div class="view-empty">'+
 							'<div class="alert alert-warning" role="alert">'+
 							'No hay entidades registradas en esta región, '+
 							'si desea registrar su entidad acceda al menú de registro o, '+
@@ -186,50 +186,6 @@
 		$('#logo > a').attr('href', npath);
 
 	};
-	// Filter by direction or by country you sell
-	// Drupal.theme.prototype.filterByRegionOnline = function (type) {
-	// 	// create query 'pais/region'
-	// 	var regquery = "";
-	// 	var pais = $( '#header select[id="sel-pais"] option:selected').text();
-	// 	var pcode = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
-	// 	var region = $( '#header select[id="sel-regions"] option:selected').text();
-	// 	var rcode = $( '#header select[id="sel-regions"] option:selected').attr('dp-reg-code');
-	// 	if ( region == "Todas las regiones" ) { region = "" }
-	// 	if ( region != "" ) { regquery = pais + ',' + region }
-	// 	else { regquery = pais }
-
-	// 	if ( type == "online" ) { 
-	// 		pcode = "All";
-	// 		region = "";
-	// 		// regquery = "";
-	// 	}
-	// 	// Sedes pages:
-	// 	// Chages the filter forms of Sedes!!!
-	// 	if ( $( 'form[id="views-exposed-form-sedes-block"]' ).length ) {
-	// 		var lreg = region.toLowerCase();
-	// 		// Add Country Code
-	// 		$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"] > option[value="'+pcode+'"] ').prop('selected', true);
-	// 		// Add Region Code
-	// 		$( 'form[id="views-exposed-form-sedes-block"] #edit-field-sede-direccion-administrative-area-selective-wrapper .form-type-bef-checkbox').each(function(){
-	// 			var rcode2 = $('input', this).val();
-	// 			if ( rcode != undefined && rcode2 != undefined && rcode2 == rcode ) {
-	// 				$('input', this).prop( "checked", true );
-	// 			} else {
-	// 				$('input', this).prop( "checked", false );
-	// 			}				
-	// 		});
-	// 		// Add city (locality)
-	// 		$( 'form[id="views-exposed-form-sedes-block"] div[id="edit-field-sede-direccion-locality-selective-wrapper"] div[class*="form-type-bef-checkbox"]').each(function(){
-	// 			if ( lreg != "" && $(' > input', this).attr('value').toLowerCase() == lreg ) {
-	// 				$(' > input', this).prop( "checked", true );
-	// 			} else {
-	// 				$(' > input', this).prop( "checked", false );
-	// 			}
-	// 		});
-	// 		$('form[id="views-exposed-form-sedes-block"] input[id="edit-field-sede-pais-tid"]').val(regquery);
-	// 		$('form[id="views-exposed-form-sedes-block"] select[id="edit-field-sede-direccion-country"]').change();
-	// 	}		
-	// };
 	// Modify the Simple/Advance Search form
 	Drupal.theme.prototype.modifySearchRegion = function (allPaisRegionsObj) {
 		if ( $('form[id="views-exposed-form-sedes2-busq-simple"]').length ) {
@@ -673,78 +629,6 @@ $('#page-wrapper').prepend(smsGeo);
 		});
 		return reportSedes;
 	};
-	// Drupal.theme.prototype.numFilters = function (nid, filter_txt, report) {
-	// 	if ( filter_txt !== undefined && filter_txt !== '' ) {
-	// 		filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 		filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 		var filters = filter_txt.split(';');
-	// 		for (var i=0; i<filters.length; i++) {
-	// 			var filter = filters[i];
-	// 			filter = filter.replace(/^\n*\s*/g,'');
-	// 			filter = filter.replace(/\n*\s*$/g,'');
-	// 			if ( report[filter] === undefined ) {
-	// 				report[filter] = {};
-	// 			}
-	// 			report[filter][nid] = 1;	
-	// 		}
-	// 	}
-	// };
-	// // Create report with the list of Sedes
-	// Drupal.theme.prototype.reportSedes = function (elem, type) {
-	// 	var reportSedes = {};
-	// 	var reportFilters = {};
-	// 	$('.view-grouping', elem).map( function (i, group) {
-	// 		var cat = $('.view-grouping-header', this).text();
-	// 		cat = cat.replace(/Categoria\:\s*/g,'');
-	// 		$( 'table', group ).map( function (i, table) {
-	// 			var subcat = $('caption:first', table).text();
-	// 			subcat = subcat.replace(/Subcategoria\:\s*/g,'');
-	// 			subcat = subcat.replace(/\n*\s*$/g,'');
-	// 			$('tbody > tr', table).map( function (j, tr) {
-	// 				// create sede obj
-	// 				var sede = Drupal.theme.prototype.repSede(tr, type);
-	// 				// add sede into list report
-	// 				if ( sede.nid != undefined ) {
-	// 					var nid = sede.nid;
-	// 					// add for first time the report
-	// 					if ( reportSedes[nid] === undefined ) {
-	// 						reportSedes[nid] = sede;
-	// 						reportSedes[nid].cats = {};
-	// 					}
-	// 					if ( reportFilters[cat] === undefined ) {
-	// 						reportFilters[cat] = {};
-	// 					}
-	// 					// concatenate 'directorio-verde' values (cat > subcat > etiqs)
-	// 					if ( $('td[class$="sede-etiq"]', tr).length ) {
-	// 						var val = $('td[class$="sede-etiq"]', tr).text();
-	// 						val = val.replace(/^\n*\s*/g,'');
-	// 						val = val.replace(/\n*\s*$/g,'');
-	// 						if ( reportSedes[nid].cats[cat] === undefined ) { reportSedes[nid].cats[cat] = {} }
-	// 						if ( reportSedes[nid].cats[cat][subcat] === undefined ) { reportSedes[nid].cats[cat][subcat] = {} }
-	// 						reportSedes[nid].cats[cat][subcat][val] = 1;
-	// 						if ( reportFilters[cat][subcat] === undefined ) {
-	// 							reportFilters[cat][subcat] = {
-	// 												't_act': {},
-	// 												't_mov': {},
-	// 												't_vent': {},
-	// 												'etiqs': {}
-	// 							};
-	// 						}
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_act, reportFilters[cat][subcat].t_act);
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_mov, reportFilters[cat][subcat].t_mov);
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_vent, reportFilters[cat][subcat].t_vent);
-	// 						if ( reportFilters[cat][subcat].etiqs[val] === undefined ) {
-	// 							reportFilters[cat][subcat].etiqs[val] = {};
-	// 						}
-	// 						reportFilters[cat][subcat].etiqs[val][nid] = 1;
-
-	// 					}
-	// 				}
-	// 			});
-	// 		});
-	// 	});
-	// 	return { 'sedes': reportSedes, 'filters': reportFilters } ;
-	// };
 
 	// Sort sedes by proximity
 	Drupal.theme.prototype.sortSedesBy = function (sedesObj) {
@@ -961,80 +845,7 @@ $('#page-wrapper').prepend(smsGeo);
 		return sedHTML;
 	};	
 
-	// // Create Object: num filtes
-
-	// Create report with the list of Sedes
-	// Drupal.theme.prototype.reportSedes = function (elem, type) {
-	// 	var reportSedes = {};
-	// 	var reportFilters = {};
-	// 	$('.view-grouping', elem).map( function (i, group) {
-	// 		var cat = $('.view-grouping-header', this).text();
-	// 		cat = cat.replace(/Categoria\:\s*/g,'');
-	// 		$( 'table', group ).map( function (i, table) {
-	// 			var subcat = $('caption:first', table).text();
-	// 			subcat = subcat.replace(/Subcategoria\:\s*/g,'');
-	// 			subcat = subcat.replace(/\n*\s*$/g,'');
-	// 			$('tbody > tr', table).map( function (j, tr) {
-	// 				// create sede obj
-	// 				var sede = Drupal.theme.prototype.repSede(tr, type);
-	// 				// add sede into list report
-	// 				if ( sede.nid != undefined ) {
-	// 					var nid = sede.nid;
-	// 					// add for first time the report
-	// 					if ( reportSedes[nid] === undefined ) {
-	// 						reportSedes[nid] = sede;
-	// 						reportSedes[nid].cats = {};
-	// 					}
-	// 					if ( reportFilters[cat] === undefined ) {
-	// 						reportFilters[cat] = {};
-	// 					}
-	// 					// concatenate 'directorio-verde' values (cat > subcat > etiqs)
-	// 					if ( $('td[class$="sede-etiq"]', tr).length ) {
-	// 						var val = $('td[class$="sede-etiq"]', tr).text();
-	// 						val = val.replace(/^\n*\s*/g,'');
-	// 						val = val.replace(/\n*\s*$/g,'');
-	// 						if ( reportSedes[nid].cats[cat] === undefined ) { reportSedes[nid].cats[cat] = {} }
-	// 						if ( reportSedes[nid].cats[cat][subcat] === undefined ) { reportSedes[nid].cats[cat][subcat] = {} }
-	// 						reportSedes[nid].cats[cat][subcat][val] = 1;
-	// 						if ( reportFilters[cat][subcat] === undefined ) {
-	// 							reportFilters[cat][subcat] = {
-	// 												't_act': {},
-	// 												't_mov': {},
-	// 												't_vent': {},
-	// 												'etiqs': {}
-	// 							};
-	// 						}
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_act, reportFilters[cat][subcat].t_act);
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_mov, reportFilters[cat][subcat].t_mov);
-	// 						Drupal.theme.prototype.numFilters(nid, sede.t_vent, reportFilters[cat][subcat].t_vent);
-	// 						if ( reportFilters[cat][subcat].etiqs[val] === undefined ) {
-	// 							reportFilters[cat][subcat].etiqs[val] = {};
-	// 						}
-	// 						reportFilters[cat][subcat].etiqs[val][nid] = 1;
-
-	// 					}
-	// 				}
-	// 			});
-	// 		});
-	// 	});
-	// 	return { 'sedes': reportSedes, 'filters': reportFilters } ;
-	// };
-	// Drupal.theme.prototype.numFilters = function (nid, filter_txt, report) {
-	// 	if ( filter_txt !== undefined && filter_txt !== '' ) {
-	// 		filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 		filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 		var filters = filter_txt.split(';');
-	// 		for (var i=0; i<filters.length; i++) {
-	// 			var filter = filters[i];
-	// 			filter = filter.replace(/^\n*\s*/g,'');
-	// 			filter = filter.replace(/\n*\s*$/g,'');
-	// 			if ( report[filter] === undefined ) {
-	// 				report[filter] = {};
-	// 			}
-	// 			report[filter][nid] = 1;	
-	// 		}
-	// 	}
-	// };
+	// Create Object: num filtes
 	Drupal.theme.prototype.numFilters = function (inCat, inSubcat, iSedeObj, report) {
 		var nid = iSedeObj.nid;
 			if ( iSedeObj !== undefined ) {
@@ -1189,415 +1000,22 @@ $('#page-wrapper').prepend(smsGeo);
 		return report;
 	};
 	
-	// Drupal.theme.prototype.getNumFilters = function (inSedesObj) {
-	// 	var report = {
-	// 		't_act': {},
-	// 		't_mov': {},
-	// 		't_vent': {},
-	// 		'etiqs': {}
-	// 	};
-	// 	for ( var nid in inSedesObj ) {
-	// 		var iSedeObj = inSedesObj[nid];
-	// 		if ( iSedeObj !== undefined ) {
-	// 			if ( iSedeObj.t_act !== undefined ) {
-	// 				var filter_txt = iSedeObj.t_act;
-	// 				filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 				filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 				var filters = filter_txt.split(';');
-	// 				for (var i=0; i<filters.length; i++) {
-	// 					//var filter = filters[i].toLowerCase();
-	// 					var filter = filters[i];
-	// 					filter = filter.replace(/^\n*\s*/g,'');
-	// 					filter = filter.replace(/\n*\s*$/g,'');
-	// 					if ( report.t_act[filter] === undefined ) {
-	// 						report.t_act[filter] = 1;
-	// 					}
-	// 					else {
-	// 						report.t_act[filter] += 1;	
-	// 					}
-	// 				}
-	// 			}
-	// 			if ( iSedeObj.t_mov !== undefined ) {
-	// 				var filter_txt = iSedeObj.t_mov;
-	// 				filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 				filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 				var filters = filter_txt.split(';');
-	// 				for (var i=0; i<filters.length; i++) {
-	// 					//var filter = filters[i].toLowerCase();
-	// 					var filter = filters[i];
-	// 					filter = filter.replace(/^\n*\s*/g,'');
-	// 					filter = filter.replace(/\n*\s*$/g,'');
-	// 					if ( report.t_mov[filter] === undefined ) {
-	// 						report.t_mov[filter] = 1;
-	// 					}
-	// 					else {
-	// 						report.t_mov[filter] += 1;	
-	// 					}
-	// 				}
-	// 			}
-	// 			if ( iSedeObj.t_vent !== undefined ) {
-	// 				var filter_txt = iSedeObj.t_vent;
-	// 				filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 				filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 				var filters = filter_txt.split(';');
-	// 				for (var i=0; i<filters.length; i++) {
-	// 					//var filter = filters[i].toLowerCase();
-	// 					var filter = filters[i];
-	// 					filter = filter.replace(/^\n*\s*/g,'');
-	// 					filter = filter.replace(/\n*\s*$/g,'');
-	// 					if ( report.t_vent[filter] === undefined ) {
-	// 						report.t_vent[filter] = 1;
-	// 					}
-	// 					else {
-	// 						report.t_vent[filter] += 1;	
-	// 					}
-	// 				}
-	// 			}
-	// 			if ( iSedeObj.cats !== undefined ) {
-	// 				var filter_txt = '';
-	// 				for ( var cat in iSedeObj.cats ) {
-	// 					for ( var subcat in iSedeObj.cats[cat] ) {
-	// 						filter_txt += Object.keys(iSedeObj.cats[cat][subcat]).join('; ');
-	// 						filter_txt += ';';
-	// 					}
-	// 				}
-	// 				filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 				filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 				var filters = filter_txt.split(';');
-	// 				for (var i=0; i<filters.length; i++) {
-	// 					//var filter = filters[i].toLowerCase();
-	// 					var filter = filters[i];
-	// 					filter = filter.replace(/^\n*\s*/g,'');
-	// 					filter = filter.replace(/\n*\s*$/g,'');
-	// 					if ( filter != "" ) {
-	// 						if ( report.etiqs[filter] === undefined ) {
-	// 							report.etiqs[filter] = 1;
-	// 						}
-	// 						else {
-	// 							report.etiqs[filter] += 1;	
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	return report;
-	// };
-	// Create Object: num filtes by cat
-	// Drupal.theme.prototype.getNumFiltersByCat = function (cat, sedeObj, report) {
-	// 	if ( sedeObj !== undefined ) {
-	// 		if ( sedeObj.t_act !== undefined ) {
-	// 			if ( report === undefined || report['t_act'] === undefined ) { report['t_act'] = {} }
-
-	// 			var filter_txt = sedeObj.t_act;
-	// 			filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 			filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 			var filters = filter_txt.split(';');
-	// 			for (var i=0; i<filters.length; i++) {
-	// 				var filter = filters[i];
-	// 				filter = filter.replace(/^\n*\s*/g,'');
-	// 				filter = filter.replace(/\n*\s*$/g,'');
-	// 				if ( report.t_act[filter] === undefined ) {
-	// 					report.t_act[filter] = 1;
-	// 				}
-	// 				else {
-	// 					report.t_act[filter] += 1;	
-	// 				}
-	// 			}
-	// 		}
-	// 		if ( sedeObj.t_mov !== undefined ) {
-	// 			if ( report === undefined || report['t_mov'] === undefined ) { report['t_mov'] = {} }
-
-	// 			var filter_txt = sedeObj.t_mov;
-	// 			filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 			filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 			var filters = filter_txt.split(';');
-	// 			for (var i=0; i<filters.length; i++) {
-	// 				var filter = filters[i];
-	// 				filter = filter.replace(/^\n*\s*/g,'');
-	// 				filter = filter.replace(/\n*\s*$/g,'');
-	// 				if ( report.t_mov[filter] === undefined ) {
-	// 					report.t_mov[filter] = 1;
-	// 				}
-	// 				else {
-	// 					report.t_mov[filter] += 1;	
-	// 				}
-	// 			}
-	// 		}
-	// 		if ( sedeObj.t_vent !== undefined ) {
-	// 			if ( report === undefined || report['t_vent'] === undefined ) { report['t_vent'] = {} }
-
-	// 			var filter_txt = sedeObj.t_vent;
-	// 			filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-	// 			filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-	// 			var filters = filter_txt.split(';');
-	// 			for (var i=0; i<filters.length; i++) {
-	// 				var filter = filters[i];
-	// 				filter = filter.replace(/^\n*\s*/g,'');
-	// 				filter = filter.replace(/\n*\s*$/g,'');
-	// 				if ( report.t_vent[filter] === undefined ) {
-	// 					report.t_vent[filter] = 1;
-	// 				}
-	// 				else {
-	// 					report.t_vent[filter] += 1;	
-	// 				}
-	// 			}
-	// 		}
-	// 		if ( sedeObj.cats !== undefined ) {
-	// 			if ( report === undefined || report['etiqs'] === undefined ) { report['etiqs'] = {} }
-
-	// 			var etiqs_txt = '';
-	// 			for ( var subcat in sedeObj.cats[cat] ) {
-	// 				etiqs_txt += Object.keys(sedeObj.cats[cat][subcat]).join('; ');
-	// 				etiqs_txt += ';';
-	// 				etiqs_txt = etiqs_txt.replace(/^\n*\s*/g,'');
-	// 				etiqs_txt = etiqs_txt.replace(/\n*\s*$/g,'');
-	// 				var filters = etiqs_txt.split(';');
-	// 				for (var i=0; i<filters.length; i++) {
-	// 					var filter = filters[i];
-	// 					filter = filter.replace(/^\n*\s*/g,'');
-	// 					filter = filter.replace(/\n*\s*$/g,'');
-	// 					if ( filter != "" ) {
-	// 						if ( report.etiqs[filter] === undefined ) {
-	// 							report.etiqs[filter] = 1;
-	// 						}
-	// 						else {
-	// 							report.etiqs[filter] += 1;	
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// };
-// 	Drupal.theme.prototype.countNumFilters = funtion(filter_txt) {
-// 		var num = {};
-// 		filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-// 		filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-// 		var filters = filter_txt.split(';');
-// 		for (var i=0; i<filters.length; i++) {
-// 			var filter = filters[i];
-// 			filter = filter.replace(/^\n*\s*/g,'');
-// 			filter = filter.replace(/\n*\s*$/g,'');
-// 			if ( num === undefined ) {
-// 				num[filter] = 1;
-// 			}
-// 			else {
-// 				num[filter] += 1;
-// 			}
-// 		}
-// 		return num;		
-// 	};
-// 	// Create Object: num filtes
-// 	Drupal.theme.prototype.getNumFilters = function (inSedesObj) {
-// 		var report = {};
-// console.log(inSedesObj);
-// 		for ( var nid in inSedesObj ) {
-// 			var iSedeObj = inSedesObj[nid];
-// 			var sReport = {
-// 				't_act': {},
-// 				't_mov': {},
-// 				't_vent': {},
-// 				'etiqs': {}
-// 			};			
-// 			if ( iSedeObj !== undefined ) {
-// 				if ( iSedeObj.t_act !== undefined ) {					
-// 					sReport.t_act = Drupal.theme.prototype.countNumFilters(iSedeObj.t_act);
-// 					// var filter_txt = iSedeObj.t_act;
-// 					// filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-// 					// filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-// 					// var filters = filter_txt.split(';');
-// 					// for (var i=0; i<filters.length; i++) {
-// 					// 	var filter = filters[i];
-// 					// 	filter = filter.replace(/^\n*\s*/g,'');
-// 					// 	filter = filter.replace(/\n*\s*$/g,'');
-// 					// 	if ( sReport.t_act[filter] === undefined ) {
-// 					// 		sReport.t_act[filter] = 1;
-// 					// 	}
-// 					// 	else {
-// 					// 		sReport.t_act[filter] += 1;	
-// 					// 	}
-// 					// }
-// 				}
-// 				if ( iSedeObj.t_mov !== undefined ) {
-// 					sReport.t_mov = Drupal.theme.prototype.countNumFilters(iSedeObj.t_mov);
-// 					// var filter_txt = iSedeObj.t_mov;
-// 					// filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-// 					// filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-// 					// var filters = filter_txt.split(';');
-// 					// for (var i=0; i<filters.length; i++) {
-// 					// 	var filter = filters[i];
-// 					// 	filter = filter.replace(/^\n*\s*/g,'');
-// 					// 	filter = filter.replace(/\n*\s*$/g,'');
-// 					// 	if ( sReport.t_mov[filter] === undefined ) {
-// 					// 		sReport.t_mov[filter] = 1;
-// 					// 	}
-// 					// 	else {
-// 					// 		sReport.t_mov[filter] += 1;	
-// 					// 	}
-// 					// }
-// 				}
-// 				if ( iSedeObj.t_vent !== undefined ) {
-// 					sReport.t_vent = Drupal.theme.prototype.countNumFilters(iSedeObj.t_vent);
-// 					// var filter_txt = iSedeObj.t_vent;
-// 					// filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-// 					// filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-// 					// var filters = filter_txt.split(';');
-// 					// for (var i=0; i<filters.length; i++) {
-// 					// 	var filter = filters[i];
-// 					// 	filter = filter.replace(/^\n*\s*/g,'');
-// 					// 	filter = filter.replace(/\n*\s*$/g,'');
-// 					// 	if ( sReport.t_vent[filter] === undefined ) {
-// 					// 		sReport.t_vent[filter] = 1;
-// 					// 	}
-// 					// 	else {
-// 					// 		sReport.t_vent[filter] += 1;	
-// 					// 	}
-// 					// }
-// 				}
-// 				if ( iSedeObj.cats !== undefined ) {
-// 					var etiqs_cats = [];
-// 					if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'busqueda-simple' || urlPaths[0] === 'busqueda-avanzada' ) ) {
-// 						etiqs_cats = Object.keys(iSedeObj.cats);
-// 					}
-// 					else {
-// 						for ( var cat in iSedeObj.cats ) {
-// 							for ( var subcat in sedeObj.cats[cat] ) {
-// 								etiqs_cats.push(subcat);
-// 							}
-// 						}						
-// 					}
-
-// 					for ( var cat in iSedeObj.cats ) {
-// 						var filter_txt = '';
-// 						for ( var subcat in iSedeObj.cats[cat] ) {
-// 							filter_txt += Object.keys(iSedeObj.cats[cat][subcat]).join('; ');
-// 							filter_txt += ';';
-// 							if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'directorio-verde' ) ) {
-// 								sReport.etiqs[subcat] = Drupal.theme.prototype.countNumFilters(iSedeObj.filter_txt);
-// 							}
-// 						}
-// 					}
-// 					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
-// 					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-// 					var filters = filter_txt.split(';');
-// 					for (var i=0; i<filters.length; i++) {
-// 						var filter = filters[i];
-// 						filter = filter.replace(/^\n*\s*/g,'');
-// 						filter = filter.replace(/\n*\s*$/g,'');
-// 						if ( filter != "" ) {
-// 							if ( report.etiqs[filter] === undefined ) {
-// 								report.etiqs[filter] = 1;
-// 							}
-// 							else {
-// 								report.etiqs[filter] += 1;	
-// 							}
-// 						}
-// 					}
-// 				}
-
-// 				if ( iSedeObj.cats !== undefined ) {
-// 					var etiqs_cats = [];
-// 					if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'busqueda-simple' || urlPaths[0] === 'busqueda-avanzada' ) ) {
-// 						etiqs_cats = Object.keys(iSedeObj.cats);
-// 					}
-// 					else {
-// 						for ( var cat in iSedeObj.cats ) {
-// 							for ( var subcat in sedeObj.cats[cat] ) {
-// 								etiqs_cats.push(subcat);
-// 							}
-// 						}						
-// 					}
-
-// 				var etiqs_txt = '';
-// 				for ( var subcat in sedeObj.cats[cat] ) {
-// 					etiqs_txt += Object.keys(sedeObj.cats[cat][subcat]).join('; ');
-// 					etiqs_txt += ';';
-// 					etiqs_txt = etiqs_txt.replace(/^\n*\s*/g,'');
-// 					etiqs_txt = etiqs_txt.replace(/\n*\s*$/g,'');
-// 					var filters = etiqs_txt.split(';');
-// 					for (var i=0; i<filters.length; i++) {
-// 						var filter = filters[i];
-// 						filter = filter.replace(/^\n*\s*/g,'');
-// 						filter = filter.replace(/\n*\s*$/g,'');
-// 						if ( filter != "" ) {
-// 							if ( report.etiqs[filter] === undefined ) {
-// 								report.etiqs[filter] = 1;
-// 							}
-// 							else {
-// 								report.etiqs[filter] += 1;	
-// 							}
-// 						}
-// 					}
-// 				}
-
-// 					// Concatenate results
-// 					for ( var cat in etiqs_cats ) {
-// 						if ( report[cat] === undefined ) {
-// 							report[cat] = {
-// 								't_act': sReport.t_act,
-// 								't_mov': sReport.t_mov,
-// 								't_vent': sReport.t_vent,
-// 								'etiqs': {}
-// 							};
-// 						}
-// 						else {
-// 							for ( var filt_val in sReport.t_act ) {
-// 								if ( report[cat].t_act[filt_val] !== undefined && report[cat].t_act[filt_val] !== 0 ) {
-// 									report[cat].t_act[filt_val] += sReport.t_act[filt_val];
-// 								}
-// 								else {
-// 									report[cat].t_act[filt_val] = sReport.t_act[filt_val];	
-// 								}
-// 							}
-// 							for ( var filt_val in sReport.t_mov ) {
-// 								if ( report[cat].t_mov[filt_val] !== undefined && report[cat].t_mov[filt_val] !== 0 ) {
-// 									report[cat].t_mov[filt_val] += sReport.t_mov[filt_val];
-// 								}
-// 								else {
-// 									report[cat].t_mov[filt_val] = sReport.t_mov[filt_val];	
-// 								}
-// 							}
-// 							for ( var filt_val in sReport.t_vent ) {
-// 								if ( report[cat].t_vent[filt_val] !== undefined && report[cat].t_vent[filt_val] !== 0 ) {
-// 									report[cat].t_vent[filt_val] += sReport.t_vent[filt_val];
-// 								}
-// 								else {
-// 									report[cat].t_vent[filt_val] = sReport.t_vent[filt_val];	
-// 								}
-// 							}
-// 							for ( var filt_val in sReport.etiqs ) {
-// 								if ( report[cat].etiqs[filt_val] !== undefined && report[cat].etiqs[filt_val] !== 0 ) {
-// 									report[cat].etiqs[filt_val] += sReport.etiqs[filt_val];
-// 								}
-// 								else {
-// 									report[cat].etiqs[filt_val] = sReport.etiqs[filt_val];	
-// 								}
-// 							}
-// 						}
-
-// 					}
-
-// 				}
-// 			}
-// 		}
-// console.log(report);
-// 		return report;
-// 	};
 	// Add missing fitlers
 	Drupal.theme.prototype.addMissingEtiquetas = function (numFilters) {
-		for ( var etiq in numFilters.etiqs ) {			
-			if ( $('#edit-name-selective-wrapper .form-item.form-type-bef-checkbox input[value="'+etiq+'"]').length === 0 ) {
-				var etiqValue = etiq.toLowerCase();
-				etiqValue = etiqValue.replace(/[éáűőúöüóíÉÁŰPŐÚÖÜÓÍ]/g,'-');
-				etiqValue = etiqValue.replace(/\s/g,'-');
-				var etiqHTML = '<div class="form-item form-type-bef-checkbox form-item-edit-name-selective-'+etiqValue+'">'+
-							'<input type="checkbox" name="name_selective[]" id="edit-name-selective-'+etiqValue+'" value="'+etiq+'">'+
-							'<label class="option" for="edit-name-selective-'+etiqValue+'"> '+etiq+'</label>'+
-							'</div>';
-				$('#edit-name-selective-wrapper .bef-checkboxes').append(etiqHTML);
+		if ( numFilters !== undefined ) {
+			for ( var etiq in numFilters.etiqs ) {			
+				if ( $('#edit-name-selective-wrapper .form-item.form-type-bef-checkbox input[value="'+etiq+'"]').length === 0 ) {
+					var etiqValue = etiq.toLowerCase();
+					etiqValue = etiqValue.replace(/[éáűőúöüóíÉÁŰPŐÚÖÜÓÍ]/g,'-');
+					etiqValue = etiqValue.replace(/\s/g,'-');
+					var etiqHTML = '<div class="form-item form-type-bef-checkbox form-item-edit-name-selective-'+etiqValue+'">'+
+								'<input type="checkbox" name="name_selective[]" id="edit-name-selective-'+etiqValue+'" value="'+etiq+'">'+
+								'<label class="option" for="edit-name-selective-'+etiqValue+'"> '+etiq+'</label>'+
+								'</div>';
+					$('#edit-name-selective-wrapper .bef-checkboxes').append(etiqHTML);
 
-			}
+				}
+			}			
 		}
 	};
 	// Exposed filter moment
@@ -1629,66 +1047,68 @@ $('#page-wrapper').prepend(smsGeo);
 
 	// Create HTML: num. filters
 	Drupal.theme.prototype.addNumFilters = function (numFilters) {
-		$('#edit-field-sede-tipo-actividad-tid-wrapper label[for^="edit-field-sede-tipo-actividad-tid-"]').each( function() {			
-			var filter_init = $(this).text();
-			var filter = filter_init;
-			filter = filter.replace(/^\n*\s*/g,'');
-			filter = filter.replace(/\n*\s*$/g,'');
-			filter = filter.replace(/\s*\(\d*\)$/g,'');
-			var repFilter = numFilters.t_act[filter];
-			if ( repFilter !== undefined && repFilter !== 0 ) {
-				$(this).text(filter+' ('+repFilter+')');
-				$(this).parent().removeClass('element-invisible');
-			}
-			else {
-				$(this).parent().addClass('element-invisible');
-			}			
-		});	
-		$('#edit-field-sede-tipo-venta-tid-wrapper label[for^="edit-field-sede-tipo-venta-tid-"]').each( function() {			
-			var filter_init = $(this).text();
-			var filter = filter_init;
-			filter = filter.replace(/^\n*\s*/g,'');
-			filter = filter.replace(/\n*\s*$/g,'');
-			filter = filter.replace(/\s*\(\d*\)$/g,'');
-			var repFilter = numFilters.t_vent[filter];
-			if ( repFilter !== undefined && repFilter !== 0 ) {
-				$(this).text(filter+' ('+repFilter+')');
-				$(this).parent().removeClass('element-invisible');
-			}
-			else {
-				$(this).parent().addClass('element-invisible');
-			}			
-		});
-		$('#edit-field-sede-tipo-movimiento-tid-wrapper label[for^="edit-field-sede-tipo-movimiento-tid-"]').each( function() {			
-			var filter_init = $(this).text();
-			var filter = filter_init;
-			filter = filter.replace(/^\n*\s*/g,'');
-			filter = filter.replace(/\n*\s*$/g,'');
-			filter = filter.replace(/\s*\(\d*\)$/g,'');
-			var repFilter = numFilters.t_mov[filter];
-			if ( repFilter !== undefined && repFilter !== 0 ) {
-				$(this).text(filter+' ('+repFilter+')');
-				$(this).parent().removeClass('element-invisible');
-			}
-			else {
-				$(this).parent().addClass('element-invisible');
-			}			
-		});
-		$('#edit-name-selective-wrapper label[for^="edit-name-selective-"]').each( function() {			
-			var filter_init = $(this).text();
-			var filter = filter_init;
-			filter = filter.replace(/^\n*\s*/g,'');
-			filter = filter.replace(/\n*\s*$/g,'');
-			filter = filter.replace(/\s*\(\d*\)$/g,'');
-			var repFilter = numFilters.etiqs[filter];
-			if ( repFilter !== undefined && repFilter !== 0 ) {
-				$(this).text(filter+' ('+repFilter+')');
-				$(this).parent().removeClass('element-invisible');
-			}
-			else {
-				$(this).parent().addClass('element-invisible');
-			}
-		});
+		if ( numFilters !== undefined ) {
+			$('#edit-field-sede-tipo-actividad-tid-wrapper label[for^="edit-field-sede-tipo-actividad-tid-"]').each( function() {			
+				var filter_init = $(this).text();
+				var filter = filter_init;
+				filter = filter.replace(/^\n*\s*/g,'');
+				filter = filter.replace(/\n*\s*$/g,'');
+				filter = filter.replace(/\s*\(\d*\)$/g,'');
+				var repFilter = numFilters.t_act[filter];
+				if ( repFilter !== undefined && repFilter !== 0 ) {
+					$(this).text(filter+' ('+repFilter+')');
+					$(this).parent().removeClass('element-invisible');
+				}
+				else {
+					$(this).parent().addClass('element-invisible');
+				}			
+			});	
+			$('#edit-field-sede-tipo-venta-tid-wrapper label[for^="edit-field-sede-tipo-venta-tid-"]').each( function() {			
+				var filter_init = $(this).text();
+				var filter = filter_init;
+				filter = filter.replace(/^\n*\s*/g,'');
+				filter = filter.replace(/\n*\s*$/g,'');
+				filter = filter.replace(/\s*\(\d*\)$/g,'');
+				var repFilter = numFilters.t_vent[filter];
+				if ( repFilter !== undefined && repFilter !== 0 ) {
+					$(this).text(filter+' ('+repFilter+')');
+					$(this).parent().removeClass('element-invisible');
+				}
+				else {
+					$(this).parent().addClass('element-invisible');
+				}			
+			});
+			$('#edit-field-sede-tipo-movimiento-tid-wrapper label[for^="edit-field-sede-tipo-movimiento-tid-"]').each( function() {			
+				var filter_init = $(this).text();
+				var filter = filter_init;
+				filter = filter.replace(/^\n*\s*/g,'');
+				filter = filter.replace(/\n*\s*$/g,'');
+				filter = filter.replace(/\s*\(\d*\)$/g,'');
+				var repFilter = numFilters.t_mov[filter];
+				if ( repFilter !== undefined && repFilter !== 0 ) {
+					$(this).text(filter+' ('+repFilter+')');
+					$(this).parent().removeClass('element-invisible');
+				}
+				else {
+					$(this).parent().addClass('element-invisible');
+				}			
+			});
+			$('#edit-name-selective-wrapper label[for^="edit-name-selective-"]').each( function() {			
+				var filter_init = $(this).text();
+				var filter = filter_init;
+				filter = filter.replace(/^\n*\s*/g,'');
+				filter = filter.replace(/\n*\s*$/g,'');
+				filter = filter.replace(/\s*\(\d*\)$/g,'');
+				var repFilter = numFilters.etiqs[filter];
+				if ( repFilter !== undefined && repFilter !== 0 ) {
+					$(this).text(filter+' ('+repFilter+')');
+					$(this).parent().removeClass('element-invisible');
+				}
+				else {
+					$(this).parent().addClass('element-invisible');
+				}
+			});
+		}
 	};
 
 
@@ -2064,6 +1484,18 @@ $('#page-wrapper').prepend(smsGeo);
 				else { // NO RESULTS
 					$('> .view-filters', this).addClass('element-invisible');
 					$('> .attachment .view-based-map', this).addClass('element-invisible');
+					// if ( urlPaths !== undefined && urlPaths.length > 0 && (urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde') ) {
+					// 	if ( urlPaths[1] !== undefined && urlPaths[1] !== "" && urlPaths[2] !== undefined && urlPaths[2] !== "" ) {
+					// 		//$(this).prepend(htmlNoResults);							
+					// 	}
+					// }
+					if ( urlPaths !== undefined && urlPaths.length > 0 && (urlPaths[0] === 'home' || urlPaths[0] === 'directorio-verde') ) {
+						if ( urlPaths[1] === undefined || urlPaths[1] === "" || urlPaths[2] === undefined || urlPaths[2] === "" ) {
+							if ( $('> .view-empty', this).length > 0 ) {
+								$('> .view-empty', this).addClass('element-invisible');
+							}
+						}
+					}					
 				}
 
 				// Filter:
@@ -2183,31 +1615,7 @@ $('#page-wrapper').prepend(smsGeo);
 					// loading
 					Drupal.theme.prototype.isLoading(context, 0.3); // active loading page					
 				});
-
-				// // If Online is checheck Tipo de Venta change for online => filter
-				// $('#edit-field-sede-tipo-venta-tid-wrapper', this).click(function(event) {
-				// 	var vType = "";
-				// 	$('input:checked', this).each( function() {
-				// 		// Establecimiento físico, Otros
-				// 		if ( $(this).val() == "1792" || $(this).val() == "1800" ) {
-				// 			vType += "fisico|";
-				// 		}
-				// 		// Venta Online, Alquiler online, Servicio Online, Servicio a domicilio, Venta telefónica, Reserva online, Reserva telefónica
-				// 		else if ( $(this).val() == "1793" || $(this).val() == "1794" || $(this).val() == "1795" || $(this).val() == "1796" || 
-				// 				  $(this).val() == "1797" || $(this).val() == "1798" || $(this).val() == "1799" ) {
-				// 			vType += "online|";
-				// 		}
-				// 	});
-				// 	if ( vType.indexOf("fisico") >= 0 ) {
-				// 		Drupal.theme.prototype.filterByRegionOnline('fisico');
-				// 	}
-				// 	else if ( vType.indexOf("online") >= 0 ) {
-				// 		Drupal.theme.prototype.filterByRegionOnline('online');
-				// 	}
-				// 	else {
-				// 		Drupal.theme.prototype.filterByRegionOnline();	
-				// 	}
-				// });				
+			
 			});
 
 			/* Directorio Verde page */

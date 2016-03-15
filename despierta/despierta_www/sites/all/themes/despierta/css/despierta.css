@@ -236,6 +236,9 @@ select#sel-regions {
     margin-right: auto;
     width: 250px;
 }
+.imgeco img {
+  width: 250px !important;
+}
 #block-views-frontpage-desc-block-geoeco h3 {
   color: #637346;
   font-size: 30px;
