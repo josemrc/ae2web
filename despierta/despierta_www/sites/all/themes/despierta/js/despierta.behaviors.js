@@ -1056,7 +1056,7 @@ $('#page-wrapper').prepend(smsGeo);
 				filter = filter.replace(/\s*\(\d*\)$/g,'');
 				var repFilter = numFilters.t_act[filter];
 				if ( repFilter !== undefined && repFilter !== 0 ) {
-					$(this).text(filter+' ('+repFilter+')');
+					$(this).text(' '+filter+' ('+repFilter+')');
 					$(this).parent().removeClass('element-invisible');
 				}
 				else {
@@ -1071,7 +1071,7 @@ $('#page-wrapper').prepend(smsGeo);
 				filter = filter.replace(/\s*\(\d*\)$/g,'');
 				var repFilter = numFilters.t_vent[filter];
 				if ( repFilter !== undefined && repFilter !== 0 ) {
-					$(this).text(filter+' ('+repFilter+')');
+					$(this).text(' '+filter+' ('+repFilter+')');
 					$(this).parent().removeClass('element-invisible');
 				}
 				else {
@@ -1086,7 +1086,7 @@ $('#page-wrapper').prepend(smsGeo);
 				filter = filter.replace(/\s*\(\d*\)$/g,'');
 				var repFilter = numFilters.t_mov[filter];
 				if ( repFilter !== undefined && repFilter !== 0 ) {
-					$(this).text(filter+' ('+repFilter+')');
+					$(this).text(' '+filter+' ('+repFilter+')');
 					$(this).parent().removeClass('element-invisible');
 				}
 				else {
@@ -1101,7 +1101,7 @@ $('#page-wrapper').prepend(smsGeo);
 				filter = filter.replace(/\s*\(\d*\)$/g,'');
 				var repFilter = numFilters.etiqs[filter];
 				if ( repFilter !== undefined && repFilter !== 0 ) {
-					$(this).text(filter+' ('+repFilter+')');
+					$(this).text(' '+filter+' ('+repFilter+')');
 					$(this).parent().removeClass('element-invisible');
 				}
 				else {
