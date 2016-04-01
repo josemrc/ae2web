@@ -860,6 +860,9 @@ ul#tabSedes {
   height: auto;
   margin-bottom: 3px;
 }
+.dropbox-remove {
+  padding-left: 10px;
+}
 /* Contact form */
 #contact-site-form .form-radio {
   display: inline-block;

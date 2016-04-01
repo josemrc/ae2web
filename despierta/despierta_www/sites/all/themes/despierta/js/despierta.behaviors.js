@@ -94,7 +94,8 @@
 	Drupal.theme.prototype.createRegionURL = function (url) {
 		Drupal.theme.prototype.isLoading(undefined, 0.5); // active loading page
 		var location = '';
-		if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' ) ) {
+		if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' || url[0] === 'busqueda-simple' || url[0] === 'busqueda-avanzada' ) ) {
+		// if ( url !== undefined && url.length > 0 && ( url[0] === 'home' || url[0] === 'directorio-verde' ) ) {
 			var pcode = sessionStorage['code'];
 			var rcode = sessionStorage['area_code'];
 			var dcode = '';
@@ -102,6 +103,9 @@
 				dcode = 'all';
 			}
 			else if ( url[0] === 'directorio-verde' ) {
+				dcode = (url.length >= 4 && url[3] !== undefined && url[3] !== null && url[3] !== "" ) ? url[3] : '';
+			}
+			else if ( url[0] === 'busqueda-simple' || url[0] === 'busqueda-avanzada' ) {
 				dcode = (url.length >= 4 && url[3] !== undefined && url[3] !== null && url[3] !== "" ) ? url[3] : '';
 			}
 			location = '?q=' + url[0] + '/' + pcode + '/'+ rcode + '/' + dcode;
@@ -200,7 +204,13 @@
 		}
 
 		if ( $('form[id="views-exposed-form-sedes2-busq-avan"]').length ) {
-			var pcode = $('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"] > option:selected').val().toLowerCase();
+// ERROR
+//			var pcode = $( '#header #sel-pais option:selected').attr('dp-pais-code').toUpperCase();
+console.log("pcode: "+pcode);
+//			$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-pais > option[value="'+pcode+'"]').prop('selected', true);
+			//var pcode = $('form[id="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"] > option:selected').val().toLowerCase();
+			pcode = pcode.toLowerCase();
+console.log("pcode2: "+pcode);
 			if ( pcode != undefined && pcode != "all" ) {
 				var $regions = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
 				var $options = $($regions).find('option');
@@ -208,6 +218,9 @@
 				$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-region').append($options);
 				$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-region > option[value="-"]').val("All");
 				$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-region').removeAttr('disabled');
+				$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-region > option[value="All"]').prop('selected', true);
+				var rcode = $( '#header #sel-regions option:selected').attr('dp-reg-code');
+				$('form[id="views-exposed-form-sedes2-busq-avan"] #edit-region > option[value="'+rcode+'"]').prop('selected', true);
 			}
 			else {
 				$('form[id^="views-exposed-form-sedes2-busq-avan"] #edit-region').attr('disabled', 'disabled');
@@ -670,9 +683,9 @@ $('#page-wrapper').prepend(smsGeo);
 					if ( iSedeObj.nid !== undefined ) { sede.nid = iSedeObj.nid }
 					if ( iSedeObj.type !== undefined ) { sede.type = iSedeObj.type }
 					// Region view
+					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
+					tabHeader['Todas'][nid] = sede;
 					if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'busqueda-simple' || urlPaths[0] === 'busqueda-avanzada' ) ) {
-						if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
-						tabHeader['Todas'][nid] = sede;
 						if ( tabHeader[cat] === undefined ) { tabHeader[cat] = {} }
 						tabHeader[cat][nid] = sede;
 					}
@@ -714,7 +727,9 @@ $('#page-wrapper').prepend(smsGeo);
 					tcont += "<center><div class='sep-title'>Sedes que poseen un tienda en su "+regionlabel+"</div></center><hr>";
 				}
 				else {
-					tcont += "<center><div class='sep-title'>No hay Sedes que poseen un tienda en su "+regionlabel+"</div></center><hr>";
+					if ( sortedSedes.online && sortedSedes.online.length === 0 ) {
+						tcont += "<center><div class='sep-title'>No hay Sedes que poseen un tienda en su "+regionlabel+"</div></center><hr>";						
+					}
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
@@ -981,19 +996,18 @@ $('#page-wrapper').prepend(smsGeo);
 	};
 	Drupal.theme.prototype.countNumFilters = function (inReport) {
 		var report = {};
-		var todas = false;
+		var home = false;
 		if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' ) ) {
-			todas = true;
+			home = true;
 		}
 		for ( var cat in inReport ) {
-			if ( todas === true ) {
+			if ( home === true ) {
 				report[cat] = Drupal.theme.prototype.countFilters(inReport[cat]);
 			}
 			else {
-				if ( cat !== 'Todas' ) {
-					for ( var subcat in inReport[cat].subcats ) {
-						report[subcat] = Drupal.theme.prototype.countFilters(inReport[cat].subcats[subcat]);
-					}					
+				report['Todas'] = Drupal.theme.prototype.countFilters(inReport[cat]);
+				for ( var subcat in inReport[cat].subcats ) {
+					report[subcat] = Drupal.theme.prototype.countFilters(inReport[cat].subcats[subcat]);
 				}
 			}
 		}
@@ -1018,7 +1032,7 @@ $('#page-wrapper').prepend(smsGeo);
 			}			
 		}
 	};
-	// Exposed filter moment
+	// Exposed filter moments
 	Drupal.theme.prototype.exposedFilterMoment = function (context) {
 		if ( $(context).prop("tagName") !== undefined && $(context).prop("tagName") === "FORM" ) {
 			if ( context.length >= 1 && context.context !== undefined ) {
@@ -1039,6 +1053,13 @@ $('#page-wrapper').prepend(smsGeo);
 				else {
 					var catActive = $('#tabSedes.nav-tabs .active').text();
 					$('#views-exposed-form-sedes3-block .views-exposed-form').prepend('<input name="catActive" type="hidden" value="'+catActive+'">');
+				}
+
+				// Search Panels:
+				// Modify the region value for Simple Search
+				if ( $(context.context).attr('id') === 'views-exposed-form-sedes2-busq-simple' ) {
+					var rcode = $('select[id="edit-region"] option:selected', context.context).attr('dp-reg-code');
+					$('form[id="views-exposed-form-sedes2-busq-simple"] #edit-region > option[value="'+rcode+'"]').prop('selected', true);
 				}
 
 			}
@@ -1167,8 +1188,8 @@ $('#page-wrapper').prepend(smsGeo);
 
 			// console.log("settings");
 			// console.log(settings);
-			// console.log("context");
-			// console.log(context);
+			console.log("context");
+			console.log(context);
 			// console.log("sessionStorage");
 			// console.log(sessionStorage);
 			// console.log("urlPaths");
@@ -1401,6 +1422,23 @@ $('#page-wrapper').prepend(smsGeo);
 			$('form[id^="views-exposed-form-sedes2-busq-simple"]', context).once('despierta', function () {
 				// Simple/Advance search
 				Drupal.theme.prototype.modifySearchRegion(allPaisRegionsObj);
+
+				// Capture the submition and change the URL
+				$('input[id="edit-submit-sedes2"]').on("click", function(e){
+					e.originalEvent.defaultPrevented;
+					var geoURL = $('form[id^="views-exposed-form-sedes2-busq-simple"]').attr('action') +'/'+urlPaths[1]+'/'+urlPaths[2]+'/';
+alert(geoURL);
+					$('form[id^="views-exposed-form-sedes2-busq-simple"]').attr('action', geoURL).submit();
+				});
+// 				$(this).submit(function(){
+// alert("COGE");
+// 				})
+// 			});
+				// Capture the submit event
+// 				$('input[id="edit-submit-sedes2"]').submit(function(){
+// alert("COGE");
+// 				})
+
 			});			
 			// Advanced
 			$('form[id^="views-exposed-form-sedes2-busq-avan"] select[id="edit-pais"]', context).once('despierta', function () {
@@ -1423,10 +1461,21 @@ $('#page-wrapper').prepend(smsGeo);
 				if ( $('> .view-content', this).length ) {
 					reportSedes = Drupal.theme.prototype.reportSedes($('> .view-content', this), 'local');
 				}
-				// 		with Gelocation Sedes
-				if ( $('.view-display-id-online .view-content', this).length ) {
-					var onlineSedes = Drupal.theme.prototype.reportSedes($('.view-display-id-online .view-content', this), 'online');
-					$('.view-display-id-online .view-content', this).addClass('element-invisible');
+				// 		with Online Sedes (sent to Countries)
+				if ( $('.view-display-id-online_pais .view-content', this).length ) {
+					var onlineSedes = Drupal.theme.prototype.reportSedes($('.view-display-id-online_pais .view-content', this), 'online');
+					$('.view-display-id-online_pais .view-content', this).addClass('element-invisible');
+					// merge sedes if not already exist in local
+					for ( var nid in onlineSedes ) {
+						if ( reportSedes[nid] === undefined ) {
+							reportSedes[nid] = onlineSedes[nid];
+						}
+					}
+				}
+				// 		with Online Sedes (sent to Local regions)
+				if ( $('.view-display-id-online_reg .view-content', this).length ) {
+					var onlineSedes = Drupal.theme.prototype.reportSedes($('.view-display-id-online_reg .view-content', this), 'online');
+					$('.view-display-id-online_reg .view-content', this).addClass('element-invisible');
 					// merge sedes if not already exist in local
 					for ( var nid in onlineSedes ) {
 						if ( reportSedes[nid] === undefined ) {
@@ -1441,6 +1490,7 @@ $('#page-wrapper').prepend(smsGeo);
 					var sedesFilters = Drupal.theme.prototype.getNumFilters(reportSedes);
 					reportFilters = Drupal.theme.prototype.countNumFilters(sedesFilters);
 				}
+console.log(reportFilters);
 
 				// Print Content:
 				if ( !$.isEmptyObject(reportSedes) ) {
@@ -1777,16 +1827,24 @@ $('#page-wrapper').prepend(smsGeo);
 
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
 				$('input[id="edit-preview"]', this).remove();
+				$(this).append('<span style="color: #f00">*</span> Campos obligatorios');
 			});
-			// Changes within 'Categorias/Subcategorias/Etiq'
-			$('select[id^="edit-field-directorio-verde-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
+			// Changes within 'Categorias/Subcategorias/Etiq'		
+			$('select[id^="edit-field-directorio-verde-und-hierarchical-select-selects-0"],select[id^="edit-field-directorio-verde-und-hierarchical-select-selects-1"]').once("DOMSubtreeModified",function(){
 				$('.node-form.node-sede-form #edit-field-directorio-verde .hierarchical-select ').css('display', 'table');				
 				$('.node-form.node-sede-form #edit-field-directorio-verde select').addClass("form-control");
 				$('.node-form.node-sede-form #edit-field-directorio-verde input').addClass("btn btn-info");
 				$('.node-form.node-sede-form #edit-field-directorio-verde input').wrap('<div class="edit-field-sede-pais-button"></div>');
-				$('.node-form.node-sede-form #edit-field-directorio-verde table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ninguna palabre clave seleccionada.</td>');				
+				$('.node-form.node-sede-form #edit-field-directorio-verde table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ninguna palabre clave seleccionada.</td>');
+			});
+			$('input[id^="edit-field-directorio-verde-und-hierarchical-select-dropbox-add"]').once("DOMSubtreeModified",function(){
+				$(this).css('display', 'none');
+			});
+			$('select[id^="edit-field-directorio-verde-und-hierarchical-select-selects-2"]').once("DOMSubtreeModified",function(){
+				$('input[id^="edit-field-directorio-verde-und-hierarchical-select-dropbox-add"]').css('display', 'block');
 			});
 			$('.node-form.node-sede-form #edit-field-directorio-verde .dropbox').once("DOMSubtreeModified",function(){
+				$('.dropbox-remove', this)
 				$('table tr[class*="dropbox-entry"]', this).each( function() {
 					if ( $('.hierarchical-select-item-separator', this).length == 0 ) {
 						$('.dropbox-item.dropbox-selected-item', this).append('<span class="dropbox-item dropbox-selected-item"> (Todas las palabras clave) </span>');

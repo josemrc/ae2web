@@ -1,0 +1,30 @@
+diff --git a/modules/search/views_handler_argument_search.inc b/modules/search/views_handler_argument_search.inc
+old mode 100644
+new mode 100755
+index f0a4a44..959a25a
+--- a/modules/search/views_handler_argument_search.inc
++++ b/modules/search/views_handler_argument_search.inc
+@@ -56,7 +56,7 @@ class views_handler_argument_search extends views_handler_argument {
+       $join->construct('search_total', $search_index, 'word', 'word');
+       $search_total = $this->query->add_relationship('search_total', $join, $search_index);
+ 
+-      $this->search_score = $this->query->add_field('', "SUM($search_index.score * $search_total.count)", 'score', array('aggregate' => TRUE));
++      $this->search_score = $this->query->add_field('', "$search_index.score * $search_total.count", 'score', array('aggregate' => TRUE, 'function' => 'sum'));
+ 
+       if (empty($this->query->relationships[$this->relationship])) {
+         $base_table = $this->query->base_table;
+diff --git a/modules/search/views_handler_filter_search.inc b/modules/search/views_handler_filter_search.inc
+old mode 100644
+new mode 100755
+index 16515a7..0b93031
+--- a/modules/search/views_handler_filter_search.inc
++++ b/modules/search/views_handler_filter_search.inc
+@@ -150,7 +150,7 @@ class views_handler_filter_search extends views_handler_filter {
+         $join->construct('search_total', $search_index, 'word', 'word');
+         $search_total = $this->query->add_relationship('search_total', $join, $search_index);
+ 
+-        $this->search_score = $this->query->add_field('', "SUM($search_index.score * $search_total.count)", 'score', array('aggregate' => TRUE));
++        $this->search_score = $this->query->add_field('', "$search_index.score * $search_total.count", 'score', array('aggregate' => TRUE, 'function' => 'sum'));
+       }
+ 
+       if (empty($this->query->relationships[$this->relationship])) {
