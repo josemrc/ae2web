@@ -29,7 +29,10 @@ stylesheets[print][] = css/print.css
 scripts[] = js/jQueryRotate.js
 scripts[] = js/bootstrap.min.js
 scripts[] = js/bootstrap-tabcollapse.js
+scripts[] = js/despierta.geolocation.js
 scripts[] = js/despierta.behaviors.js
+;scripts[] = js/despierta.sedes.js
+;scripts[] = js/despierta.main.js
 
 ; ========================================
 ; Regions

@@ -126,7 +126,7 @@ function despierta_process_page(&$variables) {
   // if ( isset($_SESSION) ) {
   //   drupal_add_js(array('despierta' => array('session' => $_SESSION)), 'setting');    
   // }
-  
+
 }
 
 /**
@@ -254,6 +254,9 @@ function despierta_preprocess_page(&$vars) {
   if($vars['is_front']){
     $vars['title'] = ''; // removes the default Welcome to @site-name
     $vars['page']['content']['system_main']['default_message'] = array();
+
+    // Add Google Maps API
+    drupal_add_js('http://maps.googleapis.com/maps/api/js', 'external');
   }
   // There is currently no content classified with this term."
   if(isset($vars['page']['content']['system_main']['no_content'])) {

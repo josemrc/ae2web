@@ -90,26 +90,6 @@
 
   <div id="header" class="<?php print $secondary_menu ? 'with-secondary-menu': 'without-secondary-menu'; ?>"><div class="section clearfix">
 
-    <?php print render($page['header']); ?>
-
-    <?php if ($main_menu): ?>
-      <div id="main-menu" class="navigation">
-        <?php print theme('links__system_main_menu', array(
-          'links' => $main_menu,
-          'attributes' => array(
-            'id' => 'main-menu-links',
-            'class' => array('links', 'clearfix'),
-          ),
-          'heading' => array(
-            'text' => t('Main menu'),
-            'level' => 'h2',
-            'class' => array('element-invisible'),
-          ),
-        )); 
-        ?>
-      </div> <!-- /#main-menu -->
-    <?php endif; ?>
-
     <?php if ($logo): ?>
       <div id="logo">
         <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
@@ -144,6 +124,26 @@
       </div> <!-- /#name-and-slogan -->
     <?php endif; ?>    
 
+    <?php print render($page['header']); ?>
+
+    <?php if ($main_menu): ?>
+      <div id="main-menu" class="navigation">
+        <?php print theme('links__system_main_menu', array(
+          'links' => $main_menu,
+          'attributes' => array(
+            'id' => 'main-menu-links',
+            'class' => array('links', 'clearfix'),
+          ),
+          'heading' => array(
+            'text' => t('Main menu'),
+            'level' => 'h2',
+            'class' => array('element-invisible'),
+          ),
+        )); 
+        ?>
+      </div> <!-- /#main-menu -->
+    <?php endif; ?>
+    
     <?php if ($secondary_menu): ?>
       <div id="secondary-menu" class="navigation">
         <?php print theme('links__system_secondary_menu', array(

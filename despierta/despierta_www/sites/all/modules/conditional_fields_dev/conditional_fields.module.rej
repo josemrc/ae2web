@@ -1,0 +1,25 @@
+***************
+*** 536,546 ****
+              $handler($dependee_form_field, $dependee_form_state, $options, $state);
+            }
+          }
+- 
+-         // Add validation callback to element.
+-         _conditional_fields_element_add_property($dependent_form_field, '#element_validate', 'conditional_fields_dependent_validate', 'append');
+        }
+  
+        // Add the $state into the correct logic group in $states.
+        foreach ($state as $key => $constraints) {
+          if (empty($states[$key][$options['grouping']])) {
+--- 536,546 ----
+              $handler($dependee_form_field, $dependee_form_state, $options, $state);
+            }
+          }
+        }
+  
++       // Add validation callback to element.
++       _conditional_fields_element_add_property($dependent_form_field, '#element_validate', 'conditional_fields_dependent_validate', 'append');
++ 
+        // Add the $state into the correct logic group in $states.
+        foreach ($state as $key => $constraints) {
+          if (empty($states[$key][$options['grouping']])) {

@@ -45,12 +45,15 @@ function welcome_username_block_view($delta = "") {
             $init_session_string = variable_get('init_session_string', 'Iniciar sesión');
             $register_session_string = variable_get('register_session_string', 'Registrarse');
 
+            $contact_link = l('Contacto', 'contacto');
             $user_link = l(t($init_session_string), 'user/login');
             $register_link = l(t($register_session_string), 'user/register');
 
             $logged_in_message = "";
+            $logged_in_message .= $contact_link;
+            $logged_in_message .= " ";
             $logged_in_message .= $user_link;
-            $logged_in_message .= "<br>";
+            $logged_in_message .= " ";
             $logged_in_message .= $register_link;
 
             $block['content'] = $logged_in_message;
@@ -81,10 +84,14 @@ function welcome_username_block_view($delta = "") {
         // Create a logout link.
         $user_logout_link = l(t($logout_string), "usuario/logout");
 
+        $contact_link = l('Contacto', 'contacto');
+
         // Create the message shown on the frontend.
         $logged_in_user_message = "";
+        $logged_in_user_message .= $contact_link;
+        $logged_in_user_message .= " ";
         $logged_in_user_message .= $user_profile_link;
-        $logged_in_user_message .= "<br>";
+        $logged_in_user_message .= " ";
         $logged_in_user_message .= $user_logout_link;
 
         $block['content'] = $logged_in_user_message;

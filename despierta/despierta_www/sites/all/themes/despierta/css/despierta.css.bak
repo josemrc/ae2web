@@ -49,14 +49,10 @@ p.pasos {
 .view-id-home {
   display: none;
 }
+/* --------------- Home page Disable!! ------------ */
+
 #block-views-tax-regiones-block {
   display: none;
-}
-#block-views-categorias-names {
-  display: none;
-}
-#page {
-  padding-top: 0 !important;  
 }
 
 /* --------------- Loading views ------------ */
@@ -98,184 +94,20 @@ p.pasos {
  * HEADER BLOCK
  */
 
-
-/* --------------- Logo View ------------ */
-#logo {
-  float: left;
-}
-#logo img {
-  display: inline-block;
-  height: 63px;
-}
-#logo img .front {
-  display: inline-block;
-  margin-left: 30px;
-}
-
-/* --------------- Pais / Regions View ------------ */
-#header .region {
-  float: none;
-  padding-top: 20px;
-}
-#header .region .sel-pais,
-#header .region .sel-regions,
-#header .region .sel-categoria,
-#header .region .sel-search,
-#header .region .sel-button {
-  float: left;
-  display: inline-block;
-  margin-left: 5px;  
-}
-select.round {
-  /* styling */
-  background-color: white;
-  border: thin solid gray;
-  border-radius: 4px;
-  display: inline-block;
-  font: inherit;
-  line-height: 1.5em;
-  padding: 0.1em 3em 0.1em 0.1em;
-  /* reset */
-  margin: 0;      
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-select.round {
-  background-image: linear-gradient(45deg, transparent 50%, green 50%), linear-gradient(135deg, green 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
-  background-position: calc(100% - 17px) 1em, calc(100% - 12px) 1em, calc(100% - .5em) .3em;
-  background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
-  background-repeat: no-repeat;
-}
-
-select.round:focus {
-  background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), radial-gradient(gray 70%, transparent 72%);  
-  background-position:  calc(100% - 12px) .8em,  calc(100% - 17px) .8em, calc(100% - .5em) .3em;
-  background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
-
-  background-repeat: no-repeat;
-  border-color: green;
-  outline: 0;
-}
-select.round:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
-}
-
-select#sel-pais,
-select#sel-regions,
-select#sel-categoria {
-  width: 140px;
-  margin-bottom: 5px;
-  font-size: 13px;
-}
-#sms_geoloc_nodespierta .sel-pais,
-#sms_geoloc_nodespierta .sel-regions {
-  text-align: center;
-}
-
-
-/* --------------- Wellcome View ------------ */
-#header .block-welcome-username {
-  float: right;
-  margin-top: 5px;
-}
-
-/* --------------- Buscador Verde ------------ */
-
-#block-views-buscador-verde-busq-block .view-content {
-  padding-top: 10%;
-  padding-left: 20%;
-  padding-bottom: 5%;
-}
-#block-views-buscador-verde-busq-block .view-content {
-  color: white;
-  font-size: 20px;
-}
-#block-views-buscador-verde-busq-block .view-content h1 {
-  color: white;  
-  font-size: 50px;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-left: 10%;
-}
-#block-views-buscador-verde-busq-block .buscador-verde-search {
-  display: inline-flex;
-  width: 100%;
-  height: 100px;
-  padding-left: 18%;
-  padding-top: 25px;
-  background: rgba(54, 25, 25, .5);
-}
-
-
-/* Overwrite when buscador-verde */
-#header .section.buscador-verde {
-  /*height: 500px;*/
-  background-position: initial;
-  background-repeat: no-repeat;
-  background-position: center;  
-  /*z-index: -1000; */
-  /*filter: opacity(70%);*/
-}
-#header .section.buscador-verde .block-welcome-username * {
-  color: white;
-}
-/*
-#header .section.buscador-verde .region .sel-pais {
-  float: left;
-}
-#header .section.buscador-verde .region .block-welcome-username {
-  float: right;
-}
-*/
-#header .section.buscador-verde .buscador-verde-search input#sel-search,
-#header .section.buscador-verde .buscador-verde-search select#sel-regions {
-  height: 50px;
-  width: 300px;
-  margin-right: 10px;
-  padding-left: 20px;
-}
-#header .section.buscador-verde .buscador-verde-search input#sel-search,
-#header .section.buscador-verde .buscador-verde-search select#sel-regions,
-#header .section.buscador-verde .buscador-verde-search select#sel-regions *,
-#header .section.buscador-verde .buscador-verde-search input#sel-button {
-  font-size: medium;
-}
-
-#header .section.buscador-verde .buscador-verde-search input#sel-button {
-  height: 50px;
-  width: 100px;
-  border-radius: 0;
-}
-#header .section.buscador-verde .buscador-verde-search select#sel-regions {
-  border-radius: 0;
-  background-position: calc(100% - 30px), calc(100% - 25px), calc(100% - 1.5em)
-}
-#header .section.buscador-verde .buscador-verde-search select#sel-regions:focus {
-  border-radius: 0;
-  background-position: calc(100% - 25px),  calc(100% - 30px), calc(100% - .5em);
-}
-
-
 /* --------------- Main Menu ------------ */
-
-
 #main-menu {
   clear: both;
   float: right !important;
   margin-top: 20px;
-  display: none !important;
 }
 #main-menu-links {
   margin: 0;
   padding: 0;
 }
 #main-menu-links li {
-  float: left;
+  float: left; /* LTR */
   list-style: none;
+  /*padding: 0 1px;*/
   margin: 0 1px;
   padding-right: 22px;
 }
@@ -327,6 +159,27 @@ select#sel-categoria {
   top: -4px;
 }
 
+/* --------------- Logo View ------------ */
+#logo img {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+/* --------------- Pais / Regions View ------------ */
+select#sel-pais,
+select#sel-regions {
+	width: 153px;
+  margin-bottom: 5px;
+}
+#sms_geoloc_nodespierta .sel-pais,
+#sms_geoloc_nodespierta .sel-regions {
+  text-align: center;
+}
+
+/* --------------- Wellcome View ------------ */
+.block-welcome-username {
+  margin-top: 5px;
+}
 
 /* --------------- Header Panel Responsive ------------ */
 @media (max-width: 625px) {
@@ -370,10 +223,6 @@ select#sel-categoria {
  */
 
 
-#main {
-  padding-top: 0;
-
-}
 /* --------------- BreadCrumb ------------ */
 @media (max-width: 991px) {
   #breadcrumb {
@@ -381,16 +230,58 @@ select#sel-categoria {
   }
 }
 
-
-/* --------------- Frontpage: Tu Buscador Verde ------------ */
-#block-views-buscador-verde-busq-block .imgeco img {
+/* --------------- Frontpage: Eco/GeoEco View ------------ */
+.imgeco {
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
+    width: 250px;
+}
+.imgeco img {
+  width: 250px !important;
+}
+#block-views-frontpage-desc-block-geoeco h3 {
+  color: #637346;
+  font-size: 30px;
+  line-height: 1.5;
 }
 
-
-/* --------------- Sedes Tab ------------ */
+/* --------------- Frontpage: Busqueda View ------------ */
+#block-views-frontpage-desc-busq-block .view-display-id-busq_block {
+  display: inline-block;
+}
+#block-views-frontpage-desc-busq-block h1 {
+  color: #78A02C;
+  font-size: 45px;
+  line-height: 50px;
+  text-align: center;
+}
+#block-views-frontpage-desc-busq-block .view-display-id-busq_block {
+  margin: 0 auto 0 auto;
+  width: 100%;
+  height: 350px;
+  background: linear-gradient(#fff, #e8f6e3) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  padding-bottom: 10px;
+}
+#block-views-frontpage-desc-busq-block .view-display-id-busq_block img.img-responsive {
+  position: relative;
+  top:  25px;
+  margin-bottom: 30px;
+  width: 50%;
+}
+#tabIcons {
+  padding-top: 50px;
+  padding-left: 50px;
+}
+#tabIcons a img{
+  transition: transform 300ms linear 0s;
+}
+#tabIcons a:hover img{
+  transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+}
+#tabIcons img {
+  width: 60px;
+}
 ul#tabSedes {
   margin-bottom: 5px;
 }
@@ -415,10 +306,22 @@ ul#tabSedes {
   border: 1px solid transparent;
   background-color: transparent;
 }
+#block-views-frontpage-desc-busq-block input#edit-submit-sedes2,
+#block-views-frontpage-desc-busq-block input#edit-reset {
+  margin-top: 0;
+  color: #fff;
+  background-color: #93c79b;
+  border-color: #93c79b;
+}
+#block-views-frontpage-desc-busq-block input#edit-submit-sedes2:hover,
+#block-views-frontpage-desc-busq-block input#edit-submit-sedes2:active {
+  background-color: #449d44;
+  border-color: #398439;
+}
 
 /* --------------- Busqueda Avanzada ------------ */
 
-/*#block-views-frontpage-desc-busq-block label,
+#block-views-frontpage-desc-busq-block label,
 #block-views-exp-sedes2-busq-avan label {
   margin-top: 0.6rem;
 }
@@ -439,7 +342,7 @@ ul#tabSedes {
 #block-views-exp-sedes2-busq-simple form[id^="views-exposed-form-sedes2-busq-simple"],
 #block-views-exp-sedes2-busq-avan form[id^="views-exposed-form-sedes2-busq-avan"] {
   display: none;
-}*/
+}
 
 /* 
  * Categorias pages
@@ -529,24 +432,24 @@ ul#tabSedes {
 }
 
 /* --------------- Sedes View ------------ */
-#block-views-sedes-report-geo,
+#block-views-sedes3-block,
 .view-sedes2 {
   display: none;
 }
 #block-views-sedes-block .nav > li,
-#block-views-sedes-report-geo .nav > li,
+#block-views-sedes3-block .nav > li,
 .view-sedes2 .nav > li {
   margin: 0;
   padding: 0 !important;
 }
 #block-views-sedes-block .tab-despierta ul li a,
-#block-views-sedes-report-geo .tab-despierta ul li a,
+#block-views-sedes3-block .tab-despierta ul li a,
 .view-sedes2 .tab-despierta ul li a {
   font-size: 18px;
   padding: 5px 10px 3px 10px;
 }
 #block-views-sedes-block .tab-despierta .tab-content,
-#block-views-sedes-report-geo .tab-despierta .tab-content,
+#block-views-sedes3-block .tab-despierta .tab-content,
 .view-sedes2 .tab-despierta .tab-content {
   padding: 0;
 }
@@ -705,19 +608,19 @@ ul#tabSedes {
 
 /* --------------- Map Sedes ------------ */
 #block-views-sedes-block .attachment,
-#block-views-sedes-report-geo .attachment {
+#block-views-sedes3-block .attachment {
   padding-right: 0;
 }
 
 
 /* --------------- Filter Sedes ------------ */
 #block-views-sedes-block .view-filters,
-#block-views-sedes-report-geo .view-filters {
+#block-views-sedes3-block .view-filters {
   padding-right: 0;
   font-size: 12px;
 }
 #block-views-sedes-block .view-filters .ppal,
-#block-views-sedes-report-geo .view-filters .ppal {
+#block-views-sedes3-block .view-filters .ppal {
   clear: both;
   font-weight: bold;
   color: #496e32;
@@ -725,11 +628,11 @@ ul#tabSedes {
   width: 100%;
 }
 #block-views-sedes-block .view-filters .ppal > input,
-#block-views-sedes-report-geo .view-filters .ppal > input{
+#block-views-sedes3-block .view-filters .ppal > input{
   margin-right: 5px;
 }
 #block-views-sedes-block .view-filters .load-sede-filter,
-#block-views-sedes-report-geo .view-filters .load-sede-filter {  
+#block-views-sedes3-block .view-filters .load-sede-filter {  
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -746,16 +649,10 @@ ul#tabSedes {
 
 
 /* --------------- Directorio Verde ------------ */
-
-#block-views-categorias-block h2 {
-  margin-left: 10%;
-}
-
-/*.directorio-verde-icons {
+.directorio-verde-icons {
   display: none;
 }
-*/
-.view-categorias {
+.view-despierta-directorio-verde {
   width: 100%;
   margin-top: 20px;
   padding-left: 20px;
