@@ -143,7 +143,7 @@
         ?>
       </div> <!-- /#main-menu -->
     <?php endif; ?>
-    
+
     <?php if ($secondary_menu): ?>
       <div id="secondary-menu" class="navigation">
         <?php print theme('links__system_secondary_menu', array(
@@ -268,7 +268,7 @@
       </div>
         <div class="modal-body"></div>
       <div class="modal-footer">
-        <center><button type="button" class="btn btn-default" data-dismiss="modal">Aplicar</button></center>
+        <center><button type="button" class="btn btn-default" data-dismiss="modal" disabled="true">Aplicar</button></center>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
