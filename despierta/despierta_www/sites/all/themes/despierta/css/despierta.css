@@ -100,9 +100,19 @@ p.pasos {
 
 
 /* --------------- Pais / Regions View ------------ */
+#header .section {
+  display: flex;
+  margin-top: 5px;
+}
 #header .region {
   float: none;
   width: 100%;
+  margin-top: 10px;
+}
+#header .region select,
+#header .region input {
+  height: 30px;
+  width: 155px;
 }
 #header .region .sel-pais,
 #header .region .sel-regions,
@@ -112,16 +122,25 @@ p.pasos {
   float: left;
   display: inline-block;
   margin-left: 5px;
-  /*display: none;*/
 }
+#header .region .sel-button button#sel-button {
+  height: 30px;
+  width: 30px;
+  border-radius: 0;
+}
+#header .region .sel-button .glyphicon {
+  right: 4px;
+  bottom: 1px;
+}
+
 select.round {
   background-color: white;
   border: thin solid gray;
-  /*border-radius: 4px;*/
+  border-radius: 0;
   display: inline-block;
   font: inherit;
   line-height: 1.5em;
-  padding: 0.1em 3em 0.1em 0.1em;
+  padding: 0.1em 0em 0.1em 0.1em;
   margin: 0;      
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -131,14 +150,14 @@ select.round {
 }
 select.round {
   background-image: linear-gradient(45deg, transparent 50%, green 50%), linear-gradient(135deg, green 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
-  background-position: calc(100% - 17px) .9em, calc(100% - 12px) .9em, calc(100% - .5em) .3em;
-  background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+  background-position: calc(100% - 14px) .9em, calc(100% - 6px) .9em, calc(100% - .4em) .4em;
+  background-size: 8px 8px, 8px 8px, 1.4em 1.4em;
   background-repeat: no-repeat;
 }
 select.round:focus {
   background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), radial-gradient(gray 70%, transparent 72%);  
-  background-position:  calc(100% - 12px) .9em,  calc(100% - 17px) .9em, calc(100% - .5em) .3em;
-  background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+  background-position:  calc(100% - 6px) .9em,  calc(100% - 14px) .9em, calc(100% - .4em) .4em;
+  background-size: 8px 8px, 8px 8px, 1.4em 1.4em;
   background-repeat: no-repeat;
   border-color: green;
   outline: 0;
@@ -165,17 +184,39 @@ select#sel-categoria {
 #sms_geoloc_nodespierta button {
   disa
 }
+
+/* --------------- Search Icon ------------ */
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
 /* --------------- Logo View ------------ */
 #logo {
   float: left;
 }
 #logo img {
-  display: inline-block;
-  height: 63px;
+  height: 53px;
 }
 #logo.front img {
-  display: inline-block;
   margin: 5px 0 0 5px;
+  height: 73px;
 }
 
 /* --------------- Wellcome View ------------ */
@@ -210,7 +251,6 @@ select#sel-categoria {
   padding-top: 25px;
   background: rgba(54, 25, 25, .5);
 }
-
 #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
   color: grey;
   background-color: white;
@@ -228,12 +268,22 @@ select#sel-categoria {
 
 /* Overwrite when buscador-verde */
 #header .section.buscador-verde {
+  display: block;
+  margin: 0;
   background-position: initial;
   background-repeat: no-repeat;
-  background-position: center;  
+  background-position: center; 
 }
 #header .section.buscador-verde .block-welcome-username * {
   color: white;
+}
+#header .section.buscador-verde .block-welcome-username [dp-class="unete"] {
+  background-image: none;
+  border: 3px solid rgba(255, 255, 255, 1);
+  border-radius: 0px;
+  padding: 5px 25px;
+  font-size: 16px;
+  margin-right: 200px;
 }
 #header .section.buscador-verde .region .sel-pais {
   float: left;
@@ -256,11 +306,10 @@ select#sel-categoria {
 }
 #header .section.buscador-verde .buscador-verde-search input#sel-search,
 #header .section.buscador-verde .buscador-verde-search select#sel-regions,
-#header .section.buscador-verde .buscador-verde-search select#sel-regions *,
-#header .section.buscador-verde .buscador-verde-search input#sel-button {
+#header .section.buscador-verde .buscador-verde-search select#sel-regions * {
   font-size: medium;
 }
-#header .section.buscador-verde .buscador-verde-search input#sel-button {
+#header .section.buscador-verde .buscador-verde-search button#sel-button {
   height: 50px;
   width: 100px;
   border-radius: 0;
@@ -548,8 +597,9 @@ ul#tabSedes {
 }
 #block-views-sedes-block .tab-despierta ul li a,
 #block-views-sedes-report-geo .tab-despierta ul li a {
-  font-size: 18px;
-  padding: 5px 10px 3px 10px;
+  font-size: 16px;
+  padding: 5px 5px 3px 5px;
+  border-radius: 0px;
 }
 #block-views-sedes-block .tab-despierta .tab-content,
 #block-views-sedes-report-geo .tab-despierta .tab-content {
@@ -594,7 +644,7 @@ ul#tabSedes {
 }
 .resultados .sep-title {
   color: #496e32;
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 10px;
 }
 .resultados h1 {
@@ -737,6 +787,7 @@ ul#tabSedes {
 #block-views-sedes-report-geo .view-filters .load-sede-filter {  
   margin-top: 10px;
   margin-bottom: 10px;
+  border-radius: 0px;
 }
 #block-views-frontpage-desc-busq-block input.load-sede-filter {
   margin-top: 0;

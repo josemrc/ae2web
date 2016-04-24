@@ -170,30 +170,36 @@ function getGeolocation() {
       // Get Taxonomy: categorias
       allCategoriasObj = Drupal.theme.prototype.categoriasObj( $('#block-views-categorias-names .view-content') );
 
+
       // Get Geolocation if it does not alreaady exists (Session)
-      if (
-        sessionStorage === undefined || sessionStorage === null || 
-        sessionStorage['geolocation'] === undefined || sessionStorage['geolocation'] === null   || 
-        sessionStorage['code'] === undefined        || sessionStorage['code'] === null          || sessionStorage['code'] === ''      ||
-        sessionStorage['area_code'] === undefined   || sessionStorage['area_code'] === null     || sessionStorage['area_code'] === ''
-      ) {
-          // For firefox: In the case "Not now" event does not work
-          if ( /firefox/.test(navigator.userAgent.toLowerCase()) ) {
-            // Check if geolocation and the website is ready after a time
-            // setTimeout(despiertaGeoError, 15000);
-          }
-          getGeolocation();
+      if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'usuario' || urlPaths[0] === 'empresa' || urlPaths[0] === 'user' || urlPaths[0] === 'admin' ) ) {
+        Drupal.theme.prototype.isReady();
       }
       else {
         if (
-          sessionStorage['geolocation'] !== undefined && sessionStorage['geolocation'] !== null  && sessionStorage['geolocation'] === "local" && 
-          (sessionStorage['code'] === ''      || sessionStorage['code'] === '-') &&
-          (sessionStorage['area_code'] === '' || sessionStorage['area_code'] === '-')
+          sessionStorage === undefined || sessionStorage === null || 
+          sessionStorage['geolocation'] === undefined || sessionStorage['geolocation'] === null   || 
+          sessionStorage['code'] === undefined        || sessionStorage['code'] === null          || sessionStorage['code'] === ''      ||
+          sessionStorage['area_code'] === undefined   || sessionStorage['area_code'] === null     || sessionStorage['area_code'] === ''
         ) {
-          despiertaGeoError();
+            // For firefox: In the case "Not now" event does not work
+            if ( /firefox/.test(navigator.userAgent.toLowerCase()) ) {
+              // Check if geolocation and the website is ready after a time
+              // setTimeout(despiertaGeoError, 15000);
+            }
+            getGeolocation();
         }
         else {
-          Drupal.theme.prototype.isReady();
+          if (
+            sessionStorage['geolocation'] !== undefined && sessionStorage['geolocation'] !== null  && sessionStorage['geolocation'] === "local" && 
+            (sessionStorage['code'] === ''      || sessionStorage['code'] === '-') &&
+            (sessionStorage['area_code'] === '' || sessionStorage['area_code'] === '-')
+          ) {
+            despiertaGeoError();
+          }
+          else {
+            Drupal.theme.prototype.isReady();
+          }
         }
       }
 

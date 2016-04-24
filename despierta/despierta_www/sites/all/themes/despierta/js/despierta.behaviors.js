@@ -2,18 +2,31 @@
 
 // Bug fixed: After travelling back in Firefox history, JavaScript won't run
 // Adding this empty function, it works
-window.onunload = function(){};
+window.onunload = function(){}
 
-// Init Code
+// Window Load
 $(window).load(function () {
+
+console.log("window load");
+
 	// Reset form
 	$('form[id="views-exposed-form-sedes-report-geo"]').trigger('reset');
 
 	// Select specific 'pais/region/category'
-	var session = extractSessionVars();
-	if ( session !== undefined && session.pcode && session.rcode && session.catcode ) {
-		Drupal.theme.prototype.initHederPanel(session.pcode, session.rcode, session.catcode);		
-	}	
+	if ( definedGeoSessionVars() ) {
+		if (
+		sessionStorage['geolocation'] !== "true" || sessionStorage.getItem('geolocation') !== "true" || 
+		sessionStorage['geolocation'] !== "local" || sessionStorage.getItem('geolocation') !== "local"
+		) {
+			var session = {};
+			if ( sessionStorage['code'] !== undefined && sessionStorage['code'] !== null) { session.pcode = sessionStorage['code'] }
+			if ( sessionStorage['area_code'] !== undefined && sessionStorage['area_code'] !== null) { session.rcode = sessionStorage['area_code'] }
+			if ( sessionStorage['cat_code'] !== undefined && sessionStorage['cat_code'] !== null) { session.catcode = sessionStorage['cat_code'] }
+			Drupal.theme.prototype.initHederPanel(session.pcode, session.rcode, session.catcode);
+		}
+		// The page is ready
+		Drupal.theme.prototype.isReady();
+	}
 });
 
 
@@ -101,10 +114,7 @@ $(window).load(function () {
 		return d;
 	}
 /* Check Session */
-	function extractSessionVars() {
-		var session = {};
-
-		// Create REgion only in the case the 'Session' variables are ready.
+	function definedGeoSessionVars() {
 		if (
 			!jQuery.isEmptyObject(sessionStorage) 			&& !sessionStorage !== undefined &&
 			sessionStorage['geolocation'] !== undefined 	&& sessionStorage.getItem('geolocation') !== undefined &&
@@ -116,6 +126,17 @@ $(window).load(function () {
 			sessionStorage['area_code'] !== null 			&& sessionStorage.getItem('area_code') !== null && 
 			sessionStorage['area_code'] !== '' 				&& sessionStorage.getItem('area_code') !== ''
 		) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	function extractSessionVars() {
+		var session = {};
+
+		// Create REgion only in the case the 'Session' variables are ready.
+		if ( definedGeoSessionVars() ) {
 			if (
 			sessionStorage['geolocation'] !== "true" || sessionStorage.getItem('geolocation') !== "true" || 
 			sessionStorage['geolocation'] !== "local" || sessionStorage.getItem('geolocation') !== "local"
@@ -158,12 +179,15 @@ $(window).load(function () {
 	}
 /* Is Ready the geolocation and the website? */
 	Drupal.theme.prototype.isReady = function () {
-		if ( $('#loading').css('display') === "block" ) {
-			$('#loading').css('display', 'none');
-			if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage['geolocation'] === undefined || sessionStorage.getItem('geolocation') === undefined || sessionStorage.getItem('geolocation') === null ) {
+console.log("isReady ENTRA");
+		if ( definedGeoSessionVars() ) {
+			if ( $('#loading').css('display') === "block" ) {
 				$('#loading').css('display', 'none');
-				if ( $('#block-views-sedes-report-geo .view-sedes-report > .view-empty').length > 0 ) {
-					$('#block-views-sedes-report-geo .view-sedes-report > .view-empty').html(smsNoGeoTimeOut);
+				if ( jQuery.isEmptyObject(sessionStorage) || sessionStorage === undefined || sessionStorage['geolocation'] === undefined || sessionStorage.getItem('geolocation') === undefined || sessionStorage.getItem('geolocation') === null ) {
+					$('#loading').css('display', 'none');
+					if ( $('#block-views-sedes-report-geo .view-sedes-report > .view-empty').length > 0 ) {
+						$('#block-views-sedes-report-geo .view-sedes-report > .view-empty').html(smsNoGeoTimeOut);
+					}
 				}
 			}
 		}
@@ -171,6 +195,7 @@ $(window).load(function () {
 /* Active loading page */
 	Drupal.theme.prototype.isLoading = function (context, opacity) {
 		if ( $('#loading').css('display') === "none" ) {
+console.log("loading ENTRA");
 			// when the root page has not 'home'
 			if ( urlPaths === undefined || urlPaths.length === 0 ) {
 				$('#loading').css('display', 'block');
@@ -303,17 +328,7 @@ $(window).load(function () {
 		var rcode = '';
 		var catcode = '';
 		// Create REgion only in the case the 'Session' variables are ready.
-		if (
-			!jQuery.isEmptyObject(sessionStorage) 			&& !sessionStorage !== undefined &&
-			sessionStorage['geolocation'] !== undefined 	&& sessionStorage.getItem('geolocation') !== undefined &&
-			sessionStorage['geolocation'] !== null 			&& sessionStorage.getItem('geolocation') !== null &&
-			sessionStorage['code'] !== undefined 			&& sessionStorage.getItem('code') !== undefined && 
-			sessionStorage['code'] !== null 				&& sessionStorage.getItem('code') !== null && 
-			sessionStorage['code'] !== '' 					&& sessionStorage.getItem('code') !== '' && 
-			sessionStorage['area_code'] !== undefined 		&& sessionStorage.getItem('area_code') !== undefined && 
-			sessionStorage['area_code'] !== null 			&& sessionStorage.getItem('area_code') !== null && 
-			sessionStorage['area_code'] !== '' 				&& sessionStorage.getItem('area_code') !== ''
-		) {
+		if ( definedGeoSessionVars() ) {
 			if (
 			sessionStorage['geolocation'] !== "true" || sessionStorage.getItem('geolocation') !== "true" || 
 			sessionStorage['geolocation'] !== "local" || sessionStorage.getItem('geolocation') !== "local"
@@ -403,6 +418,16 @@ $(window).load(function () {
 
 		// change directorio-verde menu
 		Drupal.theme.prototype.changeLinkToRegion();
+
+		// Add hr if we are not in the frontpage
+		if ( urlPaths !== undefined && urlPaths.length > 0 && $('#header hr').length === 0 ) {
+			$('#header').append('<hr>');
+		}
+
+		// Remove 'Anunciate (Register)' link for all pages except in frontpage
+		if ( urlPaths !== undefined && urlPaths.length > 0 ) {
+			$('#header .block-welcome-username a[dp-class="unete"]').remove();
+		}		
 	};	
 /* Create HTML select option */
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
@@ -447,7 +472,7 @@ $(window).load(function () {
 		return selHTML;
 	};
 	Drupal.theme.prototype.applySelectList = function () {
-		var selHTML = '<input type="button" id="sel-button" class="btn btn-success" value="Buscar">';
+		var selHTML = '<button id="sel-button" type="button" class="btn btn-success"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>';
 		return selHTML;
 	};
 /* Select: Specific Pais - Region (for Geolocation) */
@@ -475,13 +500,6 @@ $(window).load(function () {
 			$('input[id="sel-search"]').val('');
 		}
 	};
-/* Cascate the 'search' in the Sedes Form */
-	// Drupal.theme.prototype.cascadeSearchSelect = function () {
-	// 	// Fill 'search' text into form
-	// 	var text = $('#header input[id="sel-search"]').val();
-	// 	$('#block-views-sedes-report-geo #edit-keys-wrapper input[id="edit-keys"]').val( text );
-	// 	$('#block-views-sedes-report-geo #edit-keys-wrapper input[id="edit-keys"]').change();
-	// };
 /* Create Buscador Verde */
 	Drupal.theme.prototype.createBusqVerdePanel = function (context) {
 		// Move 
@@ -498,8 +516,10 @@ $(window).load(function () {
 		$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
 		$('#header .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');
 		$('#header .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');
-		$('#header .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');
+		$('#header .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');		
 		$('#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions').prepend('<label for="sel-regions">Ubicación actual:</label>');
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search button#sel-button').text('Buscar');
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search button#sel-button span').remove();
 		$('#header .region .sel-search').remove();
 		$('#header .region .sel-regions').remove();
 		$('#header .region .sel-button').remove();
@@ -817,7 +837,6 @@ $(window).load(function () {
 					// Region view
 					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
 					tabHeader['Todas'][nid] = sede;
-					//if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'home' || urlPaths[0] === 'busqueda-simple' || urlPaths[0] === 'busqueda-avanzada' ) ) {
 					if ( urlPaths !== undefined && urlPaths.length > 3 && urlPaths[3] === 'all' ) {
 						if ( tabHeader[cat] === undefined ) { tabHeader[cat] = {} }
 						tabHeader[cat][nid] = sede;
@@ -1313,7 +1332,7 @@ $(window).load(function () {
 
 			// console.log("settings");
 			// console.log(settings);
-			// console.log("context.behaviors");
+			console.log("context.behaviors");
 			// console.log(context);
 			// console.log("sessionStorage");
 			// console.log(sessionStorage);
@@ -1338,6 +1357,7 @@ $(window).load(function () {
 			}
 
 			// Active loading page
+console.log("active loading page");
 			Drupal.theme.prototype.isLoading(context);
 
 			// Check if geolocation and the website is ready after a time
@@ -1961,10 +1981,10 @@ $(window).load(function () {
 					window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 				}
 			});	
-			$(context).delegate('#header input[id="sel-button"]', 'click', function(event) {
+			$(context).delegate('#header button[id="sel-button"]', 'click', function(event) {
 				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 			});	
-			$(context).delegate('#header .buscador-verde-search input[id="sel-button"]', 'click', function(event) {
+			$(context).delegate('#header .buscador-verde-search button[id="sel-button"]', 'click', function(event) {
 				// Create new location based on pais/region/cat
 				// Redirect region location if it is not 'buscador verde'
 				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
