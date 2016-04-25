@@ -6,9 +6,6 @@ window.onunload = function(){}
 
 // Window Load
 $(window).load(function () {
-
-console.log("window load");
-
 	// Reset form
 	$('form[id="views-exposed-form-sedes-report-geo"]').trigger('reset');
 
@@ -179,7 +176,6 @@ console.log("window load");
 	}
 /* Is Ready the geolocation and the website? */
 	Drupal.theme.prototype.isReady = function () {
-console.log("isReady ENTRA");
 		if ( definedGeoSessionVars() ) {
 			if ( $('#loading').css('display') === "block" ) {
 				$('#loading').css('display', 'none');
@@ -195,7 +191,6 @@ console.log("isReady ENTRA");
 /* Active loading page */
 	Drupal.theme.prototype.isLoading = function (context, opacity) {
 		if ( $('#loading').css('display') === "none" ) {
-console.log("loading ENTRA");
 			// when the root page has not 'home'
 			if ( urlPaths === undefined || urlPaths.length === 0 ) {
 				$('#loading').css('display', 'block');
@@ -1332,7 +1327,7 @@ console.log("loading ENTRA");
 
 			// console.log("settings");
 			// console.log(settings);
-			console.log("context.behaviors");
+			// console.log("context.behaviors");
 			// console.log(context);
 			// console.log("sessionStorage");
 			// console.log(sessionStorage);
@@ -1357,7 +1352,6 @@ console.log("loading ENTRA");
 			}
 
 			// Active loading page
-console.log("active loading page");
 			Drupal.theme.prototype.isLoading(context);
 
 			// Check if geolocation and the website is ready after a time
@@ -1483,10 +1477,6 @@ console.log("active loading page");
 					var sedesFilters = Drupal.theme.prototype.getNumFilters(reportSedes);
 					reportFilters = Drupal.theme.prototype.countNumFilters(sedesFilters);
 				}
-// console.log("reportSedes");
-// console.log(reportSedes);
-// console.log("reportFilters");
-// console.log(reportFilters);
 
 				// Print Content:
 				if ( !$.isEmptyObject(reportSedes) ) {
@@ -1662,8 +1652,8 @@ console.log("active loading page");
 			/* Directorio Verde page */
 			$('#block-views-categorias-block', context).once('despierta', function () {
 				// change title including region
-				var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
-				$('h1[id="page-title"]').html( q );
+				// var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
+				// $('h1[id="page-title"]').html( q );
 
 				$('> h2', this).after('<h4>Localiza todas las iniciativas que contribuyen al crecimiento sostenible de tu región</h4>');
 
@@ -1688,8 +1678,9 @@ console.log("active loading page");
 				// change title including region
 				var $oldtitle = $(this).parents('.block-views').find('h2');
 				var q = Drupal.theme.prototype.getTitleRegion( $oldtitle.text() );
-				$('h1[id="page-title"]').html( q );
-				$oldtitle.remove();
+				//$('h1[id="page-title"]').html( q );
+				// $oldtitle.remove();
+				$oldtitle.replaceWith('<h1 class="title" id="page-title">'+q+'</h1>');
 
 				$(this).append('<hr>');
 			});
@@ -1911,6 +1902,11 @@ console.log("active loading page");
 			$('.region-triptych-first').addClass('col-md-4');
 			$('.region-triptych-middle').addClass('col-md-4');
 			$('.region-triptych-last').addClass('col-md-4');
+			$('#footer-columns', context).once('despierta', function () {
+				if ( $('#footer-wrapper .section hr').length === 0 ) {
+					$('#footer-wrapper .section').prepend('<hr>');
+				}
+			});
 
 
 			/**
