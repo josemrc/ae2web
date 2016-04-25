@@ -164,13 +164,19 @@ $(window).load(function () {
 		var rcode = sessionStorage['area_code'];
 		var catcode = sessionStorage['cat_code'];
 		var dcode = '';
-		var searchkeys = ( $('#header input[id="sel-search"]').val() !== '' )? '&keys='+$('#header input[id="sel-search"]').val() : '';
+		var searchkeys = '';
+		if ( $('#header input[id="sel-search"]').val() !== '' ) {
+			searchkeys = '&keys=' + encodeURI( $('#header input[id="sel-search"]').val() );
+		}		
 		if ( url !== undefined && url.length > 0 && ( url[0] === 'directorio-verde' || url[0] === 'busq' ) ) {
 			location = '?q=' + url[0] + '/' + pcode + '/'+ rcode + '/' + catcode + searchkeys;
 		}
 		else if (url !== undefined && url.length === 0) { // frontpage
 			catcode = 'all';
 			location = '?q=busq' + '/' + pcode + '/'+ rcode + '/' + catcode + searchkeys;
+		}
+		else { // the rest of pages
+			location = '?q=directorio-verde' + '/' + pcode + '/'+ rcode + '/' + catcode + searchkeys;	
 		}
 		return location;
 	}
@@ -1651,10 +1657,7 @@ $(window).load(function () {
 
 			/* Directorio Verde page */
 			$('#block-views-categorias-block', context).once('despierta', function () {
-				// change title including region
-				// var q = Drupal.theme.prototype.getTitleRegion( $('h1[id="page-title"]').text() );
-				// $('h1[id="page-title"]').html( q );
-
+				// Add subtitle
 				$('> h2', this).after('<h4>Localiza todas las iniciativas que contribuyen al crecimiento sostenible de tu región</h4>');
 
 				// 'Mas' Category at the end
@@ -1673,7 +1676,6 @@ $(window).load(function () {
 					$('.views-field-field-imagen .field-content img', this).removeClass('img-responsive');
 				});
 			});
-
 			$('.view-banners', context).once('despierta', function () {
 				// change title including region
 				var $oldtitle = $(this).parents('.block-views').find('h2');
@@ -1997,9 +1999,6 @@ $(window).load(function () {
 				}
 			});	
 
-			// // Exposed filters
-			// Drupal.theme.prototype.exposedFilterMoment(context);
-
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
@@ -2015,9 +2014,6 @@ $(window).load(function () {
 			else {
 				$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');	
 			}
-
-			// Delete select:option 'Seleccione pais'
-			// $('#header select[id="sel-pais"] > option[value="-"]').remove();
 
 		} // end: attach of despierta theme
 	};
