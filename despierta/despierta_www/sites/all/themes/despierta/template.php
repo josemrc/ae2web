@@ -321,5 +321,4 @@ function despierta_form_contact_site_form_alter(&$form, $form_state) {
   unset($form['cid']['#options'][0]);
 }
 
-
 ?>

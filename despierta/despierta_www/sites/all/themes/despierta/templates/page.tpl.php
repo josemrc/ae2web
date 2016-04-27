@@ -160,8 +160,10 @@
         )); ?>
       </div> <!-- /#secondary-menu -->
     <?php endif; ?>
-
-  </div></div> <!-- /.section, /#header -->
+  
+  </div> <!-- /.section-->
+  <hr></hr>
+  </div> <!-- /#header -->
 
   <?php if ($page['featured']): ?>
     <div id="featured"><div class="section clearfix">
@@ -225,7 +227,7 @@
   </div></div> <!-- /#main, /#main-wrapper -->
 
   <div id="footer-wrapper"><div class="section">
-
+  <hr></hr>  
     <?php if ($page['footer_firstcolumn'] || $page['footer_secondcolumn'] || $page['footer_thirdcolumn'] || $page['footer_fourthcolumn']): ?>
       <div id="footer-columns" class="clearfix">
         <?php print render($page['footer_firstcolumn']); ?>

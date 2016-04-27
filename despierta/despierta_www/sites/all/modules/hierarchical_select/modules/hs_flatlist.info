@@ -4,9 +4,9 @@ dependencies[] = hierarchical_select
 package = Form Elements
 core = 7.x
 
-; Information added by Drupal.org packaging script on 2015-12-14
-version = "7.x-3.0-beta3"
+; Information added by Drupal.org packaging script on 2016-04-27
+version = "7.x-3.0-beta4"
 core = "7.x"
 project = "hierarchical_select"
-datestamp = "1450092843"
+datestamp = "1461754475"
 

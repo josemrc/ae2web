@@ -457,6 +457,7 @@ select#sel-categoria {
 
 #main {
   padding-top: 0;
+  min-height: 400px;
 
 }
 /* --------------- BreadCrumb ------------ */
@@ -983,6 +984,7 @@ div[id^="block-views-banners-block"] h1 {
   color: #496e32;
   font-size: 20px;
   padding-left: 30px;
+  margin-top: 0px;
 }
 #footer-columns ul, #footer-columns ul li {
   list-style: none;  
@@ -1005,9 +1007,8 @@ div[id^="block-views-banners-block"] h1 {
   margin-left: auto;
   margin-right: auto;
 }
-
 #footer-wrapper {
-  margin-top: 30px;
+  margin-top: -20px;
 }
 
 /* --------------- Footer Image ------------ */

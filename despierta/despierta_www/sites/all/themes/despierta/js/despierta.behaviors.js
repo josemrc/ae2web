@@ -58,6 +58,10 @@ $(window).load(function () {
 							'Localizando su posición...'+
 						'</div>'+
 					'</div></div>';
+	var noSedeRegistrada = '<div class="section clearfix"><div class="nosederegister messages status">'+
+							'Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".'+
+							'</div></div>';
+
 
 /**
 *
@@ -421,8 +425,12 @@ $(window).load(function () {
 		Drupal.theme.prototype.changeLinkToRegion();
 
 		// Add hr if we are not in the frontpage
-		if ( urlPaths !== undefined && urlPaths.length > 0 && $('#header hr').length === 0 ) {
-			$('#header').append('<hr>');
+		// if ( urlPaths !== undefined && urlPaths.length > 0 && $('#header hr').length === 0 ) {
+		// 	$('#header').append('<hr>');
+		// }
+		if ( urlPaths !== undefined && urlPaths.length === 0 ) {
+console.log(urlPaths);
+			$('#header hr').css('display', 'none');
 		}
 
 		// Remove 'Anunciate (Register)' link for all pages except in frontpage
@@ -1705,7 +1713,34 @@ $(window).load(function () {
 			/* Sede: Individual Page */
 			$('.view-empresa-sedes', context).once('despierta', function () {
 				if ( $('.view-content',this).length == 0 ) {
-					$(this).append('<div class="view-content"><p>Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+					//$(this).append('<div class="view-content"><p>Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+				if ( $('#main #messages .nosederegister').length === 0 ) {      
+					$('#main').prepend('<div id="messages">'+noSedeRegistrada+'</div>');
+				}
+				else {
+					$('#main #messages').html(noSedeRegistrada);	
+				}
+
+// BEGIN-TEMPORAL:!!! BORRAR EN PRODUCCION
+// var smsGeo = '<div class="section clearfix">'+
+//         '<div class="nogeo messages status">'+
+//           'Geolocalización: '+sessionStorage['geolocation']+'<br>'+
+//           ' Country: '+sessionStorage['country']+'; '+
+//           ' Country_code: '+sessionStorage['code']+';'+
+//           ' Area: '+sessionStorage['area']+';'+
+//           ' Area_code: '+sessionStorage['area_code']+';'+
+//           ' Locality: '+sessionStorage['locality']+';'+
+//           ' Address: '+sessionStorage['formatted_address']+
+//         '</div>'+
+//       '</div>';
+// if ( $('#page-wrapper #messages').length === 0 ) {      
+// $('#page-wrapper').prepend('<div id="messages">'+ smsGeo + '</div>');
+// }
+// else {
+// $('#page-wrapper #messages').html(smsGeo);	
+// }
+// END-TEMPORAL:!!! BORRAR EN PRODUCCION
+
 				}
 				else {
 					$('.view-content',this).prepend('<div class=""><a href="/despierta/?q=empresa/anadir/sede">Crear nueva asede</a></div>');
@@ -1904,11 +1939,11 @@ $(window).load(function () {
 			$('.region-triptych-first').addClass('col-md-4');
 			$('.region-triptych-middle').addClass('col-md-4');
 			$('.region-triptych-last').addClass('col-md-4');
-			$('#footer-columns', context).once('despierta', function () {
-				if ( $('#footer-wrapper .section hr').length === 0 ) {
-					$('#footer-wrapper .section').prepend('<hr>');
-				}
-			});
+			// $('#footer-columns', context).once('despierta', function () {
+			// 	if ( $('#footer-wrapper .section hr').length === 0 ) {
+			// 		$('#footer-wrapper .section').prepend('<hr>');
+			// 	}
+			// });
 
 
 			/**
