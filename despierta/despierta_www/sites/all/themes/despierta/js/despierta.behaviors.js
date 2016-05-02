@@ -558,13 +558,15 @@ console.log(urlPaths);
 		// distance (only for Sedes view)
 		if ( $('td[class$="views-field-field-geofield-distance"]', elem).length ) {
 			var val = $('td[class$="views-field-field-geofield-distance"]', elem).text().replace(/\n*\s*/g,'');
-			sede.proximity = val;
+			//sede.proximity = val;
+			// NOTE: Now, does not work the geocoder proximity
+			// SOLUTION: Use the "geoProximity" function!!
 		}
 		if ( $('td[class$="views-field-field-location"]', elem).length ) {
 			var val = $('td[class$="views-field-field-location"]', elem).text().replace(/\n*\s*/g,'');
 			if ( val !== undefined && val != "" ) {
 				sede.location = jQuery.parseJSON( val );
-				// sede.proximity = geoProximity( parseFloat(sessionStorage['longitude']), parseFloat(sessionStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
+				sede.proximity = geoProximity( parseFloat(sessionStorage['longitude']), parseFloat(sessionStorage['latitude']), sede.location.coordinates[0], sede.location.coordinates[1]);
 			}
 		}
 		// title
@@ -843,6 +845,8 @@ console.log(urlPaths);
 					if ( iSedeObj.title !== undefined ) { sede.title = iSedeObj.title }
 					if ( iSedeObj.nid !== undefined ) { sede.nid = iSedeObj.nid }
 					if ( iSedeObj.type !== undefined ) { sede.type = iSedeObj.type }
+					if ( iSedeObj.proximity !== undefined && iSedeObj.proximity != 0 ) { sede.proximity = iSedeObj.proximity }
+					else { sede.proximity = 1000000 } // if its unique online shop, create a huge proximity to be on the bottom of list
 					// Region view
 					if ( tabHeader['Todas'] === undefined ) { tabHeader['Todas'] = {} }
 					tabHeader['Todas'][nid] = sede;
