@@ -366,6 +366,7 @@ function _hs_process_attach_css_js($element, $hsid, &$form_state, $complete_form
   global $language;
   // Set up Javascript and add settings specifically for the current
   // hierarchical select.
+  $element['#attached']['library'][] = array('system', 'ui');
   $element['#attached']['library'][] = array('system', 'drupal.ajax');
   $element['#attached']['library'][] = array('system', 'jquery.form');
   $element['#attached']['library'][] = array('system', 'effects');
@@ -1035,7 +1036,11 @@ function _hierarchical_select_process_get_db_selection($element, $hsid, &$form_s
           // we make sure that on a form rebuild the same remove checkbox,
           // which is accessed by index, is not set, preventing a double removal.
           // @see https://www.drupal.org/node/1566878#comment-9226261
-          unset($form_state['input']['parent']['dropbox']['visible']['lineages'][$x]['remove']);
+          $elm = &$form_state['input'];
+          foreach ($element['#parents'] as $parent) {
+            $elm = &$elm[$parent];
+          }
+          unset($elm['dropbox']['visible']['lineages'][$x]['remove']);
         }
       }
     }
@@ -2147,7 +2152,9 @@ function _hierarchical_select_dropbox_generate($config, $selection) {
       }
     }
 
-    usort($dropbox->lineages, '_hierarchical_select_dropbox_sort');
+    if (!isset($config['dropbox']['sort']) || $config['dropbox']['sort']){
+      usort($dropbox->lineages, '_hierarchical_select_dropbox_sort');
+    }
 
     // Now store each lineage's selection too. This is needed on the client side
     // to enable the remove button to let the server know which selected items

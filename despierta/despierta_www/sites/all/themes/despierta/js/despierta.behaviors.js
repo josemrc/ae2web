@@ -62,6 +62,15 @@ $(window).load(function () {
 							'Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".'+
 							'</div></div>';
 
+	var smsGenError = '<div id="messages"><div class="section clearfix">'+
+							'<div class="messages error">'+
+							'<h2 class="element-invisible">Mensaje de error</h2>'+
+ 							'<ul>'+
+							'</ul>'+
+							'</div>'+
+						'</div></div>';
+
+
 
 /**
 *
@@ -425,11 +434,7 @@ $(window).load(function () {
 		Drupal.theme.prototype.changeLinkToRegion();
 
 		// Add hr if we are not in the frontpage
-		// if ( urlPaths !== undefined && urlPaths.length > 0 && $('#header hr').length === 0 ) {
-		// 	$('#header').append('<hr>');
-		// }
 		if ( urlPaths !== undefined && urlPaths.length === 0 ) {
-console.log(urlPaths);
 			$('#header hr').css('display', 'none');
 		}
 
@@ -1846,8 +1851,9 @@ console.log(urlPaths);
 				$('input[id="edit-field-sede-region-venta-und-hierarchical-select-dropbox-add"]', this).addClass("btn btn-success pull-right");
 
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");
-				$('input[id="edit-preview"]', this).remove();
-				$(this).append('<span style="color: #f00">*</span> Campos obligatorios');
+				$('input[id="edit-delete"]', this).addClass("btn btn-danger pull-left");
+				$('input[id="edit-preview"]', this).remove();				
+				$('#edit-actions', this).before('<span style="color: #f00">*</span> Campos obligatorios');
 			});
 			// Changes within 'Categorias/Subcategorias/Etiq'		
 			$('select[id^="edit-field-directorio-verde-und-hierarchical-select-selects-0"],select[id^="edit-field-directorio-verde-und-hierarchical-select-selects-1"]').once("DOMSubtreeModified",function(){
@@ -1909,7 +1915,13 @@ console.log(urlPaths);
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] select').addClass("form-control");
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] input').addClass("btn btn-info");
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] input').wrap('<div class="edit-field-sede-pais-button"></div>');
-				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');				
+				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"] td').replaceWith('<td>Ningún país/región ha sido seleccionado.</td>');
+				// 'Pais/Regiones' required if 'venta online, alquiler online, etc.' is checked
+				if ( $('.node-form.node-sede-form #edit-field-sede-pais').css('display') === 'block' ) {
+					if ( $('.node-form.node-sede-form #edit-field-sede-pais label[for*="edit-field-sede-pais-und"] span.form-required').length === 0 ) {
+						$('.node-form.node-sede-form #edit-field-sede-pais label[for*="edit-field-sede-pais-und"]').append(' <span class="form-required">*</span>');
+					}
+				}
 			});
 			$('.node-form.node-sede-form div[id="edit-field-sede-pais"] .dropbox').once("DOMSubtreeModified",function(){
 				$('table tr[class*="dropbox-entry"]', this).each( function() {
@@ -1918,7 +1930,6 @@ console.log(urlPaths);
 					}
 				});
 			});
-
 
 			/* User form page */
 			$('form[id="user-profile-form"]', context).once('despierta', function () {
@@ -1943,11 +1954,6 @@ console.log(urlPaths);
 			$('.region-triptych-first').addClass('col-md-4');
 			$('.region-triptych-middle').addClass('col-md-4');
 			$('.region-triptych-last').addClass('col-md-4');
-			// $('#footer-columns', context).once('despierta', function () {
-			// 	if ( $('#footer-wrapper .section hr').length === 0 ) {
-			// 		$('#footer-wrapper .section').prepend('<hr>');
-			// 	}
-			// });
 
 
 			/**
@@ -2037,6 +2043,54 @@ console.log(urlPaths);
 					element.fireEvent("onmousedown");
 				}
 			});	
+			/* Sede form */
+			// Before submit
+			$(context).delegate('form[id="sede-node-form"] input[id="edit-submit"]', 'click', function(event) {
+				var subFlag = true;
+				var sms = '';
+				if ( $('.node-form.node-sede-form #edit-field-sede-pais').css('display') === 'block' && $('.node-form.node-sede-form div[id="edit-field-sede-pais"] table tr[class*="dropbox-is-empty"]').length !== 0 ) {
+					sms += "<li>El campo '¿En qué regiones vende o presta servicio su Sede?' es obligatorio</li>";
+					subFlag = false;
+				}
+				if ( $('.node-form.node-sede-form #edit-field-sede-email label[for*="edit-field-sede-email"] span.form-required').length !== 0 && 
+					 $('.node-form.node-sede-form #edit-field-sede-email input[id="edit-field-sede-email-und-0-email"]').val() === ''
+				) {
+					sms += "<li>El campo 'Email' es obligatorio</li>";
+					subFlag = false;
+				}
+				if ( $('.node-form.node-sede-form #edit-field-sede-web label[for*="edit-field-sede-web"] span.form-required').length !== 0 && 
+					 $('.node-form.node-sede-form #edit-field-sede-web input[id="edit-field-sede-web-und-0-value"]').val() === ''
+				) {
+					sms += "<li>El campo 'Web' es obligatorio</li>";
+					subFlag = false;
+				}				
+				if ( $('.node-form.node-sede-form #edit-field-sede-telefono label[for*="edit-field-sede-telefono"] span.form-required').length !== 0 && 
+					 $('.node-form.node-sede-form #edit-field-sede-telefono input[id="edit-field-sede-telefono-und-0-value"]').val() === ''
+				) {
+					sms += "<li>El campo 'Teléfono' es obligatorio</li>";
+					subFlag = false;
+				}	
+
+				if ( subFlag === true ) {
+					$('form[id="sede-node-form"]').submit();					
+				}
+				else {
+					var s = smsGenError.replace(/<ul><\/ul>/g,'<ul>'+sms+'</ul>');
+					$('#main').prepend( s );
+					// if ( $('#main #messages li').length !== 0 ) {      
+					// 	$('#main #messages ul').append(sms);
+					// }
+					// else {
+					// 	var s = smsGenError.replace(/<ul><\/ul>/g,'<ul>'+sms+'</ul>');
+					// 	$('#main').prepend( s );
+					// }					
+					event.preventDefault();
+				}
+
+
+
+
+			});
 
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');

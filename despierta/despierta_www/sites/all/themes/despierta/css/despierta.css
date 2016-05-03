@@ -1063,6 +1063,10 @@ div[id^="block-views-banners-block"] h1 {
 .dropbox-remove {
   padding-left: 10px;
 }
+.node-sede-form #edit-actions input {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 /* Contact form */
 #contact-site-form .form-radio {
   display: inline-block;
