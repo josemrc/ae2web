@@ -96,49 +96,53 @@ function despiertaGeoSession(geoloc) {
   }
 }
 
+function getLocation(position) {
+console.log("GEO B");
+
+  var ip_geoloc_address = new Object;
+  ip_geoloc_address['latitude']  = position.coords.latitude;
+  ip_geoloc_address['longitude'] = position.coords.longitude;
+  ip_geoloc_address['accuracy']  = position.coords.accuracy;
+
+  // Reverse-geocoding of lat/lon requested.
+  var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  new google.maps.Geocoder().geocode({'latLng': location }, function(response, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      var google_address = response[0];
+      ip_geoloc_address['formatted_address'] = google_address.formatted_address;
+      for (var i = 0; i < google_address.address_components.length; i++) {
+        var component = google_address.address_components[i];
+        if (component.long_name !== null) {
+          var type = component.types[0];
+          ip_geoloc_address[type] = component.long_name;
+          if (type === 'administrative_area_level_2' && component.short_name !== null) {
+            ip_geoloc_address['administrative_area_level_2_code'] = component.short_name;
+          }            
+          if (type === 'country' && component.short_name !== null) {
+            ip_geoloc_address['country_code'] = component.short_name;
+          }
+        }
+      }
+
+      // Create Client session for Despierta
+      despiertaGeoSession(ip_geoloc_address);
+    }
+    else {
+      // Error
+      despiertaGeoError();
+    }
+  });
+}
+
 function getGeolocation() {
 
   $('#loading p').html("Localizando...");
 
-  function getLocation(position) {
-    var ip_geoloc_address = new Object;
-    ip_geoloc_address['latitude']  = position.coords.latitude;
-    ip_geoloc_address['longitude'] = position.coords.longitude;
-    ip_geoloc_address['accuracy']  = position.coords.accuracy;
-
-    // Reverse-geocoding of lat/lon requested.
-    var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    new google.maps.Geocoder().geocode({'latLng': location }, function(response, status) {
-
-      if (status === google.maps.GeocoderStatus.OK) {
-        var google_address = response[0];
-        ip_geoloc_address['formatted_address'] = google_address.formatted_address;
-        for (var i = 0; i < google_address.address_components.length; i++) {
-          var component = google_address.address_components[i];
-          if (component.long_name !== null) {
-            var type = component.types[0];
-            ip_geoloc_address[type] = component.long_name;
-            if (type === 'administrative_area_level_2' && component.short_name !== null) {
-              ip_geoloc_address['administrative_area_level_2_code'] = component.short_name;
-            }            
-            if (type === 'country' && component.short_name !== null) {
-              ip_geoloc_address['country_code'] = component.short_name;
-            }
-          }
-        }
-
-        // Create Client session for Despierta
-        despiertaGeoSession(ip_geoloc_address);
-      }
-      else {
-        // Error
-        despiertaGeoError();
-      }
-    });
-  }
-
-  if ("geolocation" in navigator) {
+  //if ("geolocation" in navigator || navigator.geolocation) {
+  if (navigator.geolocation) {
   /* geolocation is available */
+console.log("GEO A");
+
     navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true, timeout: 10000});
   } else {
     /* geolocaiton IS NOT available */
@@ -146,9 +150,10 @@ function getGeolocation() {
   }
 
   // if (navigator.geolocation) {
+  // /* geolocation is available */
   //   navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true, timeout: 10000});
-  // }
-  // else {
+  // } else {
+  //   /* geolocaiton IS NOT available */
   //   despiertaGeoError();
   // }
   
@@ -173,6 +178,7 @@ function getGeolocation() {
 
       // Get Geolocation if it does not alreaady exists (Session)
       if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'usuario' || urlPaths[0] === 'empresa' || urlPaths[0] === 'user' || urlPaths[0] === 'admin' ) ) {
+console.log("GEO 1");
         Drupal.theme.prototype.isReady();
       }
       else {
@@ -182,6 +188,7 @@ function getGeolocation() {
           sessionStorage['code'] === undefined        || sessionStorage['code'] === null          || sessionStorage['code'] === ''      ||
           sessionStorage['area_code'] === undefined   || sessionStorage['area_code'] === null     || sessionStorage['area_code'] === ''
         ) {
+console.log("GEO 2");
             // For firefox: In the case "Not now" event does not work
             if ( /firefox/.test(navigator.userAgent.toLowerCase()) ) {
               // Check if geolocation and the website is ready after a time
@@ -195,9 +202,11 @@ function getGeolocation() {
             (sessionStorage['code'] === ''      || sessionStorage['code'] === '-') &&
             (sessionStorage['area_code'] === '' || sessionStorage['area_code'] === '-')
           ) {
+console.log("GEO 3");
             despiertaGeoError();
           }
           else {
+console.log("GEO 4");
             Drupal.theme.prototype.isReady();
           }
         }

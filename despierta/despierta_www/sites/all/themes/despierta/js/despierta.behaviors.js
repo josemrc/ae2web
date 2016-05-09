@@ -538,10 +538,12 @@ $(window).load(function () {
 		$('#header .region .sel-regions').remove();
 		$('#header .region .sel-button').remove();
 		$('#header .region .sel-categoria').remove();
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search').prepend('<div class="buscador-verde-search-bg"></div>');
 
 		// move background imgage
+		$('#header').prepend('<div class="buscador-verde-bg"></div>');
 		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image img').attr('src');
-		$('#header .section').css('background-image','url("'+back_img+'")');
+		$('#header .buscador-verde-bg').css('background-image','url("'+back_img+'")');
 		$('#header .section').addClass('buscador-verde');
 		$('#block-views-buscador-verde-busq-block span.views-field-field-page-image').css('display', 'none');
 	};
