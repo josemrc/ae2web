@@ -97,8 +97,6 @@ function despiertaGeoSession(geoloc) {
 }
 
 function getLocation(position) {
-console.log("GEO B");
-
   var ip_geoloc_address = new Object;
   ip_geoloc_address['latitude']  = position.coords.latitude;
   ip_geoloc_address['longitude'] = position.coords.longitude;
@@ -138,11 +136,8 @@ function getGeolocation() {
 
   $('#loading p').html("Localizando...");
 
-  //if ("geolocation" in navigator || navigator.geolocation) {
-  if (navigator.geolocation) {
+  if ("geolocation" in navigator) {
   /* geolocation is available */
-console.log("GEO A");
-
     navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true, timeout: 10000});
   } else {
     /* geolocaiton IS NOT available */
@@ -178,7 +173,6 @@ console.log("GEO A");
 
       // Get Geolocation if it does not alreaady exists (Session)
       if ( urlPaths !== undefined && urlPaths.length > 0 && ( urlPaths[0] === 'usuario' || urlPaths[0] === 'empresa' || urlPaths[0] === 'user' || urlPaths[0] === 'admin' ) ) {
-console.log("GEO 1");
         Drupal.theme.prototype.isReady();
       }
       else {
@@ -188,7 +182,6 @@ console.log("GEO 1");
           sessionStorage['code'] === undefined        || sessionStorage['code'] === null          || sessionStorage['code'] === ''      ||
           sessionStorage['area_code'] === undefined   || sessionStorage['area_code'] === null     || sessionStorage['area_code'] === ''
         ) {
-console.log("GEO 2");
             // For firefox: In the case "Not now" event does not work
             if ( /firefox/.test(navigator.userAgent.toLowerCase()) ) {
               // Check if geolocation and the website is ready after a time
@@ -202,11 +195,9 @@ console.log("GEO 2");
             (sessionStorage['code'] === ''      || sessionStorage['code'] === '-') &&
             (sessionStorage['area_code'] === '' || sessionStorage['area_code'] === '-')
           ) {
-console.log("GEO 3");
             despiertaGeoError();
           }
           else {
-console.log("GEO 4");
             Drupal.theme.prototype.isReady();
           }
         }
