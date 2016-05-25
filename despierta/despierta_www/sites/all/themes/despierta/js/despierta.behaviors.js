@@ -523,17 +523,26 @@ $(window).load(function () {
 		$('#header #logo').prependTo('#header .region');
 		$('#header #logo').addClass('front');
 		var logo_img = $('#header #logo img').attr('src');
-		logo_img = logo_img.replace(/\.png$/g,'_rev.png');
+		logo_img = logo_img.replace(/\.png$/g,'_blanco.png');
 		$('#header #logo img').attr('src', logo_img);
+
+		// create new 'buscador-verde-pais' panel
+		$('#header .section .region').after('<div class="buscador-verde-pais"></div>');
+		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image .last img').attr('src');
+		$('#header .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
+		$('#header .region .sel-pais').appendTo('#header .buscador-verde-pais');
+		$('#header .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
+		$('#header .region .sel-pais').remove();
 
 		// create new 'buscador-verde-search' panel
 		$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
-		$('#header .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');
-		$('#header .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');
-		$('#header .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search');		
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions').prepend('<label for="sel-regions">Ubicación actual:</label>');
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search button#sel-button').text('Buscar');
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search button#sel-button span').remove();
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search').append('<div class="buscador-verde-search-cont"></div>');
+		$('#header .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
+		$('#header .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
+		$('#header .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');		
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont .sel-regions').prepend('<label for="sel-regions">¿Dónde?</label>');
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button').text('Buscar');
+		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button span').remove();
 		$('#header .region .sel-search').remove();
 		$('#header .region .sel-regions').remove();
 		$('#header .region .sel-button').remove();
@@ -542,10 +551,13 @@ $(window).load(function () {
 
 		// move background imgage
 		$('#header').prepend('<div class="buscador-verde-bg"></div>');
-		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image img').attr('src');
+		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image .first img').attr('src');
 		$('#header .buscador-verde-bg').css('background-image','url("'+back_img+'")');
+
+		// assign class
 		$('#header .section').addClass('buscador-verde');
 		$('#block-views-buscador-verde-busq-block span.views-field-field-page-image').css('display', 'none');
+		$('body').css('background-color', '#f9fffb');
 	};
 
 /**
@@ -1993,6 +2005,15 @@ $(window).load(function () {
 
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();
+
+				// Frontpage:
+				// change CSS width for long words
+				if ( pcode == 'do' ) {
+					$('#header .section.buscador-verde select#sel-pais').css('width','200px');
+				}
+				else {
+					$('#header .section.buscador-verde select#sel-pais').css('width','inherit');	
+				}
 			});
 			$(context).delegate('#header select[id="sel-regions"]', 'change', function(event) {
 				// region has been changed
