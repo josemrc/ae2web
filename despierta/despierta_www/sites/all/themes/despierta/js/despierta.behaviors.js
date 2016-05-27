@@ -426,9 +426,7 @@ $(window).load(function () {
 		Drupal.theme.prototype.initHederPanel(pcode, rcode, catcode);
 
 		// Create Buscador Verde Search Panel
-		if ( $('#block-views-buscador-verde-busq-block').length > 0 ) {
-			Drupal.theme.prototype.createBusqVerdePanel();
-		}
+		Drupal.theme.prototype.createBusqVerdePanel();
 
 		// change directorio-verde menu
 		Drupal.theme.prototype.changeLinkToRegion();
@@ -516,48 +514,54 @@ $(window).load(function () {
 	};
 /* Create Buscador Verde */
 	Drupal.theme.prototype.createBusqVerdePanel = function (context) {
-		// Move 
-		$('#block-views-buscador-verde-busq-block').appendTo( "#header .section" );
+		// Frontpage: Buscador Verde
+		if ( $('#block-views-buscador-verde-busq-block').length > 0 ) {
+			$('#header').addClass('buscador-verde');
+			// Move 
+			$('#block-views-buscador-verde-busq-block').appendTo( "#header.buscador-verde .section" );
 
-		// move logo and replace by reverse image
-		$('#header #logo').prependTo('#header .region');
-		$('#header #logo').addClass('front');
-		var logo_img = $('#header #logo img').attr('src');
-		logo_img = logo_img.replace(/\.png$/g,'_blanco.png');
-		$('#header #logo img').attr('src', logo_img);
+			// move logo and replace by reverse image
+			$('#header.buscador-verde #logo').prependTo('#header .region');
+			$('#header.buscador-verde #logo').addClass('front');
+			var logo_img = $('#header.buscador-verde #logo img').attr('src');
+			logo_img = logo_img.replace(/\.png$/g,'_blanco.png');
+			$('#header.buscador-verde #logo img').attr('src', logo_img);
 
-		// create new 'buscador-verde-pais' panel
-		$('#header .section .region').after('<div class="buscador-verde-pais"></div>');
-		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image .last img').attr('src');
-		$('#header .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
-		$('#header .region .sel-pais').appendTo('#header .buscador-verde-pais');
-		$('#header .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
-		$('#header .region .sel-pais').remove();
+			// create new 'buscador-verde-pais' panel
+			$('#header.buscador-verde .section .region').after('<div class="buscador-verde-pais"></div>');
+			var back_img = $('#block-views-buscador-verde-world-block span.views-field-field-page-image img').attr('src');
+			$('#header.buscador-verde .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
+			$('#header.buscador-verde .region .sel-pais').appendTo('#header .buscador-verde-pais');
+			$('#header.buscador-verde .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
+			$('#header.buscador-verde .region .sel-pais').remove();
 
-		// create new 'buscador-verde-search' panel
-		$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search').append('<div class="buscador-verde-search-cont"></div>');
-		$('#header .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
-		$('#header .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
-		$('#header .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');		
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont .sel-regions').prepend('<label for="sel-regions">¿Dónde?</label>');
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button').text('Buscar');
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button span').remove();
-		$('#header .region .sel-search').remove();
-		$('#header .region .sel-regions').remove();
-		$('#header .region .sel-button').remove();
-		$('#header .region .sel-categoria').remove();
-		$('#block-views-buscador-verde-busq-block .buscador-verde-search').prepend('<div class="buscador-verde-search-bg"></div>');
+			// create new 'buscador-verde-search' panel
+			$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
+			$('#block-views-buscador-verde-busq-block .buscador-verde-search').append('<div class="buscador-verde-search-cont"></div>');
+			$('#header.buscador-verde .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
+			$('#header.buscador-verde .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
+			$('#header.buscador-verde .region .sel-button').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');		
+			$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont .sel-regions').prepend('<label for="sel-regions">¿Dónde?</label>');
+			$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button').text('Buscar');
+			$('#block-views-buscador-verde-busq-block .buscador-verde-search-cont button#sel-button span').remove();
+			$('#header.buscador-verde .region .sel-search').remove();
+			$('#header.buscador-verde .region .sel-regions').remove();
+			$('#header.buscador-verde .region .sel-button').remove();
+			$('#header.buscador-verde .region .sel-categoria').remove();
+			$('#block-views-buscador-verde-busq-block .buscador-verde-search').prepend('<div class="buscador-verde-search-bg"></div>');
 
-		// move background imgage
-		$('#header').prepend('<div class="buscador-verde-bg"></div>');
-		var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image .first img').attr('src');
-		$('#header .buscador-verde-bg').css('background-image','url("'+back_img+'")');
+			// move background imgage
+			$('#header.buscador-verde').prepend('<div class="buscador-verde-bg"></div>');
+			var back_img = $('#block-views-buscador-verde-busq-block span.views-field-field-page-image img').attr('src');
+			$('#header.buscador-verde .buscador-verde-bg').css('background-image','url("'+back_img+'")');
+		}
+		else if ( $('#block-views-buscador-verde-world-block').length > 0 ) {
+			// add GlobeWorld into pais panel
+			var back_img = $('#block-views-buscador-verde-world-block span.views-field-field-page-image img').attr('src');
+			$('#header .sel-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
+		}
 
-		// assign class
-		$('#header .section').addClass('buscador-verde');
-		$('#block-views-buscador-verde-busq-block span.views-field-field-page-image').css('display', 'none');
-		$('body').css('background-color', '#f9fffb');
+		// $('body').css('background-color', '#f9fffb');
 	};
 
 /**
@@ -1692,7 +1696,7 @@ $(window).load(function () {
 				$('> h2', this).after('<h4>Localiza todas las iniciativas que contribuyen al crecimiento sostenible de tu región</h4>');
 
 				// 'Mas' Category at the end
-				var otras = $('div[class*="views-row"]:contains("Más...")', this).get();
+				var otras = $('div[class*="views-row"]:contains("Más categorías")', this).get();
 				$('div[class="view-content"]', this).append(otras);
 				// style
 				$('div[class*="views-row"]', this).addClass("col-lg-4 col-md-4 col-s-6 col-sm-6 col-xs-12");
@@ -1711,10 +1715,8 @@ $(window).load(function () {
 				// change title including region
 				var $oldtitle = $(this).parents('.block-views').find('h2');
 				var q = Drupal.theme.prototype.getTitleRegion( $oldtitle.text() );
-				//$('h1[id="page-title"]').html( q );
-				// $oldtitle.remove();
 				$oldtitle.replaceWith('<h1 class="title" id="page-title">'+q+'</h1>');
-
+				// $('#page-title').append('<hr>');
 				$(this).append('<hr>');
 			});
 
@@ -2001,7 +2003,7 @@ $(window).load(function () {
 
 				var html = Drupal.theme('regionesSelectList', allPaisRegionsObj, pcode);
 				$( '#header .sel-regions').replaceWith('<div class="sel-regions">' + html + '</div>');				
-				$('#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions').prepend('<label for="sel-regions">Ubicación actual:</label>');
+				$('#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions').prepend('<label for="sel-regions">¿Dónde?</label>');
 
 				// change directorio-verde menu
 				Drupal.theme.prototype.changeLinkToRegion();
@@ -2109,10 +2111,6 @@ $(window).load(function () {
 					// }					
 					event.preventDefault();
 				}
-
-
-
-
 			});
 
 			// Add classes for the new 'sedes' pages
@@ -2121,9 +2119,8 @@ $(window).load(function () {
 			$('#block-views-sedes-report-geo .view-sedes-report > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 
-			// Display none forever			
-			$('.ajax-progress-throbber').addClass('element-invisible');
-			$('#block-views-sedes-report-geo #edit-keys-wrapper').css('display', 'none');
+			// Display none forever
+			$('.ajax-progress-throbber').addClass('element-invisible');			
 			if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") != "FORM" ) {
 				$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
 			}

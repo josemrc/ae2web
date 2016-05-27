@@ -162,7 +162,6 @@
   <?php endif; ?>
 
 </div> <!-- /.section-->
-<hr></hr>
 </div> <!-- /#header -->
 
 <div id="page">
