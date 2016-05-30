@@ -979,7 +979,7 @@ $(window).load(function () {
 				sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
 			sedHTML += '</div>';
 			
-			sedHTML += '<div class="allinfo col-lg-5 col-md-5 col-sm-5 col-s-9 col-xs-9">';
+			sedHTML += '<div class="allinfo col-lg-6 col-md-6 col-sm-6 col-s-9 col-xs-9">';
 				sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
 					sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
 				sedHTML += '</div></h2>';
@@ -987,7 +987,7 @@ $(window).load(function () {
 				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 			sedHTML += '</div>';
 
-			sedHTML += '<div class="locinfo col-lg-5 col-md-5 col-sm-5 col-s-12 col-xs-12 text-right pull-right">';
+			sedHTML += '<div class="locinfo col-lg-4 col-md-4 col-sm-4 col-s-12 col-xs-12 text-right pull-right">';
 				var dircompl = '';
 				var cp = '';
 				if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = sedeObj.direccion }
@@ -1027,18 +1027,18 @@ $(window).load(function () {
 					cats = cats.replace(/\;\s*$/g,'');
 					etiqs = etiqs.replace(/\;\s*$/g,'');
 				}
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de movimiento:</p><p>' + sedeObj.t_mov + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Descripción:</p><p>' + sedeObj.descc + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de actividad:</p><p>' + sedeObj.t_act + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Tipo de venta:</p><p>' + sedeObj.t_vent + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de movimiento:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_mov + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Descripción:</p><p class="clabel text-left col-xs-9">' + sedeObj.descc + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de actividad:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_act + '</p></div>';
+				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de venta:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_vent + '</p></div>';
 				if ( cats != "" ) {
-					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Categorías:</p><p>' + cats + '</p></div>';
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Categorías:</p><p class="clabel text-left col-xs-9">' + cats + '</p></div>';
 				}
 				if ( etiqs != "" ) {
-					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-4">Etiquetas:</p><p>' + etiqs + '</p></div>';					
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Etiquetas:</p><p class="clabel text-left col-xs-9">' + etiqs + '</p></div>';					
 				}
 				if ( sedeObj.p_serv != undefined && sedeObj.p_serv != "" ) {
-					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-4">Paises (Regiones) de venta:</p><p>' + sedeObj.p_serv + '</p></div>';					
+					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-3">Paises (Regiones) de venta:</p><p class="clabel text-left col-xs-9">' + sedeObj.p_serv + '</p></div>';					
 				}
 
 			sedHTML += '</div>';
@@ -1543,7 +1543,7 @@ $(window).load(function () {
 							$('span',this).html('+ info');
 							$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
 							$('.subrayado', this).fadeOut(500);
-							$(this).parents('article').animate({height: '140px'}, 500);
+							$(this).parents('article').animate({height: '155px'}, 500);
 						}
 						// change to up (-> show)
 						else {
