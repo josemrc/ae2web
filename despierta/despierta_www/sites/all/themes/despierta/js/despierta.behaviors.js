@@ -1349,7 +1349,6 @@ $(window).load(function () {
 			$cloned.find('.form-item.form-type-bef-checkbox.element-invisible2').removeClass('element-invisible2');
 			$cloned.appendTo('#filter-box-more-modal .modal-body');
 		});
-
 	};
 
 
@@ -2171,6 +2170,14 @@ $(window).load(function () {
 				});
 				$('form[id="views-exposed-form-sedes-report-geo"] input[id^="edit-field"]').change();
 			});
+			// Stop propagation in label
+		$(context).delegate('#filter-box-more-modal .form-item.form-type-bef-checkbox label', 'click', function(event) {
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		// Do something
+		});
+
 			// Empty modal-body when is close
 			$(context).delegate('#filter-box-more-modal .close-modal', 'click', function(event) {
 				$('#filter-box-more-modal .modal-body').empty();
