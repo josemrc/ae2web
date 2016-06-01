@@ -82,7 +82,7 @@ p.pasos {
   bottom: 0;
   right: 0;
   left: 0;
-  z-index: 10000;
+  z-index: 200;
   display: none;
 }
 #loading .background {
@@ -121,7 +121,7 @@ p.pasos {
   width: 100%;
   background-color: #ebeceb;
   border-bottom: 1px solid #4f7509;
-  z-index: 10000;
+  z-index: 100;
 }
 #header .region {
   float: none;
@@ -188,14 +188,14 @@ select.round, select.minimal {
 }
 select.round {
   background-image: linear-gradient(55deg, transparent 50%, #44561f 50%), linear-gradient(125deg, #44561f 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
-  background-position: calc(100% - 14px) .8em, calc(100% - 6px) .8em, calc(100% - .4em) .5em;
-  background-size: 8px 10px, 8px 10px, 1.3em 1.2em;
+  background-position: calc(100% - 14px) 1em, calc(100% - 6px) 1em, calc(100% - .4em) .5em;
+  background-size: 8px 10px, 8px 10px, 1.4em 1.4em;
   background-repeat: no-repeat;
 }
 select.round:focus {
   background-image: linear-gradient(55deg, white 50%, transparent 50%), linear-gradient(125deg, transparent 50%, white 50%), radial-gradient(gray 70%, transparent 72%);  
-  background-position:  calc(100% - 6px) .6em,  calc(100% - 14px) .6em, calc(100% - .4em) .5em;
-  background-size: 8px 10px, 8px 10px, 1.3em 1.2em;
+  background-position:  calc(100% - 6px) .8em,  calc(100% - 14px) .8em, calc(100% - .4em) .5em;
+  background-size: 8px 10px, 8px 10px, 1.4em 1.4em;
   background-repeat: no-repeat;
   border-color: green;
   outline: 0;
@@ -219,23 +219,30 @@ select.round:-moz-focusring {
   text-shadow: 0 0 0 #000;
 }
 
+#sms_geoloc_nodespierta {
+  z-index: 10000;
+}
 #sms_geoloc_nodespierta .sel-pais,
 #sms_geoloc_nodespierta .sel-regions {
   text-align: center;
+  padding-bottom: 5px;
 }
 #sms_geoloc_nodespierta select#sel-pais,
 #sms_geoloc_nodespierta select#sel-regions {
   width: 210px;
+  height: 30px;
+  background-position: calc(100% - 16px) 1em, calc(100% - 8px) 1em, calc(100% - .4em) .5em;
 }
-#sms_geoloc_nodespierta button {
-  disa
+#sms_geoloc_nodespierta select#sel-pais:focus,
+#sms_geoloc_nodespierta select#sel-regions:focus {
+  background-position:  calc(100% - 8px) .8em,  calc(100% - 16px) .8em, calc(100% - .4em) .5em;
 }
-
 
 /* --------------- Logo View ------------ */
 #logo {
   float: left;
   margin-right: 10px;
+  margin-bottom: 5px;
 }
 #logo img {
   width: 170px;
@@ -759,20 +766,18 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 #block-views-sedes-report-geo {
   margin-top: 40px;
 }
-#block-views-sedes-block .nav > li,
 #block-views-sedes-report-geo .nav > li {
   margin: 0;
   padding: 0 !important;
 }
-#block-views-sedes-block .tab-despierta ul li a,
 #block-views-sedes-report-geo .tab-despierta ul li a {
   font-size: 16px;
   padding: 5px 5px 3px 5px;
   border-radius: 0px;
 }
-#block-views-sedes-block .tab-despierta .tab-content,
 #block-views-sedes-report-geo .tab-despierta .tab-content {
   padding: 0;
+  min-height: 600px;
 }
 
 #block-views-sedes-report-geo .tab-content.col-lg-7, #block-views-sedes-report-geo .tab-content.col-md-7 {
@@ -940,7 +945,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 
 /* --------------- Map Sedes ------------ */
-#block-views-sedes-block .attachment,
 #block-views-sedes-report-geo .attachment {
   padding-right: 0;
   padding-top: 62px;
@@ -948,12 +952,10 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 
 
 /* --------------- Filter Sedes ------------ */
-#block-views-sedes-block .view-filters,
 #block-views-sedes-report-geo .view-filters {
   padding-right: 0;
   font-size: 12px;
 }
-#block-views-sedes-block .view-filters .ppal,
 #block-views-sedes-report-geo .view-filters .ppal {
   clear: both;
   font-weight: bold;
@@ -961,11 +963,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   background-color: #F4F9F2;
   width: 100%;
 }
-#block-views-sedes-block .view-filters .ppal > input,
 #block-views-sedes-report-geo .view-filters .ppal > input{
   margin-right: 5px;
 }
-#block-views-sedes-block .view-filters .load-sede-filter,
 #block-views-sedes-report-geo .view-filters .load-sede-filter {  
   margin-top: 10px;
   margin-bottom: 10px;
@@ -981,7 +981,24 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   background-color: #449d44;
   border-color: #398439;
 }
-
+.ajax-progress-throbber {
+  display: none;
+}
+#block-views-sedes-report-geo .view-filters .filter-box {
+  border-radius: 3px;
+  box-shadow: 1px 2px 2px rgba(0,0,0,.2);
+  border-left: 1px solid #E3E3E3;
+  color: #434343;
+  margin-bottom: 40px;
+}
+#block-views-sedes-report-geo .view-filters .filter-box .filter-box-header {
+    background-color: #E3E3E3;
+    border-bottom: 1px solid #DCDCDC;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 3px 3px 0 0;
+}
 
 /* --------------- Directorio Verde ------------ */
 

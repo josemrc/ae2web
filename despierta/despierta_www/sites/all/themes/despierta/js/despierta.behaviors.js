@@ -1311,6 +1311,52 @@ $(window).load(function () {
 			});
 		}
 	};
+	Drupal.theme.prototype.addMoreOptionsLink = function (numFilters) {
+
+		$('#edit-field-sede-tipo-actividad-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-actividad-tid-wrapper">Ver más opciones</button>');
+		$('#edit-field-sede-tipo-venta-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-venta-tid-wrapper">Ver más opciones</button>');
+		$('#edit-field-sede-tipo-movimiento-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-movimiento-tid-wrapper">Ver más opciones</button>');
+		$('#edit-etiquetas-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-etiquetas-wrapper">Ver más opciones</button>');
+
+		$('#block-views-sedes-report-geo .filter-box-more').click(function(){
+			var customModal = $(
+				'<div class="modal fade" tabindex="-1" role="dialog" id="filter-box-more-modal" data-backdrop="static" data-keyboard="false">'+
+				'<div class="modal-dialog">'+
+				'<div class="modal-content">'+
+					'<div class="modal-header"><button type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">X</button></div>'+
+					'<div class="modal-body"></div>'+
+					'<div class="modal-footer"><center><button type="button" class="btn btn-success load-sede-filter close-modal" data-dismiss="modal">Buscar</button></center></div>'+
+				'</div>'+
+				'</div>'+
+				'</div>'
+			);
+
+			$('body').append(customModal);
+			var type = $(this).attr('dp-type-filter');
+			$('#filter-box-more-modal').modal('show');
+			$('#'+type+' .views-widget').clone().appendTo('#filter-box-more-modal .modal-body');
+		});
+
+// 		// empty modal-body when is close
+// 		$('#filter-box-more-modal .close-modal').on('click', function(){
+// console.log("CLOSE");
+// 			$('#filter-box-more-modal .modal-body').empty();
+// 		});
+// 		// Inherence clicks
+// 		$('#filter-box-more-modal .load-sede-filter').on('click', function(){
+// console.log("IBHE");
+// 		});
+
+		// $('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
+		// $('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
+		// 	if ( $('#views-exposed-form-sedes-report-geo').hasClass('element-invisible') ) {
+		// 		$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');
+		// 	}
+		// 	else {
+		// 		$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
+		// 	}
+		// });
+	};
 
 
 /**
@@ -1585,17 +1631,19 @@ $(window).load(function () {
 					catActive = catActive.replace(/\s*\(\d*\)$/g,'');
 					Drupal.theme.prototype.addMissingEtiquetas(reportFilters[catActive]);
 					Drupal.theme.prototype.addNumFilters(reportFilters[catActive]);
-					// move elements and create a button that show/hide the elements										
+					Drupal.theme.prototype.addMoreOptionsLink(reportFilters[catActive]);
+					// move elements
 					$('> .view-filters', this).appendTo($(this));
-					$('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
-					$('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
-						if ( $('#views-exposed-form-sedes-report-geo').hasClass('element-invisible') ) {
-							$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');
-						}
-						else {
-							$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
-						}
-					});
+					// create a button that show/hide the elements
+					// $('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
+					// $('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
+					// 	if ( $('#views-exposed-form-sedes-report-geo').hasClass('element-invisible') ) {
+					// 		$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');
+					// 	}
+					// 	else {
+					// 		$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
+					// 	}
+					// });
 				}
 
 				// show panel
@@ -1627,6 +1675,12 @@ $(window).load(function () {
 
 			/* Filter form: Sede */
 			$('#views-exposed-form-sedes-report-geo', context).once('despierta', function () {
+
+				if ( $('#block-views-sedes-report-geo .view-filters .filter-box').length === 0 ) {
+					$(this).wrap('<div class="filter-box">');
+					$('#block-views-sedes-report-geo .view-filters .filter-box').prepend('<h2 class="filter-box-header">Filtrar la búsqueda</h2>');					
+				}
+
 				var pais = $( '#header select[id="sel-pais"] option:selected').text();
 				var pcode = $( '#header select[id="sel-pais"] option:selected').attr('dp-pais-code');
 				var region = $('#header select[id="sel-regions"] option:selected').text();
@@ -1654,7 +1708,7 @@ $(window).load(function () {
 					'#edit-field-sede-tipo-movimiento-tid-wrapper, '+
 					'#edit-field-sede-tipo-venta-tid-wrapper, '+
 					'#edit-etiquetas-wrapper ', this).once('despierta', function () {
-						$(this).addClass('col-lg-6 col-md-6 col-s-12 col-sm-12 col-xs-12');
+						$(this).addClass('col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12');
 						$(' > label', this).wrap('<div class="ppal"></div>');
 						$('.ppal', this).prepend( $('<input type="checkbox" id="all_filters">').change(function(event) {
 							if ( $(this).is(':checked') ) {
@@ -2097,7 +2151,7 @@ $(window).load(function () {
 				}	
 
 				if ( subFlag === true ) {
-					$('form[id="sede-node-form"]').submit();					
+					$('form[id="sede-node-form"]').submit();
 				}
 				else {
 					var s = smsGenError.replace(/<ul><\/ul>/g,'<ul>'+sms+'</ul>');
@@ -2112,6 +2166,21 @@ $(window).load(function () {
 					event.preventDefault();
 				}
 			});
+			/* Filter-Box in Sede form */
+			// Inherence clicks
+			$(context).delegate('#filter-box-more-modal .load-sede-filter', 'click', function(event) {
+				$('#filter-box-more-modal').find('input[type="checkbox"]').each(function() {
+					var id = $(this).attr('id');
+					var val = false;
+					if ( $(this).is(':checked') === true ) { val = true }
+					$('form[id="views-exposed-form-sedes-report-geo"] input[id="'+id+'"]').prop('checked', val);
+				});
+				$('form[id="views-exposed-form-sedes-report-geo"] input[id^="edit-field"]').change();
+			});
+			// Empty modal-body when is close
+			$(context).delegate('#filter-box-more-modal .close-modal', 'click', function(event) {
+				$('#filter-box-more-modal .modal-body').empty();
+			});
 
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
@@ -2120,13 +2189,13 @@ $(window).load(function () {
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 
 			// Display none forever
-			$('.ajax-progress-throbber').addClass('element-invisible');			
-			if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") != "FORM" ) {
-				$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
-			}
-			else {
-				$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');	
-			}
+			// $('.ajax-progress-throbber').addClass('element-invisible');
+			// if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") != "FORM" ) {
+			// 	$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
+			// }
+			// else {
+			// 	$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');	
+			// }
 
 		} // end: attach of despierta theme
 	};
