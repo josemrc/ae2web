@@ -1312,13 +1312,25 @@ $(window).load(function () {
 		}
 	};
 	Drupal.theme.prototype.addMoreOptionsLink = function (numFilters) {
-
-		$('#edit-field-sede-tipo-actividad-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-actividad-tid-wrapper">Ver más opciones</button>');
-		$('#edit-field-sede-tipo-venta-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-venta-tid-wrapper">Ver más opciones</button>');
-		$('#edit-field-sede-tipo-movimiento-tid-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-field-sede-tipo-movimiento-tid-wrapper">Ver más opciones</button>');
-		$('#edit-etiquetas-wrapper').append('<button type="button" class="filter-box-more" data-toggle="modal" dp-type-filter="edit-etiquetas-wrapper">Ver más opciones</button>');
-
-		$('#block-views-sedes-report-geo .filter-box-more').click(function(){
+		// Only show the first X filters. Hide the rest		
+		$('#views-exposed-form-sedes-report-geo .views-exposed-widget').each(function() {
+			var id = $(this).attr('id');
+			var numShow = 4;
+			var hidden = false;
+			var num = $(this).find('.form-item.form-type-bef-checkbox:not(.element-invisible)').length;
+			if ( num > numShow ) {
+				$(this).find('.form-item.form-type-bef-checkbox:not(.element-invisible)').each(function(index) {
+					var c = $('input[type="checkbox"]', this).is(':checked');
+					if ( index >= numShow && !c ) {
+						$(this).addClass('element-invisible2');
+					}
+				});
+				// add 'Ver mas opciones' button/link
+				$('#'+id).append('<div class="filter-box-more"><button type="button" data-toggle="modal" dp-type-filter="'+id+'">Ver más opciones</button></div>');
+			}
+		});		
+		// create modal
+		$('#block-views-sedes-report-geo .filter-box-more button').click(function(){
 			var customModal = $(
 				'<div class="modal fade" tabindex="-1" role="dialog" id="filter-box-more-modal" data-backdrop="static" data-keyboard="false">'+
 				'<div class="modal-dialog">'+
@@ -1330,32 +1342,14 @@ $(window).load(function () {
 				'</div>'+
 				'</div>'
 			);
-
 			$('body').append(customModal);
 			var type = $(this).attr('dp-type-filter');
 			$('#filter-box-more-modal').modal('show');
-			$('#'+type+' .views-widget').clone().appendTo('#filter-box-more-modal .modal-body');
+			var $cloned = $('#'+type+' .views-widget').clone();
+			$cloned.find('.form-item.form-type-bef-checkbox.element-invisible2').removeClass('element-invisible2');
+			$cloned.appendTo('#filter-box-more-modal .modal-body');
 		});
 
-// 		// empty modal-body when is close
-// 		$('#filter-box-more-modal .close-modal').on('click', function(){
-// console.log("CLOSE");
-// 			$('#filter-box-more-modal .modal-body').empty();
-// 		});
-// 		// Inherence clicks
-// 		$('#filter-box-more-modal .load-sede-filter').on('click', function(){
-// console.log("IBHE");
-// 		});
-
-		// $('> .view-filters', this).prepend('<input type="button" class="load-sede-filter form-submit form-control btn btn-success" value="Cargar filtros">');
-		// $('> .view-filters ', this).on( 'click', '.load-sede-filter', function() {
-		// 	if ( $('#views-exposed-form-sedes-report-geo').hasClass('element-invisible') ) {
-		// 		$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');
-		// 	}
-		// 	else {
-		// 		$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
-		// 	}
-		// });
 	};
 
 
