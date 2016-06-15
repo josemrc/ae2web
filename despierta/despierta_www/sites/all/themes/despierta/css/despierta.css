@@ -18,6 +18,9 @@ body {
 .vocabulary-directorio-verde {
   font-size: 16px;
 }
+select::-ms-expand {
+    display: none;
+}
 /* ---------- Color Module Styles ----------- */
 body {
   color: #707173;
@@ -125,6 +128,7 @@ p.pasos {
 #header .section {
   display: flex;
   position: fixed;
+  top: 0;
   width: 100%;
   background-color: #ebeceb;
   border-bottom: 1px solid #4f7509;
@@ -253,6 +257,7 @@ select.round:-moz-focusring {
 }
 #logo img {
   width: 170px;
+  display: none;
 }
 #logo.front img {
   margin: 5px 0 0 5px;
@@ -348,7 +353,7 @@ select.round:-moz-focusring {
 }
 #header.buscador-verde .section {
   display: block;
-  position: initial;
+  position: static;
   background-color: transparent; 
   margin: 0;
   border: 0;
@@ -1041,8 +1046,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 #block-views-sedes-report-geo .view-filters .filter-box .filter-box-more {
   margin-left: auto;
   margin-right: auto;
-  width: 122px;
-  /*margin-top: 10px;*/
+  width: 126px;
   margin-bottom: 10px;
 }
 #filter-box-more-modal .modal-header {

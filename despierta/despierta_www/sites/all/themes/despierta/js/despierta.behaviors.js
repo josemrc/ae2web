@@ -99,7 +99,19 @@ $(window).load(function () {
 		ival = ival.replace(/^\n*\s*/g,'');
 		ival = ival.replace(/\n*\s*$/g,'');
 		if ( jQuery(elem).attr(iattr).toLowerCase().indexOf( ival ) >= 0 ) { return 1 }
-	}; 
+	};
+	if (!Object.keys) {
+		Object.keys = function(obj) {
+			var keys = [];
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i)) {
+					keys.push(i);
+				}
+			}
+			return keys;
+		};
+	}
+
 /* Read a page's GET URL variables and return them as an associative array. */
 	function getUrlPaths() {
 		var vars = {}, hash;
@@ -422,7 +434,7 @@ $(window).load(function () {
 			$( '#header .region > .sel-button' ).html(html);	
 		}
 
-		// // Select specific 'pais/region/category'
+		// Select specific 'pais/region/category'
 		Drupal.theme.prototype.initHederPanel(pcode, rcode, catcode);
 
 		// Create Buscador Verde Search Panel
@@ -437,9 +449,14 @@ $(window).load(function () {
 		}
 
 		// Remove 'Anunciate (Register)' link for all pages except in frontpage
+		// Show logo (for the frontpage and for the rest)
 		if ( urlPaths !== undefined && urlPaths.length > 0 ) {
 			$('#header .block-welcome-username a[dp-class="unete"]').remove();
-		}		
+			$('#logo img').css('display', 'block');
+		}
+		else {
+			$('#logo.front img').css('display', 'block');	
+		}	
 	};	
 /* Create HTML select option */
 	Drupal.theme.prototype.paisSelectList = function (paisRegions) {
@@ -524,7 +541,7 @@ $(window).load(function () {
 			$('#header.buscador-verde #logo').prependTo('#header .region');
 			$('#header.buscador-verde #logo').addClass('front');
 			var logo_img = $('#header.buscador-verde #logo img').attr('src');
-			logo_img = logo_img.replace(/\.png$/g,'_blanco.png');
+			logo_img = logo_img.replace(/\.png$/g,'_blanco_262x73.png');
 			$('#header.buscador-verde #logo img').attr('src', logo_img);
 
 			// create new 'buscador-verde-pais' panel
