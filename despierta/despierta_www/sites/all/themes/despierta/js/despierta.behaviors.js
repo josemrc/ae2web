@@ -111,6 +111,21 @@ $(window).load(function () {
 			return keys;
 		};
 	}
+	var openSelect = function(selector){
+		// var element = $(selector)[0];
+		var element = document.getElementById(selector);		
+		if (element.fireEvent) { // ie
+			element.fireEvent("onmousedown");
+		}
+		else { // all browsers
+			var event = new MouseEvent('mousedown', {
+			'view': window,
+			'bubbles': true,
+			'cancelable': true
+			});
+			element.dispatchEvent(event);
+		}
+	}	
 
 /* Read a page's GET URL variables and return them as an associative array. */
 	function getUrlPaths() {
@@ -466,10 +481,11 @@ $(window).load(function () {
 			selHTML += '<option value="'+pais+'" dp-pais-code="'+pCode+'">' + pais + '</option>';
 		}
 		selHTML += '</select>';
+		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, inCode) {
-		var selHTML = '<select id="sel-regions" class="round">';		
+		var selHTML = '<select id="sel-regions" class="round">';
 		if ( inCode !== undefined && inCode !== "" && inCode !== "-" ) {
 			selHTML += '<option value="-" dp-reg-code="-">Todas las regiones</option>';
 			var code = inCode;
@@ -482,6 +498,7 @@ $(window).load(function () {
 			selHTML += '<option value="" dp-reg-code="-">Primero seleccione un país</option>';
 		}
 		selHTML += '</select>';
+		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};	
 	Drupal.theme.prototype.categorySelectList = function (categorias) {
@@ -494,6 +511,7 @@ $(window).load(function () {
 			selHTML += '<option value="'+tid+'" dp-cat-tid="'+tid+'">' + name + '</option>';
 		}
 		selHTML += '</select>';
+		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.searchSelectList = function () {
@@ -553,7 +571,8 @@ $(window).load(function () {
 			$('#header.buscador-verde .region .sel-pais').remove();
 
 			// create new 'buscador-verde-search' panel
-			$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
+			//$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
+			$('#header.buscador-verde .section #block-views-buscador-verde-busq-block .view-content').append('<div class="buscador-verde-search"></div>');
 			$('#block-views-buscador-verde-busq-block .buscador-verde-search').append('<div class="buscador-verde-search-cont"></div>');
 			$('#header.buscador-verde .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
 			$('#header.buscador-verde .region .sel-regions').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
@@ -577,6 +596,11 @@ $(window).load(function () {
 			var back_img = $('#block-views-buscador-verde-world-block span.views-field-field-page-image img').attr('src');
 			$('#header .sel-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
 		}
+
+		// Change css depending window height
+		var wh = $(window).height();
+		$('#header.buscador-verde').css('height', wh-50);
+		$('#header.buscador-verde .buscador-verde-bg').css('height', wh-50);
 
 		// $('body').css('background-color', '#f9fffb');
 	};
@@ -988,15 +1012,15 @@ $(window).load(function () {
 
 	// Create HTML: article
 	Drupal.theme.prototype.articleSede = function (sedeObj, iCat) {
- 		var sedHTML = '<article class="media ">';
+ 		var sedHTML = '<article class="media">';
 
-		sedHTML += '<div class="media-bod col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 prici">';
+		sedHTML += '<div class="col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 media-bod prici">';
 
-			sedHTML += '<div class="logoempresa col-lg-2 col-md-2 col-sm-2 col-s-2 col-xs-2">';
+			sedHTML += '<div class="col-lg-2 col-md-2 col-sm-2 col-s-2 col-xs-2 logoempresa">';
 				sedHTML += '<img class="media-object" src="' + sedeObj.logo + '">';
 			sedHTML += '</div>';
 			
-			sedHTML += '<div class="allinfo col-lg-6 col-md-6 col-sm-6 col-s-9 col-xs-9">';
+			sedHTML += '<div class="col-lg-6 col-md-6 col-sm-6 col-s-9 col-xs-9 allinfo">';
 				sedHTML += '<h2>' + sedeObj.title +'<div class="info url"><span>+ info</span>';
 					sedHTML += '<img class="ico_flecha" src="sites/default/files/ico_flecha.png">';
 				sedHTML += '</div></h2>';
@@ -1004,7 +1028,7 @@ $(window).load(function () {
 				sedHTML += '<div class="inform text-justify clean"><p class="desc_breve">' + sedeObj.descb + '</p></div>';
 			sedHTML += '</div>';
 
-			sedHTML += '<div class="locinfo col-lg-4 col-md-4 col-sm-4 col-s-12 col-xs-12 text-right pull-right">';
+			sedHTML += '<div class="col-lg-4 col-md-4 col-sm-4 col-s-12 col-xs-12 text-right pull-right locinfo">';
 				var dircompl = '';
 				var cp = '';
 				if ( sedeObj.direccion !== undefined && sedeObj.direccion != "" ) { dircompl = sedeObj.direccion }
@@ -1023,8 +1047,8 @@ $(window).load(function () {
 				}
 
 			sedHTML += '</div>';
-			sedHTML += '<div class="clean subrayado col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12"></div>';
-			sedHTML += '<div class="clean masinfo col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12">';
+			sedHTML += '<div class="col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 clean subrayado"></div>';
+			sedHTML += '<div class="col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 clean masinfo">';
 				var cats = "";
 				var etiqs = "";
 				if ( sedeObj.cats != undefined ) {
@@ -1044,18 +1068,18 @@ $(window).load(function () {
 					cats = cats.replace(/\;\s*$/g,'');
 					etiqs = etiqs.replace(/\;\s*$/g,'');
 				}
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de movimiento:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_mov + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Descripción:</p><p class="clabel text-left col-xs-9">' + sedeObj.descc + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de actividad:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_act + '</p></div>';
-				sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Tipo de venta:</p><p class="clabel text-left col-xs-9">' + sedeObj.t_vent + '</p></div>';
+				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Tipo de movimiento:</p><p class="col-xs-9 text-left clabel">' + sedeObj.t_mov + '</p></div>';
+				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Descripción:</p><p class="col-xs-9 text-left clabel">' + sedeObj.descc + '</p></div>';
+				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Tipo de actividad:</p><p class="col-xs-9 text-left clabel">' + sedeObj.t_act + '</p></div>';
+				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Tipo de venta:</p><p class="col-xs-9 text-left clabel">' + sedeObj.t_vent + '</p></div>';
 				if ( cats != "" ) {
-					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Categorías:</p><p class="clabel text-left col-xs-9">' + cats + '</p></div>';
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Categorías:</p><p class="col-xs-9 text-left clabel">' + cats + '</p></div>';
 				}
 				if ( etiqs != "" ) {
-					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Etiquetas:</p><p class="clabel text-left col-xs-9">' + etiqs + '</p></div>';					
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Etiquetas:</p><p class="col-xs-9 text-left clabel">' + etiqs + '</p></div>';					
 				}
 				if ( sedeObj.p_serv != undefined && sedeObj.p_serv != "" ) {
-					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-3">Paises (Regiones) de venta:</p><p class="clabel text-left col-xs-9">' + sedeObj.p_serv + '</p></div>';					
+					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-3">Paises (Regiones) de venta:</p><p class="col-xs-9 text-left clabel">' + sedeObj.p_serv + '</p></div>';					
 				}
 
 			sedHTML += '</div>';
@@ -1430,7 +1454,6 @@ $(window).load(function () {
 			// console.log(sessionStorage);
 			// console.log("urlPaths");
 			// console.log(urlPaths);
-
 
 			// Get pcode & rcode from URL path
 			if ( urlPaths !== undefined && urlPaths.length > 0 && (urlPaths[0] === 'directorio-verde' || urlPaths[0] === 'busq') ) {
@@ -2122,15 +2145,14 @@ $(window).load(function () {
 				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 			});	
 			$(context).delegate('#header .buscador-verde-search .sel-regions > label', 'click', function(event) {
-				// $('#header .buscador-verde-search select[id="sel-regions"]').click();
-				var element = $('#header .buscador-verde-search select[id="sel-regions"]')[0];
-				if (document.createEvent) { // all browsers
-					var e = document.createEvent("MouseEvents");
-					e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-					element.dispatchEvent(e);
-				} else if (element.fireEvent) { // ie
-					element.fireEvent("onmousedown");
-				}
+				openSelect('#header .buscador-verde-search select[id="sel-regions"]');
+			});
+			$(context).delegate('#header select', 'change', function(event) {
+				$(this).blur();
+			});
+			$(context).delegate('#header .fa', 'click', function(event) {
+				var id = $(this).prev('select').attr('id');
+				openSelect(id);
 			});	
 			/* Sede form */
 			// Before submit
@@ -2166,13 +2188,6 @@ $(window).load(function () {
 				else {
 					var s = smsGenError.replace(/<ul><\/ul>/g,'<ul>'+sms+'</ul>');
 					$('#main').prepend( s );
-					// if ( $('#main #messages li').length !== 0 ) {      
-					// 	$('#main #messages ul').append(sms);
-					// }
-					// else {
-					// 	var s = smsGenError.replace(/<ul><\/ul>/g,'<ul>'+sms+'</ul>');
-					// 	$('#main').prepend( s );
-					// }					
 					event.preventDefault();
 				}
 			});
@@ -2188,12 +2203,12 @@ $(window).load(function () {
 				$('form[id="views-exposed-form-sedes-report-geo"] input[id^="edit-field"]').change();
 			});
 			// Stop propagation in label
-		$(context).delegate('#filter-box-more-modal .form-item.form-type-bef-checkbox label', 'click', function(event) {
-			event.stopPropagation();
-			event.stopImmediatePropagation();
-			event.preventDefault();
-		// Do something
-		});
+			$(context).delegate('#filter-box-more-modal .form-item.form-type-bef-checkbox label', 'click', function(event) {
+				event.stopPropagation();
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			// Do something
+			});
 
 			// Empty modal-body when is close
 			$(context).delegate('#filter-box-more-modal .close-modal', 'click', function(event) {
@@ -2206,14 +2221,30 @@ $(window).load(function () {
 			$('#block-views-sedes-report-geo .view-sedes-report > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
 
-			// Display none forever
-			// $('.ajax-progress-throbber').addClass('element-invisible');
-			// if ( $(context).prop("tagName") === undefined && $(context).prop("tagName") != "FORM" ) {
-			// 	$('#views-exposed-form-sedes-report-geo').addClass('element-invisible');
-			// }
-			// else {
-			// 	$('#views-exposed-form-sedes-report-geo').removeClass('element-invisible');	
-			// }
+			// Remove banners when is Mobile width
+			var ww = $(window).width();
+			if ( ww < 460 ) {
+				$('#block-views-banners-block').remove();
+			}
+			// Remove header search for multiple pages
+			if ( urlPaths !== undefined && urlPaths.length > 0 &&
+				(
+					urlPaths[0] === 'admin' ||
+					urlPaths[0] === 'usuario' ||
+					urlPaths[0] === 'user' ||
+					urlPaths[0] === 'empresa' ||
+					urlPaths[0] === 'sede' ||
+					urlPaths[0] === 'node' ||
+					urlPaths[0] === 'contacto' ||
+					urlPaths[0] === 'unete' ||
+					urlPaths[0] === 'quienes-somos'
+				)
+			) {
+				$('#header .region .sel-pais, #header .region .sel-regions, #header .region .sel-categoria, #header .region .sel-search, #header .region .sel-button').remove();
+			}
+
+			// Display none menu responsive directorio verde
+			$('.sidr .sidr-inner a[href*="directorio-verde"]').parent().css('display','none');
 
 		} // end: attach of despierta theme
 	};

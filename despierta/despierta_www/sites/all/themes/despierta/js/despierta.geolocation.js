@@ -138,7 +138,8 @@ function getGeolocation() {
 
   if ("geolocation" in navigator) {
   /* geolocation is available */
-    navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true, timeout: 10000});
+    //navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true, timeout: 10000});
+    navigator.geolocation.getCurrentPosition(getLocation, despiertaGeoError, {enableHighAccuracy: true});
   } else {
     /* geolocaiton IS NOT available */
     despiertaGeoError();

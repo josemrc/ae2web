@@ -18,6 +18,7 @@ stylesheets[all][] = css/bootstrap/bootstrap.min.css
 stylesheets[all][] = css/responsive-tabs.css
 stylesheets[all][] = css/responsive.css
 stylesheets[all][] = css/flower.css
+stylesheets[all][] = font-awesome-4.6.3/css/font-awesome.min.css
 stylesheets[all][] = css/despierta.css
 stylesheets[print][] = css/print.css
 

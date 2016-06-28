@@ -84,6 +84,9 @@ p.pasos {
   overflow: hidden;
   height: 1px;
 }
+.fa-2x {
+  font-size: 1.5em;
+}
 
 /* --------------- Loading views ------------ */
 #loading {
@@ -158,8 +161,8 @@ p.pasos {
   margin-left: 5px;
 }
 #header .region .sel-button button#sel-button {
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
   border-radius: 0;
   background-color: #b9ce8c;
   border-color: #b9ce8c;
@@ -171,16 +174,29 @@ p.pasos {
   right: 5px;
   top: 0;
 }
-#header .region .sel-pais {
+#header .region .sel-pais,
+#header .region .sel-regions, 
+#header .region .sel-categoria, 
+#header .region .sel-search {
   border: thin solid gray;
   background-color: #ecf8ee;
+  border-radius: 3px;
 }
-#header .region .sel-pais select {
+#header .region .sel-pais select,
+#header .region .sel-regions select,
+#header .region .sel-categoria select, 
+#header .region .sel-search input {
   border: 0 !important;
   height: 30px;
 }
-
-
+#header .region .sel-search input {
+  padding-left: 5px;
+}
+.fa {
+  margin-right: 5px;
+  margin-left: -20px;
+  cursor: pointer;
+}
 select.round, select.minimal {
   background-color: white;
   border: thin solid gray;
@@ -197,7 +213,7 @@ select.round, select.minimal {
   -moz-appearance: none;
   cursor: pointer;
 }
-select.round {
+/*select.round {
   background-image: linear-gradient(55deg, transparent 50%, #44561f 50%), linear-gradient(125deg, #44561f 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
   background-position: calc(100% - 14px) 1em, calc(100% - 6px) 1em, calc(100% - .4em) .5em;
   background-size: 8px 10px, 8px 10px, 1.4em 1.4em;
@@ -228,7 +244,7 @@ select.minimal:focus {
 select.round:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
-}
+}*/
 
 #sms_geoloc_nodespierta {
   z-index: 10000;
@@ -248,20 +264,23 @@ select.round:-moz-focusring {
 #sms_geoloc_nodespierta select#sel-regions:focus {
   background-position:  calc(100% - 8px) .8em,  calc(100% - 16px) .8em, calc(100% - .4em) .5em;
 }
+#sms_geoloc_nodespierta .fa {
+  margin-left: -25px !important;
+}
+
 
 /* --------------- Logo View ------------ */
 #logo {
   float: left;
-  margin-right: 10px;
-  margin-bottom: 5px;
+  margin: 4px 10px 5px 10px;
 }
 #logo img {
   width: 170px;
   display: none;
 }
 #logo.front img {
-  margin: 5px 0 0 5px;
   height: 73px;
+  margin: 7px 10px 5px 30px;
   width: auto !important;
 }
 
@@ -276,17 +295,9 @@ select.round:-moz-focusring {
 }
 
 /* --------------- Buscador Verde ------------ */
-
-#block-views-buscador-verde-busq-block .content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
- }
 #block-views-buscador-verde-busq-block .view-content {
   margin-left: auto;
   margin-right: auto;
-  max-width: 1300px;
-  padding-bottom: 20%;
 }
 #block-views-buscador-verde-busq-block .view-content {
   color: white;
@@ -294,47 +305,44 @@ select.round:-moz-focusring {
 }
 #block-views-buscador-verde-busq-block .view-content h1 {
   color: white;  
-  font-size: 100px;
+  font-size: 7vw;
   font-weight: bold;
   text-transform: uppercase;
   padding-left: 2%;
-  margin-left: auto;
-  margin-right: auto;
-  width: 1100px;  
+  width: 100%;  
+  text-align: center;
   margin-bottom: 20px;
 }
 #block-views-buscador-verde-busq-block .views-field.views-field-body {
-  font-size: 33px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 1100px;
+  font-size: 2.5vw;
+  text-align: center;
+  width: 100%;
 }
 #block-views-buscador-verde-busq-block .buscador-verde-search {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
-  height: 175px;
+  /*height: 130px;*/
   display: inline-flex;
 }
-#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
+#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label,
+#block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions i {
   color: #2d4729;
   background-color: #ecf8ee;
-  width: 150px;
   height: 50px;
-  vertical-align: middle;
-  text-align: center;
   margin-bottom: .6em;
-  font-size: 20px;
   font-weight: normal;
   border: 0;
   padding-top: 12px;
-  padding-left: 70px;
+  padding-left: 20px;
 }
 #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg {
   position: absolute;
   left: 0;
+  bottom: 0;
   width: 100%;
-  height: 175px;  
+  height: 130px;  
   background: rgba(54, 25, 25, .5);
   z-index: -1;
 }
@@ -360,7 +368,7 @@ select.round:-moz-focusring {
 }
 #header.buscador-verde {
   position: relative;
-  height: 800px;
+  max-height: 800px;
   display: block;
   margin: 0;
 }
@@ -369,11 +377,14 @@ select.round:-moz-focusring {
   top: 0;
   left: 0;
   width: 100%;
-  height: 800px;
+  max-height: 800px;
   z-index: -1;
 }
 #header.buscador-verde .block-welcome-username {
+  float: right;
   font-size: 18px;
+  margin-top: 20px;
+  margin-right: 30px;  
 }
 #header.buscador-verde .block-welcome-username * {
   color: white;
@@ -394,7 +405,7 @@ select.round:-moz-focusring {
 #header.buscador-verde .buscador-verde-pais {
   display: inline-flex;
   margin-top: 40px;
-  margin-left: 40px;
+  margin-left: 65px;
 }
 #header.buscador-verde .buscador-verde-pais-bg {
   width: 25px;
@@ -410,33 +421,52 @@ select.round:-moz-focusring {
   color: white;
   font-size: 14px;
   margin: 0;
-  width: 140px;
+  width: 145px;
   cursor: pointer;
 }
 #header.buscador-verde select#sel-pais option {
   color: black;
 }
-#header.buscador-verde .block-welcome-username {
-  float: right;
-  margin-top: 20px;
-  margin-right: 125px;
-}
 #header.buscador-verde .buscador-verde-search-cont {
+    display: inline-flex;
     margin-left: auto;
     margin-right: auto;
-    width: 1070px;
-    display: inline-flex;
-    /*padding-left: 100px;*/
 }
 #header.buscador-verde .sel-search,
 #header.buscador-verde .sel-regions,
 #header.buscador-verde .sel-button {
-  padding-top: 60px;
+  display: inline-flex;
+  padding-top: 42px;
+}
+#header.buscador-verde input::-webkit-input-placeholder {
+  color: #2d4729;
+  text-align: left;
+}
+#header.buscador-verde input:-moz-placeholder,
+#header.buscador-verde input::-moz-placeholder {
+  color: #2d4729;
+  text-align: left;
+  opacity:  1;
+}
+#header.buscador-verde input:-ms-input-placeholder {
+  color: #2d4729;
+  text-align: left;
+}
+
+#header.buscador-verde .sel-search * ,
+#header.buscador-verde .sel-regions * {
+  font-size: 20px;
+  background-color: #ecf8ee;
+  color: #2d4729 !important;
+}
+#header.buscador-verde input#sel-search {
+  width: 400px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;  
 }
 #header.buscador-verde input#sel-search,
 #header.buscador-verde select#sel-regions {
   height: 50px;
-  width: 300px;
   margin-right: -1px;
   padding-left: 20px;
   border: 0;
@@ -444,28 +474,8 @@ select.round:-moz-focusring {
 #header.buscador-verde input#sel-search {
   margin-right: 1px;
 }
-#header.buscador-verde input::-webkit-input-placeholder {
-  color: #2d4729;
-  text-align: center;
-}
-#header.buscador-verde input:-moz-placeholder,
-#header.buscador-verde input::-moz-placeholder {
-  color: #2d4729;
-  text-align: center;
-  opacity:  1;
-}
-#header.buscador-verde input:-ms-input-placeholder {
-  color: #2d4729;
-  text-align: center;
-}
-
-#header.buscador-verde input#sel-search,
-#header.buscador-verde select#sel-regions,
-#header.buscador-verde select#sel-regions * {
-  font-size: 20px;
-  width: 400px;
-  background-color: #ecf8ee;
-  color: #2d4729 !important;  
+#header.buscador-verde select#sel-regions {
+  width: 300px;
 }
 #header.buscador-verde button#sel-button {
   font-size: 20px;
@@ -473,11 +483,12 @@ select.round:-moz-focusring {
   width: 100px;
   background-color: #b9ce8c;
   border-color: #b9ce8c;
-  border-radius: 0;
   -webkit-border-bottom-right-radius: 3px;
   -moz-border-radius-bottomright: 3px;
   -moz-border-radius-topright: 3px;
   -webkit-border-top-right-radius: 3px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
@@ -494,7 +505,14 @@ select.round:-moz-focusring {
   background-position: calc(100% - 13px) .5em, calc(100% - 31px) .5em, calc(100% - .4em);
   background-size: 18px 26px, 18px 26px, 2.3em 2.3em;
 }
-
+#header.buscador-verde .buscador-verde-search-cont .fa-2x {
+  font-size: 2em !important;
+  padding: 0 !important;
+  padding-top: 5px !important;  
+  margin: 0 !important;
+  margin-left: -40px !important;
+  cursor: pointer;
+}
 
 /* --------------- Category Header ------------ */
 #header hr {
@@ -566,56 +584,6 @@ select.round:-moz-focusring {
   right: -4px;
   top: -4px;
 }
-
-
-/* --------------- Header Panel Responsive ------------ */
-@media (max-width: 991px) {
-  #logo.front img {
-    float: left;
-    margin-left: 40px;
-  }
-  #block-views-buscador-verde-busq-block .buscador-verde-search {
-    padding-left: 3%;
-  }
-  #header.buscador-verde .buscador-verde-search input#sel-search,
-  #header.buscador-verde .buscador-verde-search select#sel-regions {
-    width: 250px;
-  }  
-}
-@media (max-width: 625px) {
-  .mi-navbar-toggle .icon-bar {
-    width: 20px;
-  }  
-  #logo img {
-    width: 50%;
-  }
-}
-@media (max-width: 517px) {
-  .mi-navbar-toggle .icon-bar {
-    width: 17px;
-  }  
-  #logo img {
-    width: 50%;
-  }
-  select#sel-pais,
-  select#sel-regions {
-    width: 130px;
-  }
-  .block-welcome-username {
-    font-size: 12px;
-    margin-top: 0;
-  }  
-}
-@media (max-width: 460px) {
-  #logo img {
-    width: 45%;
-  }
-  select#sel-pais,
-  select#sel-regions {
-    width: 110px;
-  }
-}
-
 
 
 /*
@@ -699,38 +667,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body span {
 div[id^="block-views-banners-block"] .views-field.views-field-body p {
   margin: 0;
 }
-@media (max-width: 991px) {
-  #block-views-frontpage-desc-busq-block .view-display-id-busq_block {
-    height: auto;
-  }
-  .imgeco {
-    display: none;
-  }
-  #tabIcons {
-    display: none;
-  }
-  #block-views-frontpage-desc-busq-block h1 {
-    font-size: 40px;
-  }
-}
-/*@media (max-width: 625px) {
-  .view-id-banners img {
-    clear: both;
-    width: 70%;
-  }
-}
-@media (max-width: 517px) {
-  .view-id-banners img {
-    clear: both;
-    width: 50%;
-  }
-}
-@media (max-width: 460px) {
-  .views-field-field-page-image {
-    clear: both;
-    display: none;
-  }
-}*/
 
 
 /* --------------- SubCategories View ------------ */
@@ -772,9 +708,11 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   color: #fff;
   text-align: center;
 }
+.view-empresa-sedes {
+  margin-top: 50px;
+}
 
 /* --------------- Sedes View ------------ */
-
 #block-views-sedes-report-geo {
   margin-top: 40px;
 }
@@ -884,9 +822,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   clear: both;
   position: absolute;
   top: 148px;
+  left: 0;
+  width: 100%;
   border-bottom: 1px solid #afdc99;
-  left: 5px;
-  width: 660px;
 }
 .resultados .sede {
   color: #4d4d4d;
@@ -922,39 +860,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   padding: 5px;
 }
 
-/* responsive */
-@media (max-width: 625px) {
-  .resultados .media-bod .allinfo {
-    float: right;
-  }
-}
-@media (max-width: 517px) {
-  .resultados .media-bod .allinfo {
-    float: right;
-  }
-  .resultados .media-object {
-    max-width: 75px;
-    max-height: 75px;
-  }  
-}
-@media (max-width: 460px) {
-  .resultados .media-bod .allinfo {
-    float: right;
-  }
-  .resultados .media-bod .locinfo {
-    display: none;
-  }
-  .resultados .media {
-    height: 130px;
-  }
-  .resultados .media-object {
-    max-width: 65px;
-    max-height: 65px;
-  }
-  .resultados .sep-title {
-    font-size: 14px;
-  }  
-}
 
 /* --------------- Map Sedes ------------ */
 #block-views-sedes-report-geo .attachment {
@@ -1055,13 +960,12 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 
 
 /* --------------- Directorio Verde ------------ */
-
 #block-views-categorias-block h2 {
-  margin-left: 15%;
+  text-align: center;
   color: #44561f;
 }
 #block-views-categorias-block h4 {
-  margin-left: 20%;
+  text-align: center;
   color: #44561f;
 }
 .view-categorias {
@@ -1087,7 +991,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   padding: 5px;
   height: 200px;
   text-align: center;
-  margin: 0 13px 13px 0;
+  margin: 0 13px -13px 0;
 }
 .fdoverde a {
   color: white;
@@ -1105,11 +1009,11 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 .imgcateg {
   overflow: hidden;
   border: 1px solid #4f7509;
-  /*border-radius: 5px;*/
   height: 162px;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  width: 351px;
 }
 .fdoverde a img{
     left: 0;
@@ -1117,45 +1021,15 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     position: relative;
     top: 0;
     transition: all 0.2s linear 0s;
-    -webkit-transition: all 0.2s linear 0s;
-    width: 351px;
+    -webkit-transition: all 0.2s linear 0.2s;
 }
 .fdoverde a:hover img{
     width: 375px;
     top: -4px;
     left: -5px;
 }
-@media (max-width: 991px) {
-  .imgcateg {
-    width: 350px;
-  }
-  .fdoverde a {
-    font-size: 16px;
-  }    
-}
-@media (max-width: 908px) {
-  .imgcateg {
-    width: auto;
-  }
-}
-@media (max-width: 767px) {
-  .fdoverde {
-    width: 350px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .fdoverde a {
-    font-size: 14px;
-  }
-}
-@media (max-width: 460px) {
-  .fdoverde {
-    width: auto;
-  }
-}
 
 /* --------------- Redes View ------------ */
-
 .redes{
   background-image: url('../images/redes.jpg');
   display:inline-block;
@@ -1279,7 +1153,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 /* Gestion Menu */
 #block-menu-menu-opciones-gestion {
-  /*padding-top: 50px;*/
+  margin-top: 50px;
   margin-right: 30px;
 }
 #block-menu-menu-opciones-gestion h2 {
@@ -1288,6 +1162,10 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 
 /* Sedes form */
+.node-sede.node-full {
+  margin-top: 50px;
+
+}
 .node-sede-form label[for="edit-title"], 
 .node-sede-form label[for="edit-field-sede-descripcion-breve-und-0-value"],
 .node-sede-form label[for="edit-field-sede-tipo-movimiento-und"],
@@ -1333,3 +1211,426 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 #contact-site-form .cont-col1 .form-item {
   /*margin-left: 30%;*/
 }
+.form-item-copy {
+  display: none;
+}
+
+
+
+/*
+ * RESPONSIVE
+ */
+
+
+@media (max-width: 991px)
+{
+  /* Header Panel Responsive */
+  #logo {
+    margin: 4px 0px 5px 5px;
+  }  
+  #header.buscador-verde .block-welcome-username .contacto {
+    margin-right: 5px;
+  }
+  /* category header */
+  #header .region select,
+  #header .region input {
+    width: 135px;
+  }
+  /* Directorio Verde */
+  .fdoverde a {
+    font-size: 35px;
+  }
+  /* Banners View */
+  .views-slideshow-cycle-main-frame-row-item {
+    display: inline-flex;
+  }
+  /* Sedes View */
+  .logoempresa {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 900px)
+{
+  /* Header Panel Responsive */
+  #header.buscador-verde .sel-search {
+    width: 270px;
+  }
+}
+
+@media (max-width: 800px)
+{
+  /* Header Panel Responsive */
+  #logo {
+    margin: 4px 4px 4px 4px;
+  }
+  #logo.front img {
+    height: 60px;
+  }
+  #header.buscador-verde .buscador-verde-pais {
+    margin-top: 20px;
+    margin-left: 55px;
+  }
+  #header.buscador-verde .sel-search *,
+  #header.buscador-verde .sel-regions *,
+  #header.buscador-verde button#sel-button {
+    font-size: 16px;
+  }
+  #header.buscador-verde .sel-search {
+    width: 220px;
+  }
+  #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
+    padding-top: 15px;
+    padding-left: 5px;
+  }
+  #header.buscador-verde select#sel-regions {
+    clear: both;
+    width: 220px;
+  }
+  #header.buscador-verde .buscador-verde-search-cont .fa-2x {
+    clear: both;
+    font-size: 1.5em !important;
+    padding-top: 10px !important;
+  }
+  #header.buscador-verde .block-welcome-username {
+    font-size: 14px;
+    margin: 0;
+    margin-top: 10px;
+  }
+  #header.buscador-verde .block-welcome-username [dp-class="unete"] {
+    padding: 5px 10px;
+    margin-right: 50px;
+  }
+  #header.buscador-verde .block-welcome-username .contacto {
+    margin-right: 30px;
+  }
+  #header.buscador-verde .block-welcome-username a {
+    margin-right: 10px;
+  }  
+  #block-views-categorias-block h2 {
+    font-size: 24px;
+  }
+  #block-views-categorias-block h4 {
+    font-size: 16px;
+  }
+  /* category header */
+  #logo img {
+    width: 140px;
+  }
+  #header .region select,
+  #header .region input {
+    font-size: 12px;
+    width: 125px;
+  }
+  #header .region select#sel-pais {
+    width: 90px;
+  }
+  #header .region .sel-pais,
+  #header .region .sel-regions,
+  #header .region .sel-categoria,
+  #header .region .sel-search,
+  #header .region .sel-button {
+    margin-left: 2px;
+  }
+  .fa {
+    margin-right: 2px;
+    margin-left: -15px;
+  }
+  .fa-2x {
+    font-size: 1em;
+  }
+  #header .block-welcome-username {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+  #header .block-welcome-username .contacto {
+    margin-right: 0;
+  }
+
+
+  /* Directorio Verde */
+  .fdoverde a {
+    font-size: 30px;
+  }
+
+  /* Banners View */
+  .view-id-banners {
+    font-size: 16px;
+  }
+  div[id^="block-views-banners-block"] .views-field.views-field-body p {
+    margin-right: 10px;
+  }
+
+  /* Sedes View */
+  .resultados .media-object {
+    max-width: 70px;
+    max-height: 70px;
+  }
+  #block-views-sedes-report-geo .view-filters .filter-box .filter-box-header {
+    font-size: 16px;
+  }
+  #block-views-sedes-report-geo .view-filters label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px)
+{
+  /* category header */
+  #header .region select#sel-categoria ,
+  #header .region input#sel-search {
+    width: 110px;
+  }
+  /* Directorio Verde */
+  .fdoverde {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .fdoverde a {
+    font-size: 28px;
+  }
+  /* Sedes View */
+  .resultados .masinfo {
+    font-size: 14px;
+  }
+  .resultados .media-bod .locinfo {
+    padding-top: 35px;
+  }
+  .resultados .masinfo {
+    margin-top: 0;
+  }
+}
+
+
+@media (max-width: 625px)
+{
+  /* Sedes View */
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+}
+
+@media (max-width: 517px)
+{
+  /* Sedes View */
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+  .resultados .media-object {
+    max-width: 75px;
+    max-height: 75px;
+  }  
+}
+
+@media (max-width: 460px)
+{
+  /* Header Panel Responsive */
+  #header .region {
+    margin: 0;
+    padding: 0 5px 0 5px;
+  }
+  #logo {
+    clear: both;
+    width: 100%;
+    margin: 0;
+  }
+  #logo.front img {
+    clear: both;
+    margin: 0;
+    height: 50px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #header.buscador-verde .block-welcome-username,
+  #block-views-buscador-verde-busq-block .views-field.views-field-body,
+  #header.buscador-verde .buscador-verde-pais,
+  #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label,
+  #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg {
+    display: none;
+  }
+  #block-views-buscador-verde-busq-block .view-content h1 {
+    clear: both;
+    width: auto;
+    margin: 0;
+    margin-top: 80px;
+    font-size: 28px;
+    text-align: center;
+  }
+  #block-views-buscador-verde-busq-block .content {
+    clear: both;
+    bottom: auto;
+  }
+  #block-views-buscador-verde-busq-block .view-content {
+    padding: 0;
+  }
+  #block-views-buscador-verde-busq-block .buscador-verde-search {
+    clear: both;
+    margin: 0;
+    bottom: unset;
+  }
+  #header.buscador-verde .sel-search,
+  #header.buscador-verde .sel-regions,
+  #header.buscador-verde .sel-button {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 40px;
+  }
+  #header.buscador-verde .buscador-verde-search-cont {
+    clear: both;
+    display: block;
+    width: 100%;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  input#sel-search,
+  select#sel-pais,
+  select#sel-regions,
+  select#sel-categoria,
+  button#sel-button {
+    clear: both;
+    width: 100% !important;
+    border-radius: 3px;
+    margin-top: 15px;
+  }
+  #header.buscador-verde .buscador-verde-search-cont .fa-2x {
+    margin-top: 15px !important;
+  }
+  /* category header */
+  #header .section {
+    clear: both;
+    display: block;
+    position: relative;
+  }  
+  #logo img {
+    clear: both;
+    margin: 0;
+    width: 165px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 25px;
+
+  }
+  #header .region .sel-pais,
+  #header .block-welcome-username {
+    clear: both;
+    display: none;
+  }  
+  #header .region .sel-regions,
+  #header .region .sel-categoria,
+  #header .region .sel-search,
+  #header .region .sel-button {
+    clear: both;
+    width: 100%;
+    margin: 0;
+    margin-left: 0;
+    margin-bottom: 20px;
+    display: inline-flex;
+  }
+  #header .region select,
+  #header .region input {
+    font-size: 16px;
+    margin-top: 0;
+  }
+  #header .fa-2x {
+    clear: both;
+    position: absolute;
+    right: 0;
+    font-size: 1.5em;
+    z-index: 3;
+    margin-top: 3px;
+    margin-right: 10px;
+  }
+
+  #page {
+    margin-top: 0;
+  }
+
+  /* Directorio Verde */
+  .views-field-name {
+    margin-top: 60px;
+  }
+  .fdoverde a {
+    font-size: 26px;    
+  }
+  .imgcateg {
+    width: 300px;
+  }
+  .fdoverde a:hover img{
+      width: auto;
+  }
+
+  /* Banners View */
+  #block-views-banners-block {
+    display: none;
+  }
+
+  /* Sedes View */
+  .tab-content {
+    width: 100% !important;
+  }
+  .view-filters {
+   width: 100% !important; 
+  }
+  .attachment {
+    clear: both;
+    width: 100% !important;
+  }
+  #block-views-sedes-report-geo .view-filters,
+  #block-views-sedes-report-geo .attachment {
+    padding: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;    
+  }
+  .resultados .media-bod .allinfo {
+    float: right;
+  }
+  .resultados .media-bod .locinfo {
+    display: none;
+  }
+  .resultados .media {
+    height: 130px;
+  }
+  .resultados .media-object {
+    max-width: 65px;
+    max-height: 65px;
+  }
+  .resultados .sep-title {
+    font-size: 14px;
+  }
+  .resultados .masinfo {
+    margin-top: 20px;
+  }
+  .resultados .masinfo p {
+    padding: 2px;
+  }
+}
+
+@media (max-width: 460px) and (min-height: 736px) {
+  /* Header Panel Responsive */
+  #header.buscador-verde {
+    max-height: 500px; 
+  }
+  #header.buscador-verde .buscador-verde-bg {
+   max-height: 500px;
+  }
+}
+
+@media (max-width: 320px) {
+  /* Directorio Verde */
+  .imgcateg {
+    width: auto;
+  }
+  .fdoverde a:hover img{
+      width: auto;
+  }
+
+
+
+
+
+

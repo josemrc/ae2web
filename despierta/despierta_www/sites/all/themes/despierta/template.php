@@ -256,7 +256,7 @@ function despierta_preprocess_page(&$vars) {
     $vars['page']['content']['system_main']['default_message'] = array();
 
     // Add Google Maps API
-    drupal_add_js('http://maps.googleapis.com/maps/api/js', 'external');
+    drupal_add_js(variable_get('googleapis'), 'external');
   }
   // There is currently no content classified with this term."
   if(isset($vars['page']['content']['system_main']['no_content'])) {
