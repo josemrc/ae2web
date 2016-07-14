@@ -111,19 +111,33 @@ $(window).load(function () {
 			return keys;
 		};
 	}
+	// function openSelect() {
+	// 	var element = document.getElementById('sel-pais');
+	// 	var event = new MouseEvent('mousedown', {
+	// 	'view': window,
+	// 	'bubbles': true,
+	// 	'cancelable': true
+	// 	});
+	// 	var c = !element.dispatchEvent(event);
+	// }
 	var openSelect = function(selector){
-		// var element = $(selector)[0];
-		var element = document.getElementById(selector);		
+console.log(selector);
+		var element = document.getElementById(selector);
+console.log(element);
 		if (element.fireEvent) { // ie
 			element.fireEvent("onmousedown");
 		}
 		else { // all browsers
+console.log("all browsers");
 			var event = new MouseEvent('mousedown', {
 			'view': window,
 			'bubbles': true,
 			'cancelable': true
 			});
-			element.dispatchEvent(event);
+			var c = !element.dispatchEvent(event);
+			// var event = document.createEvent('MouseEvents');
+			// event.initMouseEvent('mousedown', true, true, window,0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			// element.dispatchEvent(event);
 		}
 	}	
 
@@ -407,6 +421,7 @@ $(window).load(function () {
 		// Create HTML for 'Paises'
 		var html = Drupal.theme('paisSelectList', regions);
 		if ( $('#header .region > .sel-pais').length === 0 ) {
+			//$( '#header .region' ).prepend('<div class="sel-pais_wrapper"><div class="sel-pais">' + html + '</div></div>');
 			$( '#header .region' ).prepend('<div class="sel-pais">' + html + '</div>');
 		}
 		else {
@@ -481,7 +496,7 @@ $(window).load(function () {
 			selHTML += '<option value="'+pais+'" dp-pais-code="'+pCode+'">' + pais + '</option>';
 		}
 		selHTML += '</select>';
-		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
+		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, inCode) {
@@ -498,7 +513,7 @@ $(window).load(function () {
 			selHTML += '<option value="" dp-reg-code="-">Primero seleccione un país</option>';
 		}
 		selHTML += '</select>';
-		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
+		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};	
 	Drupal.theme.prototype.categorySelectList = function (categorias) {
@@ -511,7 +526,7 @@ $(window).load(function () {
 			selHTML += '<option value="'+tid+'" dp-cat-tid="'+tid+'">' + name + '</option>';
 		}
 		selHTML += '</select>';
-		selHTML += '<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>';
+		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.searchSelectList = function () {
@@ -563,15 +578,20 @@ $(window).load(function () {
 			$('#header.buscador-verde #logo img').attr('src', logo_img);
 
 			// create new 'buscador-verde-pais' panel
-			$('#header.buscador-verde .section .region').after('<div class="buscador-verde-pais"></div>');
+			// $('#header.buscador-verde .section .region').after('<div class="buscador-verde-pais"></div>');
+			// var back_img = $('#block-views-buscador-verde-world-block span.views-field-field-page-image img').attr('src');
+			// $('#header.buscador-verde .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
+			// $('#header.buscador-verde .region .sel-pais').appendTo('#header .buscador-verde-pais');
+			// $('#header.buscador-verde .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
+			// $('#header.buscador-verde .region .sel-pais').remove();
+			$('#block-welcome-username-welcome-username').append('<div class="buscador-verde-pais"></div>');			
 			var back_img = $('#block-views-buscador-verde-world-block span.views-field-field-page-image img').attr('src');
-			$('#header.buscador-verde .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
-			$('#header.buscador-verde .region .sel-pais').appendTo('#header .buscador-verde-pais');
-			$('#header.buscador-verde .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
-			$('#header.buscador-verde .region .sel-pais').remove();
+			$('#block-welcome-username-welcome-username .buscador-verde-pais').prepend('<img class="buscador-verde-pais-bg" src="'+back_img+'"></img>');
+			$('#header.buscador-verde .region .sel-pais').appendTo('#block-welcome-username-welcome-username .buscador-verde-pais');
+			$('#block-welcome-username-welcome-username .buscador-verde-pais .sel-pais select').removeClass('round').addClass('minimal');
+			// $('#header.buscador-verde .region .sel-pais').remove();
 
 			// create new 'buscador-verde-search' panel
-			//$('#block-views-buscador-verde-busq-block .content').append('<div class="buscador-verde-search"></div>');
 			$('#header.buscador-verde .section #block-views-buscador-verde-busq-block .view-content').append('<div class="buscador-verde-search"></div>');
 			$('#block-views-buscador-verde-busq-block .buscador-verde-search').append('<div class="buscador-verde-search-cont"></div>');
 			$('#header.buscador-verde .region .sel-search').appendTo('#block-views-buscador-verde-busq-block .buscador-verde-search-cont');
@@ -1622,7 +1642,8 @@ $(window).load(function () {
 							$('span',this).html('+ info');
 							$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
 							$('.subrayado', this).fadeOut(500);
-							$(this).parents('article').animate({height: '155px'}, 500);
+
+							$(this).parents('article').animate({height: '100%'}, 500);
 						}
 						// change to up (-> show)
 						else {
@@ -2144,16 +2165,18 @@ $(window).load(function () {
 				// Redirect region location if it is not 'buscador verde'
 				window.location.href = Drupal.theme.prototype.createRegionURL(urlPaths);
 			});	
-			$(context).delegate('#header .buscador-verde-search .sel-regions > label', 'click', function(event) {
-				openSelect('#header .buscador-verde-search select[id="sel-regions"]');
-			});
 			$(context).delegate('#header select', 'change', function(event) {
 				$(this).blur();
 			});
-			$(context).delegate('#header .fa', 'click', function(event) {
-				var id = $(this).prev('select').attr('id');
-				openSelect(id);
-			});	
+			// $(context).delegate('#header .buscador-verde-search .sel-regions > label', 'click', function(event) {
+			// 	openSelect('#header .buscador-verde-search select[id="sel-regions"]');
+			// });
+			// document.getElementsByClassName("fa").addEventListener('click', openSelect);
+			// $(context).delegate('.fa', 'click', function(event) {
+			// 	var id = $(this).prev('select').attr('id');
+			// 	openSelect(id);
+
+			// });	
 			/* Sede form */
 			// Before submit
 			$(context).delegate('form[id="sede-node-form"] input[id="edit-submit"]', 'click', function(event) {
@@ -2224,7 +2247,7 @@ $(window).load(function () {
 			// Remove banners when is Mobile width
 			var ww = $(window).width();
 			if ( ww < 460 ) {
-				$('#block-views-banners-block').remove();
+				$('#highlighted').remove();				
 			}
 			// Remove header search for multiple pages
 			if ( urlPaths !== undefined && urlPaths.length > 0 &&
