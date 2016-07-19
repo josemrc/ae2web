@@ -77,15 +77,15 @@ p.pasos {
 #block-views-sedes-report-geo #edit-keys-wrapper {
   display: none;
 }
+.element-invisible {
+  display: none;
+}
 .element-invisible2 {
   position: absolute !important;
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
   overflow: hidden;
   height: 1px;
-}
-.fa-2x {
-  font-size: 1.5em;
 }
 
 /* --------------- Loading views ------------ */
@@ -129,7 +129,7 @@ p.pasos {
 /* --------------- Pais / Regions View ------------ */
 
 #header .section {
-  display: flex;
+  display: inline;
   position: fixed;
   top: 0;
   width: 100%;
@@ -140,13 +140,14 @@ p.pasos {
 #header .region {
   float: none;
   width: 100%;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  display: inline;
 }
 #header .region select,
 #header .region input {
   height: 32px;
-  width: 155px;
+  width: 150px;
   font-size: 13px;
   color: #44561f;
   background-color: #ecf8ee;
@@ -161,8 +162,8 @@ p.pasos {
   margin-left: 5px;
 }
 #header .region .sel-button button#sel-button {
-  height: 34px;
-  width: 34px;
+  height: 32px;
+  width: 32px;
   border-radius: 0;
   background-color: #b9ce8c;
   border-color: #b9ce8c;
@@ -171,25 +172,40 @@ p.pasos {
   border-radius: 3px;
 }
 #header .region .sel-button .glyphicon {
-  top: 3px;
-  right: 3px;
+  top: 1px;
+  right: 5px;
   font-size: 16px;
 }
 #header .region .sel-pais,
 #header .region .sel-regions, 
 #header .region .sel-categoria, 
 #header .region .sel-search {
-  border: thin solid #96c147;
-  /*background-color: #ecf8ee;*/
-  border-radius: 3px;
+  margin: 0;
+  margin-right: -9px;
+  margin-top: 2px;
+}
+#header .region .sel-search {
+  margin-top: 3px;
+}
+#header .region .sel-button {
+  margin: 0;
+  margin-top: 3px;
+  margin-left: 13px;
 }
 #header .region .sel-pais select,
 #header .region .sel-regions select,
 #header .region .sel-categoria select, 
 #header .region .sel-search input {
-  border: 0 !important;
-  height: 30px;
+  height: 32px;
   background: transparent;  
+  /*border: 0 !important;*/
+  border: thin solid #96c147;
+  border-radius: 3px;
+  padding: 0;
+  /*padding-left: 5px;*/
+}
+#header .region .sel-pais select {
+ padding-left: 25px; 
 }
 #header .region .sel-search input {
   padding-left: 5px;
@@ -197,7 +213,7 @@ p.pasos {
 }
 select.round, select.minimal {
   background: transparent;
-  background-color: white;
+  /*background-color: white;*/
   border: thin solid gray;
   border-radius: 0;
   display: inline-block;
@@ -246,14 +262,29 @@ select.round:-moz-focusring {
 #header .sel-categoria:after,
 #sms_geoloc_nodespierta .sel-pais:after,
 #sms_geoloc_nodespierta .sel-regions:after {
+  clear: both;
   content: "\f107";
   font-family: FontAwesome;
   position: relative;
-  right: 30px;
+  right: 20px;
   top: 3px;
   font-size: 1.5em;
   z-index: -1;
   color: #707173;
+}
+/*
+#header .sel-pais:before {
+   content:url('http://localhost/despierta/sites/default/files/world_green_25x25.png');
+} 
+*/
+#sms_geoloc_nodespierta {
+  background-color: white;
+}
+#sms_geoloc_nodespierta .modal-dialog {
+ background-color: transparent; 
+}
+#sms_geoloc_nodespierta .modal-content {
+  background-color: transparent;
 }
 #sms_geoloc_nodespierta .sel-pais:after,
 #sms_geoloc_nodespierta .sel-regions:after {
@@ -275,20 +306,17 @@ select.round:-moz-focusring {
 #sms_geoloc_nodespierta select#sel-regions:focus {
   background-position:  calc(100% - 8px) .8em,  calc(100% - 16px) .8em, calc(100% - .4em) .5em;
 }
-#sms_geoloc_nodespierta .fa {
-  margin-left: -25px !important;
-}
 
 
 /* --------------- Logo View ------------ */
 #logo {
   float: left;
-  margin: 4px 40px 5px 10px;
+  margin: 4px 40px 0 10px;
 }
 #logo img {
   /*width: 170px;*/
   display: none;
-  height: 35px;
+  height: 34px;
 }
 #logo.front img {
   height: 73px;
@@ -299,7 +327,7 @@ select.round:-moz-focusring {
 /* --------------- Wellcome View ------------ */
 #header .block-welcome-username {
   float: right;
-  margin-top: 6px;
+  margin-top: 8px;
   margin-right: 10px;
 }
 #header .block-welcome-username .contacto {
@@ -314,6 +342,10 @@ select.round:-moz-focusring {
 #block-views-buscador-verde-busq-block .view-content {
   color: white;
   font-size: 20px;
+}
+#block-views-buscador-verde-busq-block .view-id-buscador_verde {
+  display: inline-block;
+  width: 100%;
 }
 #block-views-buscador-verde-busq-block .view-content h1 {
   color: white;  
@@ -359,8 +391,12 @@ select.round:-moz-focusring {
   width: 20px;
   height: 20px;
   margin: 0;
-  margin-left: 2px;
+  position: relative;
+  left: 24px;
+  bottom: 1px;
+/*  margin-left: 2px;
   margin-bottom: 2px;
+*/
 }
 
 
@@ -530,14 +566,6 @@ select.round:-moz-focusring {
 #header.buscador-verde select#sel-regions:focus {
   background-position: calc(100% - 13px) .5em, calc(100% - 31px) .5em, calc(100% - .4em);
   background-size: 18px 26px, 18px 26px, 2.3em 2.3em;
-}
-#header.buscador-verde .buscador-verde-search-cont .fa-2x {
-  font-size: 2em !important;
-  padding: 0 !important;
-  padding-top: 5px !important;  
-  margin: 0 !important;
-  margin-left: -40px !important;
-  cursor: pointer;
 }
 
 /* --------------- Category Header ------------ */
@@ -1298,26 +1326,26 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     margin-top: 20px;
     margin-left: 55px;
   }
-  #header.buscador-verde .sel-search *,
-  #header.buscador-verde .sel-regions *,
-  #header.buscador-verde button#sel-button {
-    font-size: 16px;
+  #header.buscador-verde .buscador-verde-pais-bg  {
+    width: 23px;
+    height: 23px;
+    margin-top: 10px;
+    margin-right: 2px;
   }
-  #header.buscador-verde .sel-search {
-    width: 220px;
+  #header.buscador-verde input#sel-search {
+    width: 269px;
   }
   #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
     padding-top: 15px;
     padding-left: 5px;
   }
   #header.buscador-verde select#sel-regions {
-    clear: both;
-    width: 220px;
+    width: 250px;
   }
-  #header.buscador-verde .buscador-verde-search-cont .fa-2x {
-    clear: both;
-    font-size: 1.5em !important;
-    padding-top: 10px !important;
+  #header.buscador-verde input#sel-search,
+  #header.buscador-verde select#sel-regions, 
+  #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
+    font-size: 16px;
   }
   #header.buscador-verde .block-welcome-username {
     font-size: 14px;
@@ -1341,16 +1369,13 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     font-size: 16px;
   }
   /* category header */
-  #logo img {
-    width: 140px;
-  }
   #header .region select,
   #header .region input {
     font-size: 12px;
     width: 125px;
   }
   #header .region select#sel-pais {
-    width: 90px;
+    width: 110px;
   }
   #header .region .sel-pais,
   #header .region .sel-regions,
@@ -1358,17 +1383,19 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header .region .sel-search,
   #header .region .sel-button {
     margin-left: 2px;
+    margin-top: 3px;
   }
-  .fa {
-    margin-right: 2px;
-    margin-left: -15px;
-  }
-  .fa-2x {
-    font-size: 1em;
+  #header .region .sel-search,
+  #header .region .sel-button {
+    margin-top: 4px;
+  }  
+  #header .region .sel-button {
+    margin-left: 15px;
   }
   #header .block-welcome-username {
     font-size: 12px;
     margin-right: 5px;
+    margin-top: 12px;
   }
   #header .block-welcome-username .contacto {
     margin-right: 0;
@@ -1403,7 +1430,14 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 
 @media (max-width: 767px)
 {
+  /* Header Panel Responsive */
+  #header.buscador-verde .region .buscador-verde-pais {
+    display: none;
+  }
   /* category header */
+  #header .region .sel-pais {
+    display: none;
+  }
   #header .region select#sel-categoria ,
   #header .region input#sel-search {
     width: 110px;
@@ -1417,6 +1451,12 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     font-size: 28px;
   }
   /* Sedes View */
+  .resultados .subrayado {
+    top: 235px;
+  }  
+  .resultados .media {
+    height: 235px;
+  }
   .resultados .masinfo {
     font-size: 14px;
   }
@@ -1456,6 +1496,8 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #logo {
     clear: both;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
   #logo.front img {
     clear: both;
@@ -1465,9 +1507,11 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     margin-left: auto;
     margin-right: auto;
   }
+  #header.buscador-verde .buscador-verde-bg {
+    background-position: center;
+  }
   #header.buscador-verde .block-welcome-username,
   #block-views-buscador-verde-busq-block .views-field.views-field-body,
-  #header.buscador-verde .buscador-verde-pais,
   #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label,
   #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg {
     display: none;
@@ -1497,14 +1541,22 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header.buscador-verde .sel-button {
     width: 100%;
     padding-top: 0;
+    margin-bottom: 1px;
   }
+  #header.buscador-verde .sel-button {
+    margin-bottom: 0px;
+  }  
   #header.buscador-verde .buscador-verde-search-cont {
     clear: both;
     display: block;
     width: 100%;
+    height: 100%;
     margin-top: 0;
     margin-left: auto;
     margin-right: auto;
+  }
+  #header.buscador-verde select#sel-regions {
+    background: transparent;
   }
   #header.buscador-verde input#sel-search,
   #header.buscador-verde select#sel-pais,
@@ -1515,7 +1567,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    margin-top: 2px;
   }
   input#sel-search,
   select#sel-pais,
@@ -1529,9 +1580,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header.buscador-verde input#sel-search {
     margin-right: 0;
   }  
-  #header.buscador-verde .buscador-verde-search-cont .fa-2x {
-    margin-top: 15px !important;
-  }
   /* category header */
   #header .section {
     clear: both;
@@ -1547,7 +1595,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     margin-left: auto;
     margin-right: auto;
     margin-top: 4px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 
   }
   #header .region .sel-pais,
@@ -1568,17 +1616,16 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   }
   #header .region select,
   #header .region input {
+    width: 100%;
     font-size: 16px;
     margin-top: 0;
   }
-  #header .fa-2x {
-    clear: both;
-    position: absolute;
+  #header .region select {
+    margin-right: -1.5em;
+  }
+  #header .sel-regions::after,
+  #header .sel-categoria::after {
     right: 0;
-    font-size: 1.5em;
-    z-index: 3;
-    margin-top: 3px;
-    margin-right: 10px;
   }  
 
   #page {
@@ -1649,7 +1696,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     margin-left: 0;
   }
   .resultados .masinfo {
-    margin-top: 20px;
+    margin-top: 0;
     padding-left: 0;
     padding-right: 0;
   }
@@ -1661,6 +1708,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   }
   .resultados .masinfo .clabel {
     width: 70%;
+  }
+  .resultados .masinfo div:first-child {
+    padding-top: 0;
   }
   /* Footer */
   #footer-columns ul {

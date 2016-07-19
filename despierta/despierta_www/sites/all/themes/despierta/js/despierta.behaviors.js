@@ -361,11 +361,14 @@ console.log("all browsers");
 			region_id = region_id.replace(/\s/g,'_');
 			var pais = $(this).attr('dp-pais');
 			var pcode = $(this).attr('dp-pais-code').toLowerCase();
+			var psyn = $(this).attr('dp-pais-syn').toLowerCase();
 			var rcode = $(this).attr('dp-region-code').toLowerCase();
+			var rsyn = $(this).attr('dp-region-syn').toLowerCase();
 			if ( paises[pcode] === undefined ) {
 				paises[pcode] = {
 					'name': pais,
-					'regions': {}
+					'regions': {},
+					'syn': {},
 				};
 			}
 			if ( paises[pcode].regions[region] === undefined ) {
@@ -373,6 +376,18 @@ console.log("all browsers");
 					'code': rcode,
 					'name': region
 				};
+			}
+			if ( rsyn !== '' ) {
+				var filters = rsyn.split(';');
+				for (var i=0; i<filters.length; i++) {
+					var syn = filters[i];
+					if ( paises[pcode].syn[syn] === undefined ) {
+						paises[pcode].syn[syn] = {
+							'code': rcode,
+							'name': region
+						};
+					}
+				}
 			}
 		});
 		return paises;
@@ -496,7 +511,6 @@ console.log("all browsers");
 			selHTML += '<option value="'+pais+'" dp-pais-code="'+pCode+'">' + pais + '</option>';
 		}
 		selHTML += '</select>';
-		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.regionesSelectList = function (paisRegions, inCode) {
@@ -513,7 +527,6 @@ console.log("all browsers");
 			selHTML += '<option value="" dp-reg-code="-">Primero seleccione un país</option>';
 		}
 		selHTML += '</select>';
-		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};	
 	Drupal.theme.prototype.categorySelectList = function (categorias) {
@@ -526,7 +539,6 @@ console.log("all browsers");
 			selHTML += '<option value="'+tid+'" dp-cat-tid="'+tid+'">' + name + '</option>';
 		}
 		selHTML += '</select>';
-		// selHTML += '<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>';
 		return selHTML;
 	};
 	Drupal.theme.prototype.searchSelectList = function () {
@@ -618,9 +630,16 @@ console.log("all browsers");
 		}
 
 		// Change css depending window height
+		var ww = $(window).width();
 		var wh = $(window).height();
-		$('#header.buscador-verde').css('height', wh-50);
-		$('#header.buscador-verde .buscador-verde-bg').css('height', wh-50);
+		if ( ww > 500 ) {
+			$('#header.buscador-verde').css('height', wh-30);
+			$('#header.buscador-verde .buscador-verde-bg').css('height', wh-30);
+		}
+		else {
+			$('#header.buscador-verde').css('height', 420);
+			$('#header.buscador-verde .buscador-verde-bg').css('height', 420);
+		}
 
 		// $('body').css('background-color', '#f9fffb');
 	};
@@ -2241,12 +2260,13 @@ console.log("all browsers");
 			// Add classes for the new 'sedes' pages
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .nav-tabs').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
 			$('#block-views-sedes-report-geo .view-sedes-report > .view-content .tab-despierta .tab-content').addClass('col-lg-7 col-md-7 col-s-12 col-sm-12 col-xs-12 pull-left');
-			$('#block-views-sedes-report-geo .view-sedes-report > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
-			$('#block-views-sedes-report-geo .view-sedes-report > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12 pull-right');
+			$('#block-views-sedes-report-geo .view-sedes-report > .attachment').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12');
+			$('#block-views-sedes-report-geo .view-sedes-report > .view-filters').addClass('col-lg-5 col-md-5  col-s-12 col-sm-12 col-xs-12');
 
 			// Remove banners when is Mobile width
 			var ww = $(window).width();
-			if ( ww < 460 ) {
+			var wh = $(window).height();
+			if ( ww < 767 ) {
 				$('#highlighted').remove();				
 			}
 			// Remove header search for multiple pages

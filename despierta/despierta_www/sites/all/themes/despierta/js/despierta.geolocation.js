@@ -51,9 +51,10 @@ function despiertaGeoSession(geoloc) {
       // check area2 code (by Spain)
       var geoloc_area2_code = ( geoloc['administrative_area_level_2_code'] !== undefined ) ? geoloc['administrative_area_level_2_code'].toLowerCase() : '';
       var geoloc_area1 = ( geoloc['administrative_area_level_1'] !== undefined ) ? geoloc['administrative_area_level_1'].toLowerCase() : '';
+      var geoloc_area2 = ( geoloc['administrative_area_level_2'] !== undefined ) ? geoloc['administrative_area_level_2'].toLowerCase() : '';
       var geoloc_loc = ( geoloc['locality'] !== undefined ) ? geoloc['locality'].toLowerCase() : '';
-      if ( allPaisRegionsObj[geoloc_pcode][geoloc_area2_code] !== undefined ) {
-        sessionStorage['area_code'] = rcode_geoloc;
+      if ( allPaisRegionsObj[geoloc_pcode]['regions'][geoloc_area2_code] !== undefined ) {
+        sessionStorage['area_code'] = geoloc_area2_code;
         geolocation = "true";
       }
       else if ( allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_area1] !== undefined ) {
@@ -62,6 +63,14 @@ function despiertaGeoSession(geoloc) {
       }
       else if ( allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_loc] !== undefined ) {
         sessionStorage['area_code'] = allNamePaisRegionsObj[geoloc_pcode]['regions'][geoloc_loc]['code'];
+        geolocation = "true";
+      }
+      else if ( allNamePaisRegionsObj[geoloc_pcode]['syn'][geoloc_area2] !== undefined ) {
+        sessionStorage['area_code'] = allNamePaisRegionsObj[geoloc_pcode]['syn'][geoloc_area2]['code'];
+        geolocation = "true";
+      }
+      else if ( allNamePaisRegionsObj[geoloc_pcode]['syn'][geoloc_area1] !== undefined ) {
+        sessionStorage['area_code'] = allNamePaisRegionsObj[geoloc_pcode]['syn'][geoloc_area1]['code'];
         geolocation = "true";
       }
       else {
