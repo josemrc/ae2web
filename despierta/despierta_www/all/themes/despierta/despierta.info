@@ -1,0 +1,63 @@
+name = Despierta
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = VERSION
+core = 7.x
+screenshot = screenshot.png
+
+; Information added by Drupal.org packaging script on 2015-08-19
+version = "7.39"
+project = "drupal"
+datestamp = "1440020197"
+
+; ========================================
+; Stylesheets
+; ========================================
+
+stylesheets[all][] = css/bootstrap/bootstrap.min.css
+stylesheets[all][] = css/responsive-tabs.css
+stylesheets[all][] = css/responsive.css
+stylesheets[all][] = css/flower.css
+stylesheets[all][] = font-awesome-4.6.3/css/font-awesome.min.css
+stylesheets[all][] = css/despierta.css
+stylesheets[print][] = css/print.css
+
+
+; ========================================
+; Scripts
+; ========================================
+
+scripts[] = js/jQueryRotate.js
+scripts[] = js/bootstrap.min.js
+scripts[] = js/bootstrap-tabcollapse.js
+scripts[] = js/despierta.behaviors.js
+scripts[] = js/despierta.geolocation.js
+
+; ========================================
+; Regions
+; ========================================
+regions[header] = Header
+regions[help] = Help
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+regions[highlighted] = Highlighted
+
+regions[featured] = Featured
+regions[content] = Content
+regions[sidebar_first] = Sidebar first
+regions[sidebar_second] = Sidebar second
+
+regions[triptych_first] = Triptych first
+regions[triptych_middle] = Triptych middle
+regions[triptych_last] = Triptych last
+
+regions[footer] = Footer
+regions[footer_firstcolumn] = Footer first column
+regions[footer_secondcolumn] = Footer second column
+regions[footer_thirdcolumn] = Footer third column
+regions[footer_fourthcolumn] = Footer fourth column
+
+; ========================================
+; Settings
+; ========================================
+settings[shortcut_module_link] = 0
