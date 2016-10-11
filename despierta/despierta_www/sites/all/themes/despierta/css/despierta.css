@@ -66,7 +66,7 @@ p.pasos {
 }
 #page {
   padding-top: 0 !important;
-  margin-top: 40px;
+  margin-top: 43px;
 }
 #block-views-buscador-verde-world-block span.views-field-field-page-image {
   display: none;
@@ -133,6 +133,7 @@ p.pasos {
   position: fixed;
   top: 0;
   width: 100%;
+  height: 43px;
   background-color: #f6f7f6;
   border-bottom: 1px solid #96c147;
   z-index: 100;
@@ -147,7 +148,7 @@ p.pasos {
 #header .region select,
 #header .region input {
   height: 32px;
-  width: 150px;
+  width: 190px;
   font-size: 13px;
   color: #44561f;
   background-color: #ecf8ee;
@@ -162,8 +163,8 @@ p.pasos {
   margin-left: 5px;
 }
 #header .region .sel-button button#sel-button {
-  height: 32px;
-  width: 32px;
+  height: 37px;
+  width: 37px;
   border-radius: 0;
   background-color: #b9ce8c;
   border-color: #b9ce8c;
@@ -179,41 +180,33 @@ p.pasos {
 #header .region .sel-pais,
 #header .region .sel-regions, 
 #header .region .sel-categoria, 
-#header .region .sel-search {
+#header .region .sel-search, 
+#header .region .sel-button {
   margin: 0;
   margin-right: -9px;
   margin-top: 2px;
 }
-#header .region .sel-search {
-  margin-top: 3px;
-}
 #header .region .sel-button {
-  margin: 0;
-  margin-top: 3px;
+  margin-right: 0;
+  /*margin-top: 2px;*/
   margin-left: 13px;
 }
 #header .region .sel-pais select,
 #header .region .sel-regions select,
 #header .region .sel-categoria select, 
 #header .region .sel-search input {
-  height: 32px;
+  height: 37px;
   background: transparent;  
-  /*border: 0 !important;*/
   border: thin solid #96c147;
   border-radius: 3px;
   padding: 0;
-  /*padding-left: 5px;*/
+  padding-left: 5px;
 }
 #header .region .sel-pais select {
  padding-left: 25px; 
 }
-#header .region .sel-search input {
-  padding-left: 5px;
-  height: 32px;  
-}
 select.round, select.minimal {
   background: transparent;
-  /*background-color: white;*/
   border: thin solid gray;
   border-radius: 0;
   display: inline-block;
@@ -224,39 +217,6 @@ select.round, select.minimal {
   -moz-appearance: none;
   cursor: pointer;
 }
-/*select.round {
-  background-image: linear-gradient(55deg, transparent 50%, #44561f 50%), linear-gradient(125deg, #44561f 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
-  background-position: calc(100% - 14px) 1em, calc(100% - 6px) 1em, calc(100% - .4em) .5em;
-  background-size: 8px 10px, 8px 10px, 1.4em 1.4em;
-  background-repeat: no-repeat;
-}
-select.round:focus {
-  background-image: linear-gradient(55deg, white 50%, transparent 50%), linear-gradient(125deg, transparent 50%, white 50%), radial-gradient(gray 70%, transparent 72%);  
-  background-position:  calc(100% - 6px) .8em,  calc(100% - 14px) .8em, calc(100% - .4em) .5em;
-  background-size: 8px 10px, 8px 10px, 1.4em 1.4em;
-  background-repeat: no-repeat;
-  border-color: green;
-  outline: 0;
-}
-select.minimal {
-  background-image: linear-gradient(55deg, transparent 50%, white 50%), linear-gradient(125deg, white 50%, transparent 50%);
-  background-position: calc(100% - 36px) .8em, calc(100% - 19px) .8em;
-  background-size: 14px 18px, 17px 19px;
-  background-repeat: no-repeat;
-}
-select.minimal:focus {
-  background-image: linear-gradient(55deg, gray 50%, transparent 50%), linear-gradient(125deg, transparent 50%, gray 50%);
-  background-position: calc(100% - 19px) .7em, calc(100% - 34px) .7em;
-  background-size: 17px 19px, 17px 19px;
-  background-repeat: no-repeat;
-  border-color: gray;
-  outline: 0;
-}
-select.round:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
-}*/
-
 #header .sel-pais:after,
 #header .sel-regions:after,
 #header .sel-categoria:after,
@@ -272,11 +232,6 @@ select.round:-moz-focusring {
   z-index: -1;
   color: #707173;
 }
-/*
-#header .sel-pais:before {
-   content:url('http://localhost/despierta/sites/default/files/world_green_25x25.png');
-} 
-*/
 #sms_geoloc_nodespierta {
   background-color: white;
 }
@@ -352,10 +307,10 @@ select.round:-moz-focusring {
   font-size: 7vw;
   font-weight: bold;
   text-transform: uppercase;
-  /*padding-left: 2%;*/
   width: 100%;  
   text-align: center;
   margin-bottom: 20px;
+  margin-top: 80px;
 }
 #block-views-buscador-verde-busq-block .views-field.views-field-body {
   font-size: 2.5vw;
@@ -375,7 +330,6 @@ select.round:-moz-focusring {
   height: 50px;
   margin-bottom: .6em;
   border: 0;
-  /*padding-top: 12px;*/
   padding-left: 20px;
 }
 #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg {
@@ -384,7 +338,7 @@ select.round:-moz-focusring {
   bottom: 0;
   width: 100%;
   height: 130px;  
-  background: rgba(54, 25, 25, .5);
+  background: rgba(32, 96, 37, .5);
   z-index: -1;
 }
 #header .buscador-verde-pais-bg {
@@ -394,9 +348,6 @@ select.round:-moz-focusring {
   position: relative;
   left: 24px;
   bottom: 1px;
-/*  margin-left: 2px;
-  margin-bottom: 2px;
-*/
 }
 
 
@@ -505,18 +456,6 @@ select.round:-moz-focusring {
   color: #2d4729;
   text-align: left;
 }
-
-/*#header.buscador-verde .sel-search * ,
-#header.buscador-verde .sel-regions * {
-  font-size: 20px;
-  background-color: #ecf8ee;
-  color: #2d4729 !important;
-}
-#header.buscador-verde .sel-regions * {
-  background: transparent;
-  background-color: transparent;
-}
-*/
 #header.buscador-verde input#sel-search {
   width: 400px;
   border-top-left-radius: 3px;
@@ -555,7 +494,6 @@ select.round:-moz-focusring {
   border-bottom-right-radius: 3px;
 }
 #header.buscador-verde select#sel-regions {
-  /*padding-top: 5px;*/
   border-left: none;
   cursor: pointer;
 }
@@ -700,7 +638,7 @@ ul#tabSedes {
 
 /* --------------- Banners View ------------ */
 #highlighted {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .view-id-banners {
   font-size: 18px;
@@ -708,7 +646,7 @@ ul#tabSedes {
 }
 .view-id-banners img {
   border: 1px solid #96c147;
-  max-width: 90%;
+  width: 100%;
 }
 div[id^="block-views-banners-block"] h1 {
   margin-top: 0px;
@@ -716,10 +654,13 @@ div[id^="block-views-banners-block"] h1 {
 }
 div[id^="block-views-banners-block"] .views-field.views-field-body span {
   padding-top: 30px;
-  padding-left: 75px;
+  padding-left: 0;
 }
 div[id^="block-views-banners-block"] .views-field.views-field-body p {
   margin: 0;
+}
+div[id^="block-views-banners-block"] .views-field.views-field-field-page-image span {
+  padding-right: 0;
 }
 
 
@@ -825,8 +766,11 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 .resultados .sep-title {
   color: #496e32;
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 20px;
+}
+.resultados .sep-title.online {
+  margin-top: 40px;
 }
 .resultados h1 {
   padding-top: 0;
@@ -871,6 +815,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 .resultados .media-bod .desc_breve {
   margin-top: 5px;
+  min-height: 85px;
 }
 .resultados .subrayado {
   clear: both;
@@ -1014,9 +959,13 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 
 
 /* --------------- Directorio Verde ------------ */
+#block-views-categorias-block {
+  margin-top: -40px;
+}
 #block-views-categorias-block h2 {
   text-align: center;
   color: #44561f;
+  margin-top: 10px;
 }
 #block-views-categorias-block h4 {
   text-align: center;
@@ -1024,12 +973,12 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 .view-categorias {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 80px;
   padding-left: 20px;
   padding-right: 20px;
 }
 .view-categorias .views-row {
-  padding-left: 3px !important;
+  padding-left: 0 !important;
   padding-right: 0 !important;
 }
 .views-field-name {
@@ -1049,7 +998,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 }
 .fdoverde a {
   color: white;
-  font-size: 35px;
+  font-size: 28px;
   font-weight: bold;
   text-decoration: none;
 }
@@ -1139,6 +1088,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
  * FOOTER BLOCK
  */
 
+#footer-wrapper {
+  margin-top: 20px;
+}
 #footer-columns {
   display: inline-flex;
   width: 100%;
@@ -1157,11 +1109,13 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   border-radius: 5px;
   color: #496e32;
   font-size: 20px;
-  padding-left: 30px;
+  padding-left: 0px;
   margin-top: 0px;
 }
 #footer-columns ul, #footer-columns ul li {
-  list-style: none;  
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 #footer-columns ul li {
   list-style-image:none;
@@ -1181,9 +1135,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   width: 45px;
   margin-left: auto;
   margin-right: auto;
-}
-#footer-wrapper {
-  margin-top: -20px;
 }
 
 /* --------------- Footer Image ------------ */
@@ -1247,6 +1198,10 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   margin-bottom: 30px;
 }
 /* Contact form */
+#contact-site-form .form-item {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 #contact-site-form .form-radio {
   display: inline-block;
   width: auto !important;
@@ -1269,8 +1224,40 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 .form-item-copy {
   display: none;
 }
+.add-reg-intro ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+.add-reg-intro ul li {
+  list-style-type: none;
+}
+.add-reg-intro ul li:before {
+  content: "- ";
+}
 
+/*
+ * USER PROFILE
+ */
 
+.page-user-edit #main-wrapper {
+  margin-bottom: 40px;
+}
+#user-profile-form .form-actions.form-wrapper {
+  margin-top: 40px;
+}
+
+/* Simple News */
+.block-simplenews .content {
+  position: absolute;
+  display: inline-flex;
+}
+.block-simplenews h2 {
+  font-size: 16px;
+}
+.block-simplenews p {
+  margin-top: 5px;
+  margin-right: 10px;
+}
 
 /*
  * RESPONSIVE
@@ -1286,14 +1273,17 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header.buscador-verde .block-welcome-username .contacto {
     margin-right: 5px;
   }
+  #header.buscador-verde .buscador-verde-bg {
+    background-position: center;
+  }  
   /* category header */
   #header .region select,
   #header .region input {
-    width: 135px;
+    width: 140px;
   }
   /* Directorio Verde */
   .fdoverde a {
-    font-size: 35px;
+    font-size: 28px;
   }
   /* Banners View */
   .views-slideshow-cycle-main-frame-row-item {
@@ -1317,7 +1307,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 {
   /* Header Panel Responsive */
   #logo {
-    margin: 4px 4px 4px 4px;
+    margin: 2px 4px 0 4px;
   }
   #logo.front img {
     height: 60px;
@@ -1331,6 +1321,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     height: 23px;
     margin-top: 10px;
     margin-right: 2px;
+    background-position: center;
   }
   #header.buscador-verde input#sel-search {
     width: 269px;
@@ -1362,6 +1353,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header.buscador-verde .block-welcome-username a {
     margin-right: 10px;
   }  
+  #block-views-categorias-block {
+    margin-top: 0;
+  }
   #block-views-categorias-block h2 {
     font-size: 24px;
   }
@@ -1431,8 +1425,48 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 @media (max-width: 767px)
 {
   /* Header Panel Responsive */
+  #logo.front img {
+    margin: 0;
+  }
   #header.buscador-verde .region .buscador-verde-pais {
     display: none;
+  }
+  #header.buscador-verde .buscador-verde-bg {
+    background-position: center;
+  }
+  #block-views-buscador-verde-busq-block .view-content h1 {
+    clear: both;
+    width: auto;
+    margin: 0;
+    margin-top: 50px;
+    text-align: center;
+  }
+  #header.buscador-verde .block-welcome-username {
+    margin-top: 25px;
+  }
+  #header.buscador-verde .block-welcome-username [dp-class="unete"] {
+    margin-right: 13px;
+  }
+  #header.buscador-verde .block-welcome-username .contacto  {
+    margin-right: 13px;
+  }
+  #header.buscador-verde .sel-search {
+    width: 221px;
+  } 
+  #header.buscador-verde input#sel-search {
+    padding-left: 10px;
+    width: 220px;
+  }
+  #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label {
+    padding-left: 8px;
+  }
+  #header.buscador-verde select#sel-regions {
+    padding-left: 10px;
+    width: 177px;
+  }
+  #header .sel-regions:after {
+    right: 7px;
+    top: 5px;
   }
   /* category header */
   #header .region .sel-pais {
@@ -1468,6 +1502,20 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
 
 @media (max-width: 625px)
 {
+  /* Header Panel */
+  #block-views-buscador-verde-busq-block .view-content h1 {
+    clear: both;
+    width: auto;
+    margin: 0;
+    margin-top: 20px;
+  }
+  #block-views-buscador-verde-busq-block .buscador-verde-search,
+  #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg  {
+    height: 120px;
+  }
+  #header.buscador-verde .buscador-verde-search-cont {
+    margin-top: 35px;
+  }
   /* Sedes View */
   .resultados .media-bod .allinfo {
     float: right;
@@ -1491,7 +1539,6 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   /* Header Panel Responsive */
   #header .region {
     margin: 0;
-    /*padding: 0 5px 0 5px;*/
   }
   #logo {
     clear: both;
@@ -1510,8 +1557,10 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
   #header.buscador-verde .buscador-verde-bg {
     background-position: center;
   }
+  #block-views-buscador-verde-busq-block .views-field.views-field-body {
+    font-size: 5vw;
+  }
   #header.buscador-verde .block-welcome-username,
-  #block-views-buscador-verde-busq-block .views-field.views-field-body,
   #block-views-buscador-verde-busq-block .buscador-verde-search .sel-regions label,
   #block-views-buscador-verde-busq-block .buscador-verde-search .buscador-verde-search-bg {
     display: none;
@@ -1520,7 +1569,7 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     clear: both;
     width: auto;
     margin: 0;
-    margin-top: 80px;
+    margin-top: 30px;
     font-size: 28px;
     text-align: center;
   }
@@ -1567,6 +1616,9 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+  #header.buscador-verde button#sel-button  {
+    width: 90px;
   }
   input#sel-search,
   select#sel-pais,
@@ -1667,7 +1719,10 @@ div[id^="block-views-banners-block"] .views-field.views-field-body p {
     padding: 0;
     padding-top: 0;
     padding-left: 0;
-    padding-right: 0;    
+    padding-right: 0;
+  }
+  #block-views-sedes-report-geo .attachment {
+    margin-top: 10px;
   }
   .resultados .subrayado {
     top: 215px;

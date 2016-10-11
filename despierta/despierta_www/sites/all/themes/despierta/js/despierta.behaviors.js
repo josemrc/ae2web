@@ -32,34 +32,32 @@ $(window).load(function () {
 */
 	//var despiertaTimeOut = 15000;
 	var urlPaths = getUrlPaths();
-	var htmlNoResults = '<div class="view-empty">'+
-							'<div class="alert alert-warning" role="alert">'+
-							'No hay entidades registradas en esta región, '+
-							'si desea registrar su entidad acceda al menú de registro o, '+
-							'si por el contrario quiere notificarnos la existencia de alguna, '+
-							'póngase en contacto con nosotros'+
-							'</div>'+
-						'</section>';
-	var smsNoGeo = '<section class="no-resultados">'+
-							'<div class="alert alert-warning" role="alert">'+
-								'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
-								'Le recomentamos que lo active, o en su defecto, '+
-								'seleccione el país y regiones mediante las opciones del panel superior derecho en la web.'+
-							'</div>'+
-						'</section>';
+	// var htmlNoResults = '<div class="view-empty">'+
+	// 						'<div class="alert alert-warning" role="alert">'+
+	// 						'No se han encontrado entidades de acuerdo a los características seleccionadas, '+
+	// 						'pruebe a modificar los criterios de búsqueda o a navegar entre las diferentes categorías'+
+	// 						'</div>'+
+	// 					'</section>';
+	// var smsNoGeo = '<section class="no-resultados">'+
+	// 						'<div class="alert alert-warning" role="alert">'+
+	// 							'Actualmente no tiene activado la geolocalización, o su navegador no lo permite. '+
+	// 							'Le recomentamos que lo active, o en su defecto, '+
+	// 							'seleccione el país y regiones mediante las opciones del panel superior derecho en la web.'+
+	// 						'</div>'+
+	// 					'</section>';
     var smsNoGeoTimeOut = '<section class="no-resultados">'+
                 '<div class="alert alert-warning" role="alert">'+
                   'Problemas de geolocalización ajenos a la web. Se ha superado el tiempo de búsqueda localizando. '+
                   'Si persiste el problema, localice sus sedes modificando el panel superior derecho en la web.'+
                 '</div>'+
               '</section>';
-	var smsLocalating = '<div id="messages"><div class="section clearfix">'+
-						'<div class="locating messages status">'+
-							'Localizando su posición...'+
-						'</div>'+
-					'</div></div>';
+	// var smsLocalating = '<div id="messages"><div class="section clearfix">'+
+	// 					'<div class="locating messages status">'+
+	// 						'Localizando su posición...'+
+	// 					'</div>'+
+	// 				'</div></div>';
 	var noSedeRegistrada = '<div class="section clearfix"><div class="nosederegister messages status">'+
-							'Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".'+
+							'Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Menú principal".'+
 							'</div></div>';
 
 	var smsGenError = '<div id="messages"><div class="section clearfix">'+
@@ -121,14 +119,11 @@ $(window).load(function () {
 	// 	var c = !element.dispatchEvent(event);
 	// }
 	var openSelect = function(selector){
-console.log(selector);
 		var element = document.getElementById(selector);
-console.log(element);
 		if (element.fireEvent) { // ie
 			element.fireEvent("onmousedown");
 		}
 		else { // all browsers
-console.log("all browsers");
 			var event = new MouseEvent('mousedown', {
 			'view': window,
 			'bubbles': true,
@@ -809,6 +804,7 @@ console.log("all browsers");
 		// tipo actividad
 		if ( $('td[class$="views-field-field-sede-tipo-actividad"]', elem).length ) {
 			var val = $('td[class$="views-field-field-sede-tipo-actividad"]', elem).text();
+			val = val.replace(/\s*;\s*/g,' / ');
 			sede.t_act = val;
 		}
 		else if ( $('.field-name-field-sede-tipo-actividad', elem).length ) {
@@ -820,6 +816,7 @@ console.log("all browsers");
 		// tipo movimiento
 		if ( $('td[class$="views-field-field-sede-tipo-movimiento"]', elem).length ) {
 			var val = $('td[class$="views-field-field-sede-tipo-movimiento"]', elem).text();
+			val = val.replace(/\s*;\s*/g,' / ');
 			sede.t_mov = val;
 		}
 		else if ( $('.field-name-field-sede-tipo-movimiento', elem).length ) {
@@ -831,6 +828,7 @@ console.log("all browsers");
 		// tipo venta
 		if ( $('td[class$="views-field-field-sede-tipo-venta"]', elem).length ) {
 			var val = $('td[class$="views-field-field-sede-tipo-venta"]', elem).text();
+			val = val.replace(/\s*;\s*/g,' / ');
 			sede.t_vent = val;
 		}
 		else if ( $('.field-name-field-sede-tipo-venta', elem).length ) {
@@ -992,11 +990,11 @@ console.log("all browsers");
 			if ( sortedSedes.local ) {
 				var sedes = sortedSedes.local;
 				if ( sedes.length > 0 ) {
-					tcont += "<center><div class='sep-title'>Sedes que poseen un tienda en su "+regionlabel+"</div></center><hr>";
+					tcont += "<div class='sep-title'>Lugares más próximos a su ubicación </div><hr>";
 				}
 				else {
 					if ( sortedSedes.online && sortedSedes.online.length === 0 ) {
-						tcont += "<center><div class='sep-title'>No hay Sedes que poseen un tienda en su "+regionlabel+"</div></center><hr>";						
+						tcont += "<div class='sep-title'>No hay Sedes que poseen un tienda en su "+regionlabel+"</div><hr>";
 					}
 				}
 				for (var j=0; j < sedes.length; j++ ) {
@@ -1008,7 +1006,7 @@ console.log("all browsers");
 			if ( sortedSedes.online ) {
 				var sedes = sortedSedes.online;
 				if ( sedes.length > 0 ) {
-					tcont += "<center><div class='sep-title'>Sedes que trabajan <i>Online</i> para su "+regionlabel+"</div></center><hr>";
+					tcont += "<div class='sep-title online'>Venta o servicio exclusivamente <i>online</i> para su "+regionlabel+"</div><hr>";
 				}
 				for (var j=0; j < sedes.length; j++ ) {
 					var nid = sedes[j].nid;
@@ -1089,23 +1087,37 @@ console.log("all browsers");
 			sedHTML += '<div class="col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 clean subrayado"></div>';
 			sedHTML += '<div class="col-lg-12 col-md-12 col-s-12 col-sm-12 col-xs-12 clean masinfo">';
 				var cats = "";
+				var subcats = "";
 				var etiqs = "";
 				if ( sedeObj.cats != undefined ) {
 					var numCat = sedeObj.cats.length;
-					for ( var cat in sedeObj.cats ) {
+					//for ( var cat in sedeObj.cats ) {
+					var c = Object.keys(sedeObj.cats).sort();
+					for (var i=0; i < c.length; i++ ) {
+						var cat = c[i];
 						if ( iCat == "Todas" ) {
-							cats += cat + ' (' + Object.keys(sedeObj.cats[cat]).join(', ') + '); '
+							// cats += cat + ' (' + Object.keys(sedeObj.cats[cat]).join(', ') + ')<br/>';
+							cats += cat + '<br/>';
+							subcats += Object.keys(sedeObj.cats[cat]).join(', ') + '; ';
 						}
-						else { cats += cat + '; ' }
+						else {
+							cats += cat + '; ';
+							subcats += Object.keys(sedeObj.cats[cat]).join(', ') + '; ';
+						}
 
-						for ( var subcat in sedeObj.cats[cat] ) {
-							if ( iCat == "Todas" ) { etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][subcat]).join(', ') + '); ' }
-							else if ( cat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat]).join('; ') }
-							else if ( subcat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][subcat]).join('; ') }
+						for ( var scat in sedeObj.cats[cat] ) {
+							if ( iCat == "Todas" ) {
+								//etiqs += cat + ' (' + Object.keys(sedeObj.cats[cat][scat]).join(', ') + '); '
+								etiqs += Object.keys(sedeObj.cats[cat][scat]).join(', ') + ', '
+							}
+							else if ( cat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat]).join(', ') }
+							else if ( scat == iCat ) {  etiqs += Object.keys(sedeObj.cats[cat][scat]).join(', ') }
 						}
 					}
 					cats = cats.replace(/\;\s*$/g,'');
-					etiqs = etiqs.replace(/\;\s*$/g,'');
+					subcats = subcats.replace(/\;\s*$/g,'');
+					//etiqs = etiqs.replace(/\;\s*$/g,'');
+					etiqs = etiqs.replace(/\,\s*$/g,'');
 				}
 				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Tipo de movimiento:</p><p class="col-xs-9 text-left clabel">' + sedeObj.t_mov + '</p></div>';
 				sedHTML += '<div class="row"><p class="col-xs-3 text-left rlabel">Descripción:</p><p class="col-xs-9 text-left clabel">' + sedeObj.descc + '</p></div>';
@@ -1114,8 +1126,11 @@ console.log("all browsers");
 				if ( cats != "" ) {
 					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Categorías:</p><p class="col-xs-9 text-left clabel">' + cats + '</p></div>';
 				}
+				if ( subcats != "" ) {
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Subcategorías:</p><p class="col-xs-9 text-left clabel">' + subcats + '</p></div>';
+				}
 				if ( etiqs != "" ) {
-					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Etiquetas:</p><p class="col-xs-9 text-left clabel">' + etiqs + '</p></div>';					
+					sedHTML += '<div class="row"><p class="rlabel text-left col-xs-3">Especialidad:</p><p class="col-xs-9 text-left clabel">' + etiqs + '</p></div>';					
 				}
 				if ( sedeObj.p_serv != undefined && sedeObj.p_serv != "" ) {
 					sedHTML += '<div class="row p_serv"><p class="rlabel text-left col-xs-3">Paises (Regiones) de venta:</p><p class="col-xs-9 text-left clabel">' + sedeObj.p_serv + '</p></div>';					
@@ -1136,7 +1151,7 @@ console.log("all browsers");
 					var filter_txt = iSedeObj.t_act;
 					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
 					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-					var filters = filter_txt.split(';');
+					var filters = filter_txt.split('/');
 					for (var i=0; i<filters.length; i++) {
 						var filter = filters[i];
 						filter = filter.replace(/^\n*\s*/g,'');
@@ -1151,7 +1166,7 @@ console.log("all browsers");
 					var filter_txt = iSedeObj.t_mov;
 					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
 					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-					var filters = filter_txt.split(';');
+					var filters = filter_txt.split('/');
 					for (var i=0; i<filters.length; i++) {
 						var filter = filters[i];
 						filter = filter.replace(/^\n*\s*/g,'');
@@ -1166,7 +1181,7 @@ console.log("all browsers");
 					var filter_txt = iSedeObj.t_vent;
 					filter_txt = filter_txt.replace(/^\n*\s*/g,'');
 					filter_txt = filter_txt.replace(/\n*\s*$/g,'');
-					var filters = filter_txt.split(';');
+					var filters = filter_txt.split('/');
 					for (var i=0; i<filters.length; i++) {
 						var filter = filters[i];
 						filter = filter.replace(/^\n*\s*/g,'');
@@ -1662,7 +1677,7 @@ console.log("all browsers");
 							$(this).closest('.media-bod').children('.masinfo').fadeOut(500);
 							$('.subrayado', this).fadeOut(500);
 
-							$(this).parents('article').animate({height: '100%'}, 500);
+							$(this).parents('article').animate({height: '155px'}, 500);
 						}
 						// change to up (-> show)
 						else {
@@ -1817,10 +1832,12 @@ console.log("all browsers");
 			
 			});
 
+			$('#block-views-sedes-report-geo ul[id="tabSedes"] li:contains("Más categorías")').appendTo('#block-views-sedes-report-geo ul[id="tabSedes"]');
+
 			/* Directorio Verde page */
 			$('#block-views-categorias-block', context).once('despierta', function () {
 				// Add subtitle
-				$('> h2', this).after('<h4>Localiza todas las iniciativas que contribuyen al crecimiento sostenible de tu región</h4>');
+				$('> h2', this).after('<h4>Geolocaliza todas las iniciativas que contribuyen al crecimiento sostenible de tu región</h4>');
 
 				// 'Mas' Category at the end
 				var otras = $('div[class*="views-row"]:contains("Más categorías")', this).get();
@@ -1865,7 +1882,7 @@ console.log("all browsers");
 			/* Sede: Individual Page */
 			$('.view-empresa-sedes', context).once('despierta', function () {
 				if ( $('.view-content',this).length == 0 ) {
-					//$(this).append('<div class="view-content"><p>Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Opciones de gestión".</p></div>');
+					//$(this).append('<div class="view-content"><p>Actualmente, no hay ninguna sede registrada. Por favor, cree una mediante el menu "Menú principal".</p></div>');
 				if ( $('#main #messages .nosederegister').length === 0 ) {      
 					$('#main').prepend('<div id="messages">'+noSedeRegistrada+'</div>');
 				}
@@ -1980,8 +1997,8 @@ console.log("all browsers");
 				$('select:not(select[id^="edit-field-sede-pais-und-hierarchical-select-selects"])', this).addClass("form-control");
 
 				$('input[id="edit-title"]', this).attr('placeholder','Introduce el nombre comercial como anunciante para esta Sede');
-				$('input[id="edit-field-sede-descripcion-breve-und-0-value"]', this).attr('placeholder','Introduce una descripción breve de la entidad');
-				$('input[id="edit-field-sede-descripcion-breve-und-0-value"]', this).css('resize', 'none');
+				$('textarea[id="edit-field-sede-descripcion-breve-und-0-value"]', this).attr('placeholder','Introduce una descripción breve de la entidad');
+				$('textarea[id="edit-field-sede-descripcion-breve-und-0-value"]', this).css('resize', 'none');
 				$('textarea[id="edit-field-sede-descripcion-completa-und-0-value"]', this).attr('placeholder','Incluye todas las palabras, productos y servicios con los que trabaja tu entidad para que ésta sea más fácil de localizar en nuestro Buscador Verde');
 				$('textarea[id="edit-field-sede-descripcion-completa-und-0-value"]', this).css('resize', 'none');
 
@@ -2041,6 +2058,9 @@ console.log("all browsers");
 					$('.node-form.node-sede-form div[id="edit-field-sede-direccion"] .fieldset-description').each( function() {
 						$(this).append(' <span class="form-required">*</span>');
 					});
+					if ( $('.node-form.node-sede-form #edit-field-sede-direccion label[for*="edit-field-sede-direccion-und"] span.form-required').length === 0 ) {
+						$('.node-form.node-sede-form #edit-field-sede-direccion label[for*="edit-field-sede-direccion-und"]').append(' <span class="form-required">*</span>');
+					}
 				}
 			});
 
@@ -2053,7 +2073,9 @@ console.log("all browsers");
 				$('input[id="edit-field-sede-logo-und-0-remove-button"]', this).attr('value','Eliminar Imagen');
 			});
 			// Changes for 'Pais/regiones'
-			$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
+			//$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').change(function() {
+			//$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').once("DOMSubtreeModified",function(){
+			$('select[id^="edit-field-sede-pais-und-hierarchical-select-selects"]').on("DOMSubtreeModified",function(){
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] div[class*="hierarchical-select"]').css('display', 'table');				
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] select').addClass("form-control");
 				$('.node-form.node-sede-form div[id="edit-field-sede-pais"] input').addClass("btn btn-info");
@@ -2087,6 +2109,10 @@ console.log("all browsers");
 				$('input:not(.form-submit,.form-checkbox)', this).addClass("form-control");
 				$('input[id="edit-submit"]', this).addClass("btn btn-success pull-right");				
 			});
+			//$('.block-simplenews').appendTo('form[id="user-profile-form"]');
+			$('.block-simplenews').insertBefore('form[id="user-profile-form"] #edit-actions');			
+			$('.block-simplenews h2').remove();
+			$('.block-simplenews .form-submit').addClass('form-submit btn btn-info')
 
 			/* Footer blocks */
 			$('.view-despierta-pie', context).once('despierta', function () {
